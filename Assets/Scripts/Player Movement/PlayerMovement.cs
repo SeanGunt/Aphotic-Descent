@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
     bool isGrounded;
     [SerializeField]
     private bool isInvisible;
-    bool isSafe;
+    [SerializeField] public bool isSafe;
 
     void Awake()
     {
