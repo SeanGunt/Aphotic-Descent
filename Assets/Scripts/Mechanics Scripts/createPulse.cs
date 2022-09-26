@@ -8,13 +8,17 @@ public class createPulse : MonoBehaviour
 
     private Vector3 thisPosition;
 
+    public GameObject shootingPosition;
+
     // Update is called once per frame
     void Update()
     {
-        thisPosition = GameObject.Find("shootPoint").transform.position;
+        //gets the transform position of the gameObject and converts it into a Vector3, because it doesn't work as a Vector3 on its own
+        thisPosition = shootingPosition.transform.position;
 
         if(Input.GetKeyDown("left shift"))
         {
+            //when left shift (button can be changed) is pressed, creates a radar pulse object
             Instantiate(theObject, thisPosition, Quaternion.identity);
         }
     }
