@@ -15,6 +15,9 @@ public class InvisibilityMechanic : MonoBehaviour
     private bool isInvisible;
     public bool isSafe;
 
+    [SerializeField]
+    Image invisibilityBar;
+
     public Material[] mat;
     Renderer rend;
 
@@ -27,17 +30,20 @@ public class InvisibilityMechanic : MonoBehaviour
       rend = GetComponent<Renderer>();
       rend.enabled = true;
       rend.sharedMaterial = mat[0];
+      invisibilityBar.enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        invisibleTimer = Mathf.Clamp(invisibleTimer, 0f, timeInvisible);
         if (Input.GetKeyDown(KeyCode.E))
         {
           if (invisibilityCharges > 0 && !isSafe)
           {
             isInvisible = true;
             rend.sharedMaterial = mat[1];
+            invisibilityBar.enabled = true;
             invisibleTimer = timeInvisible;
             isSafe = true;
             invisibilityCharges--;
@@ -47,13 +53,16 @@ public class InvisibilityMechanic : MonoBehaviour
         if (isInvisible)
         {
           invisibleTimer -= Time.deltaTime;
+          invisibilityBar.fillAmount = invisibleTimer/timeInvisible;
           if (invisibleTimer <= 0)
           {
             isInvisible = false;
             rend.sharedMaterial = mat[0];
+            invisibilityBar.enabled = false;
             isSafe = false;
             invisText.text = "You are no longer invisible!";
           }
         }
+
     }
 }
