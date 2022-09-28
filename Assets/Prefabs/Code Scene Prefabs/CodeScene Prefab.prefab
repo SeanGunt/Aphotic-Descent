@@ -936,8 +936,8 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 2147483647
-  player: {fileID: 2507873576166949053}
-  pM: {fileID: 0}
+  player: {fileID: 3942125065804235615}
+  pS: {fileID: 5937402494318446784}
 --- !u!1 &2027876930198804679
 GameObject:
   m_ObjectHideFlags: 0
@@ -1125,17 +1125,11 @@ MonoBehaviour:
   controller: {fileID: 5770333311346734196}
   speed: 12
   gravity: -9.81
-  timeInvisible: 5
-  invisibleTimer: 0
-  invisibilityCharges: 3
-  invisText: {fileID: 5699686033267936894}
   groundCheck: {fileID: 7167633388752789839}
   groundDistance: 0.4
   groundMask:
     serializedVersion: 2
     m_Bits: 8
-  isInvisible: 0
-  isSafe: 0
 --- !u!1 &3942125065804235615
 GameObject:
   m_ObjectHideFlags: 0
@@ -1148,8 +1142,9 @@ GameObject:
   - component: {fileID: 7218115515436540976}
   - component: {fileID: 8540051974082448620}
   - component: {fileID: 5598179400119874083}
+  - component: {fileID: 5937402494318446784}
   m_Layer: 0
-  m_Name: Cylinder
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1234,6 +1229,27 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!114 &5937402494318446784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3942125065804235615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2390fc52dfc0ffe4e88847a94c302a74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeInvisible: 5
+  invisibleTimer: 0
+  invisibilityCharges: 3
+  invisText: {fileID: 5699686033267936894}
+  isInvisible: 0
+  isSafe: 0
+  mat:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: b0b16615043e7c64cb0e6759b2add986, type: 2}
 --- !u!1 &5592004623152342585
 GameObject:
   m_ObjectHideFlags: 0
