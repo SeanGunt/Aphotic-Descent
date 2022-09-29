@@ -3,12 +3,11 @@ using UnityEngine;
 
 public class FreeFlyCam : MonoBehaviour
 {
-    public float cameraSensitivity = 90.0f;
+    public float cameraSensitivity = 500f;
     public float verticalSpeed = 4.0f;
     public float moveSpeed = 10.0f;
     public float slowMoveFactor = 0.25f;
     public float fastMoveFactor = 3.0f;
-
     private float rotationX = 0.0f;
     private float rotationY = 0.0f;
 
