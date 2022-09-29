@@ -21,7 +21,6 @@ public class InvisibilityMechanic : MonoBehaviour
     public Material[] mat;
     Renderer rend;
 
-    // Start is called before the first frame update
     void Awake()
     {
       isInvisible = false;
@@ -32,8 +31,6 @@ public class InvisibilityMechanic : MonoBehaviour
       rend.sharedMaterial = mat[0];
       invisibilityBar.enabled = false;
     }
-
-    // Update is called once per frame
     void Update()
     {
         invisibleTimer = Mathf.Clamp(invisibleTimer, 0f, timeInvisible);
