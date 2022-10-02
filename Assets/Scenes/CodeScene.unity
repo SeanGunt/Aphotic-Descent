@@ -123,6 +123,23 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: 8c182ffd94f044a4b96010d1a2a49bfe, type: 2}
+--- !u!1 &1392499803 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1240211016862403796, guid: ffbafda2357222b48982877f124c2361, type: 3}
+  m_PrefabInstance: {fileID: 2159322677279294720}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1392499809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392499803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b85372acfed4e140a850efc912424ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2159322677279294720
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -130,6 +147,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 711228290, guid: ffbafda2357222b48982877f124c2361, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1441507257, guid: ffbafda2357222b48982877f124c2361, type: 3}
+      propertyPath: m_TagString
+      value: Destroyable
+      objectReference: {fileID: 0}
+    - target: {fileID: 1441507258, guid: ffbafda2357222b48982877f124c2361, type: 3}
+      propertyPath: m_Size.x
+      value: 1.3565166
+      objectReference: {fileID: 0}
+    - target: {fileID: 1441507258, guid: ffbafda2357222b48982877f124c2361, type: 3}
+      propertyPath: m_Center.x
+      value: -0.025288701
+      objectReference: {fileID: 0}
+    - target: {fileID: 1441507258, guid: ffbafda2357222b48982877f124c2361, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2159322677877630006, guid: ffbafda2357222b48982877f124c2361, type: 3}
       propertyPath: m_Name
       value: CodeScene Prefab
@@ -178,5 +215,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1441507263, guid: ffbafda2357222b48982877f124c2361, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ffbafda2357222b48982877f124c2361, type: 3}
