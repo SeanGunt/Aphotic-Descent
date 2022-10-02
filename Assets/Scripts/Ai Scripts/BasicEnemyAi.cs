@@ -11,7 +11,7 @@ public class BasicEnemyAi : MonoBehaviour
     [SerializeField] private float walkPointRange;
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private GameObject player;
-    [SerializeField] private InvisibilityMechanic pS;
+    private InvisibilityMechanic pS;
     enum State
     {
         patrolling, attacking

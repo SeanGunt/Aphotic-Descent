@@ -10,7 +10,7 @@ public class CollisionDetection : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Enemy" && WeaponController.IsAttacking)
+        if(other.tag == "Enemy")
         {
             Debug.Log(other.name);
             other.GetComponent<Animator>().SetTrigger("Hit");
