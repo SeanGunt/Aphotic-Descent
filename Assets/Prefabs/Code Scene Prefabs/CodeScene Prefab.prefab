@@ -220,7 +220,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 0.2
+    m_Strength: 0.4
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 3
@@ -524,7 +524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IsGlobal: 0
-  priority: 1
+  priority: 3
   blendDistance: 0.5
   weight: 1
   sharedProfile: {fileID: 11400000, guid: d8f0ffef95d818848868de08e72406c2, type: 2}
@@ -834,7 +834,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IsGlobal: 1
-  priority: 0
+  priority: 2
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: c08d61577c3f1c345a593cae44f60291, type: 2}
@@ -851,7 +851,7 @@ GameObject:
   - component: {fileID: 1391391556}
   - component: {fileID: 896671005}
   - component: {fileID: 1435114507}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
