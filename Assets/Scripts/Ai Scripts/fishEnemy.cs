@@ -5,7 +5,7 @@ using UnityEngine;
 public class fishEnemy : MonoBehaviour
 {
 
-    public Transform startPos;
+    private Vector3 startPos;
 
     public Transform position1;
     public Transform position2;
@@ -46,8 +46,7 @@ public class fishEnemy : MonoBehaviour
         //'From which point to what point'
         totalLength = Vector3.Distance(position1.position, position2.position);
 
-        
-        //resetTimer = restartPatrol;
+        startPos = this.transform.position;
 
     }
 
