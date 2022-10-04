@@ -123,23 +123,42 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: 8c182ffd94f044a4b96010d1a2a49bfe, type: 2}
---- !u!1 &1392499803 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1240211016862403796, guid: ffbafda2357222b48982877f124c2361, type: 3}
+--- !u!4 &1024030174 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5245901217338094384, guid: ffbafda2357222b48982877f124c2361, type: 3}
   m_PrefabInstance: {fileID: 2159322677279294720}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1392499809
-MonoBehaviour:
+--- !u!1 &1593614153
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1392499803}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b85372acfed4e140a850efc912424ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1593614154}
+  m_Layer: 0
+  m_Name: Interaction Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1593614154
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593614153}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.615}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1024030174}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2159322677279294720
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -147,25 +166,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 711228290, guid: ffbafda2357222b48982877f124c2361, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
+    - target: {fileID: 1024030175, guid: ffbafda2357222b48982877f124c2361, type: 3}
+      propertyPath: _interactionPoint
+      value: 
+      objectReference: {fileID: 1593614154}
+    - target: {fileID: 1908908272583988846, guid: ffbafda2357222b48982877f124c2361, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.116
       objectReference: {fileID: 0}
-    - target: {fileID: 1441507257, guid: ffbafda2357222b48982877f124c2361, type: 3}
-      propertyPath: m_TagString
-      value: Destroyable
+    - target: {fileID: 1908908272583988846, guid: ffbafda2357222b48982877f124c2361, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.047
       objectReference: {fileID: 0}
-    - target: {fileID: 1441507258, guid: ffbafda2357222b48982877f124c2361, type: 3}
-      propertyPath: m_Size.x
-      value: 1.3565166
-      objectReference: {fileID: 0}
-    - target: {fileID: 1441507258, guid: ffbafda2357222b48982877f124c2361, type: 3}
-      propertyPath: m_Center.x
-      value: -0.025288701
-      objectReference: {fileID: 0}
-    - target: {fileID: 1441507258, guid: ffbafda2357222b48982877f124c2361, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
+    - target: {fileID: 1908908272583988846, guid: ffbafda2357222b48982877f124c2361, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.016
       objectReference: {fileID: 0}
     - target: {fileID: 2159322677877630006, guid: ffbafda2357222b48982877f124c2361, type: 3}
       propertyPath: m_Name
@@ -215,6 +230,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1441507263, guid: ffbafda2357222b48982877f124c2361, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ffbafda2357222b48982877f124c2361, type: 3}
