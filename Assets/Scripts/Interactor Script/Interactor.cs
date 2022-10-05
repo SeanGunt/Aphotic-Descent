@@ -1,27 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Events;
+
 
 public class Interactor : MonoBehaviour
 {
-   [SerializeField] private Transform _interactionPoint;
-   [SerializeField] private float _interactionPointRadius = 0.5f;
-   [SerializeField] private LayerMask _interactableMask;
+    public LayerMask interactableLayerMask = 7;
+    public Interactable interactable;
+    public Image interactImage;
+    public Sprite defaultIcon;
+    public Vector2 defaultIconSize;
+
+    public Sprite defaultInteractIcon;
+    public Vector2 defaultInteractIconSize;
+    UnityEvent onInteract;
+   
 
 
-   private readonly Collider[] _colliders = new Collider[3];
-   [SerializeField] private int _numFound;
+    void Start()
+    {
+        
+    }
 
-   private void Update()
-   {
-    _numFound = Physics.OverlapSphereNonAlloc(_interactionPoint.position, _interactionPointRadius, _colliders, 
-    _interactableMask);
-   }
-
-private void OnDrawGizmos()
-{
-   Gizmos.color = Color.red;
-   Gizmos.DrawWireSphere(_interactionPoint.position, _interactionPointRadius);
-}
-
+   
+    void Update()
+    {
+        RaycastHit hit;
+        
+        if(Physics.Raycast(Camera.main.transform.position,Camera.main.transform.forward, out hit, 2, interactableLayerMask))
+        {
+            if(hit.collider.GetComponent<Interactable>() != false)
+        {
+           onInteract = hit.collider.GetComponent<Interactable>().onInteract;
+           if (Input.GetKeyDown(KeyCode.Q))
+           {
+            onInteract.Invoke();
+           }
+        }
+    }
+    }
 }
