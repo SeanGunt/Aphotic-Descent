@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
   public CharacterController controller;
    
@@ -15,6 +15,18 @@ public class PlayerMovement : MonoBehaviour
   enum State
   {
     inWater, outOfWater
+  }
+
+  public void LoadData(GameData data)
+  {
+    this.transform.position = data.playerPosition;
+    this.transform.rotation = data.playerRotation;
+  }
+
+  public void SaveData(GameData data)
+  {
+    data.playerPosition = this.transform.position;
+    data.playerRotation = this.transform.rotation;
   }
 
   private void Awake()
