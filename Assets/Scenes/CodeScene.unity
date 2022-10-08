@@ -284,6 +284,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 259880868, guid: ffbafda2357222b48982877f124c2361, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 259880868, guid: ffbafda2357222b48982877f124c2361, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5dad9f71485398f42bcbea12f2b612d3, type: 2}
+    - target: {fileID: 259880868, guid: ffbafda2357222b48982877f124c2361, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: b6e83056454211a459bcd9d917d6c2d2, type: 2}
     - target: {fileID: 2159322677877630006, guid: ffbafda2357222b48982877f124c2361, type: 3}
       propertyPath: m_Name
       value: CodeScene Prefab
