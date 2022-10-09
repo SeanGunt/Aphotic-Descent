@@ -7,7 +7,6 @@ public class flashlightMechanic : MonoBehaviour
     [SerializeField] GameObject FlashlightLight;
     [SerializeField] GameObject BlacklightLight;
     private bool flashlightActive = false;
-    private bool blacklightActive = false;
     public float range = 10f;
     public Camera mainCam;
     public LayerMask layer;
