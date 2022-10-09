@@ -8,6 +8,12 @@ public class WeaponController : MonoBehaviour
     public bool CanAttack;
     public float AttackCooldown = 1.0f;
     public bool IsAttacking = false;
+    private BoxCollider bc;
+    private void Awake()
+    {
+        bc = Knife.GetComponent<BoxCollider>();
+    }
+    
 
     void Update()
     {
@@ -18,12 +24,17 @@ public class WeaponController : MonoBehaviour
                 KnifeAttack();
             }
         }
+        if(CanAttack)
+        {
+            bc.enabled = false;
+        }
     }
 
 
     public void KnifeAttack()
     {
         IsAttacking = true;
+        bc.enabled  = true;
         CanAttack = false;
         Animator anim = Knife.GetComponent<Animator>();
         anim.SetTrigger("Attack");
