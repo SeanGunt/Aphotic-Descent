@@ -8,6 +8,7 @@ public class MainMenu : MonoBehaviour
     public void PlayCodeScene ()
     {
         SceneManager.LoadScene(1);
+        DataPersistenceManager.instance.LoadGame();
     }
 
     public void PlayArtScene ()

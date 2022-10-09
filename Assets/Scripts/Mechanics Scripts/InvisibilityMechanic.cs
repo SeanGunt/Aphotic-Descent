@@ -7,17 +7,13 @@ public class InvisibilityMechanic : MonoBehaviour
 {
     public float timeInvisible = 5.0f;
     public float invisibleTimer;
-    public float invisibilityCharges = 3.0f;
-
+    public float invisibilityCharges = 3f;
     public Text invisText;
-
     [SerializeField]
     private bool isInvisible;
     public bool isSafe;
-
     [SerializeField]
     Image invisibilityBar;
-
     public Material[] mat;
     Renderer rend;
 
