@@ -4,43 +4,60 @@ using UnityEngine;
 
 public class EnemyKnockback : MonoBehaviour
 {
-    public float range = 100f;
-    public float KnockbackForce = 250;
-    public Camera Cam;
-    public GameObject Enemy;
+    private Camera cam;
+    private Rigidbody rb;
+    [SerializeField] private float knockbackForce;
+    private State state;
 
-   
-
-    // Start is called before the first frame update
-    void Start()
+    enum State
     {
-        
+        beingKnockedBack, normal
     }
-
-    // Update is called once per frame
-    void Update()
+    private void Awake()
     {
-        if(Input.GetMouseButtonDown(1))
+        cam = Camera.main;
+        rb = this.GetComponent<Rigidbody>();
+        state = State.normal;
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Knife")
         {
-            ShootRaycast();
+            rb.AddForce(cam.transform.forward * knockbackForce, ForceMode.Impulse);
+            state = State.beingKnockedBack;
+            StartCoroutine("ResetKnockBack", 0.5f);
         }
     }
 
-    void ShootRaycast()
+    private void Normal()
     {
-        RaycastHit hit;
-         if(Physics.Raycast(Cam.transform.position, Cam.transform.forward, out hit, range))
-        {
-            Target target = hit.transform.GetComponent<Target>();
-            if(target != null)
-            {
-                Knockback();
-            }
-        }
+        rb.isKinematic = true;
     }
 
-    void Knockback()
+    private void BeingKnockedBack()
     {
-        Enemy.transform.position += transform.forward * Time.deltaTime * KnockbackForce;
+        rb.isKinematic = false;
+    }
+
+    IEnumerator ResetKnockBack(float knockbackDuration)
+    {
+        yield return new WaitForSeconds(knockbackDuration);
+        state = State.normal;
+    }
+
+    private void Update()
+    {
+        switch (state)
+        {
+            default:
+            case State.normal:
+                Normal();
+            break;
+
+            case State.beingKnockedBack:
+                BeingKnockedBack();
+            break;
+
+        }
     }
 }

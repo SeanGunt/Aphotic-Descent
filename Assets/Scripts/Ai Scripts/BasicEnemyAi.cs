@@ -7,7 +7,7 @@ public class BasicEnemyAi : MonoBehaviour
     private NavMeshAgent agent;
     private Vector3 walkPoint;
     private bool walkPointSet;
-    private float aggroDistance = 12f;
+    [SerializeField] private float aggroDistance;
     [SerializeField] private float walkPointRange;
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private GameObject player;
