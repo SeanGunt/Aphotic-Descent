@@ -31,6 +31,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
   private void Awake()
   {
+    Time.timeScale = 1;
     state = State.inWater;
   }
   private void Update()
