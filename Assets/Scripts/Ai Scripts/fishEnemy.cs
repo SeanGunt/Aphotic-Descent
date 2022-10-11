@@ -5,15 +5,13 @@ using UnityEngine;
 public class fishEnemy : MonoBehaviour
 {
 
-    private Vector3 startPos;
+    [SerializeField] private Transform moveObj;
 
     public Transform position1;
     public Transform position2;
 
-    //How fast the enemy is when chasing the player
     public float chaseSpeed = 2.0F;
 
-    //For how long the lerp is going to take, among other things
     public float patrolSpeed = 2.0F;
 
     private GameObject player;
@@ -23,16 +21,6 @@ public class fishEnemy : MonoBehaviour
     private float totalLength;
 
     public bool backToStart = false;
-
-
-    //Detection booleans
-    //public bool triggered = false;
-    //public bool isPatrolling = true;
-
-    //Countdown timer for patrol reset
-    //private float restartPatrol = 2.0f;
-    //private float resetTimer;
-
     
 
     // Start is called before the first frame update
@@ -40,13 +28,9 @@ public class fishEnemy : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
 
-        //Time.time is time since the start of the application
         beginningTime = Time.time;
 
-        //'From which point to what point'
         totalLength = Vector3.Distance(position1.position, position2.position);
-
-        startPos = this.transform.position;
 
     }
 
@@ -62,15 +46,6 @@ public class fishEnemy : MonoBehaviour
             Patrolling();
         }
 
-
-        /*
-        if(isPatrolling == true)
-        {
-            //Patrolling2();
-        }
-        */
-
-
     }
 
     private void Patrolling()
@@ -81,57 +56,29 @@ public class fishEnemy : MonoBehaviour
 
         float divTotal = totalDist / totalLength;
 
-        transform.position = Vector3.Lerp(position1.transform.position, position2.transform.position, Mathf.PingPong(divTotal, 1));
+        moveObj.transform.position = Vector3.Lerp(position1.transform.position, position2.transform.position, Mathf.PingPong(divTotal, 1));
 
         //Debug.Log("patrolling");
 
-
-
-        /*
-        if(isPatrolling == false)
+        if(Mathf.FloorToInt(divTotal)%2 != 0)
         {
-
-            //After chasing, go back to start position, wait for a moment, then return to patrolling
-
-            transform.position = Vector3.MoveTowards(transform.position, startPos.transform.position, patrolSpeed * Time.deltaTime);
-            
-            restartPatrol -= Time.deltaTime;
-            
-            if(restartPatrol <= 0)
-            {
-                isPatrolling = true;
-            }
-            Debug.Log("not patrolling");
+            transform.LookAt(position1);
         }
-        */
+        else
+        {
+            transform.LookAt(position2);
+        }
 
-        //Move to starting position
-        //transform.position = Vector3.MoveTowards(transform.position, startPos.transform.position, patrolSpeed * Time.deltaTime);    
-
+        this.transform.position = Vector3.MoveTowards(transform.position, moveObj.transform.position, patrolSpeed * Time.deltaTime);
 
     }
-
-
-
-    /*
-    //The Lerp and PingPong Movement code
-    private void Patrolling2()
-    {
-        float totalDist = (Time.time - beginningTime) * patrolSpeed;
-
-        float divTotal = totalDist / totalLength;
-
-        transform.position = Vector3.Lerp(position1.transform.position, position2.transform.position, Mathf.PingPong(divTotal, 1));
-
-        Debug.Log("patrolling");
-    }
-    */
-
 
     //Moves toward the Player
     private void Chasing()
     {
         transform.position = Vector3.MoveTowards(transform.position, player.transform.position, chaseSpeed * Time.deltaTime);
+
+        transform.LookAt(player.transform);
 
         //Debug.log("chasing");
     }
