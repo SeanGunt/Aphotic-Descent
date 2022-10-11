@@ -3,7 +3,6 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
   public CharacterController controller;
-   
   [SerializeField] private float moveSpeed, groundedSpeed, airSpeed, floatSpeed, outOfWaterSpeed, 
   groundDistance, gravityInWater, gravityOutOfWater;
   [SerializeField] private Transform groundCheck;
@@ -14,7 +13,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     
   enum State
   {
-    inWater, outOfWater
+    inWater, outOfWater, settingPosition
   }
 
   public void LoadData(GameData data)
@@ -32,22 +31,26 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   private void Awake()
   {
     Time.timeScale = 1;
-    state = State.inWater;
+    state = State.settingPosition;
   }
   private void Update()
   {
-    switch (state)
-    {
-      default:
-        case State.inWater:
-              MoveInWater();
-      break;
+        switch (state)
+      {
+        default:
+          case State.settingPosition:
+              DataPersistenceManager.instance.LoadGame();
+          break;
 
-        case State.outOfWater:
+          case State.inWater:
+              MoveInWater();
+          break;
+
+          case State.outOfWater:
               MoveOutOfWater();
-        break;
-    }
-    Debug.Log(state);
+          break;
+      }
+        Debug.Log(state);
   }
 
     private void MoveInWater()
@@ -67,7 +70,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         float z = Input.GetAxis("Vertical");
         Vector3 move = transform.right * x + transform.forward * z;
 
-        // Float Up
+        //Float Up
         if (Input.GetKey(KeyCode.Space))
         {
           velocity.y = floatSpeed;
@@ -84,7 +87,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         controller.Move(velocity * Time.deltaTime);
     }
 
-    private void MoveOutOfWater()
+      private void MoveOutOfWater()
     {
       moveSpeed = outOfWaterSpeed;
       float x = Input.GetAxis("Horizontal");
