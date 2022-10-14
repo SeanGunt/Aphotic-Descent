@@ -17,7 +17,7 @@ public class WeaponController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetButtonDown("Knife"))
         {
             if (CanAttack)
             {

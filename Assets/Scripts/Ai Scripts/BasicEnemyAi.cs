@@ -14,13 +14,13 @@ public class BasicEnemyAi : MonoBehaviour
     private InvisibilityMechanic pS;
     enum State
     {
-        patrolling, attacking
+        patrolling, attacking, idle
     }
 
     private void Awake()
     {
         walkPointSet = false;
-        state = State.patrolling;
+        state = State.idle;
         agent = GetComponent<NavMeshAgent>();
         pS = player.GetComponent<InvisibilityMechanic>();
     }
@@ -43,6 +43,15 @@ public class BasicEnemyAi : MonoBehaviour
             walkPointSet = false;
         }
 
+        float distanceBetween = Vector3.Distance(player.transform.position, this.transform.position);
+        if (distanceBetween < aggroDistance && !pS.isSafe)
+        {
+            state = State.attacking;
+        }
+    }
+
+    private void Idle()
+    {
         float distanceBetween = Vector3.Distance(player.transform.position, this.transform.position);
         if (distanceBetween < aggroDistance && !pS.isSafe)
         {
@@ -85,6 +94,10 @@ public class BasicEnemyAi : MonoBehaviour
 
             case State.attacking:
                 Attacking();
+            break;
+            
+            case State.idle:
+                Idle();
             break;
         }
     }

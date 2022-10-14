@@ -71,13 +71,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         Vector3 move = transform.right * x + transform.forward * z;
 
         //Float Up
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetButton("Ascend"))
         {
           velocity.y = floatSpeed;
         }
 
         //Float Down
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetButton("Descend"))
         {
           velocity.y = -floatSpeed * 2;
         }
