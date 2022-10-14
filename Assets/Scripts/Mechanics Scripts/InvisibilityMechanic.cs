@@ -35,7 +35,7 @@ public class InvisibilityMechanic : MonoBehaviour
     void Update()
     {
         invisibleTimer = Mathf.Clamp(invisibleTimer, 0f, timeInvisible);
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetButtonDown("Invisibility"))
         {
           if (invisibilityCharges > 0 && !isSafe)
           {
@@ -76,6 +76,7 @@ public class InvisibilityMechanic : MonoBehaviour
       if (col.gameObject.tag == ("InvisPickup"))
       {
         Destroy(col.gameObject);
+        CancelInvoke("ClearUI");
         invisibilityCharges++;
         invisText.text = $"You picked up a charge! Invis charges: {invisibilityCharges}";
         Debug.Log("InvisPicked Up");

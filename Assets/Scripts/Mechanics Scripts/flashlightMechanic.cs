@@ -21,7 +21,7 @@ public class flashlightMechanic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetButtonDown("Flashlight"))
         {
             if (!flashlightActive)
             {
@@ -36,7 +36,7 @@ public class flashlightMechanic : MonoBehaviour
         }
         if (flashlightActive)
         {
-            if (Input.GetKey(KeyCode.B))
+            if (Input.GetButton("Blacklight"))
             {
                 BlacklightReveal();
             }
