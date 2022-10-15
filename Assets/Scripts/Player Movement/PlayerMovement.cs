@@ -30,7 +30,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
   private void Awake()
   {
-    Time.timeScale = 1;
     state = State.settingPosition;
   }
   private void Update()
@@ -104,6 +103,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       if (other.gameObject.tag == "Water")
       {
         state = State.inWater;
+      }
+
+      if(other.gameObject.tag == "Checkpoint")
+      {
+        DataPersistenceManager.instance.SaveGame();
+        Debug.Log("Saved");
       }
     }
 
