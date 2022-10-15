@@ -22,7 +22,7 @@ public class Menus : MonoBehaviour
     }
     public void MainMenu()
     {
-        DataPersistenceManager.instance.SaveGame();
+        Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
     }
 }
