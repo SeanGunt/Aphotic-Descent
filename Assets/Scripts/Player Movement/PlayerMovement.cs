@@ -1,14 +1,17 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
   public CharacterController controller;
   [SerializeField] private float moveSpeed, groundedSpeed, airSpeed, floatSpeed, outOfWaterSpeed, 
-  groundDistance, gravityInWater, gravityOutOfWater;
+  groundDistance, gravityInWater, gravityOutOfWater, playerStamina, maxStamina, tiredCooldown;
   [SerializeField] private Transform groundCheck;
   [SerializeField] private LayerMask groundMask;
   private Vector3 velocity;
   private bool isGrounded;
+  [SerializeField]private bool isSwimming, canSwim, isTired;
+  [SerializeField]private Image staminaBar, tiredBar;
   private State state;
     
   enum State
@@ -47,6 +50,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
           case State.outOfWater:
               MoveOutOfWater();
+              canSwim = false;
           break;
       }
         Debug.Log(state);
@@ -55,10 +59,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private void MoveInWater()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-
         if(isGrounded)
         {
           moveSpeed = groundedSpeed;
+          isSwimming = false;
+          if (!canSwim || playerStamina < maxStamina)
+          {
+            StaminaRecharge(playerStamina, maxStamina);
+          }
         }
         else
         {
@@ -70,15 +78,40 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         Vector3 move = transform.right * x + transform.forward * z;
 
         //Float Up
-        if (Input.GetButton("Ascend"))
+        if (Input.GetButton("Ascend") && canSwim)
         {
           velocity.y = floatSpeed;
+          isSwimming = true;
         }
 
         //Float Down
-        if (Input.GetButton("Descend"))
+        if (Input.GetButton("Descend") && canSwim && !isGrounded)
         {
           velocity.y = -floatSpeed * 2;
+          isSwimming = true;
+        }
+
+        playerStamina = Mathf.Clamp(playerStamina, 0f, maxStamina);
+        //Initial Stamina Check
+        if (playerStamina >= maxStamina)
+        {
+          canSwim = true;
+          tiredBar.enabled = false;
+        }
+        
+        //Stamina Drain
+        if (isSwimming)
+        {
+          playerStamina -= Time.deltaTime;
+          staminaBar.fillAmount = playerStamina/maxStamina;
+          if (playerStamina <= 0)
+          {
+            canSwim = false;
+            isSwimming = false;
+            isTired = true;
+            tiredBar.enabled = true;
+            tiredBar.fillAmount = 1;
+          }
         }
 
         controller.Move(move * moveSpeed * Time.deltaTime);
@@ -89,6 +122,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       private void MoveOutOfWater()
     {
       moveSpeed = outOfWaterSpeed;
+      canSwim = false;
       float x = Input.GetAxis("Horizontal");
       float z = Input.GetAxis("Vertical");
       Vector3 move = transform.right * x + transform.forward * z;
@@ -103,6 +137,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       if (other.gameObject.tag == "Water")
       {
         state = State.inWater;
+        if (playerStamina > 0)
+        {
+          canSwim = true;
+        }
       }
 
       if(other.gameObject.tag == "Checkpoint")
@@ -117,6 +155,28 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       if (other.gameObject.tag == "Water")
       {
         state = State.outOfWater;
+      }
+    }
+
+    private void StaminaRecharge(float empty, float max)
+    {
+      Debug.Log("StaminaRecharging");
+      if (isTired)
+      {
+        tiredCooldown -= Time.deltaTime;
+        tiredBar.fillAmount = tiredCooldown/2;
+        if (tiredCooldown <= 0)
+        {
+          isTired = false;
+          tiredBar.enabled = false;
+          tiredCooldown = 2;
+        }
+      }
+      if (empty <= max && !isTired)
+      {
+        empty += Time.deltaTime * 2;
+        playerStamina = empty;
+        staminaBar.fillAmount = playerStamina/maxStamina;
       }
     }
 }
