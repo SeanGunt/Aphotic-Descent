@@ -6,6 +6,7 @@ public class dynamicAi2 : MonoBehaviour
 {
     RaycastHit hit;
     [SerializeField ] private float visionLength;
+    [SerializeField] private float centerLength;
     [SerializeField] private float speed;
     [SerializeField] private float turnSpeed;
     [SerializeField] private LayerMask doNotIgnoreLayer;
@@ -18,7 +19,7 @@ public class dynamicAi2 : MonoBehaviour
     // FixedUpdate is called once at the end of a frame
     void FixedUpdate()
     {
-        Vector3 centerRay = transform.TransformDirection(new Vector3( 0, 0, 1)) * visionLength/2;
+        Vector3 centerRay = transform.TransformDirection(new Vector3( 0, 0, 1)) * centerLength;
         Vector3 rightRay = transform.TransformDirection(new Vector3( 1, 0, 1)) * visionLength;
         Vector3 leftRay = transform.TransformDirection(new Vector3(-1, 0, 1)) * visionLength;
         Vector3 upRay = transform.TransformDirection(new Vector3(0, 1, 1)) * visionLength;
@@ -30,12 +31,17 @@ public class dynamicAi2 : MonoBehaviour
         Debug.DrawRay(transform.position, upRay, Color.red);
         Debug.DrawRay(transform.position, downRay, Color.red);
 
+        //if clipping through walls comment out below line
+        transform.position += transform.forward * speed * Time.deltaTime;
+
         if((Physics.Raycast(transform.position, rightRay, out hit, visionLength, doNotIgnoreLayer) || 
         Physics.Raycast(transform.position, leftRay, out hit, visionLength, doNotIgnoreLayer) ||
-        Physics.Raycast(transform.position, centerRay, out hit, visionLength/2, doNotIgnoreLayer)) == false)
+        Physics.Raycast(transform.position, centerRay, out hit, centerLength, doNotIgnoreLayer)) == false)
         {
             //Debug.Log("moving forward");
-            transform.position += transform.forward * speed * Time.deltaTime;
+
+            //if clipping through walls un-comment out below line
+            //transform.position += transform.forward * speed * Time.deltaTime;
             unchosen = true;
         }
         else
