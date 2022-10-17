@@ -54,6 +54,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
           break;
       }
         Debug.Log(state);
+        Debug.Log(velocity.y);
   }
 
     private void MoveInWater()
@@ -121,6 +122,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
       private void MoveOutOfWater()
     {
+      isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        if(isGrounded)
+        {
+          velocity.y = 0;
+        }
       moveSpeed = outOfWaterSpeed;
       canSwim = false;
       float x = Input.GetAxis("Horizontal");
