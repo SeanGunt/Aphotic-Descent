@@ -402,12 +402,12 @@ MonoBehaviour:
   timeInvisible: 5
   invisibleTimer: 0
   invisibilityCharges: 3
-  invisText: {fileID: 0}
+  interactionText: {fileID: 0}
   isInvisible: 0
   isSafe: 0
   invisibilityBar: {fileID: 0}
   fullInvisBar: {fileID: 0}
-  Player: {fileID: 0}
+  Player: {fileID: 3262395055742036920}
   mat:
   - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 2100000, guid: b0b16615043e7c64cb0e6759b2add986, type: 2}
@@ -425,6 +425,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FlashlightLight: {fileID: 182774888800398312}
   BlacklightLight: {fileID: 7577711475400427331}
+  flashlightBattery: 0
+  maxBattery: 0
+  batteryBar: {fileID: 0}
+  fullBatteryBar: {fileID: 0}
+  interactionText: {fileID: 0}
+  hI: {fileID: 0}
   range: 10
   mainCam: {fileID: 2014066538746518434}
   layer:
@@ -491,10 +497,18 @@ MonoBehaviour:
   groundDistance: 0.4
   gravityInWater: -4
   gravityOutOfWater: -9.81
+  playerStamina: 8
+  maxStamina: 8
+  tiredCooldown: 2
   groundCheck: {fileID: 8686293934051461544}
   groundMask:
     serializedVersion: 2
     m_Bits: 8
+  isSwimming: 0
+  canSwim: 0
+  isTired: 0
+  staminaBar: {fileID: 0}
+  tiredBar: {fileID: 0}
 --- !u!114 &1538187323927255635
 MonoBehaviour:
   m_ObjectHideFlags: 0
