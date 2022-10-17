@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class flashlightMechanic : MonoBehaviour
 {
     [SerializeField] GameObject FlashlightLight;
     [SerializeField] GameObject BlacklightLight;
-    private bool flashlightActive = false;
+    private bool flashlightOn = false;
+    [SerializeField]private float flashlightBattery, maxBattery;
+    [SerializeField]private Image batteryBar, fullBatteryBar;
+    [SerializeField]private Text interactionText;
+    [SerializeField]private HiddenObjectsInteraction hI;
     public float range = 10f;
     public Camera mainCam;
     public LayerMask layer;
@@ -23,25 +28,33 @@ public class flashlightMechanic : MonoBehaviour
     {
         if (Input.GetButtonDown("Flashlight"))
         {
-            if (!flashlightActive)
+            if (!flashlightOn)
             {
                 FlashlightLight.gameObject.SetActive(true);
-                flashlightActive = true;
+                flashlightOn = true;
             }
             else
             {
                 FlashlightLight.gameObject.SetActive(false);
-                flashlightActive = false;
+                flashlightOn = false;
+                BlacklightLight.gameObject.SetActive(false);
+                interactionText.text = "Flashlight Off.";
+                Invoke ("ClearUI", 4);
             }
         }
-        if (flashlightActive)
+        flashlightBattery = Mathf.Clamp(flashlightBattery, 0f, maxBattery);
+        if (flashlightOn)
         {
+            interactionText.text = "Flashlight On.";
+            fullBatteryBar.fillAmount = flashlightBattery/maxBattery;
             if (Input.GetButton("Blacklight"))
             {
+                flashlightBattery -= Time.deltaTime*2;
                 BlacklightReveal();
             }
             else
             {
+                flashlightBattery -= Time.deltaTime;
                 Debug.Log("Blacklight off");
                 BlacklightLight.gameObject.SetActive(false);
                 FlashlightLight.gameObject.SetActive(true);
@@ -49,19 +62,30 @@ public class flashlightMechanic : MonoBehaviour
         }
 
     }
-
     void BlacklightReveal()
     {
+        interactionText.text = "Blacklight On.";
         BlacklightLight.gameObject.SetActive(true);
         FlashlightLight.gameObject.SetActive(false);
         RaycastHit hit;
         if(Physics.Raycast(mainCam.transform.position, mainCam.transform.forward, out hit, range, layer))
         {
-            Debug.Log("HiddenObjectRevealed");
+            Debug.Log("Initial Interaction check");
+            if (hit.collider.GetComponent<HiddenObjectsInteraction>() != false)
+            {
+                hI = hit.collider.GetComponent<HiddenObjectsInteraction>();
+                Debug.Log("Obj revealed");
+                hI.objRevealed = true;
+            }
+
         }
         else
         {
             Debug.Log("No object to reveal");
         }
+    }
+    void ClearUI()
+    {
+      interactionText.text = "";
     }
 }

@@ -8,7 +8,7 @@ public class InvisibilityMechanic : MonoBehaviour
     public float timeInvisible = 5.0f;
     public float invisibleTimer;
     public float invisibilityCharges = 3f;
-    public Text invisText;
+    public Text interactionText;
     [SerializeField]
     private bool isInvisible;
     public bool isSafe;
@@ -25,7 +25,7 @@ public class InvisibilityMechanic : MonoBehaviour
     {
       isInvisible = false;
       isSafe = false;
-      invisText.text = "";
+      interactionText.text = "";
       rend = Player.GetComponent<Renderer>();
       rend.enabled = true;
       rend.sharedMaterial = mat[0];
@@ -47,11 +47,11 @@ public class InvisibilityMechanic : MonoBehaviour
             invisibleTimer = timeInvisible;
             isSafe = true;
             invisibilityCharges--;
-            invisText.text = "You are invisible!";
+            interactionText.text = "You are invisible!";
           }
           else if (invisibilityCharges <= 0)
           {
-            invisText.text = "You have no charges!";
+            interactionText.text = "You have no charges!";
             Invoke ("ClearUI", 3);
           }
         }
@@ -65,7 +65,7 @@ public class InvisibilityMechanic : MonoBehaviour
             rend.sharedMaterial = mat[0];
             fullInvisBar.enabled = false;
             isSafe = false;
-            invisText.text = $"You are no longer invisible! Charges: {invisibilityCharges}";
+            interactionText.text = $"You are no longer invisible! Charges: {invisibilityCharges}";
             Invoke ("ClearUI", 4);
           }
         }
@@ -78,7 +78,7 @@ public class InvisibilityMechanic : MonoBehaviour
         Destroy(col.gameObject);
         CancelInvoke("ClearUI");
         invisibilityCharges++;
-        invisText.text = $"You picked up a charge! Invis charges: {invisibilityCharges}";
+        interactionText.text = $"You picked up a charge! Invis charges: {invisibilityCharges}";
         Debug.Log("InvisPicked Up");
         Invoke ("ClearUI", 3);
       }
@@ -86,7 +86,7 @@ public class InvisibilityMechanic : MonoBehaviour
 
     void ClearUI()
     {
-      invisText.text = "";
+      interactionText.text = "";
       fullInvisBar.enabled = false;
       invisibilityBar.enabled = false;
     }
