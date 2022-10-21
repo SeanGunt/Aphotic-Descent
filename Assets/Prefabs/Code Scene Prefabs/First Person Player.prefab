@@ -26,12 +26,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 182774888800398312}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.136578, y: -2.8002808, z: 2.3601093}
+  m_LocalPosition: {x: 0, y: -0.93700004, z: -0.21900058}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7764620842646860814}
-  m_RootOrder: 1
+  m_Father: {fileID: 2014066538746518433}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!108 &7249770726458369014
 Light:
@@ -150,6 +150,8 @@ Transform:
   m_Children:
   - {fileID: 8501720510858531330}
   - {fileID: 112215250647793289}
+  - {fileID: 1435491068601657471}
+  - {fileID: 8669145939576387401}
   m_Father: {fileID: 7764620842646860814}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -313,7 +315,6 @@ GameObject:
   - component: {fileID: 6127658539008459866}
   - component: {fileID: 9212257115354614999}
   - component: {fileID: 7887837994157909003}
-  - component: {fileID: 2014066540068434398}
   - component: {fileID: 3303715477005666823}
   m_Layer: 11
   m_Name: Player
@@ -387,30 +388,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2014066540068434398
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3262395055742036920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2390fc52dfc0ffe4e88847a94c302a74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeInvisible: 5
-  invisibleTimer: 0
-  invisibilityCharges: 3
-  interactionText: {fileID: 0}
-  isInvisible: 0
-  isSafe: 0
-  invisibilityBar: {fileID: 0}
-  fullInvisBar: {fileID: 0}
-  Player: {fileID: 3262395055742036920}
-  mat:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 2100000, guid: b0b16615043e7c64cb0e6759b2add986, type: 2}
 --- !u!114 &3303715477005666823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,8 +402,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FlashlightLight: {fileID: 182774888800398312}
   BlacklightLight: {fileID: 7577711475400427331}
-  flashlightBattery: 0
-  maxBattery: 0
+  flashlightBattery: 120
+  maxBattery: 120
   batteryBar: {fileID: 0}
   fullBatteryBar: {fileID: 0}
   interactionText: {fileID: 0}
@@ -450,6 +427,8 @@ GameObject:
   - component: {fileID: 2014066539470715934}
   - component: {fileID: 767176560875113475}
   - component: {fileID: 2014066540412598264}
+  - component: {fileID: 304772485}
+  - component: {fileID: 1363034508}
   m_Layer: 11
   m_Name: First Person Player
   m_TagString: Player
@@ -537,7 +516,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Knife: {fileID: 776162307247858739}
   CanAttack: 1
-  AttackCooldown: 1
+  AttackCooldown: 0.5
   IsAttacking: 0
 --- !u!143 &767176560875113475
 CharacterController:
@@ -571,6 +550,44 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &304772485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4124918348873427034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a713bc381d11574d929db7610908df1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorialText: {fileID: 0}
+--- !u!114 &1363034508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4124918348873427034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2390fc52dfc0ffe4e88847a94c302a74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeInvisible: 5
+  invisibleTimer: 0
+  invisibilityCharges: 3
+  interactionText: {fileID: 0}
+  isInvisible: 0
+  isSafe: 0
+  invisibilityBar: {fileID: 0}
+  fullInvisBar: {fileID: 0}
+  Player: {fileID: 3262395055742036920}
+  mat:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: b0b16615043e7c64cb0e6759b2add986, type: 2}
+  invisibilityChargesText: {fileID: 0}
 --- !u!1 &6226697399956672222
 GameObject:
   m_ObjectHideFlags: 0
@@ -628,12 +645,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7577711475400427331}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.136578, y: -2.8002808, z: 2.3601093}
+  m_LocalPosition: {x: 0, y: -0.93700004, z: -0.21900058}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7764620842646860814}
-  m_RootOrder: 2
+  m_Father: {fileID: 2014066538746518433}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!108 &8274337257108213461
 Light:
@@ -741,13 +758,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7847457162203821936}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10.136578, y: 2.8002808, z: -2.3601093}
+  m_LocalPosition: {x: -10.136578, y: 2.8002808, z: -2.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2014066538746518433}
-  - {fileID: 1435491068601657471}
-  - {fileID: 8669145939576387401}
   m_Father: {fileID: 5998312585981303767}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

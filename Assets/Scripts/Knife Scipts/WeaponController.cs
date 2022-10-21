@@ -6,7 +6,7 @@ public class WeaponController : MonoBehaviour
 {
     public GameObject Knife;
     public bool CanAttack;
-    public float AttackCooldown = 1.0f;
+    public float AttackCooldown;
     public bool IsAttacking = false;
     private BoxCollider bc;
     private void Awake()
@@ -24,7 +24,7 @@ public class WeaponController : MonoBehaviour
                 KnifeAttack();
             }
         }
-        if(CanAttack)
+        if (CanAttack)
         {
             bc.enabled = false;
         }

@@ -1,5 +1,46 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9194484728521286482
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97c23e3b12dc18c42a140437e53d3951, type: 3}
+  m_Name: Tonemapping
+  m_EditorClassIdentifier: 
+  active: 1
+  mode:
+    m_OverrideState: 1
+    m_Value: 1
+--- !u!114 &-3548771270447691761
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccf1aba9553839d41ae37dd52e9ebcce, type: 3}
+  m_Name: MotionBlur
+  m_EditorClassIdentifier: 
+  active: 1
+  mode:
+    m_OverrideState: 0
+    m_Value: 0
+  quality:
+    m_OverrideState: 1
+    m_Value: 2
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0.5
+  clamp:
+    m_OverrideState: 0
+    m_Value: 0.05
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,6 +56,8 @@ MonoBehaviour:
   components:
   - {fileID: 5420185428617978206}
   - {fileID: 4675976642443865044}
+  - {fileID: -9194484728521286482}
+  - {fileID: -3548771270447691761}
 --- !u!114 &4675976642443865044
 MonoBehaviour:
   m_ObjectHideFlags: 3
