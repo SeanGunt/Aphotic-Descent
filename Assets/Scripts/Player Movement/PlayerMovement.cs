@@ -10,8 +10,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   [SerializeField] private LayerMask groundMask;
   private Vector3 velocity;
   private bool isGrounded;
-  [SerializeField]private bool isSwimming, canSwim, isTired;
-  [SerializeField]private Image staminaBar, tiredBar;
+  [SerializeField] private bool isSwimming, canSwim, isTired;
+  [SerializeField] private Image staminaBar, tiredBar;
   private State state;
     
   enum State
@@ -54,7 +54,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
           break;
       }
         Debug.Log(state);
-        Debug.Log(velocity.y);
   }
 
     private void MoveInWater()
@@ -62,6 +61,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         if(isGrounded)
         {
+          velocity.y = 0;
           moveSpeed = groundedSpeed;
           isSwimming = false;
           if (!canSwim || playerStamina < maxStamina)

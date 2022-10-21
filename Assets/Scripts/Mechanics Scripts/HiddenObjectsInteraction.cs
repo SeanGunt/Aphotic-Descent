@@ -5,11 +5,10 @@ using UnityEngine;
 public class HiddenObjectsInteraction : MonoBehaviour
 {   
     public Material[] hMat;
-    [SerializeField]Renderer hRend;
+    [SerializeField] Renderer hRend;
     public bool objRevealed;
-    [SerializeField]private float revealedTime, maxRevealed;
+    [SerializeField] private float revealedTime, maxRevealed;
 
-    
     void Awake()
     {
         hRend = this.GetComponent<Renderer>();

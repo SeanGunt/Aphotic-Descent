@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
-public class InvisibilityMechanic : MonoBehaviour
+public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
 {
     public float timeInvisible = 5.0f;
     public float invisibleTimer;
-    public float invisibilityCharges = 3f;
+    public int invisibilityCharges = 3;
     public Text interactionText;
     [SerializeField]
     private bool isInvisible;
@@ -20,7 +21,12 @@ public class InvisibilityMechanic : MonoBehaviour
     private GameObject Player;
     public Material[] mat;
     Renderer rend;
+    [SerializeField] private TextMeshProUGUI invisibilityChargesText;
 
+    private void Start()
+    {
+      invisibilityChargesText.text = "Invisibility Charges: " + invisibilityCharges.ToString();
+    }
     void Awake()
     {
       isInvisible = false;
@@ -31,6 +37,16 @@ public class InvisibilityMechanic : MonoBehaviour
       rend.sharedMaterial = mat[0];
       invisibilityBar.enabled = false;
       fullInvisBar.enabled = false;
+    }
+
+    public void LoadData(GameData data)
+    {
+      invisibilityCharges = data.invisCharges;
+    }
+
+    public void SaveData(GameData data)
+    {
+      data.invisCharges = invisibilityCharges;
     }
     void Update()
     {
@@ -47,6 +63,7 @@ public class InvisibilityMechanic : MonoBehaviour
             invisibleTimer = timeInvisible;
             isSafe = true;
             invisibilityCharges--;
+            invisibilityChargesText.text = "Invisibility Charges: " + invisibilityCharges.ToString();
             interactionText.text = "You are invisible!";
           }
           else if (invisibilityCharges <= 0)
@@ -78,6 +95,7 @@ public class InvisibilityMechanic : MonoBehaviour
         Destroy(col.gameObject);
         CancelInvoke("ClearUI");
         invisibilityCharges++;
+        invisibilityChargesText.text = "Invisibility Charges: " + invisibilityCharges.ToString();
         interactionText.text = $"You picked up a charge! Invis charges: {invisibilityCharges}";
         Debug.Log("InvisPicked Up");
         Invoke ("ClearUI", 3);

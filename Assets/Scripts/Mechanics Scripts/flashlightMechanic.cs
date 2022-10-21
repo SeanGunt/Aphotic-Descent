@@ -12,6 +12,7 @@ public class flashlightMechanic : MonoBehaviour
     [SerializeField]private Image batteryBar, fullBatteryBar;
     [SerializeField]private Text interactionText;
     [SerializeField]private HiddenObjectsInteraction hI;
+    [SerializeField] private RevealHiddenObjects rHO;
     public float range = 10f;
     public Camera mainCam;
     public LayerMask layer;
@@ -76,6 +77,12 @@ public class flashlightMechanic : MonoBehaviour
                 hI = hit.collider.GetComponent<HiddenObjectsInteraction>();
                 Debug.Log("Obj revealed");
                 hI.objRevealed = true;
+            }
+
+            if (hit.collider.GetComponent<RevealHiddenObjects>() != false)
+            {
+                rHO = hit.collider.GetComponent<RevealHiddenObjects>();
+                rHO.objRevealed = true;
             }
 
         }
