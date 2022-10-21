@@ -5,7 +5,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
   public CharacterController controller;
   [SerializeField] private float moveSpeed, groundedSpeed, airSpeed, floatSpeed, outOfWaterSpeed, 
-  groundDistance, gravityInWater, gravityOutOfWater, playerStamina, maxStamina, tiredCooldown;
+  groundDistance, gravityInWater, gravityOutOfWater, playerStamina, maxStamina, tiredCooldown, playerHealth, maxHealth;
   [SerializeField] private Transform groundCheck;
   [SerializeField] private LayerMask groundMask;
   private Vector3 velocity;
