@@ -6,11 +6,12 @@ public class hazardZone : MonoBehaviour
 {
     void OnTriggerStay(Collider other)
     {
-        PlayerMovement controller = other.GetComponent<PlayerMovement>();
+        PlayerHealthController controller = other.GetComponent<PlayerHealthController>();
 
         if (controller != null)
         {
-            controller.ChangeHealth(-1);
+            controller.ChangeHealth(-1.5f);
+            controller.TakeDamage();
         }
     }
 }
