@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
@@ -13,7 +14,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   [SerializeField] private bool isSwimming, canSwim, isTired;
   [SerializeField] private Image staminaBar, tiredBar;
   private State state;
-    
   enum State
   {
     inWater, outOfWater, settingPosition
@@ -41,7 +41,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       {
         default:
           case State.settingPosition:
-              DataPersistenceManager.instance.LoadGame();
+              if (SceneManager.GetActiveScene().buildIndex != 3)
+              {
+                DataPersistenceManager.instance.LoadGame();
+              }
           break;
 
           case State.inWater:
