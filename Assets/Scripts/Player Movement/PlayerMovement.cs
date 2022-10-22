@@ -5,13 +5,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
   public CharacterController controller;
   [SerializeField] private float moveSpeed, groundedSpeed, airSpeed, floatSpeed, outOfWaterSpeed, 
-  groundDistance, gravityInWater, gravityOutOfWater, playerStamina, maxStamina, tiredCooldown, playerHealth, 
-  maxHealth, invincibleTimer, timeInvincible;
+  groundDistance, gravityInWater, gravityOutOfWater, playerStamina, maxStamina, tiredCooldown;
   [SerializeField] private Transform groundCheck;
   [SerializeField] private LayerMask groundMask;
   private Vector3 velocity;
   private bool isGrounded;
-  [SerializeField] private bool isSwimming, canSwim, isTired, isInvincible, isBleeding;
+  [SerializeField] private bool isSwimming, canSwim, isTired;
   [SerializeField] private Image staminaBar, tiredBar;
   private State state;
     
@@ -115,16 +114,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             tiredBar.fillAmount = 1;
           }
         }
-        if (isInvincible)
-        {
-          invincibleTimer -= Time.deltaTime;
-          if (invincibleTimer <= 0)
-            isInvincible = false;
-        }
-        if (isBleeding && playerHealth <= maxHealth)
-        {
-          Invoke("RegenHealth", 4);
-        }
 
         controller.Move(move * moveSpeed * Time.deltaTime);
         velocity.y += gravityInWater * Time.deltaTime;
@@ -143,13 +132,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       float x = Input.GetAxis("Horizontal");
       float z = Input.GetAxis("Vertical");
       Vector3 move = transform.right * x + transform.forward * z;
-
-      if (isInvincible)
-        {
-          invincibleTimer -= Time.deltaTime;
-          if (invincibleTimer <= 0)
-            isInvincible = false;
-        }
 
       controller.Move(move * moveSpeed * Time.deltaTime);
       velocity.y += gravityOutOfWater * Time.deltaTime;
@@ -202,31 +184,5 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         playerStamina = empty;
         staminaBar.fillAmount = playerStamina/maxStamina;
       }
-    }
-
-    public void ChangeHealth(float amount)
-    {
-        if (amount < 0)
-        {
-          if (isInvincible || playerHealth <= 1.5)
-            return;
-          CancelInvoke("RegenHealth");
-          isInvincible = true;
-          invincibleTimer = timeInvincible;
-          isBleeding = true;
-        }
-
-        playerHealth = Mathf.Clamp(playerHealth + amount, 0, maxHealth);
-    }
-
-    private void RegenHealth()
-    {
-      isBleeding = false;
-      playerHealth = Mathf.Clamp(playerHealth, 0, maxHealth);
-      if (!isBleeding)
-      {
-         playerHealth += Time.deltaTime*3;
-      }
-      
     }
 }
