@@ -10,9 +10,10 @@ public class flashlightMechanic : MonoBehaviour
     private bool flashlightOn = false;
     [SerializeField]private float flashlightBattery, maxBattery;
     [SerializeField]private Image batteryBar, fullBatteryBar;
-    [SerializeField]private Text interactionText;
+    [SerializeField]private Text flashlightText;
     [SerializeField]private HiddenObjectsInteraction hI;
-    [SerializeField] private RevealHiddenObjects rHO;
+    [SerializeField]private RevealHiddenObjects rHO;
+    [SerializeField]private bool flashlightEmpty;
     public float range = 10f;
     public Camera mainCam;
     public LayerMask layer;
@@ -27,45 +28,62 @@ public class flashlightMechanic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Flashlight"))
+        if (!flashlightEmpty)
         {
-            if (!flashlightOn)
+            if (Input.GetButtonDown("Flashlight"))
             {
-                FlashlightLight.gameObject.SetActive(true);
-                flashlightOn = true;
+                if (!flashlightOn)
+                {
+                    FlashlightLight.gameObject.SetActive(true);
+                    flashlightOn = true;
+                }
+                else
+                {
+                    FlashlightLight.gameObject.SetActive(false);
+                    flashlightOn = false;
+                    BlacklightLight.gameObject.SetActive(false);
+                    flashlightText.text = "Flashlight Off.";
+                    Invoke ("ClearUI", 4);
+                }
             }
-            else
+            flashlightBattery = Mathf.Clamp(flashlightBattery, 0f, maxBattery);
+            if (flashlightOn)
             {
-                FlashlightLight.gameObject.SetActive(false);
+                flashlightText.text = "Flashlight On.";
+                fullBatteryBar.fillAmount = flashlightBattery/maxBattery;
+                if (Input.GetButton("Blacklight"))
+                {
+                    flashlightBattery -= Time.deltaTime*2;
+                    BlacklightReveal();
+                }
+                else
+                {
+                    flashlightBattery -= Time.deltaTime;
+                    Debug.Log("Blacklight off");
+                    BlacklightLight.gameObject.SetActive(false);
+                    FlashlightLight.gameObject.SetActive(true);
+                }
+            }
+            if (flashlightBattery <= 0)
+            {
+                flashlightBattery = 0;
                 flashlightOn = false;
-                BlacklightLight.gameObject.SetActive(false);
-                interactionText.text = "Flashlight Off.";
-                Invoke ("ClearUI", 4);
+                flashlightText.text = "You ran out of battery";
+                Invoke("ClearUI", 2);
+                flashlightEmpty = true;
             }
         }
-        flashlightBattery = Mathf.Clamp(flashlightBattery, 0f, maxBattery);
-        if (flashlightOn)
+        else
         {
-            interactionText.text = "Flashlight On.";
-            fullBatteryBar.fillAmount = flashlightBattery/maxBattery;
-            if (Input.GetButton("Blacklight"))
-            {
-                flashlightBattery -= Time.deltaTime*2;
-                BlacklightReveal();
-            }
-            else
-            {
-                flashlightBattery -= Time.deltaTime;
-                Debug.Log("Blacklight off");
-                BlacklightLight.gameObject.SetActive(false);
-                FlashlightLight.gameObject.SetActive(true);
-            }
+            BlacklightLight.gameObject.SetActive(false);
+            FlashlightLight.gameObject.SetActive(false);
         }
+        
 
     }
     void BlacklightReveal()
     {
-        interactionText.text = "Blacklight On.";
+        flashlightText.text = "Blacklight On.";
         BlacklightLight.gameObject.SetActive(true);
         FlashlightLight.gameObject.SetActive(false);
         RaycastHit hit;
@@ -84,7 +102,6 @@ public class flashlightMechanic : MonoBehaviour
                 rHO = hit.collider.GetComponent<RevealHiddenObjects>();
                 rHO.objRevealed = true;
             }
-
         }
         else
         {
@@ -93,6 +110,6 @@ public class flashlightMechanic : MonoBehaviour
     }
     void ClearUI()
     {
-      interactionText.text = "";
+      flashlightText.text = "";
     }
 }
