@@ -25,12 +25,12 @@ public class FreeFlyCam : MonoBehaviour
         transform.localRotation = Quaternion.AngleAxis(rotationX, Vector3.up);
         transform.localRotation *= Quaternion.AngleAxis(rotationY, Vector3.left);
 
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        if (Input.GetButton("SpeedUp"))
         {
             transform.position += transform.forward * (moveSpeed * fastMoveFactor) * Input.GetAxis("Vertical") * Time.deltaTime;
             transform.position += transform.right * (moveSpeed * fastMoveFactor) * Input.GetAxis("Horizontal") * Time.deltaTime;
         }
-        else if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+        else if (Input.GetButton("SlowDown"))
         {
             transform.position += transform.forward * (moveSpeed * slowMoveFactor) * Input.GetAxis("Vertical") * Time.deltaTime;
             transform.position += transform.right * (moveSpeed * slowMoveFactor) * Input.GetAxis("Horizontal") * Time.deltaTime;
@@ -41,12 +41,18 @@ public class FreeFlyCam : MonoBehaviour
             transform.position += transform.right * moveSpeed * Input.GetAxis("Horizontal") * Time.deltaTime; 
         }
 
-        if (Input.GetKey(KeyCode.Q)) {transform.position += transform.up * verticalSpeed * Time.deltaTime;}
-        if (Input.GetKey(KeyCode.E)) {transform.position -= transform.up * verticalSpeed * Time.deltaTime;}
+        if (Input.GetButton("Up")) {transform.position += transform.up * verticalSpeed * Time.deltaTime;}
+        if (Input.GetButton("Down")) {transform.position -= transform.up * verticalSpeed * Time.deltaTime;}
 
         if (Input.GetKey(KeyCode.End))
         {
             Screen.lockCursor = (Screen.lockCursor == false) ? true : false;
+        }
+
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Application.Quit();
+            Debug.Log("Quit");
         }
     }
 }
