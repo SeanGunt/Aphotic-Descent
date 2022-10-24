@@ -1046,7 +1046,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5dad9f71485398f42bcbea12f2b612d3, type: 2}
+  - {fileID: 2100000, guid: cc1c4d77b5c7e534cb8252c3afb559ca, type: 2}
   - {fileID: 2100000, guid: b6e83056454211a459bcd9d917d6c2d2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -7825,7 +7825,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffc9c95a956e43442aabd8a73a655c82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockbackForce: 2
+  knockbackForce: 5
 --- !u!195 &1171845909
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -13610,6 +13610,26 @@ PrefabInstance:
       propertyPath: timeInvincible
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2014066540214096741, guid: b48f7d2b5f4a3f44289ed9807e2ea656, type: 3}
+      propertyPath: m_Size.x
+      value: 0.5877705
+      objectReference: {fileID: 0}
+    - target: {fileID: 2014066540214096741, guid: b48f7d2b5f4a3f44289ed9807e2ea656, type: 3}
+      propertyPath: m_Size.y
+      value: 0.8294796
+      objectReference: {fileID: 0}
+    - target: {fileID: 2014066540214096741, guid: b48f7d2b5f4a3f44289ed9807e2ea656, type: 3}
+      propertyPath: m_Center.x
+      value: -0.16230956
+      objectReference: {fileID: 0}
+    - target: {fileID: 2014066540214096741, guid: b48f7d2b5f4a3f44289ed9807e2ea656, type: 3}
+      propertyPath: m_Center.y
+      value: -0.21166725
+      objectReference: {fileID: 0}
+    - target: {fileID: 2014066540214096741, guid: b48f7d2b5f4a3f44289ed9807e2ea656, type: 3}
+      propertyPath: m_Center.z
+      value: 0.0030805157
+      objectReference: {fileID: 0}
     - target: {fileID: 3303715477005666823, guid: b48f7d2b5f4a3f44289ed9807e2ea656, type: 3}
       propertyPath: batteryBar
       value: 
@@ -14445,6 +14465,10 @@ PrefabInstance:
       propertyPath: blendDistance
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8025564545200203180, guid: 3b5dce8eb2d668545ad31f2eb44305e0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ed2cc14d3a25b7545a84f33a0e70872b, type: 2}
     - target: {fileID: 8025564545200203183, guid: 3b5dce8eb2d668545ad31f2eb44305e0, type: 3}
       propertyPath: m_Name
       value: Water
