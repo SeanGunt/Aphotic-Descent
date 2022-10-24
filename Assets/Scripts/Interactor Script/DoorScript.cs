@@ -61,17 +61,17 @@ public class DoorScript : MonoBehaviour {
         {
             if (open)
             {
-                GUI.Box(new Rect(0, 0, 200, 25), "Press Q to close");
+                GUI.Box(new Rect(1920/2, 1080/2, 200, 25), "Press Q to close");
             }
             else
             {
                 if (doorKey)
                 {
-                    GUI.Box(new Rect(0, 0, 200, 25), "Press Q to open");
+                    GUI.Box(new Rect(1920/2, 1080/2, 200, 25), "Press Q to open");
                 }
                 else
                 {
-                    GUI.Box(new Rect(0, 0, 200, 25), "Need a key!");
+                    GUI.Box(new Rect(1920/2, 1080/2, 200, 25), "Need a key!");
                 }
             }
         }
