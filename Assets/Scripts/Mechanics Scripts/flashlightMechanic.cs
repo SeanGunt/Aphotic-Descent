@@ -8,7 +8,7 @@ public class flashlightMechanic : MonoBehaviour
     [SerializeField] GameObject FlashlightLight;
     [SerializeField] GameObject BlacklightLight;
     private bool flashlightOn = false;
-    [SerializeField]private float flashlightBattery, maxBattery;
+    [SerializeField]public float flashlightBattery, maxBattery;
     [SerializeField]private Image batteryBar, fullBatteryBar;
     [SerializeField]private Text flashlightText;
     [SerializeField]private HiddenObjectsInteraction hI;
@@ -111,5 +111,15 @@ public class flashlightMechanic : MonoBehaviour
     void ClearUI()
     {
       flashlightText.text = "";
+    }
+
+    public void FillBattery(float amount)
+    {
+        flashlightBattery += amount;
+        if (flashlightBattery >= maxBattery)
+        {
+            flashlightBattery = maxBattery;
+        }
+        fullBatteryBar.fillAmount = flashlightBattery/maxBattery;
     }
 }
