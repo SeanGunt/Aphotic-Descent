@@ -47,7 +47,6 @@ public class BatteryPickup : MonoBehaviour
         {
             Debug.Log("No trigger found");
         }
-
     }
 
     void RespawnCooldown()
