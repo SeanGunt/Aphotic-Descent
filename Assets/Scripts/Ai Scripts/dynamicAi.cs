@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class dynamicAi : MonoBehaviour
 {
-    RaycastHit hit;
+    RaycastHit lefthit;
+    RaycastHit righthit;
+    RaycastHit centerhit;
     [SerializeField ] private float amount;
+    [SerializeField ] private float centerAmount;
     [SerializeField] private float speed;
     [SerializeField] private float turnSpeed;
+    [SerializeField] private float VisionXVal;
 
     [SerializeField] private LayerMask doNotIgnoreLayer;
 
@@ -17,26 +21,36 @@ public class dynamicAi : MonoBehaviour
     // FixedUpdate is called once at the end of a frame
     void FixedUpdate()
     {
-        Vector3 centerRay = transform.TransformDirection(new Vector3( 0, 0, 1)) * amount/2;
-        Vector3 rightRay = transform.TransformDirection(new Vector3( 1, 0, 1)) * amount;
-        Vector3 leftRay = transform.TransformDirection(new Vector3(-1, 0, 1)) * amount;
+        Vector3 centerRay = transform.TransformDirection(new Vector3( 0, 0, 1)) * centerAmount;
+        Vector3 rightRay = transform.TransformDirection(new Vector3(VisionXVal, 0, 1)) * amount;
+        Vector3 leftRay = transform.TransformDirection(new Vector3(-VisionXVal, 0, 1)) * amount;
         
         Debug.DrawRay(transform.position, rightRay, Color.red);
         Debug.DrawRay(transform.position, centerRay, Color.red);
         Debug.DrawRay(transform.position, leftRay, Color.red);
 
-        //
-        if((Physics.Raycast(transform.position, rightRay, out hit, amount, doNotIgnoreLayer) || 
-        Physics.Raycast(transform.position, leftRay, out hit, amount, doNotIgnoreLayer) ||
-        Physics.Raycast(transform.position, centerRay, out hit, amount/2, doNotIgnoreLayer)) == false)
+        
+        if((Physics.Raycast(transform.position, rightRay, out righthit, amount, doNotIgnoreLayer) || 
+        Physics.Raycast(transform.position, leftRay, out lefthit, amount, doNotIgnoreLayer) ||
+        Physics.Raycast(transform.position, centerRay, out centerhit, centerAmount, doNotIgnoreLayer)) == false)
         {
             Debug.Log("moving forward");
             transform.position += transform.forward * speed * Time.deltaTime;
             unchosen = true;
         }
+        else if(Physics.Raycast(transform.position, rightRay, out righthit, amount, doNotIgnoreLayer) && unchosen)
+        {
+            rLeft();
+            unchosen = false;
+        }
+        else if(Physics.Raycast(transform.position, leftRay, out lefthit, amount, doNotIgnoreLayer) && unchosen)
+        {
+            rRight();
+            unchosen = false;
+        }
         else
         {
-            Debug.Log(hit.collider.gameObject.name + " was hit by raycast");
+            //Debug.Log(centerhit.collider.gameObject.name + " was hit by raycast");
 
             if(unchosen)
             {

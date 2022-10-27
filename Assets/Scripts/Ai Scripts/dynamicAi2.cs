@@ -7,6 +7,8 @@ public class dynamicAi2 : MonoBehaviour
     RaycastHit hit;
     [SerializeField ] private float visionLength;
     [SerializeField] private float centerLength;
+    [SerializeField] private float VisionXVar;
+    [SerializeField] private float VisionYVar;
     [SerializeField] private float speed;
     [SerializeField] private float turnSpeed;
     [SerializeField] private LayerMask doNotIgnoreLayer;
@@ -20,10 +22,10 @@ public class dynamicAi2 : MonoBehaviour
     void FixedUpdate()
     {
         Vector3 centerRay = transform.TransformDirection(new Vector3( 0, 0, 1)) * centerLength;
-        Vector3 rightRay = transform.TransformDirection(new Vector3( 1, 0, 1)) * visionLength;
-        Vector3 leftRay = transform.TransformDirection(new Vector3(-1, 0, 1)) * visionLength;
-        Vector3 upRay = transform.TransformDirection(new Vector3(0, 1, 1)) * visionLength;
-        Vector3 downRay = transform.TransformDirection(new Vector3(0, -1, 1)) * visionLength;
+        Vector3 rightRay = transform.TransformDirection(new Vector3( VisionXVar, 0, 1)) * visionLength;
+        Vector3 leftRay = transform.TransformDirection(new Vector3(-VisionXVar, 0, 1)) * visionLength;
+        Vector3 upRay = transform.TransformDirection(new Vector3(0, VisionYVar, 1)) * visionLength;
+        Vector3 downRay = transform.TransformDirection(new Vector3(0, -VisionYVar, 1)) * visionLength;
 
         Debug.DrawRay(transform.position, rightRay, Color.red);
         Debug.DrawRay(transform.position, centerRay, Color.red);
