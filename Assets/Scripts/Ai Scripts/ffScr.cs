@@ -12,13 +12,13 @@ public class ffScr : MonoBehaviour
     [SerializeField] private bool isPlayerBleeding;
     [SerializeField] private float scentRange;
     [SerializeField] private float rangeMultiplier;
+    [SerializeField] private GameObject player;
     private float bleedRange;
     private float rangeUsed;
-    private GameObject player;
     Vector3 destination;
+    private float distanceBtwn;
 
     [SerializeField] private Transform[] points;
-    private int destPoints = 0;
 
     
 
@@ -31,6 +31,16 @@ public class ffScr : MonoBehaviour
 
         theAgent.autoBraking = false;
 
+        player = GameObject.FindGameObjectWithTag("Player");
+        if(player != null)
+        {
+            Debug.Log("player found");
+        }
+        else
+        {
+            Debug.Log("player not Found");
+        }
+
         bleedRange = scentRange * rangeMultiplier;
 
     }
@@ -38,22 +48,30 @@ public class ffScr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        distanceBtwn = (player.transform.position-transform.position).sqrMagnitude;
 
         if(isPlayerBleeding == true)
         {
             rangeUsed = bleedRange;
-            float dist = Vector3.Distance(player.transform.position, transform.position);
         }
         else
         {
             rangeUsed = scentRange;
-            float dist = Vector3.Distance(player.transform.position, transform.position);
         }
 
-        if (!theAgent.pathPending && theAgent.remainingDistance < 0.1f)
-            {
-                patrolling();
-            }
+        if(!theAgent.pathPending && theAgent.remainingDistance < 0.01f)
+        {
+            patrolling();
+        }
+
+        if(distanceBtwn < rangeUsed)
+        {
+            wasPatrolliong();
+        }
+        else
+        {
+            patrolling();
+        }
     }
 
     void patrolling()
@@ -62,22 +80,28 @@ public class ffScr : MonoBehaviour
         {
             return;
         }
+        
+        theAgent.destination = points[Random.Range(0, points.Length)].position;
 
-        theAgent.destination = points[Random.Range(0, destPoints)].position;
+        Debug.Log("distance left is " + theAgent.remainingDistance);
+        Debug.Log("currently going towards " + theAgent.destination);
+        //Debug.Log("is at destination: " + theAgent.pathPending + " and status is " + theAgent.pathStatus);
     }
 
     void attacking()
     {
 
-        if(isPlayerBleeding)
-        {
-            //if(player.distance)
-        }
+        
         
     }
 
     void wasAttacking() //transition from attack to patrol
     {
 
+    }
+
+    void wasPatrolliong() //transition from patrol to attack
+    {
+        theAgent.destination = player.transform.position;
     }
 }
