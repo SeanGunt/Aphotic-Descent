@@ -10,15 +10,11 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
     public float invisibleTimer;
     public int invisibilityCharges = 3;
     public Text interactionText;
-    [SerializeField]
-    private bool isInvisible;
+    [SerializeField]private bool isInvisible;
     public bool isSafe;
-    [SerializeField]
-    private Image invisibilityBar;
-    [SerializeField]
-    private Image fullInvisBar;
-    [SerializeField]
-    private GameObject Player;
+    [SerializeField] private Image invisibilityBar;
+    [SerializeField] private Image fullInvisBar;
+    [SerializeField] private GameObject Player;
     public Material[] mat;
     Renderer rend;
     [SerializeField] private TextMeshProUGUI invisibilityChargesText;
@@ -92,7 +88,6 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
     {
       if (col.gameObject.tag == ("InvisPickup"))
       {
-        Destroy(col.gameObject);
         CancelInvoke("ClearUI");
         invisibilityCharges++;
         invisibilityChargesText.text = "Invisibility Charges: " + invisibilityCharges.ToString();
