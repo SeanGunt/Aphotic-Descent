@@ -12,7 +12,6 @@ public class AutoMovement : MonoBehaviour
         initialPos = transform.position;
     }
 
-    // Update is called once per frame
     void Update()
     {
         RotateObject();
