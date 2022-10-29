@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class BatteryPickup : MonoBehaviour
 {
-    [SerializeField]float xSpeed, ySpeed, zSpeed, batteryCooldown, maxTime;
+    [SerializeField]float batteryCooldown, maxTime;
     [SerializeField]bool isInactive;
-    [SerializeField]GameObject Itself;
+    [SerializeField]GameObject Itself, pickupParticle;
     void Update()
     {
-        RotateObject();
         if (isInactive)
         {
             RespawnCooldown();
@@ -20,23 +19,15 @@ public class BatteryPickup : MonoBehaviour
         }
     }
 
-    void RotateObject()
-    {
-        transform.Rotate(
-            xSpeed * Time.deltaTime,
-            ySpeed * Time.deltaTime,
-            zSpeed * Time.deltaTime
-            );
-    }
-
     void OnTriggerEnter(Collider other)
     {
         flashlightMechanic controller = other.GetComponent<flashlightMechanic>();
 
         if(controller != null)
         {
-            if (controller.flashlightBattery < controller.maxBattery)
+            if (controller.flashlightBattery < controller.maxBattery && !isInactive)
             {
+                CreateParticle();
                 controller.FillBattery(120);
                 Debug.Log("FillBatteryCalled");
                 isInactive = true;
@@ -61,5 +52,10 @@ public class BatteryPickup : MonoBehaviour
                 batteryCooldown = maxTime;
             }
         }
+    }
+
+    void CreateParticle()
+    {
+        Instantiate(pickupParticle, transform.position, transform.rotation);
     }
 }
