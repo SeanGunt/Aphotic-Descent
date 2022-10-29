@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class BatteryPickup : MonoBehaviour
 {
-    [SerializeField]float xSpeed, ySpeed, zSpeed, batteryCooldown, maxTime;
+    [SerializeField]float batteryCooldown, maxTime;
     [SerializeField]bool isInactive;
     [SerializeField]GameObject Itself;
     void Update()
     {
-        RotateObject();
         if (isInactive)
         {
             RespawnCooldown();
@@ -18,15 +17,6 @@ public class BatteryPickup : MonoBehaviour
         {
             Itself.SetActive(true);
         }
-    }
-
-    void RotateObject()
-    {
-        transform.Rotate(
-            xSpeed * Time.deltaTime,
-            ySpeed * Time.deltaTime,
-            zSpeed * Time.deltaTime
-            );
     }
 
     void OnTriggerEnter(Collider other)

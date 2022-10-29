@@ -4994,6 +4994,7 @@ GameObject:
   - component: {fileID: 808479216}
   - component: {fileID: 808479215}
   - component: {fileID: 808479214}
+  - component: {fileID: 870069848}
   m_Layer: 0
   m_Name: Battery
   m_TagString: Untagged
@@ -5081,6 +5082,24 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!114 &870069848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808479212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cc8abb88143f5d41922afa82a362fff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xSpeed: 10
+  ySpeed: 100
+  zSpeed: 10
+  amplitude: 0.3
+  frequency: 2
+  initialPos: {x: 0, y: 0, z: 0}
 --- !u!1 &813753997
 GameObject:
   m_ObjectHideFlags: 0
@@ -11700,9 +11719,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c53342c4be01a2499b961bb3cb769a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xSpeed: 10
-  ySpeed: 100
-  zSpeed: 10
   batteryCooldown: 20
   maxTime: 20
   isInactive: 0
@@ -13463,7 +13479,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5643432737318052152, guid: 694ba3491eaa8854fbfa3d50f72e91e2, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5643432737318052155, guid: 694ba3491eaa8854fbfa3d50f72e91e2, type: 3}
       propertyPath: m_Radius
@@ -13533,7 +13549,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5643432737318052152, guid: 694ba3491eaa8854fbfa3d50f72e91e2, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5643432737318052155, guid: 694ba3491eaa8854fbfa3d50f72e91e2, type: 3}
       propertyPath: m_Radius
@@ -13603,7 +13619,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5643432737318052152, guid: 694ba3491eaa8854fbfa3d50f72e91e2, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5643432737318052155, guid: 694ba3491eaa8854fbfa3d50f72e91e2, type: 3}
       propertyPath: m_Radius
@@ -14564,7 +14580,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5643432737318052152, guid: 694ba3491eaa8854fbfa3d50f72e91e2, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5643432737318052155, guid: 694ba3491eaa8854fbfa3d50f72e91e2, type: 3}
       propertyPath: m_Radius

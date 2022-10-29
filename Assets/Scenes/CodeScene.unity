@@ -130,6 +130,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2072227299, guid: ffbafda2357222b48982877f124c2361, type: 3}
+      propertyPath: xSpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072227299, guid: ffbafda2357222b48982877f124c2361, type: 3}
+      propertyPath: ySpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072227299, guid: ffbafda2357222b48982877f124c2361, type: 3}
+      propertyPath: zSpeed
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2159322677877630006, guid: ffbafda2357222b48982877f124c2361, type: 3}
       propertyPath: m_Name
       value: CodeScene Prefab
@@ -180,6 +192,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ffbafda2357222b48982877f124c2361, type: 3}
+--- !u!1 &870069843 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 808479212, guid: ffbafda2357222b48982877f124c2361, type: 3}
+  m_PrefabInstance: {fileID: 381532805}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &870069848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 870069843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cc8abb88143f5d41922afa82a362fff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xSpeed: 10
+  ySpeed: 100
+  zSpeed: 10
+  amplitude: 0.5
+  frequency: 2
+  initialPos: {x: 0, y: 0, z: 0}
 --- !u!1001 &1656406754163939794
 PrefabInstance:
   m_ObjectHideFlags: 0
