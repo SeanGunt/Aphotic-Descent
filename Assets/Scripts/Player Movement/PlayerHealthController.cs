@@ -7,7 +7,8 @@ public class PlayerHealthController : MonoBehaviour
 {
     [SerializeField]private float playerHealth, maxHealth, invincibleTimer, timeInvincible, healCooldown, maxHealCooldown, regenRate;
     [SerializeField]private Image redSplatterImage = null;
-    [SerializeField]private bool isBleeding, isInvincible, startCooldown, canRegen;
+    [SerializeField]private bool isInvincible, startCooldown, canRegen;
+    public bool isBleeding;
 
     void Start()
     {

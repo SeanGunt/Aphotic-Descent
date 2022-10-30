@@ -401,7 +401,6 @@ GameObject:
   - component: {fileID: 2014066539470715934}
   - component: {fileID: 767176560875113475}
   - component: {fileID: 2014066540412598264}
-  - component: {fileID: 304772485}
   - component: {fileID: 1363034508}
   - component: {fileID: 8785851019084754469}
   m_Layer: 11
@@ -525,19 +524,6 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &304772485
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4124918348873427034}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a713bc381d11574d929db7610908df1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tutorialText: {fileID: 0}
 --- !u!114 &1363034508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -558,7 +544,8 @@ MonoBehaviour:
   isSafe: 0
   invisibilityBar: {fileID: 0}
   fullInvisBar: {fileID: 0}
-  Player: {fileID: 3262395055742036920}
+  Player: {fileID: 4124918348873427034}
+  PlayerMesh: {fileID: 3262395055742036920}
   mat:
   - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 2100000, guid: b0b16615043e7c64cb0e6759b2add986, type: 2}
