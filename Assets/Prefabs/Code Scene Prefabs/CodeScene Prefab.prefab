@@ -503,7 +503,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6404000748519173934}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -13819,7 +13819,7 @@ PrefabInstance:
     - target: {fileID: 304772485, guid: b48f7d2b5f4a3f44289ed9807e2ea656, type: 3}
       propertyPath: tutorialText
       value: 
-      objectReference: {fileID: 4084956204544475674}
+      objectReference: {fileID: 0}
     - target: {fileID: 1363034508, guid: b48f7d2b5f4a3f44289ed9807e2ea656, type: 3}
       propertyPath: fullInvisBar
       value: 
@@ -14106,10 +14106,10 @@ MonoBehaviour:
   maxHealCooldown: 4
   regenRate: 3
   redSplatterImage: {fileID: 668859262}
-  isBleeding: 0
   isInvincible: 0
   startCooldown: 0
   canRegen: 0
+  isBleeding: 0
 --- !u!114 &2122034253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14376,17 +14376,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4084956204544475674 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 581589629, guid: 603ac78954380234c9974ce6a53a9132, type: 3}
-  m_PrefabInstance: {fileID: 4084956203963947111}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &4084956204804990726 stripped

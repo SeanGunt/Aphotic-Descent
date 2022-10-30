@@ -14,7 +14,7 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
     public bool isSafe;
     [SerializeField] private Image invisibilityBar;
     [SerializeField] private Image fullInvisBar;
-    [SerializeField] private GameObject Player;
+    [SerializeField] private GameObject Player, PlayerMesh;
     public Material[] mat;
     Renderer rend;
     [SerializeField] private TextMeshProUGUI invisibilityChargesText;
@@ -28,7 +28,7 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
       isInvisible = false;
       isSafe = false;
       interactionText.text = "";
-      rend = Player.GetComponent<Renderer>();
+      rend = PlayerMesh.GetComponent<Renderer>();
       rend.enabled = true;
       rend.sharedMaterial = mat[0];
       invisibilityBar.enabled = false;
@@ -81,6 +81,10 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
             interactionText.text = $"You are no longer invisible! Charges: {invisibilityCharges}";
             Invoke ("ClearUI", 4);
           }
+        }
+        if (Player.GetComponent<PlayerHealthController>().isBleeding)
+        {
+          isSafe = false;
         }
     }
 
