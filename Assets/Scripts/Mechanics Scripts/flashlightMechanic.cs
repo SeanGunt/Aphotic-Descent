@@ -42,14 +42,12 @@ public class flashlightMechanic : MonoBehaviour
                     FlashlightLight.gameObject.SetActive(false);
                     flashlightOn = false;
                     BlacklightLight.gameObject.SetActive(false);
-                    flashlightText.text = "Flashlight Off.";
-                    Invoke ("ClearUI", 4);
+                    Invoke("ClearUI", 4);
                 }
             }
             flashlightBattery = Mathf.Clamp(flashlightBattery, 0f, maxBattery);
             if (flashlightOn)
             {
-                flashlightText.text = "Flashlight On.";
                 fullBatteryBar.fillAmount = flashlightBattery/maxBattery;
                 if (Input.GetButton("Blacklight"))
                 {
@@ -59,7 +57,6 @@ public class flashlightMechanic : MonoBehaviour
                 else
                 {
                     flashlightBattery -= Time.deltaTime;
-                    Debug.Log("Blacklight off");
                     BlacklightLight.gameObject.SetActive(false);
                     FlashlightLight.gameObject.SetActive(true);
                 }
@@ -83,18 +80,17 @@ public class flashlightMechanic : MonoBehaviour
     }
     void BlacklightReveal()
     {
-        flashlightText.text = "Blacklight On.";
         BlacklightLight.gameObject.SetActive(true);
         FlashlightLight.gameObject.SetActive(false);
         RaycastHit hit;
         if(Physics.Raycast(mainCam.transform.position, mainCam.transform.forward, out hit, range, layer))
         {
-            Debug.Log("Initial Interaction check");
             if (hit.collider.GetComponent<HiddenObjectsInteraction>() != false)
             {
                 hI = hit.collider.GetComponent<HiddenObjectsInteraction>();
                 flashlightText.text = "Object Revealed";
                 hI.objRevealed = true;
+                Invoke("ClearUI", 3);
             }
 
             if (hit.collider.GetComponent<RevealHiddenObjects>() != false)
@@ -102,12 +98,8 @@ public class flashlightMechanic : MonoBehaviour
                 rHO = hit.collider.GetComponent<RevealHiddenObjects>();
                 flashlightText.text = "Object Revealed";
                 rHO.objRevealed = true;
+                Invoke("ClearUI", 3);
             }
-        }
-        else
-        {
-            Debug.Log("No object to reveal");
-            flashlightText.text = "Blacklight On.";
         }
     }
     void ClearUI()

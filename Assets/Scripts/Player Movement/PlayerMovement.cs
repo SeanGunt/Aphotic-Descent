@@ -5,8 +5,9 @@ using UnityEngine.SceneManagement;
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
   public CharacterController controller;
-  [SerializeField] private float moveSpeed, groundedSpeed, airSpeed, floatSpeed, outOfWaterSpeed, 
+  [SerializeField] private float groundedSpeed, airSpeed, floatSpeed, outOfWaterSpeed, 
   groundDistance, gravityInWater, gravityOutOfWater, playerStamina, maxStamina, tiredCooldown;
+  private float moveSpeed;
   [SerializeField] private Transform groundCheck;
   [SerializeField] private LayerMask groundMask;
   private Vector3 velocity;
@@ -45,6 +46,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
               {
                 DataPersistenceManager.instance.LoadGame();
               }
+              state = State.outOfWater;
           break;
 
           case State.inWater:
@@ -56,7 +58,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
               canSwim = false;
           break;
       }
-        Debug.Log(state);
   }
 
     private void MoveInWater()
@@ -169,7 +170,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void StaminaRecharge(float empty, float max)
     {
-      Debug.Log("StaminaRecharging");
       if (isTired)
       {
         tiredCooldown -= Time.deltaTime;
