@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseControls : MonoBehaviour
 {
     public GameObject PauseMenu;
     [SerializeField] GameObject Player;
     public bool paused;
+      
     
     void Update()
     {

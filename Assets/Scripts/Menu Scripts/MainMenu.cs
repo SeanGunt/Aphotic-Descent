@@ -6,15 +6,14 @@ using UnityEngine.EventSystems;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] GameObject mainMenu, optionsMenu, howToMenu;
+    [SerializeField] GameObject mainMenu, optionsMenu, howToMenu, levelSelect;
 
-    [SerializeField] GameObject optionsFirstButton, optionsClosedButton, howToFirstButton, howToClosedButton;
+    [SerializeField] GameObject optionsFirstButton, optionsClosedButton, howToFirstButton, howToClosedButton, levelSelectFirstButton, levelSelectClosedButton;
 
     public void PlayCodeScene ()
     {
         SceneManager.LoadScene(1);
         DataPersistenceManager.instance.LoadGame();
-        Time.timeScale = 1;
     }
 
     public void PlayArtScene ()
@@ -22,6 +21,41 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene(2);
     }
 
+    public void PlayWhiteboxMaze ()
+    {
+        SceneManager.LoadScene(3);
+    }
+
+    public void PlaySubmarine ()
+    {
+        SceneManager.LoadScene(4);
+    }
+
+    //public void PlayReef ()
+    //{
+        //SceneManager.LoadScene(5);
+    //}
+
+    public void OpenLevelSelect()
+    {
+        mainMenu.SetActive(false);
+        levelSelect.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(null);
+
+        EventSystem.current.SetSelectedGameObject(levelSelectFirstButton);
+    }
+
+    public void ClosedLevelSelect()
+    {
+        levelSelect.SetActive(false);
+        mainMenu.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(null);
+
+        EventSystem.current.SetSelectedGameObject(levelSelectClosedButton);
+    }
+    
     public void OpenOptions()
     {
         mainMenu.SetActive(false);
