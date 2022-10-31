@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class freakFishAi : MonoBehaviour
+public class multiplePointsLerpAi : MonoBehaviour
 {
 
     [SerializeField] [Range(0f,4f)] float lerpTime;
