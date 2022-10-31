@@ -18,6 +18,8 @@ public class ffScr : MonoBehaviour
     Vector3 destination;
     private float distanceBtwn;
 
+    private bool unchosen = true;
+
     [SerializeField] private Transform[] points;
 
     
@@ -29,7 +31,9 @@ public class ffScr : MonoBehaviour
 
         theAgent.speed = agentSpeed;
 
-        theAgent.autoBraking = false;
+        //theAgent.autoBraking = false;
+
+        theAgent.angularSpeed = agentSpeed*3;
 
         player = GameObject.FindGameObjectWithTag("Player");
         if(player != null)
@@ -48,6 +52,8 @@ public class ffScr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        transform.LookAt(destination);
+
         distanceBtwn = (player.transform.position-transform.position).sqrMagnitude;
 
         if(isPlayerBleeding == true)
@@ -59,9 +65,10 @@ public class ffScr : MonoBehaviour
             rangeUsed = scentRange;
         }
 
-        if(!theAgent.pathPending && theAgent.remainingDistance < 0.01f)
+        if(!theAgent.pathPending && theAgent.remainingDistance < 0.5f)
         {
             patrolling();
+            unchosen = true;
         }
 
         if(distanceBtwn < rangeUsed)
@@ -81,7 +88,13 @@ public class ffScr : MonoBehaviour
             return;
         }
         
-        theAgent.destination = points[Random.Range(0, points.Length)].position;
+        if(unchosen == true)
+        {
+            destination = points[Random.Range(0, points.Length)].position;
+            unchosen = false;
+        }
+
+        theAgent.destination = destination;
 
         Debug.Log("distance left is " + theAgent.remainingDistance);
         Debug.Log("currently going towards " + theAgent.destination);
@@ -103,5 +116,10 @@ public class ffScr : MonoBehaviour
     void wasPatrolliong() //transition from patrol to attack
     {
         theAgent.destination = player.transform.position;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+
     }
 }
