@@ -14,6 +14,7 @@ public class FreeFlyCam : MonoBehaviour
     void Start ()
     {
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = false;
     }
 
     void Update ()

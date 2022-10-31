@@ -8,6 +8,12 @@ public class GameOverMenu : MonoBehaviour
 {
     [SerializeField] GameObject gameOverFirstButton, Player;
 
+    private void Awake()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
     void Start()
     {
         OpenGameOver();

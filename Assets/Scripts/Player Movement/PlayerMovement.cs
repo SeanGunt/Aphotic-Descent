@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
@@ -12,7 +13,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   [SerializeField] private LayerMask groundMask;
   private Vector3 velocity;
   private bool isGrounded;
-  [SerializeField] private bool isSwimming, canSwim, isTired;
+  [SerializeField] private bool isSwimming, canSwim, isTired, playerPositionSet;
   [SerializeField] private Image staminaBar, tiredBar;
   private State state;
   enum State
@@ -35,6 +36,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   private void Awake()
   {
     state = State.settingPosition;
+    playerPositionSet = false;
   }
   
   private void Update()
@@ -47,7 +49,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
               {
                 DataPersistenceManager.instance.LoadGame();
               }
-              state = State.outOfWater;
+              StartCoroutine(SetPlayerState(0.15f));
           break;
 
           case State.inWater:
@@ -143,7 +145,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       controller.Move(velocity * Time.deltaTime);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
       if (other.gameObject.tag == "Water")
       {
@@ -188,5 +190,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         playerStamina = empty;
         staminaBar.fillAmount = playerStamina/maxStamina;
       }
+    }
+
+    IEnumerator SetPlayerState(float waitTime)
+    {
+      yield return new WaitForSeconds(waitTime);
+      state = State.outOfWater;
     }
 }
