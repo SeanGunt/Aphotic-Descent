@@ -462,6 +462,17 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!114 &181898522 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1630684942, guid: 603ac78954380234c9974ce6a53a9132, type: 3}
+  m_PrefabInstance: {fileID: 432194139}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &198682809
 Mesh:
   m_ObjectHideFlags: 0
@@ -2042,6 +2053,8 @@ MonoBehaviour:
   startCooldown: 0
   canRegen: 0
   isBleeding: 0
+  gameOver: 0
+  gameOverMenu: {fileID: 0}
 --- !u!1 &932485975
 GameObject:
   m_ObjectHideFlags: 0
@@ -4060,7 +4073,11 @@ PrefabInstance:
     - target: {fileID: 1363034508, guid: b48f7d2b5f4a3f44289ed9807e2ea656, type: 3}
       propertyPath: invisibilityChargesText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 181898522}
+    - target: {fileID: 1538187323927255635, guid: b48f7d2b5f4a3f44289ed9807e2ea656, type: 3}
+      propertyPath: Player
+      value: 
+      objectReference: {fileID: 785323463}
     - target: {fileID: 1538187323927255635, guid: b48f7d2b5f4a3f44289ed9807e2ea656, type: 3}
       propertyPath: PauseMenu
       value: 
