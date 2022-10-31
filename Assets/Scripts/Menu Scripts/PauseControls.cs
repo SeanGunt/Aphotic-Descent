@@ -5,29 +5,33 @@ using UnityEngine;
 public class PauseControls : MonoBehaviour
 {
     public GameObject PauseMenu;
+    [SerializeField] GameObject Player;
     public bool paused;
     
     void Update()
     {
-        if (Input.GetButtonDown("Pause") && paused == false)
+        if (!Player.GetComponent<PlayerHealthController>().gameOver)
         {
-            PauseMenu.SetActive(true);
-            paused = true;
-            Time.timeScale = 0;
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-        else if (Input.GetButtonDown("Pause") && paused == true)
-        {
-            PauseMenu.SetActive(false);
-            paused = false;
-            Time.timeScale = 1;
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = false;
-            if (paused == false)
+            if (Input.GetButtonDown("Pause") && paused == false)
+            {
+                PauseMenu.SetActive(true);
+                paused = true;
+                Time.timeScale = 0;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else if (Input.GetButtonDown("Pause") && paused == true)
             {
                 PauseMenu.SetActive(false);
+                paused = false;
+                Time.timeScale = 1;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = false;
+                if (paused == false)
+                {
+                    PauseMenu.SetActive(false);
+                }
             }
-        }     
+        }
     }
 }

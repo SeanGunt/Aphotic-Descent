@@ -14,6 +14,7 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene(1);
         DataPersistenceManager.instance.LoadGame();
+        Time.timeScale = 1;
     }
 
     public void PlayArtScene ()

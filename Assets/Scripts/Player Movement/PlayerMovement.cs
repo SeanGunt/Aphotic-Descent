@@ -36,6 +36,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   {
     state = State.settingPosition;
   }
+  
   private void Update()
   {
         switch (state)

@@ -8,11 +8,12 @@ public class PlayerHealthController : MonoBehaviour
     [SerializeField]private float playerHealth, maxHealth, invincibleTimer, timeInvincible, healCooldown, maxHealCooldown, regenRate;
     [SerializeField]private Image redSplatterImage = null;
     [SerializeField]private bool isInvincible, startCooldown, canRegen;
-    public bool isBleeding;
+    public bool isBleeding, gameOver;
+    [SerializeField]private GameObject gameOverMenu;
 
     void Start()
     {
-
+        gameOver = false;
     }
 
     void Update()
@@ -48,6 +49,17 @@ public class PlayerHealthController : MonoBehaviour
                 canRegen = false;
             }
         }
+        if (playerHealth <= 0)
+        {
+            playerHealth = 0;
+            gameOver = true;
+        }
+        if (gameOver)
+        {
+            gameOverMenu.SetActive(true);
+            startCooldown = false;
+            Time.timeScale = 0;
+        }
     }
 
     void UpdateHealth()
@@ -72,7 +84,7 @@ public class PlayerHealthController : MonoBehaviour
     {
         if (amount < 0)
         {
-          if (isInvincible || playerHealth <= 2)
+          if (isInvincible || playerHealth <= 0.1f)
             return;
           isInvincible = true;
           invincibleTimer = timeInvincible;
@@ -80,5 +92,12 @@ public class PlayerHealthController : MonoBehaviour
         }
 
         playerHealth = Mathf.Clamp(playerHealth + amount, 0, maxHealth);
+    }
+
+    public void ResetHealth()
+    {
+        playerHealth = maxHealth;
+        gameOver = false;
+        Time.timeScale = 1;
     }
 }
