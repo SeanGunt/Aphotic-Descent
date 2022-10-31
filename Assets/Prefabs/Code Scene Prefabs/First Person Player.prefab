@@ -315,7 +315,6 @@ GameObject:
   - component: {fileID: 6127658539008459866}
   - component: {fileID: 9212257115354614999}
   - component: {fileID: 7887837994157909003}
-  - component: {fileID: 3303715477005666823}
   m_Layer: 11
   m_Name: Player
   m_TagString: Untagged
@@ -388,31 +387,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3303715477005666823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3262395055742036920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3aab3e40c575b8b4bbaf6bfba053e070, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FlashlightLight: {fileID: 182774888800398312}
-  BlacklightLight: {fileID: 7577711475400427331}
-  flashlightBattery: 120
-  maxBattery: 120
-  batteryBar: {fileID: 0}
-  fullBatteryBar: {fileID: 0}
-  interactionText: {fileID: 0}
-  hI: {fileID: 0}
-  range: 10
-  mainCam: {fileID: 2014066538746518434}
-  layer:
-    serializedVersion: 2
-    m_Bits: 128
 --- !u!1 &4124918348873427034
 GameObject:
   m_ObjectHideFlags: 0
@@ -427,8 +401,8 @@ GameObject:
   - component: {fileID: 2014066539470715934}
   - component: {fileID: 767176560875113475}
   - component: {fileID: 2014066540412598264}
-  - component: {fileID: 304772485}
   - component: {fileID: 1363034508}
+  - component: {fileID: 8785851019084754469}
   m_Layer: 11
   m_Name: First Person Player
   m_TagString: Player
@@ -468,10 +442,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 767176560875113475}
-  moveSpeed: 6
   groundedSpeed: 3
-  airSpeed: 6
-  floatSpeed: 4
+  airSpeed: 4.5
+  floatSpeed: 3
   outOfWaterSpeed: 4
   groundDistance: 0.4
   gravityInWater: -4
@@ -550,19 +523,6 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &304772485
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4124918348873427034}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a713bc381d11574d929db7610908df1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tutorialText: {fileID: 0}
 --- !u!114 &1363034508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -583,11 +543,39 @@ MonoBehaviour:
   isSafe: 0
   invisibilityBar: {fileID: 0}
   fullInvisBar: {fileID: 0}
-  Player: {fileID: 3262395055742036920}
+  Player: {fileID: 4124918348873427034}
+  PlayerMesh: {fileID: 3262395055742036920}
   mat:
   - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 2100000, guid: b0b16615043e7c64cb0e6759b2add986, type: 2}
   invisibilityChargesText: {fileID: 0}
+--- !u!114 &8785851019084754469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4124918348873427034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aab3e40c575b8b4bbaf6bfba053e070, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FlashlightLight: {fileID: 182774888800398312}
+  BlacklightLight: {fileID: 7577711475400427331}
+  flashlightBattery: 120
+  maxBattery: 120
+  batteryBar: {fileID: 0}
+  fullBatteryBar: {fileID: 0}
+  flashlightText: {fileID: 0}
+  hI: {fileID: 0}
+  rHO: {fileID: 0}
+  flashlightEmpty: 0
+  range: 10
+  mainCam: {fileID: 2014066538746518434}
+  layer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &6226697399956672222
 GameObject:
   m_ObjectHideFlags: 0

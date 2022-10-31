@@ -19,19 +19,11 @@ public class DoorKey : MonoBehaviour {
     {
         if (inTrigger)
         {
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetButtonDown("Interact"))
             {
                 DoorScript.doorKey = true;
                 Destroy(this.gameObject);
             }
-        }
-    }
- 
-    void OnGUI()
-    {
-        if (inTrigger)
-        {
-            GUI.Box(new Rect(0, 60, 200, 25), "Press Q to take key");
         }
     }
 }

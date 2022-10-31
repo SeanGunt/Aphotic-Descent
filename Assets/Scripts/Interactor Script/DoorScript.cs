@@ -7,10 +7,18 @@ public class DoorScript : MonoBehaviour {
     public bool open;
     public bool close;
     public bool inTrigger;
+
+    private void Awake()
+    {
+        inTrigger = false;
+    }
  
     void OnTriggerEnter(Collider other)
     {
-        inTrigger = true;
+         if (other.gameObject.tag == "Player") 
+         {
+             inTrigger = true;
+         }
     }
  
     void OnTriggerExit(Collider other)
@@ -26,7 +34,7 @@ public class DoorScript : MonoBehaviour {
             {
                 if (doorKey)
                 {
-                    if (Input.GetKeyDown(KeyCode.Q))
+                    if (Input.GetButtonDown("Interact"))
                     {
                         open = true;
                         close = false;
@@ -35,7 +43,7 @@ public class DoorScript : MonoBehaviour {
             }
             else
             {
-                if (Input.GetKeyDown(KeyCode.Q))
+                if (Input.GetButtonDown("Interact"))
                 {
                     close = true;
                     open = false;
@@ -55,25 +63,5 @@ public class DoorScript : MonoBehaviour {
         }
     }
  
-    void OnGUI()
-    {
-        if (inTrigger)
-        {
-            if (open)
-            {
-                GUI.Box(new Rect(1920/2, 1080/2, 200, 25), "Press Q to close");
-            }
-            else
-            {
-                if (doorKey)
-                {
-                    GUI.Box(new Rect(1920/2, 1080/2, 200, 25), "Press Q to open");
-                }
-                else
-                {
-                    GUI.Box(new Rect(1920/2, 1080/2, 200, 25), "Need a key!");
-                }
-            }
-        }
-    }
+    
 }

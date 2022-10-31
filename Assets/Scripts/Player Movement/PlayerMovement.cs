@@ -1,17 +1,19 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
   public CharacterController controller;
-  [SerializeField] private float moveSpeed, groundedSpeed, airSpeed, floatSpeed, outOfWaterSpeed, 
+  [SerializeField] private float groundedSpeed, airSpeed, floatSpeed, outOfWaterSpeed, 
   groundDistance, gravityInWater, gravityOutOfWater, playerStamina, maxStamina, tiredCooldown;
+  private float moveSpeed;
   [SerializeField] private Transform groundCheck;
   [SerializeField] private LayerMask groundMask;
   private Vector3 velocity;
   private bool isGrounded;
-  [SerializeField] private bool isSwimming, canSwim, isTired;
+  [SerializeField] private bool isSwimming, canSwim, isTired, playerPositionSet;
   [SerializeField] private Image staminaBar, tiredBar;
   private State state;
   enum State
@@ -34,7 +36,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   private void Awake()
   {
     state = State.settingPosition;
+    playerPositionSet = false;
   }
+  
   private void Update()
   {
         switch (state)
@@ -45,6 +49,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
               {
                 DataPersistenceManager.instance.LoadGame();
               }
+              StartCoroutine(SetPlayerState(0.15f));
           break;
 
           case State.inWater:
@@ -56,7 +61,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
               canSwim = false;
           break;
       }
-        Debug.Log(state);
   }
 
     private void MoveInWater()
@@ -141,7 +145,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       controller.Move(velocity * Time.deltaTime);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
       if (other.gameObject.tag == "Water")
       {
@@ -169,7 +173,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void StaminaRecharge(float empty, float max)
     {
-      Debug.Log("StaminaRecharging");
       if (isTired)
       {
         tiredCooldown -= Time.deltaTime;
@@ -187,5 +190,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         playerStamina = empty;
         staminaBar.fillAmount = playerStamina/maxStamina;
       }
+    }
+
+    IEnumerator SetPlayerState(float waitTime)
+    {
+      yield return new WaitForSeconds(waitTime);
+      state = State.outOfWater;
     }
 }

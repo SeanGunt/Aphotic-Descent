@@ -17,14 +17,6 @@ public class Interactor : MonoBehaviour
     public Vector2 defaultInteractIconSize;
     UnityEvent onInteract;
    
-
-
-    void Start()
-    {
-        
-    }
-
-   
     void Update()
     {
         RaycastHit hit;

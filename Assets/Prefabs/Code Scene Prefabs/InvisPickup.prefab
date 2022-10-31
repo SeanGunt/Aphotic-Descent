@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 5643432737318052157}
   - component: {fileID: 5643432737318052154}
   - component: {fileID: 5643432737318052155}
+  - component: {fileID: -1177166268311846469}
+  - component: {fileID: 262059808355612767}
   m_Layer: 0
   m_Name: InvisPickup
   m_TagString: InvisPickup
@@ -97,3 +99,36 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-1177166268311846469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5643432737318052152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cc8abb88143f5d41922afa82a362fff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xSpeed: 10
+  ySpeed: 100
+  zSpeed: 10
+  amplitude: 0.4
+  frequency: 2
+  initialPos: {x: 0, y: 0, z: 0}
+--- !u!114 &262059808355612767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5643432737318052152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ea294695a0a9d143906bf6bed3de160, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isInactive: 0
+  Myself: {fileID: 5643432737318052152}
+  pickupParticle: {fileID: 520565994151434595, guid: 5ee6ad69d5723e94b9a9769691bf7853, type: 3}

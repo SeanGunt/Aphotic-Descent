@@ -13,7 +13,8 @@ public class FreeFlyCam : MonoBehaviour
 
     void Start ()
     {
-        Screen.lockCursor = true;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = false;
     }
 
     void Update ()
@@ -46,7 +47,15 @@ public class FreeFlyCam : MonoBehaviour
 
         if (Input.GetKey(KeyCode.End))
         {
-            Screen.lockCursor = (Screen.lockCursor == false) ? true : false;
+            // Screen.lockCursor = (Screen.lockCursor == false) ? true : false;
+            if (Cursor.lockState == CursorLockMode.None)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.None;
+            }
         }
 
         if (Input.GetKey(KeyCode.Escape))

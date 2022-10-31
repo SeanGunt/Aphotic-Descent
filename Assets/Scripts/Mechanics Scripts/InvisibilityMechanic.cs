@@ -10,15 +10,11 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
     public float invisibleTimer;
     public int invisibilityCharges = 3;
     public Text interactionText;
-    [SerializeField]
-    private bool isInvisible;
+    [SerializeField]private bool isInvisible;
     public bool isSafe;
-    [SerializeField]
-    private Image invisibilityBar;
-    [SerializeField]
-    private Image fullInvisBar;
-    [SerializeField]
-    private GameObject Player;
+    [SerializeField] private Image invisibilityBar;
+    [SerializeField] private Image fullInvisBar;
+    [SerializeField] private GameObject Player, PlayerMesh;
     public Material[] mat;
     Renderer rend;
     [SerializeField] private TextMeshProUGUI invisibilityChargesText;
@@ -32,7 +28,7 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
       isInvisible = false;
       isSafe = false;
       interactionText.text = "";
-      rend = Player.GetComponent<Renderer>();
+      rend = PlayerMesh.GetComponent<Renderer>();
       rend.enabled = true;
       rend.sharedMaterial = mat[0];
       invisibilityBar.enabled = false;
@@ -86,13 +82,16 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
             Invoke ("ClearUI", 4);
           }
         }
+        if (Player.GetComponent<PlayerHealthController>().isBleeding)
+        {
+          isSafe = false;
+        }
     }
 
     void OnTriggerStay(Collider col)
     {
       if (col.gameObject.tag == ("InvisPickup"))
       {
-        Destroy(col.gameObject);
         CancelInvoke("ClearUI");
         invisibilityCharges++;
         invisibilityChargesText.text = "Invisibility Charges: " + invisibilityCharges.ToString();
