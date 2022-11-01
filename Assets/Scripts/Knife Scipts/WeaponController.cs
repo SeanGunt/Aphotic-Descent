@@ -19,7 +19,7 @@ public class WeaponController : MonoBehaviour
     {
         if (Input.GetButtonDown("Knife") || Input.GetAxisRaw("Knife") > 0)
         {
-            if (CanAttack)
+            if (CanAttack && GameDataHolder.knifeHasBeenPickedUp)
             {
                 KnifeAttack();
             }

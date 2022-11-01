@@ -24,22 +24,26 @@ public class Menus : MonoBehaviour
 
     public void PlayCodeScene ()
     {
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene(1);
         DataPersistenceManager.instance.LoadGame();
     }
 
     public void PlayArtScene ()
     {
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene(2);
     }
 
     public void PlayWhiteboxMaze ()
     {
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene(3);
     }
 
     public void PlaySubmarine ()
     {
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene(4);
     }
 

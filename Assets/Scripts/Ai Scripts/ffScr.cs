@@ -95,9 +95,6 @@ public class ffScr : MonoBehaviour
         }
 
         theAgent.destination = destination;
-
-        Debug.Log("distance left is " + theAgent.remainingDistance);
-        Debug.Log("currently going towards " + theAgent.destination);
         //Debug.Log("is at destination: " + theAgent.pathPending + " and status is " + theAgent.pathStatus);
     }
 

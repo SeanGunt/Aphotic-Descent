@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5901333543021484714}
   - component: {fileID: 7370813701960209679}
   - component: {fileID: 4732882211177193925}
+  - component: {fileID: -5624927370779523}
   m_Layer: 0
   m_Name: moon_jelly
   m_TagString: Untagged
@@ -83,3 +84,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &-5624927370779523
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6534282411345494032}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 6606501483488557099, guid: 92004a8fead07c0438ab42e253176629, type: 3}
