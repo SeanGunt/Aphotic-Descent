@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   [SerializeField] private LayerMask groundMask;
   private Vector3 velocity;
   private bool isGrounded;
-  [SerializeField] private bool isSwimming, canSwim, isTired, playerPositionSet;
+  [SerializeField] private bool isSwimming, canSwim, isTired;
   [SerializeField] private Image staminaBar, tiredBar;
   private State state;
   enum State
@@ -36,7 +36,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   private void Awake()
   {
     state = State.settingPosition;
-    playerPositionSet = false;
   }
   
   private void Update()

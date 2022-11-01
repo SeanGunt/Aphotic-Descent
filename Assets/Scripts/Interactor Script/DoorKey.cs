@@ -21,6 +21,7 @@ public class DoorKey : MonoBehaviour {
         {
             if (Input.GetButtonDown("Interact"))
             {
+                GameDataHolder.knifeHasBeenPickedUp = true;
                 DoorScript.doorKey = true;
                 Destroy(this.gameObject);
             }
