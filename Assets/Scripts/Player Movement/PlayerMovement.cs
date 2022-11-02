@@ -196,4 +196,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       yield return new WaitForSeconds(waitTime);
       state = State.outOfWater;
     }
+    
+     void start()
+  {
+    DontDestroyOnLoad(gameObject);
+  }
 }
