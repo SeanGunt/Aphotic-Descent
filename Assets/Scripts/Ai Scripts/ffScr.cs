@@ -113,12 +113,27 @@ public class ffScr : MonoBehaviour
         {
             Debug.Log("attacking!!!!");
 
-            pHC.ChangeHealth(-3.0f);
-            pHC.TakeDamage();   
+            // pHC.ChangeHealth(-15.0f);
+            // pHC.TakeDamage();   
         }
         else if(theAgent.remainingDistance < (rangeUsed*1.5))
         {
             wasAttacking();
         }
+    }
+
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.tag == "Player")
+        {
+            pHC.ChangeHealth(-15.0f);
+            pHC.TakeDamage();
+        }
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, scentRange);
     }
 }
