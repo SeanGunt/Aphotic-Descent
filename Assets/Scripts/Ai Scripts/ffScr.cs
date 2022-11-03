@@ -7,20 +7,18 @@ public class ffScr : MonoBehaviour
 {
     [SerializeField] private NavMeshAgent theAgent;
     [SerializeField] private Transform target;
-    [SerializeField] private bool exists;
     [SerializeField] private float agentSpeed;
-    [SerializeField] private bool isPlayerBleeding;
     [SerializeField] private float scentRange;
-    [SerializeField] private float rangeMultiplier;
+    [SerializeField] private float rangeForBleedMultiplier;
     [SerializeField] private GameObject player;
+    [SerializeField] private Transform[] points;
     private float bleedRange;
     private float rangeUsed;
     Vector3 destination;
-    private float distanceBtwn;
-
+    private float playerDistance;
     private bool unchosen = true;
-
-    [SerializeField] private Transform[] points;
+    PlayerHealthController pHC;
+    private bool currentlyAttacking = false;
 
     
 
@@ -39,24 +37,25 @@ public class ffScr : MonoBehaviour
         if(player != null)
         {
             Debug.Log("player found");
+            pHC = player.GetComponent<PlayerHealthController>();
         }
         else
         {
             Debug.Log("player not Found");
         }
 
-        bleedRange = scentRange * rangeMultiplier;
+        bleedRange = scentRange * rangeForBleedMultiplier;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.LookAt(destination);
+        //transform.LookAt(destination);
 
-        distanceBtwn = (player.transform.position-transform.position).sqrMagnitude;
+        playerDistance = (player.transform.position-transform.position).sqrMagnitude;
 
-        if(isPlayerBleeding == true)
+        if(pHC.isBleeding)
         {
             rangeUsed = bleedRange;
         }
@@ -65,19 +64,17 @@ public class ffScr : MonoBehaviour
             rangeUsed = scentRange;
         }
 
-        if(!theAgent.pathPending && theAgent.remainingDistance < 0.5f)
+        if((!theAgent.pathPending && theAgent.remainingDistance < 0.5f) && !currentlyAttacking)
         {
-            patrolling();
             unchosen = true;
+            patrolling();
         }
 
-        if(distanceBtwn < rangeUsed)
+        if(playerDistance < rangeUsed)
         {
-            wasPatrolliong();
-        }
-        else
-        {
-            patrolling();
+            Debug.Log("within attack range");
+            theAgent.destination = player.transform.position;
+            attacking();
         }
     }
 
@@ -95,28 +92,33 @@ public class ffScr : MonoBehaviour
         }
 
         theAgent.destination = destination;
+
+        Debug.Log("distance left is " + theAgent.remainingDistance);
+        //Debug.Log("currently going towards " + theAgent.destination);
         //Debug.Log("is at destination: " + theAgent.pathPending + " and status is " + theAgent.pathStatus);
-    }
-
-    void attacking()
-    {
-
-        
-        
     }
 
     void wasAttacking() //transition from attack to patrol
     {
-
+        currentlyAttacking = false;
     }
 
-    void wasPatrolliong() //transition from patrol to attack
+    void attacking() //transition from patrol to attack, then attack
     {
-        theAgent.destination = player.transform.position;
-    }
+        Debug.Log("going in for the attack");
 
-    void OnTriggerEnter(Collider other)
-    {
+        currentlyAttacking = true;
+        
+        if(theAgent.remainingDistance < 0.2f)
+        {
+            Debug.Log("attacking!!!!");
 
+            pHC.ChangeHealth(-3.0f);
+            pHC.TakeDamage();   
+        }
+        else if(theAgent.remainingDistance < (rangeUsed*1.5))
+        {
+            wasAttacking();
+        }
     }
 }
