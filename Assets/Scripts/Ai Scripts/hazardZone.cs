@@ -14,4 +14,11 @@ public class hazardZone : MonoBehaviour
             controller.TakeDamage();
         }
     }
+    void OnTriggerEnter (Collider other)
+    {
+    if (other.CompareTag("Player"))
+    {
+        Destroy(this);
+    }
+    }
 }
