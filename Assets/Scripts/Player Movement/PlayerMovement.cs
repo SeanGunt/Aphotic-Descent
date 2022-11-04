@@ -44,10 +44,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       {
         default:
           case State.settingPosition:
-              if (SceneManager.GetActiveScene().buildIndex != 3 && SceneManager.GetActiveScene().buildIndex != 4)
-              {
-                DataPersistenceManager.instance.LoadGame();
-              }
+              DataPersistenceManager.instance.LoadGame();
               StartCoroutine(SetPlayerState(0.15f));
           break;
 

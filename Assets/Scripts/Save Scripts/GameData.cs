@@ -10,7 +10,7 @@ public class GameData
 
     public GameData()
     {
-        playerPosition = new Vector3(0,1,0);
+        playerPosition = new Vector3(-60f,-20.5f,-90f);
         playerRotation = new Quaternion(0,0,0,0);
         invisCharges = 3;
         knifeHasBeenPickedUp = false;
