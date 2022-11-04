@@ -12,6 +12,7 @@ public class hazardZone : MonoBehaviour
         {
             controller.ChangeHealth(-1.5f);
             controller.TakeDamage();
+            controller.isBleeding = true; 
         }
     }
     void OnTriggerEnter (Collider other)
