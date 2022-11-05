@@ -13,6 +13,7 @@ public class flashlightMechanic : MonoBehaviour
     [SerializeField]private Text flashlightText;
     [SerializeField]private HiddenObjectsInteraction hI;
     [SerializeField]private RevealHiddenObjects rHO;
+    [SerializeField]private SpawnHiddenObject sHO;
     [SerializeField]private bool flashlightEmpty;
     public float range = 10f;
     public Camera mainCam;
@@ -98,6 +99,14 @@ public class flashlightMechanic : MonoBehaviour
                 rHO = hit.collider.GetComponent<RevealHiddenObjects>();
                 flashlightText.text = "Object Revealed";
                 rHO.objRevealed = true;
+                Invoke("ClearUI", 3);
+            }
+
+            if (hit.collider.GetComponent<SpawnHiddenObject>() != false)
+            {
+                sHO = hit.collider.GetComponent<SpawnHiddenObject>();
+                flashlightText.text = "Object Revealed";
+                sHO.objRevealed = true;
                 Invoke("ClearUI", 3);
             }
         }
