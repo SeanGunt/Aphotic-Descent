@@ -7,14 +7,16 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
   public CharacterController controller;
   [SerializeField] private float groundedSpeed, airSpeed, floatSpeed, outOfWaterSpeed, 
-  groundDistance, gravityInWater, gravityOutOfWater, playerStamina, maxStamina, tiredCooldown;
-  private float moveSpeed;
+  groundDistance, gravityInWater, gravityOutOfWater, playerStamina, maxStamina, tiredCooldown,
+  walkBobSpeed, walkBobAmount;
+  private float moveSpeed, defaultYPos, timer;
   [SerializeField] private Transform groundCheck;
   [SerializeField] private LayerMask groundMask;
-  private Vector3 velocity;
+  private Vector3 velocity, moveDirection;
   private bool isGrounded;
-  [SerializeField] private bool isSwimming, canSwim, isTired;
+  [SerializeField] private bool isSwimming, canSwim, isTired, canUseHeadbob;
   [SerializeField] private Image staminaBar, tiredBar;
+  [SerializeField] private Camera playerCamera;
   private State state;
   enum State
   {
@@ -36,6 +38,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   private void Awake()
   {
     state = State.settingPosition;
+    playerCamera = GetComponentInChildren<Camera>();
+    defaultYPos = playerCamera.transform.localPosition.y;
   }
   
   private void Update()
@@ -64,6 +68,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         if(isGrounded)
         {
+          canUseHeadbob = true;
           velocity.y = 0;
           moveSpeed = groundedSpeed;
           isSwimming = false;
@@ -106,6 +111,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         //Stamina Drain
         if (isSwimming)
         {
+          canUseHeadbob = false;
           playerStamina -= Time.deltaTime;
           staminaBar.fillAmount = playerStamina/maxStamina;
           if (playerStamina <= 0)
@@ -118,6 +124,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
           }
         }
 
+        //HeadBobbingCall
+        if(canUseHeadbob)
+        {
+          HandleHeadBob();
+        }
+          
+        moveDirection = move;
         controller.Move(move * moveSpeed * Time.deltaTime);
         velocity.y += gravityInWater * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
@@ -128,6 +141,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         if(isGrounded)
         {
+          canUseHeadbob = true;
           velocity.y = 0;
         }
       moveSpeed = outOfWaterSpeed;
@@ -135,7 +149,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       float x = Input.GetAxis("Horizontal");
       float z = Input.GetAxis("Vertical");
       Vector3 move = transform.right * x + transform.forward * z;
+      
+      if(canUseHeadbob)
+        {
+          HandleHeadBob();
+        }
 
+      moveDirection = move;
       controller.Move(move * moveSpeed * Time.deltaTime);
       velocity.y += gravityOutOfWater * Time.deltaTime;
       controller.Move(velocity * Time.deltaTime);
@@ -185,6 +205,21 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         empty += Time.deltaTime * 2;
         playerStamina = empty;
         staminaBar.fillAmount = playerStamina/maxStamina;
+      }
+    }
+
+    private void HandleHeadBob()
+    {
+      if (!isGrounded) return;
+
+      if(Mathf.Abs(moveDirection.x) > 0.1f || Mathf.Abs(moveDirection.z) > 0.1f)
+      {
+        timer += Time.deltaTime * walkBobSpeed;
+        playerCamera.transform.localPosition = new Vector3(
+          playerCamera.transform.localPosition.x,
+          defaultYPos + Mathf.Sin(timer) * walkBobAmount,
+          playerCamera.transform.localPosition.z
+        );
       }
     }
 
