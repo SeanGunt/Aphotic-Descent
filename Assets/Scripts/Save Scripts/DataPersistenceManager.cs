@@ -28,6 +28,12 @@ public class DataPersistenceManager : MonoBehaviour
               }
     }
 
+    public void DeleteData()
+    {
+        dataHandler.DeleteData();
+        LoadGame();
+    }
+
     private void NewGame()
     {
         this.gameData = new GameData();
