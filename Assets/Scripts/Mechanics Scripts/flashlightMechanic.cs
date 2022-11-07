@@ -14,7 +14,7 @@ public class flashlightMechanic : MonoBehaviour
     [SerializeField]private HiddenObjectsInteraction hI;
     [SerializeField]private RevealHiddenObjects rHO;
     [SerializeField]private SpawnHiddenObject sHO;
-    [SerializeField]private bool flashlightEmpty;
+    public bool flashlightEmpty;
     public float range = 10f;
     public Camera mainCam;
     public LayerMask layer;
@@ -64,7 +64,6 @@ public class flashlightMechanic : MonoBehaviour
             }
             if (flashlightBattery <= 0)
             {
-                flashlightBattery = 0;
                 flashlightOn = false;
                 flashlightText.text = "You ran out of battery";
                 Invoke("ClearUI", 2);
