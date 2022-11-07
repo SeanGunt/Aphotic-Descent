@@ -171,12 +171,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
           canSwim = true;
         }
       }
-
-      if(other.gameObject.tag == "Checkpoint")
-      {
-        DataPersistenceManager.instance.SaveGame();
-        Debug.Log("Saved");
-      }
     }
 
     private void OnTriggerExit(Collider other)

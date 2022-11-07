@@ -5,8 +5,7 @@ using UnityEngine.AI;
 
 public class ffScr : MonoBehaviour
 {
-    [SerializeField] private NavMeshAgent theAgent;
-    [SerializeField] private Transform target;
+    private NavMeshAgent theAgent;
     [SerializeField] private float agentSpeed;
     [SerializeField] private float scentRange;
     [SerializeField] private float rangeForBleedMultiplier;
@@ -23,8 +22,9 @@ public class ffScr : MonoBehaviour
     
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        Debug.developerConsoleVisible = true;
         theAgent = GetComponent<NavMeshAgent>();
 
         theAgent.speed = agentSpeed;
@@ -36,12 +36,12 @@ public class ffScr : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         if(player != null)
         {
-            Debug.Log("player found");
+            Debug.LogWarning("player found");
             pHC = player.GetComponent<PlayerHealthController>();
         }
         else
         {
-            Debug.Log("player not Found");
+            Debug.LogWarning("player not Found");
         }
 
         bleedRange = scentRange * rangeForBleedMultiplier;
@@ -124,10 +124,11 @@ public class ffScr : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.tag == "Player")
+        if (col.gameObject.tag == "Player")
         {
             pHC.ChangeHealth(-15.0f);
             pHC.TakeDamage();
+            Debug.Log("Hit Player");
         }
     }
 
