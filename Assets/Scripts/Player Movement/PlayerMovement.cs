@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   public CharacterController controller;
   [SerializeField] private float groundedSpeed, airSpeed, floatSpeed, outOfWaterSpeed, 
   groundDistance, gravityInWater, gravityOutOfWater, playerStamina, maxStamina, tiredCooldown,
-  walkBobSpeed, walkBobAmount;
+  walkBobSpeed, walkBobAmount, underwaterBobSpeed, underwaterBobAmount;
   private float moveSpeed, defaultYPos, timer;
   [SerializeField] private Transform groundCheck;
   [SerializeField] private LayerMask groundMask;
@@ -127,7 +127,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         //HeadBobbingCall
         if(canUseHeadbob)
         {
-          HandleHeadBob();
+          HandleHeadBob(underwaterBobAmount, underwaterBobSpeed);
         }
           
         moveDirection = move;
@@ -152,7 +152,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       
       if(canUseHeadbob)
         {
-          HandleHeadBob();
+          HandleHeadBob(walkBobAmount, walkBobSpeed);
         }
 
       moveDirection = move;
@@ -202,16 +202,15 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       }
     }
 
-    private void HandleHeadBob()
+    private void HandleHeadBob(float amount, float speed)
     {
       if (!isGrounded) return;
-
       if(Mathf.Abs(moveDirection.x) > 0.1f || Mathf.Abs(moveDirection.z) > 0.1f)
       {
-        timer += Time.deltaTime * walkBobSpeed;
+        timer += Time.deltaTime * speed;
         playerCamera.transform.localPosition = new Vector3(
           playerCamera.transform.localPosition.x,
-          defaultYPos + Mathf.Sin(timer) * walkBobAmount,
+          defaultYPos + Mathf.Sin(timer) * amount,
           playerCamera.transform.localPosition.z
         );
       }

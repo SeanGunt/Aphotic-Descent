@@ -29,6 +29,7 @@ public class BatteryPickup : MonoBehaviour
             {
                 CreateParticle();
                 controller.FillBattery(120);
+                controller.flashlightEmpty = false;
                 Debug.Log("FillBatteryCalled");
                 isInactive = true;
                 Itself.SetActive(false);
