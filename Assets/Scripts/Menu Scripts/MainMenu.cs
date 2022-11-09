@@ -10,32 +10,12 @@ public class MainMenu : MonoBehaviour
 
     [SerializeField] GameObject optionsFirstButton, optionsClosedButton, howToFirstButton, howToClosedButton, levelSelectFirstButton, levelSelectClosedButton;
 
-    public void PlayCodeScene ()
-    {
-        SceneManager.LoadScene(1);
-        DataPersistenceManager.instance.LoadGame();
-    }
-
-    public void PlayArtScene ()
-    {
-        SceneManager.LoadScene(2);
-    }
-
     public void PlayWhiteboxMaze ()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(3);
+        DataPersistenceManager.instance.LoadGame();
+        SceneManager.LoadScene(1);
     }
-
-    public void PlaySubmarine ()
-    {
-        SceneManager.LoadScene(4);
-    }
-
-    //public void PlayReef ()
-    //{
-        //SceneManager.LoadScene(5);
-    //}
 
     public void OpenLevelSelect()
     {
