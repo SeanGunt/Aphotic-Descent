@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4391261547147174813
+--- !u!1 &4024964941564433776
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,46 +8,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7521102089911645972}
-  - component: {fileID: 9209275496440239044}
-  - component: {fileID: 4520824686378301990}
+  - component: {fileID: 3078781699378095080}
+  - component: {fileID: 6631505047134670392}
+  - component: {fileID: 8527124443964446997}
   m_Layer: 0
-  m_Name: Kelp_LOD1
+  m_Name: KELP5_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7521102089911645972
+--- !u!4 &3078781699378095080
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4391261547147174813}
-  m_LocalRotation: {x: 0.000000081460335, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.71140605, y: 2.3192556, z: 0.014710321}
+  m_GameObject: {fileID: 4024964941564433776}
+  m_LocalRotation: {x: 0.000000081460335, y: 0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.0008904836, y: 3.968853, z: 0.8437539}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5356766260747329125}
-  m_RootOrder: 1
+  m_Father: {fileID: 3894128975861679052}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &9209275496440239044
+--- !u!33 &6631505047134670392
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4391261547147174813}
-  m_Mesh: {fileID: 535355006618079494, guid: 48d34133814c22a459c44fa952106629, type: 3}
---- !u!23 &4520824686378301990
+  m_GameObject: {fileID: 4024964941564433776}
+  m_Mesh: {fileID: 7174706283881423762, guid: 7444663702a9a2c4cb89a0865b500820, type: 3}
+--- !u!23 &8527124443964446997
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4391261547147174813}
+  m_GameObject: {fileID: 4024964941564433776}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b6f9dd0a18983274286cd4f620efa401, type: 2}
+  - {fileID: 2100000, guid: 54965ebfb39c45d4d800b7cee843b32e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,7 +83,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &4691869162276127967
+--- !u!1 &4413924590489360758
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,42 +91,42 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5356766260747329125}
-  - component: {fileID: 868369137647937812}
+  - component: {fileID: 3894128975861679052}
+  - component: {fileID: 8093151060857992381}
   m_Layer: 0
-  m_Name: Kelp_1
+  m_Name: kelp_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5356766260747329125
+--- !u!4 &3894128975861679052
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4691869162276127967}
+  m_GameObject: {fileID: 4413924590489360758}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -51.75259, y: -27.023363, z: -22.00106}
+  m_LocalPosition: {x: -51.67783, y: -23.600002, z: -16.704376}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1069653820734795940}
-  - {fileID: 7521102089911645972}
+  - {fileID: 3078781699378095080}
+  - {fileID: 1273769068624564933}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!205 &868369137647937812
+--- !u!205 &8093151060857992381
 LODGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4691869162276127967}
+  m_GameObject: {fileID: 4413924590489360758}
   serializedVersion: 2
-  m_LocalReferencePoint: {x: 0.7159921, y: 2.3009977, z: 0.011210978}
-  m_Size: 4.6545506
+  m_LocalReferencePoint: {x: -0.011859238, y: 2.2960658, z: 0.95251155}
+  m_Size: 4.6446877
   m_FadeMode: 0
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
@@ -134,13 +134,13 @@ LODGroup:
   - screenRelativeHeight: 0.25
     fadeTransitionWidth: 0
     renderers:
-    - renderer: {fileID: 2381619637716318367}
+    - renderer: {fileID: 8527124443964446997}
   - screenRelativeHeight: 0.01
     fadeTransitionWidth: 0
     renderers:
-    - renderer: {fileID: 4520824686378301990}
+    - renderer: {fileID: 6582399091830786686}
   m_Enabled: 1
---- !u!1 &9204222436382102872
+--- !u!1 &7954552170298680950
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -148,46 +148,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1069653820734795940}
-  - component: {fileID: 4620385387067617627}
-  - component: {fileID: 2381619637716318367}
+  - component: {fileID: 1273769068624564933}
+  - component: {fileID: 367599350122852590}
+  - component: {fileID: 6582399091830786686}
   m_Layer: 0
-  m_Name: Kelp_LOD0
+  m_Name: KELP5_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1069653820734795940
+--- !u!4 &1273769068624564933
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9204222436382102872}
+  m_GameObject: {fileID: 7954552170298680950}
   m_LocalRotation: {x: 0.000000081460335, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.71140605, y: 2.3192556, z: 0.014710321}
+  m_LocalPosition: {x: 0.0008904836, y: 3.968853, z: 0.8437539}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5356766260747329125}
-  m_RootOrder: 0
+  m_Father: {fileID: 3894128975861679052}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &4620385387067617627
+--- !u!33 &367599350122852590
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9204222436382102872}
-  m_Mesh: {fileID: 6398488624677253491, guid: 48d34133814c22a459c44fa952106629, type: 3}
---- !u!23 &2381619637716318367
+  m_GameObject: {fileID: 7954552170298680950}
+  m_Mesh: {fileID: 1423156105950812469, guid: 7444663702a9a2c4cb89a0865b500820, type: 3}
+--- !u!23 &6582399091830786686
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9204222436382102872}
+  m_GameObject: {fileID: 7954552170298680950}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -201,7 +201,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b6f9dd0a18983274286cd4f620efa401, type: 2}
+  - {fileID: 2100000, guid: 54965ebfb39c45d4d800b7cee843b32e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

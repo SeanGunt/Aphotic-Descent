@@ -7,32 +7,24 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: KelpWiggleMaterial
-  m_Shader: {fileID: -6465566751694194690, guid: 12a02d157a4547545a6bbbaad534607c, type: 3}
+  m_Name: 2LODWiggleMaterial
+  m_Shader: {fileID: -6465566751694194690, guid: c865647c352cbb9439f59bad775a8283, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 1
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2450
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseColor:
-        m_Texture: {fileID: 2800000, guid: 20ad530f2d3ceeb4aa6f46caa6f6ebe3, type: 3}
+        m_Texture: {fileID: 2800000, guid: c573cf6d11cad7445a41f9899c543784, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Emission:
-        m_Texture: {fileID: 2800000, guid: 02e99729d3882a6409313eea2743a2f5, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_63e843999bb2471296ff734bfb267862_Texture_1:
-        m_Texture: {fileID: 2800000, guid: f2c7f9c31bfc8ee42853bcdd9239eaa2, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_8fedf272783e4199b87c302e68126e0a_Texture_1:
         m_Texture: {fileID: 2800000, guid: 13b9ee1b96a10c641866e528fa31a2cd, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -58,7 +50,7 @@ Material:
     m_Colors:
     - _Water_Movement: {r: 0.1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &6036566112832207620
+--- !u!114 &260000335391544162
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
