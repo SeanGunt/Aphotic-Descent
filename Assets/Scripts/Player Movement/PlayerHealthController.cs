@@ -39,6 +39,7 @@ public class PlayerHealthController : MonoBehaviour
             if (playerHealth <= maxHealth - 0.01)
             {
                 playerHealth += Time.deltaTime *regenRate;
+                isBleeding = true;
                 UpdateHealth();
             }
             else
