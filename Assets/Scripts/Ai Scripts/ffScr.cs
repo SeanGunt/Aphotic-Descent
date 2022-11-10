@@ -53,7 +53,7 @@ public class ffScr : MonoBehaviour
     {
         //transform.LookAt(destination);
 
-        playerDistance = (player.transform.position-transform.position).sqrMagnitude;
+        playerDistance = (player.transform.position-this.transform.position).sqrMagnitude;
 
         if(pHC.isBleeding)
         {
@@ -70,7 +70,7 @@ public class ffScr : MonoBehaviour
             patrolling();
         }
 
-        if(playerDistance < rangeUsed)
+        if(playerDistance < rangeUsed*rangeUsed)
         {
             Debug.Log("within attack range");
             theAgent.destination = player.transform.position;
@@ -135,6 +135,6 @@ public class ffScr : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, scentRange);
+        Gizmos.DrawWireSphere(transform.position, rangeUsed);
     }
 }
