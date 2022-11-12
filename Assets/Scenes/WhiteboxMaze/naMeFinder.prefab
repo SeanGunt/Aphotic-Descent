@@ -114,12 +114,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 254d887b7e521e040a195f637c2e1fb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  theAgent: {fileID: 0}
-  target: {fileID: 0}
-  exists: 0
   agentSpeed: 0
-  scentRange: 0
-  rangeMultiplier: 0
+  scentRange: 10
+  rangeForBleedMultiplier: 2.5
   player: {fileID: 0}
   points: []
 --- !u!195 &8805371921728290355
