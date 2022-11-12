@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1718892464156417144}
   - component: {fileID: 6994091488443556210}
   - component: {fileID: 2737851669640259748}
+  - component: {fileID: 8756814488864057109}
   m_Layer: 0
   m_Name: KELP3_LOD1
   m_TagString: Untagged
@@ -83,6 +84,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &8756814488864057109
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252650720649328279}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.008432348
+  m_Height: 0.06192916
+  m_Direction: 1
+  m_Center: {x: -0.0001293351, y: 0.0018552765, z: -0.0004258193}
 --- !u!1 &2685548839459731894
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,6 +109,7 @@ GameObject:
   - component: {fileID: 3653288778482604917}
   - component: {fileID: 7276868178013182272}
   - component: {fileID: 4670553155535924691}
+  - component: {fileID: 641634786408622606}
   m_Layer: 0
   m_Name: KELP3_LOD0
   m_TagString: Untagged
@@ -166,6 +182,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &641634786408622606
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2685548839459731894}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.008432348
+  m_Height: 0.06192916
+  m_Direction: 1
+  m_Center: {x: -0.0001293351, y: 0.0018552765, z: -0.0004258193}
 --- !u!1 &6372693959322545034
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,6 +206,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5997541023121862960}
   - component: {fileID: 1540675694467237441}
+  - component: {fileID: 7358528627380356878}
   m_Layer: 0
   m_Name: Kelp_3
   m_TagString: Untagged
@@ -223,3 +254,17 @@ LODGroup:
     renderers:
     - renderer: {fileID: 2737851669640259748}
   m_Enabled: 1
+--- !u!64 &7358528627380356878
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6372693959322545034}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}

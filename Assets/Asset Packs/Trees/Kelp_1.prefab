@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7521102089911645972}
   - component: {fileID: 9209275496440239044}
   - component: {fileID: 4520824686378301990}
+  - component: {fileID: 9173920606551966061}
   m_Layer: 0
   m_Name: Kelp_LOD1
   m_TagString: Untagged
@@ -83,6 +84,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &9173920606551966061
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4391261547147174813}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.0039130375
+  m_Height: 0.046545506
+  m_Direction: 1
+  m_Center: {x: 0.00004528067, y: -0.00018256065, z: -0.000044937944}
 --- !u!1 &4691869162276127967
 GameObject:
   m_ObjectHideFlags: 0
@@ -93,6 +108,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5356766260747329125}
   - component: {fileID: 868369137647937812}
+  - component: {fileID: -7066351770989227338}
   m_Layer: 0
   m_Name: Kelp_1
   m_TagString: Untagged
@@ -140,6 +156,20 @@ LODGroup:
     renderers:
     - renderer: {fileID: 4520824686378301990}
   m_Enabled: 1
+--- !u!64 &-7066351770989227338
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4691869162276127967}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1 &9204222436382102872
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,6 +181,7 @@ GameObject:
   - component: {fileID: 1069653820734795940}
   - component: {fileID: 4620385387067617627}
   - component: {fileID: 2381619637716318367}
+  - component: {fileID: 7551892602812867705}
   m_Layer: 0
   m_Name: Kelp_LOD0
   m_TagString: Untagged
@@ -223,3 +254,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &7551892602812867705
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9204222436382102872}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.003962082
+  m_Height: 0.04644687
+  m_Direction: 1
+  m_Center: {x: 0.000045920024, y: -0.00023187883, z: -0.000035008183}
