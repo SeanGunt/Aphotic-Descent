@@ -10,7 +10,7 @@ public class hazardZone : MonoBehaviour
 
         if (controller != null)
         {
-            controller.ChangeHealth(-3.5f);
+            controller.ChangeHealth(-8.5f);
             controller.TakeDamage();
             controller.isBleeding = true; 
         }
