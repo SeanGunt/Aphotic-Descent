@@ -18,10 +18,16 @@ public class flashlightMechanic : MonoBehaviour
     public float range = 10f;
     public Camera mainCam;
     public LayerMask layer;
+    public AudioSource audioSource;
+    public AudioClip flashlightOutOfWaterSound;
+    public AudioClip flashlightInWaterSound;
+    public GameObject player;
+    private PlayerMovement PMS;
 
     // Start is called before the first frame update
     void Start()
     {
+        PMS = player.GetComponent<PlayerMovement>();
         FlashlightLight.gameObject.SetActive(false);
         BlacklightLight.gameObject.SetActive(false);
     }
@@ -35,6 +41,14 @@ public class flashlightMechanic : MonoBehaviour
             {
                 if (!flashlightOn)
                 {
+                    if (PMS.inWater)
+                    {
+                        audioSource.PlayOneShot(flashlightInWaterSound);
+                    }
+                    else
+                    {
+                        audioSource.PlayOneShot(flashlightOutOfWaterSound);
+                    }
                     FlashlightLight.gameObject.SetActive(true);
                     flashlightOn = true;
                 }

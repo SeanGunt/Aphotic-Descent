@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   [SerializeField] private bool isSwimming, canSwim, isTired, canUseHeadbob;
   [SerializeField] private Image staminaBar, tiredBar;
   [SerializeField] private Camera playerCamera;
+  [HideInInspector] public bool inWater;
   private State state;
   enum State
   {
@@ -65,7 +66,15 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void MoveInWater()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+      if (Physics.Raycast(transform.position, Vector3.down, groundDistance + 0.1f))
+      {
+        isGrounded = true;
+      }
+      else
+      {
+        isGrounded = false;
+      }
+      Debug.Log("is grounded" + isGrounded);
         if(isGrounded)
         {
           canUseHeadbob = true;
@@ -138,7 +147,15 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
       private void MoveOutOfWater()
     {
-      isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+      if (Physics.Raycast(transform.position, Vector3.down, groundDistance + 0.1f))
+      {
+        isGrounded = true;
+      }
+      else
+      {
+        isGrounded = false;
+      }
+      Debug.Log("is grounded " + isGrounded);
         if(isGrounded)
         {
           canUseHeadbob = true;
@@ -166,6 +183,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       if (other.gameObject.tag == "Water")
       {
         state = State.inWater;
+        inWater = true;
         if (playerStamina > 0)
         {
           canSwim = true;
@@ -178,6 +196,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       if (other.gameObject.tag == "Water")
       {
         state = State.outOfWater;
+        inWater = false;
       }
     }
 
@@ -222,7 +241,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       state = State.outOfWater;
     }
     
-     void start()
+    void start()
   {
     DontDestroyOnLoad(gameObject);
   }
