@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpawnHiddenObject : MonoBehaviour
 {
     [SerializeField] GameObject[] objectsToBeSpawned;
-    public bool objRevealed;
+    public bool objRevealed, objSpawned;
     void Awake()
     {
         objRevealed = false;
@@ -14,11 +14,12 @@ public class SpawnHiddenObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (objRevealed)
+        if (objRevealed && !objSpawned)
         {
             foreach (GameObject objectToBeSpawned in objectsToBeSpawned)
             objectToBeSpawned.gameObject.SetActive(true);
             objRevealed = false;
+            objSpawned = true;
         }
     }
 }
