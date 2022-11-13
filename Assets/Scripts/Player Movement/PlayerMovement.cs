@@ -10,8 +10,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   groundDistance, gravityInWater, gravityOutOfWater, playerStamina, maxStamina, tiredCooldown,
   walkBobSpeed, walkBobAmount, underwaterBobSpeed, underwaterBobAmount;
   private float moveSpeed, defaultYPos, timer;
-  [SerializeField] private Transform groundCheck;
-  [SerializeField] private LayerMask groundMask;
+  [SerializeField] private LayerMask ignoreMask;
   private Vector3 velocity, moveDirection;
   private bool isGrounded;
   [SerializeField] private bool isSwimming, canSwim, isTired, canUseHeadbob;
@@ -66,7 +65,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void MoveInWater()
     {
-      if (Physics.Raycast(transform.position, Vector3.down, groundDistance + 0.1f))
+      if (Physics.Raycast(transform.position, Vector3.down, groundDistance + 0.1f, ~ignoreMask))
       {
         isGrounded = true;
       }
@@ -74,7 +73,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       {
         isGrounded = false;
       }
-      Debug.Log("is grounded" + isGrounded);
+
         if(isGrounded)
         {
           canUseHeadbob = true;
@@ -147,7 +146,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
       private void MoveOutOfWater()
     {
-      if (Physics.Raycast(transform.position, Vector3.down, groundDistance + 0.1f))
+      if (Physics.Raycast(transform.position, Vector3.down, groundDistance + 0.1f, ~ignoreMask))
       {
         isGrounded = true;
       }
@@ -155,12 +154,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       {
         isGrounded = false;
       }
-      Debug.Log("is grounded " + isGrounded);
+
         if(isGrounded)
         {
           canUseHeadbob = true;
           velocity.y = 0;
         }
+
       moveSpeed = outOfWaterSpeed;
       canSwim = false;
       float x = Input.GetAxis("Horizontal");
@@ -241,7 +241,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       state = State.outOfWater;
     }
     
-    void start()
+  void start()
   {
     DontDestroyOnLoad(gameObject);
   }

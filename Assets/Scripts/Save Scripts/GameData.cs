@@ -4,8 +4,8 @@ using UnityEngine;
 public class GameData
 {
     public Vector3 playerPosition;
-    public Quaternion playerRotation;
     public Vector3 flashlightPosition;
+    public Quaternion playerRotation;
     public int invisCharges;
     public bool knifeHasBeenPickedUp;
 
