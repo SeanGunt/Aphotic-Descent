@@ -6,35 +6,15 @@ using UnityEngine.EventSystems;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] GameObject mainMenu, optionsMenu, howToMenu, levelSelect;
+    [SerializeField] GameObject mainMenu, optionsMenu, howToMenu;
 
-    [SerializeField] GameObject optionsFirstButton, optionsClosedButton, howToFirstButton, howToClosedButton, levelSelectFirstButton, levelSelectClosedButton;
+    [SerializeField] GameObject optionsFirstButton, optionsClosedButton, howToFirstButton, howToClosedButton;
 
     public void PlayWhiteboxMaze ()
     {
         Time.timeScale = 1;
         DataPersistenceManager.instance.LoadGame();
         SceneManager.LoadScene(1);
-    }
-
-    public void OpenLevelSelect()
-    {
-        mainMenu.SetActive(false);
-        levelSelect.SetActive(true);
-
-        EventSystem.current.SetSelectedGameObject(null);
-
-        EventSystem.current.SetSelectedGameObject(levelSelectFirstButton);
-    }
-
-    public void ClosedLevelSelect()
-    {
-        levelSelect.SetActive(false);
-        mainMenu.SetActive(true);
-
-        EventSystem.current.SetSelectedGameObject(null);
-
-        EventSystem.current.SetSelectedGameObject(levelSelectClosedButton);
     }
     
     public void OpenOptions()
