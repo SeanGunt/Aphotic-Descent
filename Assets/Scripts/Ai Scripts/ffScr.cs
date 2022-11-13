@@ -20,8 +20,6 @@ public class ffScr : MonoBehaviour
     private bool currentlyAttacking = false;
 
     
-
-    // Start is called before the first frame update
     void Awake()
     {
         Debug.developerConsoleVisible = true;
@@ -29,9 +27,13 @@ public class ffScr : MonoBehaviour
 
         theAgent.speed = agentSpeed;
 
+        theAgent.updateRotation = true;
+
         //theAgent.autoBraking = false;
 
-        theAgent.angularSpeed = agentSpeed*3;
+        theAgent.acceleration = 250;
+
+        theAgent.angularSpeed = 250;
 
         player = GameObject.FindGameObjectWithTag("Player");
         if(player != null)
@@ -50,8 +52,7 @@ public class ffScr : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        //transform.LookAt(destination);
+    {     
 
         playerDistance = (player.transform.position-this.transform.position).sqrMagnitude;
 
@@ -101,6 +102,7 @@ public class ffScr : MonoBehaviour
     void wasAttacking() //transition from attack to patrol
     {
         currentlyAttacking = false;
+        patrolling();
     }
 
     void attacking() //transition from patrol to attack, then attack
