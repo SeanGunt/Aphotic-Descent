@@ -8,13 +8,13 @@ public class PauseControls : MonoBehaviour
     public GameObject PauseMenu;
     [SerializeField] private GameObject gameUI;
     [SerializeField] GameObject Player;
-    public bool paused;
+    public bool paused, otherMenuActive;
 
     void Update()
     {
-        if (!Player.GetComponent<PlayerHealthController>().gameOver)
+        if (!Player.GetComponent<PlayerHealthController>().gameOver && !otherMenuActive)
         {
-            if (Input.GetButtonDown("Pause") && paused == false)
+            if (Input.GetButtonDown("Pause") && !paused)
             {
                 PauseMenu.SetActive(true);
                 gameUI.SetActive(false);
@@ -23,7 +23,7 @@ public class PauseControls : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             }
-            else if (Input.GetButtonDown("Pause") && paused == true)
+            else if (Input.GetButtonDown("Pause") && paused)
             {
                 PauseMenu.SetActive(false);
                 gameUI.SetActive(true);
