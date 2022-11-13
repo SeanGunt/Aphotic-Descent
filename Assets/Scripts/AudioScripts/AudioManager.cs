@@ -9,7 +9,7 @@ public class AudioManager : MonoBehaviour
     private static readonly string BGMPref = "BGM Pref";
     private static readonly string SFXPref = "SFX Pref";
     private static readonly string MasPref = "Mas Pref";
-    private static readonly string AmbiencePref ="Ambience Pref";
+    private static readonly string AmbiencePref = "Ambience Pref";
     private int firstPlayInt;
     public Slider bgmSlider, sfxSlider, masSlider, ambienceSlider; 
     private float bgmFloat, sfxFloat, masFloat, ambienceFloat;

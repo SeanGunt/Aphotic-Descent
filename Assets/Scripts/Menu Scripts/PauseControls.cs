@@ -6,10 +6,10 @@ using UnityEngine.SceneManagement;
 public class PauseControls : MonoBehaviour
 {
     public GameObject PauseMenu;
+    [SerializeField] private GameObject gameUI;
     [SerializeField] GameObject Player;
     public bool paused;
-      
-    
+
     void Update()
     {
         if (!Player.GetComponent<PlayerHealthController>().gameOver)
@@ -17,6 +17,7 @@ public class PauseControls : MonoBehaviour
             if (Input.GetButtonDown("Pause") && paused == false)
             {
                 PauseMenu.SetActive(true);
+                gameUI.SetActive(false);
                 paused = true;
                 Time.timeScale = 0;
                 Cursor.lockState = CursorLockMode.None;
@@ -25,6 +26,7 @@ public class PauseControls : MonoBehaviour
             else if (Input.GetButtonDown("Pause") && paused == true)
             {
                 PauseMenu.SetActive(false);
+                gameUI.SetActive(true);
                 paused = false;
                 Time.timeScale = 1;
                 Cursor.lockState = CursorLockMode.None;
