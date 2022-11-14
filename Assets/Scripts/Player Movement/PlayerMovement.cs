@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   private float moveSpeed, defaultYPos, timer;
   [SerializeField] private LayerMask ignoreMask;
   private Vector3 velocity, moveDirection;
-  private bool isGrounded;
+  private bool isGrounded, hasUpgradedSuit;
   [SerializeField] private bool isSwimming, canSwim, isTired, canUseHeadbob;
   [SerializeField] private Image staminaBar, tiredBar;
   [SerializeField] private Camera playerCamera;
@@ -27,12 +27,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   {
     this.transform.position = data.playerPosition;
     this.transform.rotation = data.playerRotation;
+    hasUpgradedSuit = data.hasUpgradedSuit;
   }
 
   public void SaveData(GameData data)
   {
     data.playerPosition = this.transform.position;
     data.playerRotation = this.transform.rotation;
+    data.hasUpgradedSuit = hasUpgradedSuit;
   }
 
   private void Awake()
@@ -44,6 +46,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   
   private void Update()
   {
+      if (Input.GetKeyDown(KeyCode.UpArrow))
+      {
+        hasUpgradedSuit = true;
+      }
         switch (state)
       {
         default:
@@ -95,14 +101,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         Vector3 move = transform.right * x + transform.forward * z;
 
         //Float Up
-        if (Input.GetButton("Ascend") && canSwim)
+        if (Input.GetButton("Ascend") && canSwim && hasUpgradedSuit)
         {
           velocity.y = floatSpeed;
           isSwimming = true;
         }
 
         //Float Down
-        if (Input.GetButton("Descend") && canSwim && !isGrounded)
+        if (Input.GetButton("Descend") && canSwim && !isGrounded && hasUpgradedSuit)
         {
           velocity.y = -floatSpeed * 2;
           isSwimming = true;
