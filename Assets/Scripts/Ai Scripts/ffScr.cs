@@ -18,21 +18,24 @@ public class ffScr : MonoBehaviour
     private bool unchosen = true;
     PlayerHealthController pHC;
     private bool currentlyAttacking = false;
+    private State state;
+
+    public enum State
+    {
+        attacking, patrolling, wasAttacking
+    }
 
     
     void Awake()
     {
-        Debug.developerConsoleVisible = true;
         theAgent = GetComponent<NavMeshAgent>();
-
         theAgent.speed = agentSpeed;
-
         theAgent.updateRotation = true;
-
         theAgent.autoBraking = false;
-
         theAgent.acceleration = 250;
         theAgent.angularSpeed = 250;
+
+        state = State.patrolling;
 
         player = GameObject.FindGameObjectWithTag("Player");
         if(player != null)
@@ -46,16 +49,25 @@ public class ffScr : MonoBehaviour
         }
 
         bleedRange = scentRange * rangeForBleedMultiplier;
-
     }
 
     // Update is called once per frame
     void Update()
-    {     
-
-        //Debug.Log(theAgent.nextPosition + ", " + theAgent.pathPending);
-
-        playerDistance = (player.transform.position-this.transform.position).sqrMagnitude;
+    {
+        playerDistance = (player.transform.position-this.transform.position).sqrMagnitude;    
+        switch (state)
+        {
+            default:
+            case State.patrolling:
+                    patrolling();
+            break;
+            case State.attacking:
+                    attacking();
+            break;
+            case State.wasAttacking:
+                    wasAttacking();
+            break;
+        }
 
         if(pHC.isBleeding)
         {
@@ -69,14 +81,7 @@ public class ffScr : MonoBehaviour
         if((!theAgent.pathPending && theAgent.remainingDistance < 0.5f) && !currentlyAttacking)
         {
             unchosen = true;
-            patrolling();
-        }
-
-        if(playerDistance < rangeUsed*rangeUsed)
-        {
-            Debug.Log("within attack range");
-            theAgent.destination = player.transform.position;
-            attacking();
+            state = State.patrolling;
         }
     }
 
@@ -95,33 +100,26 @@ public class ffScr : MonoBehaviour
 
         theAgent.destination = destination;
 
-        Debug.Log("distance left is " + theAgent.remainingDistance);
-        //Debug.Log("currently going towards " + theAgent.destination);
-        //Debug.Log("is at destination: " + theAgent.pathPending + " and status is " + theAgent.pathStatus);
+        if(playerDistance < rangeUsed*rangeUsed)
+        {
+            state = State.attacking;
+        }
     }
 
     void wasAttacking() //transition from attack to patrol
     {
         currentlyAttacking = false;
-        patrolling();
+        state = State.patrolling;
     }
 
     void attacking() //transition from patrol to attack, then attack
     {
-        Debug.Log("going in for the attack");
-
+        theAgent.destination = player.transform.position;
         currentlyAttacking = true;
-        
-        if(theAgent.remainingDistance < 0.2f)
-        {
-            Debug.Log("attacking!!!!");
 
-            // pHC.ChangeHealth(-15.0f);
-            // pHC.TakeDamage();   
-        }
-        else if(theAgent.remainingDistance < (rangeUsed*1.5))
+        if(playerDistance > rangeUsed*rangeUsed)
         {
-            wasAttacking();
+            state = State.wasAttacking;
         }
     }
 

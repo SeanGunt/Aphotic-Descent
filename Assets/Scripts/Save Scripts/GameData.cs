@@ -8,6 +8,7 @@ public class GameData
     public Quaternion playerRotation;
     public int invisCharges;
     public bool knifeHasBeenPickedUp;
+    public bool hasUpgradedSuit;
 
     public GameData()
     {
@@ -16,5 +17,6 @@ public class GameData
         flashlightPosition = new Vector3(-59.75f, -20.14f, -89.62f);
         invisCharges = 3;
         knifeHasBeenPickedUp = false;
+        hasUpgradedSuit = false;
     }
 }
