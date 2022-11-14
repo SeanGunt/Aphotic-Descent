@@ -29,10 +29,9 @@ public class ffScr : MonoBehaviour
 
         theAgent.updateRotation = true;
 
-        //theAgent.autoBraking = false;
+        theAgent.autoBraking = false;
 
         theAgent.acceleration = 250;
-
         theAgent.angularSpeed = 250;
 
         player = GameObject.FindGameObjectWithTag("Player");
@@ -53,6 +52,8 @@ public class ffScr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {     
+
+        //Debug.Log(theAgent.nextPosition + ", " + theAgent.pathPending);
 
         playerDistance = (player.transform.position-this.transform.position).sqrMagnitude;
 
