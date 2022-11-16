@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   [SerializeField] private bool isSwimming, canSwim, isTired, canUseHeadbob;
   [SerializeField] private Image staminaBar, tiredBar;
   [SerializeField] private Camera playerCamera;
+  [SerializeField] private Animator animator;
   [HideInInspector] public bool inWater;
   private State state;
   enum State
@@ -121,6 +122,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
           canSwim = true;
           tiredBar.enabled = false;
         }
+
         
         //Stamina Drain
         if (isSwimming)
@@ -148,6 +150,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         controller.Move(move * moveSpeed * Time.deltaTime);
         velocity.y += gravityInWater * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+        animator.SetFloat("walkHorizontal", Input.GetAxis("Horizontal"));
+        animator.SetFloat("walkVertical", Input.GetAxis("Vertical"));
     }
 
       private void MoveOutOfWater()
@@ -182,6 +186,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       controller.Move(move * moveSpeed * Time.deltaTime);
       velocity.y += gravityOutOfWater * Time.deltaTime;
       controller.Move(velocity * Time.deltaTime);
+      animator.SetFloat("walkHorizontal", Input.GetAxis("Horizontal"));
+      animator.SetFloat("walkVertical", Input.GetAxis("Vertical"));
     }
 
     private void OnTriggerStay(Collider other)
