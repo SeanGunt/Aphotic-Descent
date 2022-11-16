@@ -14,8 +14,6 @@ public class TitleScreen : MonoBehaviour
         }
         titleScreenEvent.AddListener(Ping);
     }
-
-    // Update is called once per frame
     void Update()
     {
         if (Input.anyKeyDown && titleScreenEvent != null)

@@ -28,6 +28,15 @@ public class WeaponController : MonoBehaviour
         {
             bc.enabled = false;
         }
+
+        if (GameDataHolder.knifeHasBeenPickedUp)
+        {
+            Knife.SetActive(true);
+        }
+        else
+        {
+            Knife.SetActive(false);
+        }
     }
 
 

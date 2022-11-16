@@ -10,10 +10,11 @@ public class flashlightMechanic : MonoBehaviour
     private bool flashlightOn = false;
     [SerializeField]public float flashlightBattery, maxBattery;
     [SerializeField]private Image batteryBar, fullBatteryBar;
-    [SerializeField]private Text flashlightText;
+    [SerializeField]public Text flashlightText;
     [SerializeField]private HiddenObjectsInteraction hI;
     [SerializeField]private RevealHiddenObjects rHO;
     [SerializeField]private SpawnHiddenObject sHO;
+    private BlacklightEvent blEvent;
     public bool flashlightEmpty;
     public float range = 10f;
     public Camera mainCam;
@@ -35,7 +36,7 @@ public class flashlightMechanic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!flashlightEmpty)
+        if (!flashlightEmpty && GameDataHolder.flashlightHasBeenPickedUp)
         {
             if (Input.GetButtonDown("Flashlight"))
             {
@@ -122,9 +123,14 @@ public class flashlightMechanic : MonoBehaviour
                 sHO.objRevealed = true;
                 Invoke("ClearUI", 3);
             }
+            if (hit.collider.GetComponent<BlacklightEvent>() != false)
+            {
+                blEvent = hit.collider.GetComponent<BlacklightEvent>();
+                blEvent.uEvent.Invoke();
+            }
         }
     }
-    void ClearUI()
+    public void ClearUI()
     {
       flashlightText.text = "";
     }
