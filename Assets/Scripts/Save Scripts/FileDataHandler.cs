@@ -62,4 +62,24 @@ public class FileDataHandler
             Debug.LogError("Error occured when trying to save data to the file" + fullPath + "\n" + e);
         }
     }
+
+    public void DeleteData()
+    {
+        string fullPath = Path.Combine(dataDirPath, dataFileName);
+        try
+        {
+            if(File.Exists(fullPath))
+            {
+                Directory.Delete(Path.GetDirectoryName(fullPath), true);
+            }
+            else
+            {
+                Debug.LogWarning("Tried to delete the data but no data was found at the path " + fullPath);
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Failed to delete the save data " + "at path " + fullPath +"\n" + e);
+        }
+    }
 }

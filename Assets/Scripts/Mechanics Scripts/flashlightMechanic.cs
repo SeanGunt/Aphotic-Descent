@@ -13,14 +13,21 @@ public class flashlightMechanic : MonoBehaviour
     [SerializeField]private Text flashlightText;
     [SerializeField]private HiddenObjectsInteraction hI;
     [SerializeField]private RevealHiddenObjects rHO;
-    [SerializeField]private bool flashlightEmpty;
+    [SerializeField]private SpawnHiddenObject sHO;
+    public bool flashlightEmpty;
     public float range = 10f;
     public Camera mainCam;
     public LayerMask layer;
+    public AudioSource audioSource;
+    public AudioClip flashlightOutOfWaterSound;
+    public AudioClip flashlightInWaterSound;
+    public GameObject player;
+    private PlayerMovement PMS;
 
     // Start is called before the first frame update
     void Start()
     {
+        PMS = player.GetComponent<PlayerMovement>();
         FlashlightLight.gameObject.SetActive(false);
         BlacklightLight.gameObject.SetActive(false);
     }
@@ -34,6 +41,14 @@ public class flashlightMechanic : MonoBehaviour
             {
                 if (!flashlightOn)
                 {
+                    if (PMS.inWater)
+                    {
+                        audioSource.PlayOneShot(flashlightInWaterSound);
+                    }
+                    else
+                    {
+                        audioSource.PlayOneShot(flashlightOutOfWaterSound);
+                    }
                     FlashlightLight.gameObject.SetActive(true);
                     flashlightOn = true;
                 }
@@ -63,7 +78,6 @@ public class flashlightMechanic : MonoBehaviour
             }
             if (flashlightBattery <= 0)
             {
-                flashlightBattery = 0;
                 flashlightOn = false;
                 flashlightText.text = "You ran out of battery";
                 Invoke("ClearUI", 2);
@@ -98,6 +112,14 @@ public class flashlightMechanic : MonoBehaviour
                 rHO = hit.collider.GetComponent<RevealHiddenObjects>();
                 flashlightText.text = "Object Revealed";
                 rHO.objRevealed = true;
+                Invoke("ClearUI", 3);
+            }
+
+            if (hit.collider.GetComponent<SpawnHiddenObject>() != false)
+            {
+                sHO = hit.collider.GetComponent<SpawnHiddenObject>();
+                flashlightText.text = "Object Revealed";
+                sHO.objRevealed = true;
                 Invoke("ClearUI", 3);
             }
         }

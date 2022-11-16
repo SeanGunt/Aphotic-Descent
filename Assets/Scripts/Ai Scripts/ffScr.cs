@@ -5,58 +5,71 @@ using UnityEngine.AI;
 
 public class ffScr : MonoBehaviour
 {
-    [SerializeField] private NavMeshAgent theAgent;
-    [SerializeField] private Transform target;
-    [SerializeField] private bool exists;
+    private NavMeshAgent theAgent;
     [SerializeField] private float agentSpeed;
-    [SerializeField] private bool isPlayerBleeding;
     [SerializeField] private float scentRange;
-    [SerializeField] private float rangeMultiplier;
+    [SerializeField] private float rangeForBleedMultiplier;
     [SerializeField] private GameObject player;
+    [SerializeField] private Transform[] points;
     private float bleedRange;
     private float rangeUsed;
     Vector3 destination;
-    private float distanceBtwn;
-
+    private float playerDistance;
     private bool unchosen = true;
+    PlayerHealthController pHC;
+    private bool currentlyAttacking = false;
+    private State state;
 
-    [SerializeField] private Transform[] points;
+    public enum State
+    {
+        attacking, patrolling, wasAttacking
+    }
 
     
-
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         theAgent = GetComponent<NavMeshAgent>();
-
         theAgent.speed = agentSpeed;
+        theAgent.updateRotation = true;
+        theAgent.autoBraking = false;
+        theAgent.acceleration = 250;
+        theAgent.angularSpeed = 250;
 
-        //theAgent.autoBraking = false;
-
-        theAgent.angularSpeed = agentSpeed*3;
+        state = State.patrolling;
 
         player = GameObject.FindGameObjectWithTag("Player");
         if(player != null)
         {
-            Debug.Log("player found");
+            Debug.LogWarning("player found");
+            pHC = player.GetComponent<PlayerHealthController>();
         }
         else
         {
-            Debug.Log("player not Found");
+            Debug.LogWarning("player not Found");
         }
 
-        bleedRange = scentRange * rangeMultiplier;
-
+        bleedRange = scentRange * rangeForBleedMultiplier;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.LookAt(destination);
+        playerDistance = (player.transform.position-this.transform.position).sqrMagnitude;    
+        switch (state)
+        {
+            default:
+            case State.patrolling:
+                    patrolling();
+            break;
+            case State.attacking:
+                    attacking();
+            break;
+            case State.wasAttacking:
+                    wasAttacking();
+            break;
+        }
 
-        distanceBtwn = (player.transform.position-transform.position).sqrMagnitude;
-
-        if(isPlayerBleeding == true)
+        if(pHC.isBleeding)
         {
             rangeUsed = bleedRange;
         }
@@ -65,19 +78,10 @@ public class ffScr : MonoBehaviour
             rangeUsed = scentRange;
         }
 
-        if(!theAgent.pathPending && theAgent.remainingDistance < 0.5f)
+        if((!theAgent.pathPending && theAgent.remainingDistance < 0.5f) && !currentlyAttacking)
         {
-            patrolling();
             unchosen = true;
-        }
-
-        if(distanceBtwn < rangeUsed)
-        {
-            wasPatrolliong();
-        }
-        else
-        {
-            patrolling();
+            state = State.patrolling;
         }
     }
 
@@ -95,28 +99,43 @@ public class ffScr : MonoBehaviour
         }
 
         theAgent.destination = destination;
-        //Debug.Log("is at destination: " + theAgent.pathPending + " and status is " + theAgent.pathStatus);
-    }
 
-    void attacking()
-    {
-
-        
-        
+        if(playerDistance < rangeUsed*rangeUsed)
+        {
+            state = State.attacking;
+        }
     }
 
     void wasAttacking() //transition from attack to patrol
     {
-
+        currentlyAttacking = false;
+        state = State.patrolling;
     }
 
-    void wasPatrolliong() //transition from patrol to attack
+    void attacking() //transition from patrol to attack, then attack
     {
         theAgent.destination = player.transform.position;
+        currentlyAttacking = true;
+
+        if(playerDistance > rangeUsed*rangeUsed)
+        {
+            state = State.wasAttacking;
+        }
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider col)
     {
+        if (col.gameObject.tag == "Player")
+        {
+            pHC.ChangeHealth(-15.0f);
+            pHC.TakeDamage();
+            Debug.Log("Hit Player");
+        }
+    }
 
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, rangeUsed);
     }
 }

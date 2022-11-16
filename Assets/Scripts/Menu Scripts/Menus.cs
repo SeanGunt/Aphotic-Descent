@@ -2,58 +2,62 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class Menus : MonoBehaviour
 {
     public GameObject Player;
     public GameObject PauseMenu;
-
     public GameObject LevelSelect;
+    public GameObject SettingsMenu;
+    [SerializeField] private GameObject gameUI, levelSelectFirstButton, levelSelectClosedButton, settingsFirstButton, settingsClosedButton;
+    
 
     public void OpenLevelSelect()
     {
         PauseMenu.SetActive(false);
         LevelSelect.SetActive(true);
+        Player.GetComponent<PauseControls>().otherMenuActive = true;
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(levelSelectFirstButton);
     }
 
-    public void BackButton()
+    public void CloseLevelSelect()
     {
         PauseMenu.SetActive(true);
         LevelSelect.SetActive(false);
+        Player.GetComponent<PauseControls>().otherMenuActive = false;
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(levelSelectClosedButton);
     }
 
-    public void PlayCodeScene ()
+    public void OpenSettings()
     {
-        Time.timeScale = 1.0f;
-        SceneManager.LoadScene(1);
-        DataPersistenceManager.instance.LoadGame();
+        PauseMenu.SetActive(false);
+        SettingsMenu.SetActive(true);
+        Player.GetComponent<PauseControls>().otherMenuActive = true;
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(settingsFirstButton);
     }
 
-    public void PlayArtScene ()
+    public void CloseSettings()
     {
-        Time.timeScale = 1.0f;
-        SceneManager.LoadScene(2);
+        PauseMenu.SetActive(true);
+        SettingsMenu.SetActive(false);
+        Player.GetComponent<PauseControls>().otherMenuActive = false;
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(settingsClosedButton);
     }
-
+    
     public void PlayWhiteboxMaze ()
     {
         Time.timeScale = 1.0f;
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene(1);
     }
-
-    public void PlaySubmarine ()
-    {
-        Time.timeScale = 1.0f;
-        SceneManager.LoadScene(4);
-    }
-
-    //public void PlayReef ()
-    //{
-        //SceneManager.LoadScene(5);
-    //}
     public void ResumeGame()
     {
         PauseMenu.SetActive(false);
+        gameUI.SetActive(true);
         Player.GetComponent<PauseControls>().paused = false;
         Time.timeScale = 1;
         Cursor.visible = false;

@@ -10,8 +10,16 @@ public class hazardZone : MonoBehaviour
 
         if (controller != null)
         {
-            controller.ChangeHealth(-1.5f);
+            controller.ChangeHealth(-8.5f);
             controller.TakeDamage();
+            controller.isBleeding = true; 
         }
+    }
+    void OnTriggerEnter (Collider other)
+    {
+    if (other.CompareTag("Player"))
+    {
+        Destroy(this);
+    }
     }
 }

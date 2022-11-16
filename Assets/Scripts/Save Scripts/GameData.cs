@@ -4,15 +4,19 @@ using UnityEngine;
 public class GameData
 {
     public Vector3 playerPosition;
+    public Vector3 flashlightPosition;
     public Quaternion playerRotation;
     public int invisCharges;
     public bool knifeHasBeenPickedUp;
+    public bool hasUpgradedSuit;
 
     public GameData()
     {
-        playerPosition = new Vector3(0,1,0);
+        playerPosition = new Vector3(-60f,-20.5f,-90f);
         playerRotation = new Quaternion(0,0,0,0);
+        flashlightPosition = new Vector3(-59.75f, -20.14f, -89.62f);
         invisCharges = 3;
         knifeHasBeenPickedUp = false;
+        hasUpgradedSuit = false;
     }
 }

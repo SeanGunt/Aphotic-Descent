@@ -10,6 +10,8 @@ public class PlayerHealthController : MonoBehaviour
     [SerializeField]private bool isInvincible, startCooldown, canRegen;
     public bool isBleeding, gameOver;
     [SerializeField]private GameObject gameOverMenu;
+    public AudioSource audioSource;
+    public AudioClip[] hitSounds;
 
     void Start()
     {
@@ -39,6 +41,7 @@ public class PlayerHealthController : MonoBehaviour
             if (playerHealth <= maxHealth - 0.01)
             {
                 playerHealth += Time.deltaTime *regenRate;
+                isBleeding = true;
                 UpdateHealth();
             }
             else
@@ -73,6 +76,9 @@ public class PlayerHealthController : MonoBehaviour
     {
         if(playerHealth >= 0)
         {
+            int randomHitSound = Random.Range(0,2);
+            Debug.Log(randomHitSound);
+            audioSource.PlayOneShot(hitSounds[randomHitSound]);
             canRegen = false;
             UpdateHealth();
             healCooldown = maxHealCooldown;

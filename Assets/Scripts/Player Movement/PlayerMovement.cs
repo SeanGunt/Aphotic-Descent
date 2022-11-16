@@ -7,14 +7,16 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
   public CharacterController controller;
   [SerializeField] private float groundedSpeed, airSpeed, floatSpeed, outOfWaterSpeed, 
-  groundDistance, gravityInWater, gravityOutOfWater, playerStamina, maxStamina, tiredCooldown;
-  private float moveSpeed;
-  [SerializeField] private Transform groundCheck;
-  [SerializeField] private LayerMask groundMask;
-  private Vector3 velocity;
-  private bool isGrounded;
-  [SerializeField] private bool isSwimming, canSwim, isTired;
+  groundDistance, gravityInWater, gravityOutOfWater, playerStamina, maxStamina, tiredCooldown,
+  walkBobSpeed, walkBobAmount, underwaterBobSpeed, underwaterBobAmount;
+  private float moveSpeed, defaultYPos, timer;
+  [SerializeField] private LayerMask ignoreMask;
+  private Vector3 velocity, moveDirection;
+  private bool isGrounded, hasUpgradedSuit;
+  [SerializeField] private bool isSwimming, canSwim, isTired, canUseHeadbob;
   [SerializeField] private Image staminaBar, tiredBar;
+  [SerializeField] private Camera playerCamera;
+  [HideInInspector] public bool inWater;
   private State state;
   enum State
   {
@@ -25,29 +27,34 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   {
     this.transform.position = data.playerPosition;
     this.transform.rotation = data.playerRotation;
+    hasUpgradedSuit = data.hasUpgradedSuit;
   }
 
   public void SaveData(GameData data)
   {
     data.playerPosition = this.transform.position;
     data.playerRotation = this.transform.rotation;
+    data.hasUpgradedSuit = hasUpgradedSuit;
   }
 
   private void Awake()
   {
     state = State.settingPosition;
+    playerCamera = GetComponentInChildren<Camera>();
+    defaultYPos = playerCamera.transform.localPosition.y;
   }
   
   private void Update()
   {
+      if (Input.GetKeyDown(KeyCode.UpArrow))
+      {
+        hasUpgradedSuit = true;
+      }
         switch (state)
       {
         default:
           case State.settingPosition:
-              if (SceneManager.GetActiveScene().buildIndex != 3 && SceneManager.GetActiveScene().buildIndex != 4)
-              {
-                DataPersistenceManager.instance.LoadGame();
-              }
+              DataPersistenceManager.instance.LoadGame();
               StartCoroutine(SetPlayerState(0.15f));
           break;
 
@@ -64,9 +71,18 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void MoveInWater()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+      if (Physics.Raycast(transform.position, Vector3.down, groundDistance + 0.1f, ~ignoreMask))
+      {
+        isGrounded = true;
+      }
+      else
+      {
+        isGrounded = false;
+      }
+
         if(isGrounded)
         {
+          canUseHeadbob = true;
           velocity.y = 0;
           moveSpeed = groundedSpeed;
           isSwimming = false;
@@ -85,14 +101,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         Vector3 move = transform.right * x + transform.forward * z;
 
         //Float Up
-        if (Input.GetButton("Ascend") && canSwim)
+        if (Input.GetButton("Ascend") && canSwim && hasUpgradedSuit)
         {
           velocity.y = floatSpeed;
           isSwimming = true;
         }
 
         //Float Down
-        if (Input.GetButton("Descend") && canSwim && !isGrounded)
+        if (Input.GetButton("Descend") && canSwim && !isGrounded && hasUpgradedSuit)
         {
           velocity.y = -floatSpeed * 2;
           isSwimming = true;
@@ -109,6 +125,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         //Stamina Drain
         if (isSwimming)
         {
+          canUseHeadbob = false;
           playerStamina -= Time.deltaTime;
           staminaBar.fillAmount = playerStamina/maxStamina;
           if (playerStamina <= 0)
@@ -121,6 +138,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
           }
         }
 
+        //HeadBobbingCall
+        if(canUseHeadbob)
+        {
+          HandleHeadBob(underwaterBobAmount, underwaterBobSpeed);
+        }
+          
+        moveDirection = move;
         controller.Move(move * moveSpeed * Time.deltaTime);
         velocity.y += gravityInWater * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
@@ -128,17 +152,33 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
       private void MoveOutOfWater()
     {
-      isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+      if (Physics.Raycast(transform.position, Vector3.down, groundDistance + 0.1f, ~ignoreMask))
+      {
+        isGrounded = true;
+      }
+      else
+      {
+        isGrounded = false;
+      }
+
         if(isGrounded)
         {
+          canUseHeadbob = true;
           velocity.y = 0;
         }
+
       moveSpeed = outOfWaterSpeed;
       canSwim = false;
       float x = Input.GetAxis("Horizontal");
       float z = Input.GetAxis("Vertical");
       Vector3 move = transform.right * x + transform.forward * z;
+      
+      if(canUseHeadbob)
+        {
+          HandleHeadBob(walkBobAmount, walkBobSpeed);
+        }
 
+      moveDirection = move;
       controller.Move(move * moveSpeed * Time.deltaTime);
       velocity.y += gravityOutOfWater * Time.deltaTime;
       controller.Move(velocity * Time.deltaTime);
@@ -149,16 +189,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       if (other.gameObject.tag == "Water")
       {
         state = State.inWater;
+        inWater = true;
         if (playerStamina > 0)
         {
           canSwim = true;
         }
-      }
-
-      if(other.gameObject.tag == "Checkpoint")
-      {
-        DataPersistenceManager.instance.SaveGame();
-        Debug.Log("Saved");
       }
     }
 
@@ -167,6 +202,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       if (other.gameObject.tag == "Water")
       {
         state = State.outOfWater;
+        inWater = false;
       }
     }
 
@@ -191,13 +227,27 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       }
     }
 
+    private void HandleHeadBob(float amount, float speed)
+    {
+      if (!isGrounded) return;
+      if(Mathf.Abs(moveDirection.x) > 0.1f || Mathf.Abs(moveDirection.z) > 0.1f)
+      {
+        timer += Time.deltaTime * speed;
+        playerCamera.transform.localPosition = new Vector3(
+          playerCamera.transform.localPosition.x,
+          defaultYPos + Mathf.Sin(timer) * amount,
+          playerCamera.transform.localPosition.z
+        );
+      }
+    }
+
     IEnumerator SetPlayerState(float waitTime)
     {
       yield return new WaitForSeconds(waitTime);
       state = State.outOfWater;
     }
     
-     void start()
+  void start()
   {
     DontDestroyOnLoad(gameObject);
   }
