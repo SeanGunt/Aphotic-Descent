@@ -5,9 +5,11 @@ using UnityEngine;
 public class OpenSecondDoor : MonoBehaviour
 {
     [SerializeField] GameObject door;
-    void Awake()
+    [SerializeField] flashlightMechanic fmech;
+    public void Open()
     {
-        Debug.Log("called");
         door.transform.eulerAngles = new Vector3(0,-90,0);
+        fmech.flashlightText.text = "Door Opened";
+        fmech.Invoke("ClearUI", 3);
     }
 }

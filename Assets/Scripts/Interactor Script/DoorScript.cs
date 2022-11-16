@@ -7,10 +7,14 @@ public class DoorScript : MonoBehaviour {
     public bool open;
     public bool close;
     public bool inTrigger;
+    private BoxCollider bCollider;
+    private UItext uItext;
 
     private void Awake()
     {
         inTrigger = false;
+        bCollider = GetComponent<BoxCollider>();
+        uItext = GetComponent<UItext>();
     }
  
     void OnTriggerEnter(Collider other)
@@ -23,7 +27,10 @@ public class DoorScript : MonoBehaviour {
  
     void OnTriggerExit(Collider other)
     {
-        inTrigger = false;
+        if (other.gameObject.tag == "Player") 
+         {
+            inTrigger = false;
+         }
     }
  
     void Update()
@@ -36,17 +43,11 @@ public class DoorScript : MonoBehaviour {
                 {
                     if (Input.GetButtonDown("Interact"))
                     {
+                        bCollider.enabled = false;
+                        uItext.GuiOn = false;
                         open = true;
                         close = false;
                     }
-                }
-            }
-            else
-            {
-                if (Input.GetButtonDown("Interact"))
-                {
-                    close = true;
-                    open = false;
                 }
             }
         }
@@ -62,6 +63,4 @@ public class DoorScript : MonoBehaviour {
             transform.rotation = newRot;
         }
     }
- 
-    
 }

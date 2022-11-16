@@ -11,7 +11,7 @@ public class UItext : MonoBehaviour {
 	public bool GuiOn;
 
 	[Space(10)]
-	public string Text = "Turn Back";
+	public string Text = "E to interact";
 	public GUIStyle guiStyle;
 	public int fontSize;
 	public Rect BoxSize = new Rect( 0, 0, 200, 100);
