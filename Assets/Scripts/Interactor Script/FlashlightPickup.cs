@@ -8,6 +8,15 @@ public class FlashlightPickup : MonoBehaviour
     public bool inTrigger;
     public GameObject tutTextObj;
     public TextMeshProUGUI tutText;
+    [SerializeField] private ClearUIText clearUIText;
+
+    private void Start()
+    {
+        if (GameDataHolder.flashlightHasBeenPickedUp)
+        {
+            this.gameObject.SetActive(false);
+        }
+    }
  
     void OnTriggerEnter(Collider other)
     {
@@ -25,9 +34,12 @@ public class FlashlightPickup : MonoBehaviour
         {
             if (Input.GetButtonDown("Interact"))
             {
+                clearUIText.CancelInvoke();
+                clearUIText.Invoke("ClearUI", 2);
                 tutTextObj.SetActive(true);
                 tutText.text = "Flashlight Acquired";
                 GameDataHolder.flashlightHasBeenPickedUp = true;
+                DataPersistenceManager.instance.SaveGame();
                 Destroy(this.gameObject);
             }
         }

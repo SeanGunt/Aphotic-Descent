@@ -3,7 +3,6 @@ using System.Collections;
  
 public class DoorScript : MonoBehaviour {
  
-    public static bool doorKey;
     public bool open;
     public bool close;
     public bool inTrigger;
@@ -39,7 +38,7 @@ public class DoorScript : MonoBehaviour {
         {
             if (close)
             {
-                if (doorKey)
+                if (GameDataHolder.doorKey)
                 {
                     if (Input.GetButtonDown("Interact"))
                     {
