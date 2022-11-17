@@ -7,6 +7,15 @@ public class DoorKey : MonoBehaviour
     public bool inTrigger;
     public GameObject tutTextObj;
     public TextMeshProUGUI tutText;
+    [SerializeField] private ClearUIText clearUIText;
+
+    private void Start()
+    {
+        if (GameDataHolder.knifeHasBeenPickedUp)
+        {
+            this.gameObject.SetActive(false);
+        }
+    }
  
     void OnTriggerEnter(Collider other)
     {
@@ -24,10 +33,13 @@ public class DoorKey : MonoBehaviour
         {
             if (Input.GetButtonDown("Interact"))
             {
+                clearUIText.CancelInvoke();
+                clearUIText.Invoke("ClearUI", 2);
                 tutTextObj.SetActive(true);
                 tutText.text = "Knife Acquired";
                 GameDataHolder.knifeHasBeenPickedUp = true;
-                DoorScript.doorKey = true;
+                GameDataHolder.doorKey= true;
+                DataPersistenceManager.instance.SaveGame();
                 Destroy(this.gameObject);
             }
         }

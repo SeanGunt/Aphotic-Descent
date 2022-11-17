@@ -19,5 +19,11 @@ public class DestroyOnCollision : MonoBehaviour
       audioSource.PlayOneShot(kelpDestructionNoises[randomNoise]);
       Destroy(other.gameObject);
     }
+
+    if (other.gameObject.tag == "Boxes")
+    {
+      Destroy(other.gameObject);
+      GameDataHolder.boxes -= 1;
+    }
   }
 }

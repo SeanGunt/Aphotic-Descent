@@ -10,6 +10,8 @@ public class GameData
     public bool knifeHasBeenPickedUp;
     public bool hasUpgradedSuit;
     public bool flashlightHasBeenPickedUp;
+    public bool doorKey;
+    public int boxes;
 
     public GameData()
     {
@@ -20,5 +22,7 @@ public class GameData
         knifeHasBeenPickedUp = false;
         hasUpgradedSuit = false;
         flashlightHasBeenPickedUp = false;
+        doorKey = false;
+        boxes = 4;
     }
 }

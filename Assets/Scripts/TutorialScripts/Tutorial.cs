@@ -9,6 +9,15 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private TextMeshProUGUI boxText;
     [SerializeField] private GameObject boxTextObj;
     [SerializeField] private GameObject tutTextObj;
+    [SerializeField] private GameObject boxes;
+
+    private void Start()
+    {
+        if (GameDataHolder.boxes == 0)
+        {
+            boxes.SetActive(false);
+        }
+    }
 
     private void Update()
     {
@@ -17,13 +26,9 @@ public class Tutorial : MonoBehaviour
             boxText.text = "Left Mouse To Swing Knife";
         }
 
-        if (tutTextObj.activeInHierarchy)
+        if (GameDataHolder.boxes <= 0)
         {
-            Invoke("ClearUI", 2f);
-        }
-        else
-        {
-            CancelInvoke();
+            DestroyBoxText();
         }
     }
 
@@ -42,8 +47,8 @@ public class Tutorial : MonoBehaviour
         }
     }
 
-    private void ClearUI()
+    private void DestroyBoxText()
     {
-        tutTextObj.SetActive(false);
+        boxText.text = "";
     }
 }
