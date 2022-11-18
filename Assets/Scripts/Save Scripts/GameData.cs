@@ -7,11 +7,13 @@ public class GameData
     public Vector3 flashlightPosition;
     public Quaternion playerRotation;
     public int invisCharges;
+    public int boxes;
     public bool knifeHasBeenPickedUp;
     public bool hasUpgradedSuit;
     public bool flashlightHasBeenPickedUp;
     public bool doorKey;
-    public int boxes;
+    public bool secondDoorOpened;
+
 
     public GameData()
     {
@@ -23,6 +25,7 @@ public class GameData
         hasUpgradedSuit = false;
         flashlightHasBeenPickedUp = false;
         doorKey = false;
+        secondDoorOpened = false;
         boxes = 4;
     }
 }

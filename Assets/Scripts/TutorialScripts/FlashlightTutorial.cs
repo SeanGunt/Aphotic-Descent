@@ -8,6 +8,14 @@ public class FlashlightTutorial : MonoBehaviour
     [SerializeField] private TextMeshProUGUI flashlightText;
     [SerializeField] private GameObject flashlightTextObj;
 
+    private void Update()
+    {
+        if (GameDataHolder.secondDoorOpened)
+        {
+            flashlightTextObj.SetActive(false);
+        }
+    }
+
     private void Awake()
     {
         flashlightTextObj.SetActive(false);
