@@ -244,6 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bd7b531ccb99524ab594c0ca968e8f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mouseSensitivity: 300
   playerBody: {fileID: 5998312585981303767}
 --- !u!114 &2014066538727847848
 MonoBehaviour:
@@ -413,6 +414,7 @@ GameObject:
   - component: {fileID: 381532817}
   - component: {fileID: 2122034253}
   - component: {fileID: 501216569}
+  - component: {fileID: 4837783268649153546}
   m_Layer: 11
   m_Name: First Person Player
   m_TagString: Player
@@ -728,6 +730,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4837783268649153546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4124918348873427034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cb7f46cd1d51fe41b9ad8e9b9f8c852, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6226697399956672222
 GameObject:
   m_ObjectHideFlags: 0
