@@ -10,6 +10,11 @@ public class MainMenu : MonoBehaviour
 
     [SerializeField] GameObject optionsFirstButton, optionsClosedButton, howToFirstButton, howToClosedButton;
 
+    public void Awake()
+    {
+        Time.timeScale = 1f;
+    }
+
     public void PlayWhiteboxMaze ()
     {
         Time.timeScale = 1;
