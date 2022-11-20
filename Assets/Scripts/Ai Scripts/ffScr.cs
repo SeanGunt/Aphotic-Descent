@@ -5,12 +5,13 @@ using UnityEngine.AI;
 
 public class ffScr : MonoBehaviour
 {
-    private NavMeshAgent theAgent;
-    [SerializeField] private float agentSpeed;
+    public NavMeshAgent theAgent;
+    [SerializeField] public float agentSpeed;
     [SerializeField] private float scentRange;
     [SerializeField] private float rangeForBleedMultiplier;
     [SerializeField] private GameObject player;
     [SerializeField] private Transform[] points;
+    [SerializeField] public float stunTime;
     private float bleedRange;
     private float rangeUsed;
     Vector3 destination;
@@ -18,8 +19,8 @@ public class ffScr : MonoBehaviour
     private bool unchosen = true;
     PlayerHealthController pHC;
     private bool currentlyAttacking = false;
-    private State state;
 
+    private State state;
     public enum State
     {
         attacking, patrolling, wasAttacking
