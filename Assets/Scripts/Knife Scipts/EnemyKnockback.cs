@@ -9,6 +9,12 @@ public class EnemyKnockback : MonoBehaviour
     [SerializeField] private float knockbackForce;
     private State state;
 
+    ffScr freakFishScript;
+    private bool freakFishAttached = false;
+    private float stopTime;
+    private float resetTime;
+    private bool stopped = false;
+
     enum State
     {
         beingKnockedBack, normal
@@ -18,6 +24,18 @@ public class EnemyKnockback : MonoBehaviour
         cam = Camera.main;
         rb = this.GetComponent<Rigidbody>();
         state = State.normal;
+
+        if(this.gameObject.name == "naMeFinder")
+        {
+            freakFishAttached = true;
+            freakFishScript = GetComponent<ffScr>();
+            stopTime = freakFishScript.stunTime;
+            resetTime = stopTime;
+        }
+        else
+        {
+            return;
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -26,6 +44,14 @@ public class EnemyKnockback : MonoBehaviour
             rb.AddForce(cam.transform.forward * knockbackForce, ForceMode.Impulse);
             state = State.beingKnockedBack;
             StartCoroutine("ResetKnockBack", 0.5f);
+
+            if(freakFishAttached && !stopped)
+            {
+                stopped = true;
+                freakFishScript.theAgent.speed = 0;
+                
+                Debug.Log("ff was hit");
+            }
         }
     }
 
@@ -58,6 +84,19 @@ public class EnemyKnockback : MonoBehaviour
                 BeingKnockedBack();
             break;
 
+        }
+
+        if(stopped)
+        {
+            stopTime -= Time.deltaTime;
+
+            if(stopTime <= 0)
+                {
+                    freakFishScript.theAgent.speed = freakFishScript.agentSpeed;
+                    stopTime = resetTime;
+                    Debug.Log("ff speed resetting");
+                    stopped = false;
+                }
         }
     }
 }
