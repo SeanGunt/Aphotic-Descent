@@ -111,17 +111,23 @@ public class flashlightMechanic : MonoBehaviour
             if (hit.collider.GetComponent<RevealHiddenObjects>() != false)
             {
                 rHO = hit.collider.GetComponent<RevealHiddenObjects>();
-                flashlightText.text = "Object Revealed";
-                rHO.objRevealed = true;
-                Invoke("ClearUI", 3);
+                if (rHO.objSpawned == false)
+                {
+                    flashlightText.text = "Object Revealed";
+                    rHO.objRevealed = true;
+                    Invoke("ClearUI", 3);
+                }
             }
 
             if (hit.collider.GetComponent<SpawnHiddenObject>() != false)
             {
                 sHO = hit.collider.GetComponent<SpawnHiddenObject>();
-                flashlightText.text = "Object Revealed";
-                sHO.objRevealed = true;
-                Invoke("ClearUI", 3);
+                if (sHO.objSpawned == false)
+                {
+                    flashlightText.text = "Object Revealed";
+                    sHO.objRevealed = true;
+                    Invoke("ClearUI", 3);
+                }
             }
             if (hit.collider.GetComponent<BlacklightEvent>() != false)
             {

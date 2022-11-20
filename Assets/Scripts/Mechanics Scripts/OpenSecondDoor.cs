@@ -16,10 +16,13 @@ public class OpenSecondDoor : MonoBehaviour
     }
     public void Open()
     {
-        door.transform.eulerAngles = new Vector3(0,-90,0);
-        fmech.flashlightText.text = "Door Opened";
-        fmech.Invoke("ClearUI", 3);
-        GameDataHolder.secondDoorOpened = true;
-        DataPersistenceManager.instance.SaveGame();
+        if (GameDataHolder.secondDoorOpened == false)
+        {
+            door.transform.eulerAngles = new Vector3(0,-90,0);
+            fmech.flashlightText.text = "Door Opened";
+            fmech.Invoke("ClearUI", 3);
+            GameDataHolder.secondDoorOpened = true;
+            DataPersistenceManager.instance.SaveGame();
+        }
     }
 }

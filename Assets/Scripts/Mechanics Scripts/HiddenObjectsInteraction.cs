@@ -6,8 +6,9 @@ public class HiddenObjectsInteraction : MonoBehaviour
 {   
     public Material[] hMat;
     [SerializeField] Renderer hRend;
-    public bool objRevealed;
+    public bool objRevealed, objSpawned, canSpawnObjects;
     [SerializeField] private float revealedTime, maxRevealed;
+    private SpawnHiddenObject sHO;
 
     void Awake()
     {
@@ -17,17 +18,30 @@ public class HiddenObjectsInteraction : MonoBehaviour
         objRevealed = false;
     }
 
+    void Start()
+    {
+        if (this.GetComponent<SpawnHiddenObject>() != false)
+        {
+            sHO = this.GetComponent<SpawnHiddenObject>();
+            canSpawnObjects = true;
+        }
+        else canSpawnObjects = false;
+    }
+
     void Update()
     {
         revealedTime = Mathf.Clamp(revealedTime, 0f, maxRevealed);
-        if (objRevealed)
+        if (objSpawned == false)
         {
-            hRend.sharedMaterial = hMat[1];
-            RevelationTimer();
-        }
-        if (!objRevealed)
-        {
-            hRend.sharedMaterial = hMat[0];
+            if (canSpawnObjects)
+            {
+                MaterialChange();
+                objSpawned = sHO.objSpawned;
+            }
+            else
+            {
+                MaterialChange();
+            }
         }
     }
 
@@ -38,6 +52,19 @@ public class HiddenObjectsInteraction : MonoBehaviour
         {
             objRevealed = false;
             revealedTime = maxRevealed;
+        }
+    }
+
+    void MaterialChange()
+    {
+        if (objRevealed)
+        {
+            hRend.sharedMaterial = hMat[1];
+            RevelationTimer();
+        }
+        if (!objRevealed)
+        {
+            hRend.sharedMaterial = hMat[0];
         }
     }
 }

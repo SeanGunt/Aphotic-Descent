@@ -16,10 +16,15 @@ public class SpawnHiddenObject : MonoBehaviour
     {
         if (objRevealed && !objSpawned)
         {
-            foreach (GameObject objectToBeSpawned in objectsToBeSpawned)
-            objectToBeSpawned.gameObject.SetActive(true);
-            objRevealed = false;
-            objSpawned = true;
+            SpawnObject();
         }
+    }
+
+    void SpawnObject()
+    {
+        foreach (GameObject objectToBeSpawned in objectsToBeSpawned)
+        objectToBeSpawned.gameObject.SetActive(true);
+        objRevealed = false;
+        objSpawned = true;
     }
 }
