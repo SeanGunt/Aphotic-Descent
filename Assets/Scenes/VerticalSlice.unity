@@ -1927,6 +1927,25 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &179360630 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3022973977614199456, guid: 97af5506c3a9dcc4a95b95e52d947e8b, type: 3}
+  m_PrefabInstance: {fileID: 8312991713705186858}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &179360635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179360630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21bb99f18b3d5834ca6485fc5b16ea75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Distance: {x: 0, y: 0.4, z: 0}
+  MovementFrequency: {x: 0, y: 0.4, z: 0}
 --- !u!43 &183921330
 Mesh:
   m_ObjectHideFlags: 0
@@ -3075,6 +3094,65 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &334934082
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 334934083}
+  - component: {fileID: 334934084}
+  m_Layer: 0
+  m_Name: Fish Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &334934083
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334934082}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -67.36, y: -25.7, z: 43.08}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 402944275}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &334934084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334934082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 397907b0f07503f4ab66dbc9b7de7105, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flockUnitPrefab: {fileID: 3979147532359756193, guid: 614b942df3683cf4d8ad1dda70fac825, type: 3}
+  flockSize: 20
+  spawnBounds: {x: 50, y: 10, z: 50}
+  _minSpeed: 1
+  _maxSpeed: 2
+  _cohesionDistance: 5
+  _avoidanceDistance: 2
+  _aligementDistance: 2
+  _obstacleDistance: 7
+  _boundsDistance: 20
+  _cohesionWeight: 0.31
+  _avoidanceWeight: 1
+  _aligementWeight: 0
+  _boundsWeight: 10
+  _obstacleWeight: 100
 --- !u!43 &351092753
 Mesh:
   m_ObjectHideFlags: 0
@@ -3579,8 +3657,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21bb99f18b3d5834ca6485fc5b16ea75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Distance: {x: 0, y: 0, z: 0}
-  MovementFrequency: {x: 0, y: 0, z: 0}
+  Distance: {x: 0, y: 3, z: 0}
+  MovementFrequency: {x: 0, y: 0.5, z: 0}
 --- !u!43 &378453894
 Mesh:
   m_ObjectHideFlags: 0
@@ -4401,6 +4479,11 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!4 &402944275 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8312991712574798760, guid: 97af5506c3a9dcc4a95b95e52d947e8b, type: 3}
+  m_PrefabInstance: {fileID: 8312991713705186858}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &405972674
 Mesh:
   m_ObjectHideFlags: 0
@@ -4577,8 +4660,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21bb99f18b3d5834ca6485fc5b16ea75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Distance: {x: 0, y: 0, z: 0}
-  MovementFrequency: {x: 0, y: 0, z: 0}
+  Distance: {x: 0, y: 1, z: 0}
+  MovementFrequency: {x: 0, y: 1, z: 0}
 --- !u!43 &420209326
 Mesh:
   m_ObjectHideFlags: 0
@@ -5346,6 +5429,25 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &498737111 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3022973976802080255, guid: 97af5506c3a9dcc4a95b95e52d947e8b, type: 3}
+  m_PrefabInstance: {fileID: 8312991713705186858}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &498737116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498737111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21bb99f18b3d5834ca6485fc5b16ea75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Distance: {x: 0, y: 0.6, z: 0}
+  MovementFrequency: {x: 0, y: 0.6, z: 0}
 --- !u!43 &514923322
 Mesh:
   m_ObjectHideFlags: 0
@@ -9785,6 +9887,25 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1033193661 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7937865218764196742, guid: 97af5506c3a9dcc4a95b95e52d947e8b, type: 3}
+  m_PrefabInstance: {fileID: 8312991713705186858}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1033193663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1033193661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21bb99f18b3d5834ca6485fc5b16ea75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Distance: {x: 0, y: 2, z: 0}
+  MovementFrequency: {x: 0, y: 1, z: 0}
 --- !u!43 &1036227580
 Mesh:
   m_ObjectHideFlags: 0
@@ -14139,8 +14260,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21bb99f18b3d5834ca6485fc5b16ea75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Distance: {x: 0, y: 0, z: 0}
-  MovementFrequency: {x: 0, y: 0, z: 0}
+  Distance: {x: 0, y: 1, z: 0}
+  MovementFrequency: {x: 0, y: 0.5, z: 0}
 --- !u!43 &1577323785
 Mesh:
   m_ObjectHideFlags: 0
@@ -17982,8 +18103,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21bb99f18b3d5834ca6485fc5b16ea75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Distance: {x: 0, y: 0, z: 0}
-  MovementFrequency: {x: 0, y: 0, z: 0}
+  Distance: {x: 0, y: 0.5, z: 0}
+  MovementFrequency: {x: 0, y: 0.5, z: 0}
 --- !u!43 &2069548494
 Mesh:
   m_ObjectHideFlags: 0
@@ -18318,7 +18439,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1472652
+  m_Name: pb_Mesh-111588
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -21019,8 +21140,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21bb99f18b3d5834ca6485fc5b16ea75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Distance: {x: 0, y: 0, z: 0}
-  MovementFrequency: {x: 0, y: 0, z: 0}
+  Distance: {x: 0, y: 2, z: 0}
+  MovementFrequency: {x: 0, y: 1, z: 0}
 --- !u!114 &8312991713705186869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21033,8 +21154,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21bb99f18b3d5834ca6485fc5b16ea75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Distance: {x: 0, y: 0, z: 0}
-  MovementFrequency: {x: 0, y: 0, z: 0}
+  Distance: {x: 0, y: 2, z: 0}
+  MovementFrequency: {x: 0, y: 0.5, z: 0}
 --- !u!114 &8312991713705186870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21047,8 +21168,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21bb99f18b3d5834ca6485fc5b16ea75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Distance: {x: 0, y: 0, z: 0}
-  MovementFrequency: {x: 0, y: 0, z: 0}
+  Distance: {x: 0, y: 1, z: 0}
+  MovementFrequency: {x: 0, y: 0.1, z: 0}
 --- !u!114 &8312991713705186871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21061,8 +21182,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21bb99f18b3d5834ca6485fc5b16ea75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Distance: {x: 0, y: 0, z: 0}
-  MovementFrequency: {x: 0, y: 0, z: 0}
+  Distance: {x: 0, y: 1, z: 0}
+  MovementFrequency: {x: 0, y: 1, z: 0}
 --- !u!114 &8312991713705186872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21075,5 +21196,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21bb99f18b3d5834ca6485fc5b16ea75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Distance: {x: 0, y: 0, z: 0}
-  MovementFrequency: {x: 0, y: 0, z: 0}
+  Distance: {x: 0, y: 3, z: 0}
+  MovementFrequency: {x: 0, y: 0.5, z: 0}
