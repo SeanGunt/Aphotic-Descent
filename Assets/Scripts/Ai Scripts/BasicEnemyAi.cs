@@ -11,7 +11,6 @@ public class BasicEnemyAi : MonoBehaviour
     [SerializeField] private float walkPointRange;
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private GameObject player;
-    private InvisibilityMechanic pS;
     enum State
     {
         patrolling, attacking, idle
@@ -20,9 +19,8 @@ public class BasicEnemyAi : MonoBehaviour
     private void Awake()
     {
         walkPointSet = false;
-        state = State.idle;
+        state = State.patrolling;
         agent = GetComponent<NavMeshAgent>();
-        pS = player.GetComponent<InvisibilityMechanic>();
     }
 
     private void Patrolling()
@@ -44,7 +42,7 @@ public class BasicEnemyAi : MonoBehaviour
         }
 
         float distanceBetween = Vector3.Distance(player.transform.position, this.transform.position);
-        if (distanceBetween < aggroDistance && !pS.isSafe)
+        if (distanceBetween < aggroDistance)
         {
             state = State.attacking;
         }
@@ -53,7 +51,7 @@ public class BasicEnemyAi : MonoBehaviour
     private void Idle()
     {
         float distanceBetween = Vector3.Distance(player.transform.position, this.transform.position);
-        if (distanceBetween < aggroDistance && !pS.isSafe)
+        if (distanceBetween < aggroDistance)
         {
             state = State.attacking;
         }
@@ -77,7 +75,7 @@ public class BasicEnemyAi : MonoBehaviour
         agent.SetDestination(player.transform.position);
 
         float distanceBetween = Vector3.Distance(player.transform.position, this.transform.position);
-        if (distanceBetween > aggroDistance || pS.isSafe)
+        if (distanceBetween > aggroDistance)
         {
             state = State.patrolling;
         }
