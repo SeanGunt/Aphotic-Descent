@@ -6,9 +6,9 @@ using UnityEngine.EventSystems;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] GameObject mainMenu, optionsMenu, howToMenu;
+    [SerializeField] GameObject mainMenu, optionsMenu, howToMenu, creditsMenu;
 
-    [SerializeField] GameObject optionsFirstButton, optionsClosedButton, howToFirstButton, howToClosedButton;
+    [SerializeField] GameObject optionsFirstButton, optionsClosedButton, howToFirstButton, howToClosedButton, creditsFirstButton, creditsClosedButton;
 
     public void Awake()
     {
@@ -69,6 +69,30 @@ public class MainMenu : MonoBehaviour
 
         //sets a new selected button
         EventSystem.current.SetSelectedGameObject(howToClosedButton);
+    }
+
+    public void OpenCredits()
+    {
+        mainMenu.SetActive(false);
+        creditsMenu.SetActive(true);
+
+        //clears selected button
+        EventSystem.current.SetSelectedGameObject(null);
+
+        //sets a new selected button
+        EventSystem.current.SetSelectedGameObject(creditsFirstButton);
+    }
+
+    public void CloseCredits()
+    {
+        creditsMenu.SetActive(false);
+        mainMenu.SetActive(true);
+
+        //clears selected button
+        EventSystem.current.SetSelectedGameObject(null);
+
+        //sets a new selected button
+        EventSystem.current.SetSelectedGameObject(creditsClosedButton);
     }
 
     public void QuitGame ()
