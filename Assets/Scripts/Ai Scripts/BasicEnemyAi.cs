@@ -28,13 +28,15 @@ public class BasicEnemyAi : MonoBehaviour
         if (!walkPointSet)
         {
             SearchWalkPoint();
+            Debug.Log("Searching walkpoint");
         }
+
         if (walkPointSet)
         {
             agent.destination = walkPoint;
         }
 
-        Vector3 distanceToWalkPoint =  transform.position - walkPoint;
+        Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
         if (distanceToWalkPoint.magnitude < 1.0f)
         {
@@ -88,6 +90,7 @@ public class BasicEnemyAi : MonoBehaviour
             default:
             case State.patrolling:
                 Patrolling();
+                SearchWalkPoint();
             break;
 
             case State.attacking:
