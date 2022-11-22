@@ -12172,7 +12172,7 @@ Animator:
   m_GameObject: {fileID: 2032463768}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b59bddc52a9bf084593bf8e8e9b11d7c, type: 2}
+  m_Controller: {fileID: 9100000, guid: 63dcd6d0c7b939647b566cd64b7e8b92, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -12228,7 +12228,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 12.92, y: 7.27}
+  m_Size: {x: 1292, y: 727}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -13230,5 +13230,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5089961757819682159, guid: 43750d15144613c4891371b51ce97dde, type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5089961757819682159, guid: 43750d15144613c4891371b51ce97dde, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 774fe041ece91224a80ab33ac47b7be9, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43750d15144613c4891371b51ce97dde, type: 3}
