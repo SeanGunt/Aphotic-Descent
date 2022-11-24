@@ -9,6 +9,7 @@ public class WeaponController : MonoBehaviour
     public float AttackCooldown;
     public bool IsAttacking = false;
     private BoxCollider bc;
+    public Animator animator;
     private void Awake()
     {
         bc = Knife.GetComponent<BoxCollider>();
@@ -42,11 +43,10 @@ public class WeaponController : MonoBehaviour
 
     public void KnifeAttack()
     {
+        animator.SetTrigger("swungKnife");
         IsAttacking = true;
         bc.enabled  = true;
         CanAttack = false;
-        Animator anim = Knife.GetComponent<Animator>();
-        anim.SetTrigger("Attack");
         StartCoroutine(ResetAttackCooldown());
     }
 

@@ -153,7 +153,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         animator.SetFloat("walkHorizontal", Input.GetAxis("Horizontal"));
         animator.SetFloat("walkVertical", Input.GetAxis("Vertical"));
-        Debug.Log(Input.GetAxis("Horizontal"));
         if (Input.GetAxis("Horizontal") > -0.1 && Input.GetAxis("Horizontal") < 0.1 && Input.GetAxis("Vertical") > -0.1 && Input.GetAxis("Vertical") < 0.1)
         {
           animator.SetBool("notMoving", true);
