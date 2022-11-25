@@ -13,9 +13,9 @@ public class WeaponController : MonoBehaviour
     private void Awake()
     {
         bc = Knife.GetComponent<BoxCollider>();
+        bc.enabled = false;
     }
     
-
     void Update()
     {
         if (Input.GetButtonDown("Knife") || Input.GetAxisRaw("Knife") > 0)
@@ -24,10 +24,6 @@ public class WeaponController : MonoBehaviour
             {
                 KnifeAttack();
             }
-        }
-        if (CanAttack)
-        {
-            bc.enabled = false;
         }
 
         if (GameDataHolder.knifeHasBeenPickedUp)
@@ -45,7 +41,6 @@ public class WeaponController : MonoBehaviour
     {
         animator.SetTrigger("swungKnife");
         IsAttacking = true;
-        bc.enabled  = true;
         CanAttack = false;
         StartCoroutine(ResetAttackCooldown());
     }
