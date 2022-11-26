@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -9,17 +10,19 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
     public float timeInvisible = 5.0f;
     public float invisibleTimer;
     public int invisibilityCharges = 3;
+    public int maxCharges = 3;
     public Text interactionText;
     [SerializeField]private bool isInvisible;
     public bool isSafe;
     [SerializeField] private Image invisibilityBar;
     [SerializeField] private Image fullInvisBar;
     [SerializeField] private GameObject Player, PlayerMesh;
-    [SerializeField] private TextMeshProUGUI invisibilityChargesText;
+    //[SerializeField] private TextMeshProUGUI invisibilityChargesText;
+    public static event Action OnChargeUsed;
 
     private void Start()
     {
-      invisibilityChargesText.text = "Invisibility Charges: " + invisibilityCharges.ToString();
+      //invisibilityChargesText.text = "Invisibility Charges: " + invisibilityCharges.ToString();
     }
     void Awake()
     {
@@ -53,7 +56,8 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
             invisibleTimer = timeInvisible;
             isSafe = true;
             invisibilityCharges--;
-            invisibilityChargesText.text = "Invisibility Charges: " + invisibilityCharges.ToString();
+            OnChargeUsed?.Invoke();
+            //invisibilityChargesText.text = "Invisibility Charges: " + invisibilityCharges.ToString();
             interactionText.text = "You are invisible!";
           }
           else if (invisibilityCharges <= 0)
@@ -87,7 +91,8 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
       {
         CancelInvoke("ClearUI");
         invisibilityCharges++;
-        invisibilityChargesText.text = "Invisibility Charges: " + invisibilityCharges.ToString();
+        OnChargeUsed?.Invoke();
+        //invisibilityChargesText.text = "Invisibility Charges: " + invisibilityCharges.ToString();
         interactionText.text = $"You picked up a charge! Invis charges: {invisibilityCharges}";
         Debug.Log("InvisPicked Up");
         Invoke ("ClearUI", 3);

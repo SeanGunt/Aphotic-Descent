@@ -9,7 +9,7 @@ public class flashlightMechanic : MonoBehaviour
     [SerializeField] GameObject BlacklightLight;
     private bool flashlightOn = false;
     [SerializeField]public float flashlightBattery, maxBattery;
-    [SerializeField]private Image batteryBar, fullBatteryBar;
+    [SerializeField]private Image batteryBar, fullBatteryBar, emptyBatteryBar, flashlightUI;
     [SerializeField]public Text flashlightText;
     [SerializeField]private HiddenObjectsInteraction hI;
     [SerializeField]private RevealHiddenObjects rHO;
@@ -64,7 +64,7 @@ public class flashlightMechanic : MonoBehaviour
             flashlightBattery = Mathf.Clamp(flashlightBattery, 0f, maxBattery);
             if (flashlightOn)
             {
-                fullBatteryBar.fillAmount = flashlightBattery/maxBattery;
+                batteryBar.fillAmount = flashlightBattery/maxBattery;
                 if (Input.GetButton("Blacklight"))
                 {
                     flashlightBattery -= Time.deltaTime*2;
@@ -89,9 +89,8 @@ public class flashlightMechanic : MonoBehaviour
         {
             BlacklightLight.gameObject.SetActive(false);
             FlashlightLight.gameObject.SetActive(false);
-        }
-        
-
+        }  
+        FlashlightUIControl();
     }
     void BlacklightReveal()
     {
@@ -151,6 +150,36 @@ public class flashlightMechanic : MonoBehaviour
         {
             flashlightBattery = maxBattery;
         }
-        fullBatteryBar.fillAmount = flashlightBattery/maxBattery;
+        batteryBar.fillAmount = flashlightBattery/maxBattery;
+    }
+
+    void FlashlightUIControl()
+    {
+        if (GameDataHolder.flashlightHasBeenPickedUp == true)
+        {
+            flashlightUI.gameObject.SetActive(true);
+            if (flashlightBattery >= maxBattery && !flashlightEmpty)
+            {
+                fullBatteryBar.gameObject.SetActive(true);
+                batteryBar.gameObject.SetActive(false);
+                emptyBatteryBar.gameObject.SetActive(false);
+            }
+            else if (flashlightBattery < maxBattery && !flashlightEmpty)
+            {
+                fullBatteryBar.gameObject.SetActive(false);
+                batteryBar.gameObject.SetActive(true);
+                emptyBatteryBar.gameObject.SetActive(true);
+            }
+            else
+            {
+                fullBatteryBar.gameObject.SetActive(false);
+                batteryBar.gameObject.SetActive(false);
+                emptyBatteryBar.gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            flashlightUI.gameObject.SetActive(false);
+        }
     }
 }
