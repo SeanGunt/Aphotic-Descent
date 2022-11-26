@@ -23,7 +23,10 @@ Material:
   m_Name: SubDoor_Rim
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_ValidKeywords:
+  - _METALLICSPECGLOSSMAP
   - _NORMALMAP
+  - _OCCLUSIONMAP
+  - _PARALLAXMAP
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -36,11 +39,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 0adba63b99e40f24c982e59ca49970d6, type: 3}
+        m_Texture: {fileID: 2800000, guid: d7785897c406f2e45b1c229514950cd2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 2b1f25c4b42117e45bcc2809eb10250c, type: 3}
+        m_Texture: {fileID: 2800000, guid: aa31e09682deaf24999793b404063ac6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -60,19 +63,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 0adba63b99e40f24c982e59ca49970d6, type: 3}
+        m_Texture: {fileID: 2800000, guid: d7785897c406f2e45b1c229514950cd2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: 45c8937ba6cf9a841a552cad24584ccb, type: 3}
+        m_Texture: {fileID: 2800000, guid: 134cf2fe76f91054ba0a79f8794ca92a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: c284f635bc59dd746b114510f83d5544, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
-        m_Texture: {fileID: 2800000, guid: adb6cee7d1661514994aa3851d06a211, type: 3}
+        m_Texture: {fileID: 2800000, guid: 4bcf99dbdec5f4041969853b8508a71f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
