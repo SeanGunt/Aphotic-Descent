@@ -1,9 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Checkpoints : MonoBehaviour
 {
+    [SerializeField] private GameObject saveTextObj;
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
@@ -16,6 +16,8 @@ public class Checkpoints : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         DataPersistenceManager.instance.SaveGame();
-        Debug.Log("Game Was Saved");
+        saveTextObj.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        saveTextObj.SetActive(false);
     }
 }

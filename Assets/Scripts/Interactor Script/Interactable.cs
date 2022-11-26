@@ -13,9 +13,4 @@ public class Interactable : MonoBehaviour
     {
         ID = Random.Range(0, 999);
     }
-
-    void Update()
-    {
-        
-    }
 }

@@ -4,16 +4,10 @@ using UnityEngine;
 
 public class PlayerSettings : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Awake()
-    {
-        
-    }
-
-    // Update is called once per frame
+    [SerializeField] private GameObject mainCamera;
     void Update()
     {
-        if (PlayerPrefs.HasKey("Sensitivity"))
+        if (PlayerPrefs.HasKey("Sensitivity") && mainCamera.activeInHierarchy)
         {
             MouseLook ml = Camera.main.GetComponent<MouseLook>();
             ml.mouseSensitivity = PlayerPrefs.GetFloat("Sensitivity")*100;

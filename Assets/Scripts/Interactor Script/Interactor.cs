@@ -12,7 +12,6 @@ public class Interactor : MonoBehaviour
     public Image interactImage;
     public Sprite defaultIcon;
     public Vector2 defaultIconSize;
-
     public Sprite defaultInteractIcon;
     public Vector2 defaultInteractIconSize;
     UnityEvent onInteract;
@@ -24,13 +23,13 @@ public class Interactor : MonoBehaviour
         if(Physics.Raycast(Camera.main.transform.position,Camera.main.transform.forward, out hit, 2, interactableLayerMask))
         {
             if(hit.collider.GetComponent<Interactable>() != false)
-        {
-           onInteract = hit.collider.GetComponent<Interactable>().onInteract;
-           if (Input.GetButtonDown("Interact"))
-           {
-            onInteract.Invoke();
-           }
+            {
+                onInteract = hit.collider.GetComponent<Interactable>().onInteract;
+                if (Input.GetButtonDown("Interact"))
+                {
+                onInteract.Invoke();
+                }
+            }
         }
-    }
     }
 }

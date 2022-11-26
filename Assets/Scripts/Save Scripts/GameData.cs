@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class GameData
@@ -8,12 +9,13 @@ public class GameData
     public Quaternion playerRotation;
     public int invisCharges;
     public int boxes;
+    public int objectiveId;
     public bool knifeHasBeenPickedUp;
     public bool hasUpgradedSuit;
     public bool flashlightHasBeenPickedUp;
     public bool doorKey;
     public bool secondDoorOpened;
-
+    public bool kelpMazeObjectiveTriggerd;
 
     public GameData()
     {
@@ -26,6 +28,8 @@ public class GameData
         flashlightHasBeenPickedUp = false;
         doorKey = false;
         secondDoorOpened = false;
+        kelpMazeObjectiveTriggerd = false;
         boxes = 4;
+        objectiveId = 0;
     }
 }

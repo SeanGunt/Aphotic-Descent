@@ -1,8 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.Rendering;
 
 public class Menus : MonoBehaviour
 {
@@ -10,7 +10,8 @@ public class Menus : MonoBehaviour
     public GameObject PauseMenu;
     public GameObject LevelSelect;
     public GameObject SettingsMenu;
-    [SerializeField] private GameObject gameUI, levelSelectFirstButton, levelSelectClosedButton, settingsFirstButton, settingsClosedButton;
+    public Volume volume;
+    [SerializeField] private GameObject gameUI, levelSelectFirstButton, levelSelectClosedButton, settingsFirstButton, settingsClosedButton, objectiveTextObj;
     
 
     public void OpenLevelSelect()
@@ -56,8 +57,14 @@ public class Menus : MonoBehaviour
     }
     public void ResumeGame()
     {
+        DepthOfField depthOfField;
+        if (volume.profile.TryGet<DepthOfField>(out depthOfField))
+        {
+            depthOfField.active = false;
+        }
         PauseMenu.SetActive(false);
         gameUI.SetActive(true);
+        objectiveTextObj.SetActive(true);
         Player.GetComponent<PauseControls>().paused = false;
         Time.timeScale = 1;
         Cursor.visible = false;

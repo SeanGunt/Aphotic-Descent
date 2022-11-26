@@ -1,0 +1,21 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+
+public class PauseObjectiveManager : MonoBehaviour
+{
+    [SerializeField] private TextMeshProUGUI pauseObjectiveText;
+    private void Update()
+    {
+        if (GameDataHolder.objectiveId >= 1)
+        {
+            pauseObjectiveText.text = "Escape the Submarine";
+        }
+        
+        if (GameDataHolder.objectiveId == 2)
+        {
+            pauseObjectiveText.text = "Find A Way Through The Kelp Maze";
+        }
+    }
+}
