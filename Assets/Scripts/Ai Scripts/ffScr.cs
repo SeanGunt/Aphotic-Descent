@@ -19,6 +19,9 @@ public class ffScr : MonoBehaviour
     private bool unchosen = true;
     PlayerHealthController pHC;
     private bool currentlyAttacking = false;
+    [SerializeField] private Animator animator;
+    [SerializeField] private GameObject mainCam, jumpscareCam;
+    [SerializeField] private GameObject playerDiver;
 
     private State state;
     public enum State
@@ -124,13 +127,15 @@ public class ffScr : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider col)
+    private void OnTriggerEnter(Collider other)
     {
-        if (col.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
-            pHC.ChangeHealth(-15.0f);
-            pHC.TakeDamage();
-            Debug.Log("Hit Player");
+            theAgent.speed = 0;
+            playerDiver.SetActive(false);
+            mainCam.SetActive(false);
+            jumpscareCam.SetActive(true);
+            animator.SetTrigger("jumpscare");
         }
     }
 
