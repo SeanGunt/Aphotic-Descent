@@ -6,11 +6,15 @@ public class DestroyOnCollision : MonoBehaviour
 {   
   public AudioClip[] kelpDestructionNoises;
   public AudioSource audioSource;
+  public GameObject shatteredBox;
+  public GameObject shatteredBoxInWater;
   private void OnTriggerEnter(Collider other)
   {
     if (other.gameObject.tag == "Destroyable") 
     {
       Destroy(other.gameObject);
+      shatteredBoxInWater.transform.localScale = other.gameObject.transform.localScale;
+      Instantiate(shatteredBoxInWater, other.gameObject.transform.position, other.gameObject.transform.rotation);
     }
 
     if (other.gameObject.tag == "Kelp")
@@ -23,6 +27,8 @@ public class DestroyOnCollision : MonoBehaviour
     if (other.gameObject.tag == "Boxes")
     {
       Destroy(other.gameObject);
+      shatteredBox.transform.localScale = other.gameObject.transform.localScale;
+      Instantiate(shatteredBox, other.gameObject.transform.position, other.gameObject.transform.rotation);
       GameDataHolder.boxes -= 1;
     }
   }
