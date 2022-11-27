@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CratePiecesDespawnScr : MonoBehaviour
 {
-
+    [SerializeField] private float destructionTimer;
     void Awake()
     {
         StartCoroutine(despawnTimer());
@@ -12,7 +12,7 @@ public class CratePiecesDespawnScr : MonoBehaviour
 
     IEnumerator despawnTimer()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(destructionTimer);
         Object.Destroy(this.gameObject);
     }
 
