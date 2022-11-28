@@ -9,6 +9,7 @@ public class DoorScript2 : MonoBehaviour
     public bool inTrigger;
     private BoxCollider bCollider;
     private UItext uItext;
+    [SerializeField]private float rotX, rotY, rotZ;
 
     private void Awake()
     {
@@ -54,12 +55,12 @@ public class DoorScript2 : MonoBehaviour
  
         if (open)
         {
-            var newRot = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0.0f, -180.0f, 0.0f), Time.deltaTime * 200);
+            var newRot = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(rotX, rotY - 90, rotZ), Time.deltaTime * 200);
             transform.rotation = newRot;
         }
         else
         {
-            var newRot = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0.0f, -90.0f, 0.0f), Time.deltaTime * 200);
+            var newRot = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(rotX, rotY, rotZ), Time.deltaTime * 200);
             transform.rotation = newRot;
         }
     }
