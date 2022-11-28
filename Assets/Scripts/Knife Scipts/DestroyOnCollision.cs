@@ -27,7 +27,7 @@ public class DestroyOnCollision : MonoBehaviour
     if (other.gameObject.tag == "Boxes")
     {
       Destroy(other.gameObject);
-      shatteredBox.transform.localScale = other.gameObject.transform.localScale;
+      shatteredBox.transform.localScale = other.gameObject.transform.lossyScale;
       Instantiate(shatteredBox, other.gameObject.transform.position, other.gameObject.transform.rotation);
       GameDataHolder.boxes -= 1;
     }

@@ -16,6 +16,9 @@ public class GameData
     public bool doorKey;
     public bool secondDoorOpened;
     public bool kelpMazeObjectiveTriggerd;
+    public bool kelpMazeEndTriggered;
+    public bool labStartObjectiveTriggered;
+    public bool invisibilityAcquired;
 
     public GameData()
     {
@@ -26,9 +29,12 @@ public class GameData
         knifeHasBeenPickedUp = false;
         hasUpgradedSuit = false;
         flashlightHasBeenPickedUp = false;
+        invisibilityAcquired = false;
         doorKey = false;
         secondDoorOpened = false;
         kelpMazeObjectiveTriggerd = false;
+        kelpMazeEndTriggered = false;
+        labStartObjectiveTriggered = false;
         boxes = 4;
         objectiveId = 0;
     }
