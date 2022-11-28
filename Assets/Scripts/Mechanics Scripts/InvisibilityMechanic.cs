@@ -16,13 +16,20 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
     public bool isSafe;
     [SerializeField] private Image invisibilityBar;
     [SerializeField] private Image fullInvisBar;
-    [SerializeField] private GameObject Player, PlayerMesh;
+    [SerializeField] private GameObject Player, PlayerMesh, invisibilityUI;
     //[SerializeField] private TextMeshProUGUI invisibilityChargesText;
     public static event Action OnChargeUsed;
 
     private void Start()
     {
-      //invisibilityChargesText.text = "Invisibility Charges: " + invisibilityCharges.ToString();
+      if (GameDataHolder.invisibilityAcquired)
+      {
+        invisibilityUI.SetActive(true);
+      }
+      else
+      {
+        invisibilityUI.SetActive(false);
+      }
     }
     void Awake()
     {
@@ -45,7 +52,7 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
     void Update()
     {
         invisibleTimer = Mathf.Clamp(invisibleTimer, 0f, timeInvisible);
-        if (Input.GetButtonDown("Invisibility"))
+        if (Input.GetButtonDown("Invisibility") && GameDataHolder.invisibilityAcquired)
         {
           if (invisibilityCharges > 0 && !isSafe)
           {

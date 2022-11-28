@@ -26,6 +26,23 @@ public class ObjectiveUpdateHolder : MonoBehaviour
         GameDataHolder.kelpMazeObjectiveTriggerd = true;
         StartCoroutine(FadeText(7f, objectiveText));
     }
+
+    public void ThirdObjective()
+    {
+        objectiveText.text = "Proceed To The Lab";
+        GameDataHolder.objectiveId = 3;
+        GameDataHolder.kelpMazeEndTriggered = true;
+        StartCoroutine(FadeText(7f, objectiveText));
+
+    }
+
+    public void FourthObjective()
+    {
+        objectiveText.text = "Investigate The Lab";
+        GameDataHolder.objectiveId = 4;
+        GameDataHolder.labStartObjectiveTriggered = true;
+        StartCoroutine(FadeText(7f, objectiveText));
+    }
     public IEnumerator FadeText(float t, TextMeshProUGUI i)
     {
         i.color = new Color(i.color.r, i.color.g, i.color.b, 1);
