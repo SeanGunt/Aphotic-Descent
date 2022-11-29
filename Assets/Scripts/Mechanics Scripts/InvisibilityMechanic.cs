@@ -59,6 +59,7 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
             CancelInvoke("ClearUI");
             isInvisible = true;
             fullInvisCharge.enabled = true;
+            fullInvisCharge.fillAmount = 1;
             //invisibilityBar.enabled = true;
             //fullInvisBar.enabled = true;
             invisibleTimer = timeInvisible;
