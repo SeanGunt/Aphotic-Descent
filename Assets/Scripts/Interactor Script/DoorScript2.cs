@@ -7,6 +7,7 @@ public class DoorScript2 : MonoBehaviour
     public bool open;
     public bool close;
     public bool inTrigger;
+    public bool canOpen;
     private BoxCollider bCollider;
     private UItext uItext;
     [SerializeField]private float rotX, rotY, rotZ;
@@ -16,6 +17,7 @@ public class DoorScript2 : MonoBehaviour
         inTrigger = false;
         bCollider = GetComponent<BoxCollider>();
         uItext = GetComponent<UItext>();
+        canOpen = true;
     }
  
     void OnTriggerEnter(Collider other)
@@ -40,7 +42,7 @@ public class DoorScript2 : MonoBehaviour
         {
             if (close)
             {
-                if (GameDataHolder.doorKey)
+                if (GameDataHolder.doorKey && canOpen)
                 {
                     if (Input.GetButtonDown("Interact"))
                     {

@@ -23,13 +23,14 @@ public class Puzzle2Manager : MonoBehaviour
                 {
                     doorController.close = true;
                     doorController.open = false;
+                    doorController.canOpen = false;
                     textController.Text = "You were seen by the computer.";
                 }
                 else
                 {
                     doorController.open = true;
                     doorController.close = false;
-                    textController.Text = "";
+                    textController.Text = "You avoided the computers.";
                 }
              }
          }
