@@ -35,4 +35,12 @@ public class Puzzle2Manager : MonoBehaviour
              }
          }
     }
+
+    private void OnTriggerExit(Collider col)
+    {
+        if (col.gameObject.tag == "Player")
+        {
+            doorController.open = true;
+        }
+    }
 }
