@@ -12,7 +12,7 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
     public int invisibilityCharges = 3;
     public int maxCharges = 3;
     public Text interactionText;
-    [SerializeField]private bool isInvisible;
+    [SerializeField] public bool isInvisible;
     public bool isSafe;
     [SerializeField] private Image invisibilityBar, invisibilityCharge;
     [SerializeField] private Image fullInvisBar, fullInvisCharge;
