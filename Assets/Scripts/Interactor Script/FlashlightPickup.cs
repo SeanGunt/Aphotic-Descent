@@ -9,6 +9,8 @@ public class FlashlightPickup : MonoBehaviour
     public GameObject tutTextObj;
     public TextMeshProUGUI tutText;
     [SerializeField] private ClearUIText clearUIText;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip pickupSound;
 
     private void Start()
     {
@@ -34,6 +36,7 @@ public class FlashlightPickup : MonoBehaviour
         {
             if (Input.GetButtonDown("Interact"))
             {
+                audioSource.PlayOneShot(pickupSound);
                 clearUIText.CancelInvoke();
                 clearUIText.Invoke("ClearUI", 2);
                 tutTextObj.SetActive(true);

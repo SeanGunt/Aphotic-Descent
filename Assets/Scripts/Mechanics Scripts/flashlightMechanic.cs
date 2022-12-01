@@ -8,6 +8,7 @@ public class flashlightMechanic : MonoBehaviour
     [SerializeField] GameObject FlashlightLight;
     [SerializeField] GameObject BlacklightLight;
     private bool flashlightOn = false;
+    private bool blacklightIsOn = false;
     [SerializeField]public float flashlightBattery, maxBattery;
     [SerializeField]private Image batteryBar, fullBatteryBar, emptyBatteryBar, flashlightUI;
     [SerializeField]public Text flashlightText;
@@ -22,6 +23,7 @@ public class flashlightMechanic : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip flashlightOutOfWaterSound;
     public AudioClip flashlightInWaterSound;
+    public AudioClip blacklightOnSound;
     public GameObject player;
     private PlayerMovement PMS;
 
@@ -67,11 +69,17 @@ public class flashlightMechanic : MonoBehaviour
                 batteryBar.fillAmount = flashlightBattery/maxBattery;
                 if (Input.GetButton("Blacklight"))
                 {
+                    if (!blacklightIsOn)
+                    {
+                        audioSource.PlayOneShot(blacklightOnSound);
+                        blacklightIsOn = true;
+                    }
                     flashlightBattery -= Time.deltaTime*2;
                     BlacklightReveal();
                 }
                 else
                 {
+                    blacklightIsOn = false;
                     flashlightBattery -= Time.deltaTime;
                     BlacklightLight.gameObject.SetActive(false);
                     FlashlightLight.gameObject.SetActive(true);
