@@ -18,6 +18,8 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
     [SerializeField] private Image fullInvisBar, fullInvisCharge;
     [SerializeField] private GameObject Player, PlayerMesh, invisibilityUI;
     [SerializeField] private TextMeshProUGUI invisibilityChargesText;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip invisSound;
     public static event Action OnChargeUsed;
 
     private void Start()
@@ -58,6 +60,7 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
           {
             CancelInvoke("ClearUI");
             isInvisible = true;
+            audioSource.PlayOneShot(invisSound);
             fullInvisCharge.enabled = true;
             fullInvisCharge.fillAmount = 1;
             //invisibilityBar.enabled = true;

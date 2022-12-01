@@ -7,6 +7,8 @@ public class BatteryPickup : MonoBehaviour
     [SerializeField]float batteryCooldown, maxTime;
     [SerializeField]bool isInactive;
     [SerializeField]GameObject Itself, pickupParticle;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip batteryPickupSound;
     void Update()
     {
         if (isInactive)
@@ -28,6 +30,7 @@ public class BatteryPickup : MonoBehaviour
             if (controller.flashlightBattery < controller.maxBattery && !isInactive)
             {
                 CreateParticle();
+                audioSource.PlayOneShot(batteryPickupSound);
                 controller.FillBattery(120);
                 controller.flashlightEmpty = false;
                 Debug.Log("FillBatteryCalled");
