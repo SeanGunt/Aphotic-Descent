@@ -15,6 +15,14 @@ public class Puzzle3Manager : MonoBehaviour
         buttonTextController = backupSwitch.GetComponent<UItext>();
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player") 
+         {
+             backupSwitch.SetActive(true);
+         }
+    }
+
     public void SetDoorOpenable()
     {
         doorController.close = true;
