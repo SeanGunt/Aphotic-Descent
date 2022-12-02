@@ -13,6 +13,12 @@ public class FootstepSounds : MonoBehaviour
         walkingLayer = collision.collider.gameObject.layer;
     }
 
+    private void OnCollisionExit(Collision collision)
+    {
+        walkingLayer = 1;
+        Debug.Log("Exited");
+    }
+
     public void PlayFootStepSounds()
     {
         if (walkingLayer == 3)
