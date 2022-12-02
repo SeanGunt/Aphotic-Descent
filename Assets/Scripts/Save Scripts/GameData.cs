@@ -22,9 +22,9 @@ public class GameData
 
     public GameData()
     {
-        playerPosition = new Vector3(-60f,-20.5f,-90f);
+        playerPosition = new Vector3(-60.7f,-56.4f,-89.6f);
         playerRotation = new Quaternion(0,0,0,0);
-        flashlightPosition = new Vector3(-59.75f, -20.14f, -89.62f);
+        flashlightPosition = new Vector3(-60.68f, -55.55f, -89.46f);
         invisCharges = 3;
         knifeHasBeenPickedUp = false;
         hasUpgradedSuit = false;
