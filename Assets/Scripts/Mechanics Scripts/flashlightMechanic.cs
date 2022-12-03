@@ -10,7 +10,7 @@ public class flashlightMechanic : MonoBehaviour
     private bool flashlightOn = false;
     private bool blacklightIsOn = false;
     [SerializeField]public float flashlightBattery, maxBattery;
-    [SerializeField]private Image batteryBar, fullBatteryBar, emptyBatteryBar, flashlightUI;
+    [SerializeField]private Image batteryBar, fullBatteryBar, emptyBatteryBar, flashlightUI, emptyLight, onLight, blLight;
     [SerializeField]public Text flashlightText;
     [SerializeField]private HiddenObjectsInteraction hI;
     [SerializeField]private RevealHiddenObjects rHO;
@@ -53,13 +53,18 @@ public class flashlightMechanic : MonoBehaviour
                         audioSource.PlayOneShot(flashlightOutOfWaterSound);
                     }
                     FlashlightLight.gameObject.SetActive(true);
+                    emptyLight.gameObject.SetActive(false);
+                    onLight.gameObject.SetActive(true);
                     flashlightOn = true;
                 }
                 else
                 {
+                    emptyLight.gameObject.SetActive(true);
                     FlashlightLight.gameObject.SetActive(false);
+                    onLight.gameObject.SetActive(false);
                     flashlightOn = false;
                     BlacklightLight.gameObject.SetActive(false);
+                    blLight.gameObject.SetActive(false);
                     Invoke("ClearUI", 4);
                 }
             }
@@ -71,6 +76,7 @@ public class flashlightMechanic : MonoBehaviour
                 {
                     if (!blacklightIsOn)
                     {
+                        blLight.gameObject.SetActive(true);
                         audioSource.PlayOneShot(blacklightOnSound);
                         blacklightIsOn = true;
                     }
@@ -80,6 +86,7 @@ public class flashlightMechanic : MonoBehaviour
                 else
                 {
                     blacklightIsOn = false;
+                    blLight.gameObject.SetActive(false);
                     flashlightBattery -= Time.deltaTime;
                     BlacklightLight.gameObject.SetActive(false);
                     FlashlightLight.gameObject.SetActive(true);
@@ -89,6 +96,9 @@ public class flashlightMechanic : MonoBehaviour
             {
                 flashlightOn = false;
                 flashlightText.text = "You ran out of battery";
+                emptyLight.gameObject.SetActive(true);
+                onLight.gameObject.SetActive(false);
+                blLight.gameObject.SetActive(false);
                 Invoke("ClearUI", 2);
                 flashlightEmpty = true;
             }
