@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   private Vector3 velocity, moveDirection;
   private bool isGrounded, hasUpgradedSuit;
   [SerializeField] private bool isSwimming, canSwim, isTired, canUseHeadbob;
-  [SerializeField] private Image staminaBar, tiredBar;
+  [SerializeField] private Image staminaBar, tiredBar, walkState, swimState;
   [SerializeField] private Camera playerCamera;
   [SerializeField] private Animator animator;
   [HideInInspector] public bool inWater;
@@ -87,6 +87,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
           velocity.y = 0;
           moveSpeed = groundedSpeed;
           isSwimming = false;
+          walkState.gameObject.SetActive(true);
+          swimState.gameObject.SetActive(false);
           if (!canSwim || playerStamina < maxStamina)
           {
             StaminaRecharge(playerStamina, maxStamina);
@@ -106,6 +108,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         {
           velocity.y = floatSpeed;
           isSwimming = true;
+          walkState.gameObject.SetActive(false);
+          swimState.gameObject.SetActive(true);
         }
 
         //Float Down
@@ -178,6 +182,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         {
           canUseHeadbob = true;
           velocity.y = 0;
+          walkState.gameObject.SetActive(true);
+          swimState.gameObject.SetActive(false);
         }
 
       moveSpeed = outOfWaterSpeed;
