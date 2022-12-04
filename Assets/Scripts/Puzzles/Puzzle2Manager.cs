@@ -7,6 +7,8 @@ public class Puzzle2Manager : MonoBehaviour
     private DoorScript2 doorController;
     private UItext textController;
     [SerializeField]private GameObject doorHinge;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip[] doorSounds;
 
     private void Start()
     {
@@ -21,6 +23,7 @@ public class Puzzle2Manager : MonoBehaviour
              {
                 if (col.gameObject.GetComponent<InvisibilityMechanic>().isSafe == false)
                 {
+                    audioSource.PlayOneShot(doorSounds[1]);
                     doorController.close = true;
                     doorController.open = false;
                     doorController.canOpen = false;
@@ -41,6 +44,7 @@ public class Puzzle2Manager : MonoBehaviour
         if (col.gameObject.tag == "Player")
         {
             doorController.open = true;
+            audioSource.PlayOneShot(doorSounds[0]);
         }
     }
 }

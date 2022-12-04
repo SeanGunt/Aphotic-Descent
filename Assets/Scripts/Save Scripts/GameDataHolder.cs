@@ -14,6 +14,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
     public static bool kelpMazeEndTriggered;
     public static bool labStartObjectiveTriggered;
     public static int objectiveId;
+    public static bool musicStopped;
 
     public void LoadData(GameData data)
     {
@@ -29,6 +30,8 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         kelpMazeObjectiveTriggerd = data.kelpMazeObjectiveTriggerd;
         kelpMazeEndTriggered = data.kelpMazeEndTriggered;
         labStartObjectiveTriggered = data.labStartObjectiveTriggered;
+
+        musicStopped = data.musicStopped;
     }
 
     public void SaveData(GameData data)
@@ -45,5 +48,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         data.kelpMazeObjectiveTriggerd = kelpMazeObjectiveTriggerd;
         data.kelpMazeEndTriggered = kelpMazeEndTriggered;
         data.labStartObjectiveTriggered = labStartObjectiveTriggered;
+
+        data.musicStopped = musicStopped;
     }
 }

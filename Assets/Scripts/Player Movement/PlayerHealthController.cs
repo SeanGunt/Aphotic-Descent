@@ -11,7 +11,7 @@ public class PlayerHealthController : MonoBehaviour
     public bool isBleeding, gameOver;
     [SerializeField]private GameObject gameOverMenu;
     public AudioSource audioSource;
-    public AudioClip[] hitSounds;
+    public AudioClip hitSound;
 
     void Start()
     {
@@ -78,7 +78,7 @@ public class PlayerHealthController : MonoBehaviour
         {
             int randomHitSound = Random.Range(0,2);
             Debug.Log(randomHitSound);
-            audioSource.PlayOneShot(hitSounds[randomHitSound]);
+            audioSource.PlayOneShot(hitSound);
             canRegen = false;
             UpdateHealth();
             healCooldown = maxHealCooldown;

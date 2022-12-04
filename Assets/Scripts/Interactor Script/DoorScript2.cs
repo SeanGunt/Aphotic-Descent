@@ -11,6 +11,8 @@ public class DoorScript2 : MonoBehaviour
     private BoxCollider bCollider;
     private UItext uItext;
     [SerializeField]private float rotX, rotY, rotZ;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip doorOpenSound;
 
     private void Awake()
     {
@@ -46,6 +48,7 @@ public class DoorScript2 : MonoBehaviour
                 {
                     if (Input.GetButtonDown("Interact"))
                     {
+                        audioSource.PlayOneShot(doorOpenSound);
                         bCollider.enabled = false;
                         uItext.GuiOn = false;
                         open = true;

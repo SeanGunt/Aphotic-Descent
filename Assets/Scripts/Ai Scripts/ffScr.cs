@@ -18,10 +18,14 @@ public class ffScr : MonoBehaviour
     private float playerDistance;
     private bool unchosen = true;
     PlayerHealthController pHC;
-    private bool currentlyAttacking = false;
+    [HideInInspector] public bool currentlyAttacking = false;
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject mainCam, jumpscareCam;
     [SerializeField] private GameObject playerDiver;
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip[] hurtSounds;
+    [SerializeField] private AudioClip stingerMusic;
+    [SerializeField] private BGMManager bGMManager;
 
     private State state;
     public enum State
@@ -38,6 +42,8 @@ public class ffScr : MonoBehaviour
         theAgent.autoBraking = false;
         theAgent.acceleration = 250;
         theAgent.angularSpeed = 250;
+
+        audioSource = this.GetComponent<AudioSource>();
 
         state = State.patrolling;
 
@@ -106,6 +112,7 @@ public class ffScr : MonoBehaviour
 
         if(playerDistance < rangeUsed*rangeUsed)
         {
+            bGMManager.state = BGMManager.State.ffChaseMusic;
             state = State.attacking;
         }
     }
@@ -123,6 +130,7 @@ public class ffScr : MonoBehaviour
 
         if(playerDistance > rangeUsed*rangeUsed)
         {
+            bGMManager.state = BGMManager.State.normalBGM;
             state = State.wasAttacking;
         }
     }
@@ -131,13 +139,22 @@ public class ffScr : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
+            audioSource.PlayOneShot(stingerMusic);
             theAgent.speed = 0;
+            FreakFishGrowling.hitPlayer = true;
             playerDiver.SetActive(false);
             mainCam.SetActive(false);
             jumpscareCam.SetActive(true);
             animator.SetTrigger("jumpscare");
         }
+
+        if (other.gameObject.tag == "Knife")
+        {
+            int randomNoise = Random.Range(0,4);
+            audioSource.PlayOneShot(hurtSounds[randomNoise]);
+        }
     }
+    
 
     void OnDrawGizmos()
     {
