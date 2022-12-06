@@ -27,6 +27,7 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
       if (GameDataHolder.invisibilityAcquired)
       {
         invisibilityUI.SetActive(true);
+        invisibilityChargesText.text = ": " + invisibilityCharges.ToString();
       }
       else
       {
