@@ -11,6 +11,7 @@ public class InvisSuitActivation : MonoBehaviour
             if (other.gameObject.GetComponent<InvisibilityMechanic>() != false)
             {
                 GameDataHolder.invisibilityAcquired = true;
+                GameDataHolder.hasUpgradedSuit = true;
                 other.gameObject.GetComponent<InvisibilityMechanic>().SetInvisUIActive();
                 Invoke("DestroyMyself", .05f);
             }

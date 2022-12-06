@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameDataHolder : MonoBehaviour, IDataPersistence
 {
     public static bool knifeHasBeenPickedUp;
+    public static bool hasUpgradedSuit;
     public static bool flashlightHasBeenPickedUp;
     public static bool invisibilityAcquired;
     public static int boxes;
@@ -21,6 +22,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         knifeHasBeenPickedUp = data.knifeHasBeenPickedUp;
         flashlightHasBeenPickedUp = data.flashlightHasBeenPickedUp;
         invisibilityAcquired = data.invisibilityAcquired;
+        hasUpgradedSuit = data.hasUpgradedSuit;
         
         boxes = data.boxes;
         doorKey = data.doorKey;
