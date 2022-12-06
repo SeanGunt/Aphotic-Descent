@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   
   private void Update()
   {
-      if (Input.GetKeyDown(KeyCode.UpArrow))
+      if(GameDataHolder.hasUpgradedSuit == true)
       {
         hasUpgradedSuit = true;
       }

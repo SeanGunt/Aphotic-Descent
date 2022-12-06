@@ -9,5 +9,6 @@ public class TestScript : MonoBehaviour
         GameDataHolder.knifeHasBeenPickedUp = true;
         GameDataHolder.flashlightHasBeenPickedUp = true;
         GameDataHolder.invisibilityAcquired = true;
+        GameDataHolder.hasUpgradedSuit = true;
     }
 }
