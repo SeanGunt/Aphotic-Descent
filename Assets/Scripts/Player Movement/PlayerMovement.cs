@@ -203,6 +203,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       controller.Move(velocity * Time.deltaTime);
       animator.SetFloat("walkHorizontal", Input.GetAxis("Horizontal"));
       animator.SetFloat("walkVertical", Input.GetAxis("Vertical"));
+      if (Input.GetAxis("Horizontal") > -0.1 && Input.GetAxis("Horizontal") < 0.1 && Input.GetAxis("Vertical") > -0.1 && Input.GetAxis("Vertical") < 0.1)
+        {
+          animator.SetBool("notMoving", true);
+        }
+        else
+        {
+          animator.SetBool("notMoving", false);
+        }
     }
 
     private void OnTriggerStay(Collider other)

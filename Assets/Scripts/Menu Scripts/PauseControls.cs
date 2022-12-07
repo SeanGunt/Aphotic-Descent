@@ -17,7 +17,7 @@ public class PauseControls : MonoBehaviour
     {
         if (!Player.GetComponent<PlayerHealthController>().gameOver && !otherMenuActive)
         {
-            if (Input.GetButtonDown("Pause") && !paused)
+            if (Input.GetButtonDown("Pause") && !paused && !LogPickup.logPickedUp && !Puzzle4UI.computerActivated)
             {
                 DepthOfField depthOfField;
                 if (volume.profile.TryGet<DepthOfField>(out depthOfField))
@@ -32,7 +32,7 @@ public class PauseControls : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             }
-            else if (Input.GetButtonDown("Pause") && paused)
+            else if (Input.GetButtonDown("Pause") && paused && !LogPickup.logPickedUp && !Puzzle4UI.computerActivated)
             {
                 DepthOfField depthOfField;
                 if (volume.profile.TryGet<DepthOfField>(out depthOfField))

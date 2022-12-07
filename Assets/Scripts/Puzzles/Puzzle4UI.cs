@@ -11,8 +11,10 @@ public class Puzzle4UI : MonoBehaviour
     [SerializeField] private int buttonsInputed;
     [SerializeField] private TextMeshProUGUI codeInput, codeResult;
     [SerializeField] public bool codeSolved;
+    public static bool computerActivated;
     void Start()
     {
+        computerActivated = false;
         codeSolved = false;
         codeResult.text = "";
         Time.timeScale = 0;
@@ -36,7 +38,10 @@ public class Puzzle4UI : MonoBehaviour
 
     public void OpenPuzzleUI()
     {
+        computerActivated = true;
         Time.timeScale = 0;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         buttonsInputed = 0;
         codeResult.text = "";
         codeString = "";
@@ -47,7 +52,10 @@ public class Puzzle4UI : MonoBehaviour
 
     public void ClosePuzzleUI()
     {
+        computerActivated = false;
         puzzle4Menu.SetActive(false);
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         Time.timeScale = 1;
     }
 

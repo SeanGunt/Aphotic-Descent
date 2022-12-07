@@ -12,7 +12,7 @@ public class BGMManager : MonoBehaviour
 
     public enum State
     {
-        normalBGM, ffChaseMusic, transition, StopMusic
+        normalBGM, ffChaseMusic, transition, StopMusic, CrabLabBGM
     }
 
     private void Awake()
@@ -25,7 +25,7 @@ public class BGMManager : MonoBehaviour
     {
         if (GameDataHolder.musicStopped)
         {
-            state = State.StopMusic;
+            state = State.CrabLabBGM;
         }
     }
 
@@ -48,6 +48,10 @@ public class BGMManager : MonoBehaviour
             case State.ffChaseMusic:
                     PlayFFChaseSound();
             break;
+
+            case State.CrabLabBGM:
+                    PlayCrabLabBGM();
+            break;
         }
     }
 
@@ -63,6 +67,13 @@ public class BGMManager : MonoBehaviour
         audioSource.clip = bgms[1];
         audioSource.Play();
         state =  State.transition;
+    }
+
+    private void PlayCrabLabBGM()
+    {
+        audioSource.clip = bgms[2];
+        audioSource.Play();
+        state = State.transition;
     }
 
     private void StopMusic()
