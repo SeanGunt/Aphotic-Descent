@@ -6,7 +6,7 @@ public class Puzzle3Manager : MonoBehaviour
 {
     private DoorScript2 doorController;
     private UItext textController, buttonTextController;
-    [SerializeField]private GameObject doorHinge, backupSwitch;
+    [SerializeField]private GameObject doorHinge, backupSwitch, interactableParticle;
 
     private void Start()
     {
@@ -19,7 +19,7 @@ public class Puzzle3Manager : MonoBehaviour
     {
         if (other.gameObject.tag == "Player") 
          {
-             backupSwitch.SetActive(true);
+            interactableParticle.SetActive(true);
          }
     }
 
