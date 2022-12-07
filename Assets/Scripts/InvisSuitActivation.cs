@@ -1,24 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class InvisSuitActivation : MonoBehaviour
 {   
-    // private void OnTriggerEnter(Collider other)
-    // {
-    //     if (other.gameObject.tag == "Player")
-    //     {
-    //         if (other.gameObject.GetComponent<InvisibilityMechanic>() != false)
-    //         {
-    //             GameDataHolder.invisibilityAcquired = true;
-    //             GameDataHolder.hasUpgradedSuit = true;
-    //             //other.gameObject.GetComponent<InvisibilityMechanic>().SetInvisUIActive();
-    //             UpgradeSuit(other.gameObject.GetComponent<InvisibilityMechanic>());
-    //             Invoke("DestroyMyself", .05f);
-    //         }
-    //     }
-    // }
-
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip pickupSound;
+    [SerializeField] private TextMeshProUGUI tutText;
+    public GameObject tutTextObj;
+    [SerializeField] private ClearUIText clearUIText;
+    private void Awake()
+    {
+        audioSource = GetComponentInParent<AudioSource>();
+    }
     void DestroyMyself()
     {
         Destroy(this.gameObject);
@@ -27,7 +22,11 @@ public class InvisSuitActivation : MonoBehaviour
     public void UpgradeSuit(InvisibilityMechanic controller)
     {
         GameDataHolder.invisibilityAcquired = true;
-        GameDataHolder.hasUpgradedSuit = true;
+        clearUIText.CancelInvoke();
+        clearUIText.Invoke("ClearUI", 4);
+        tutTextObj.SetActive(true);
+        tutText.text = "Invisibility Gadget Acquired, Q To Go Invisible";
+        audioSource.PlayOneShot(pickupSound);
         controller.SetInvisUIActive();
         DestroyMyself();
     }

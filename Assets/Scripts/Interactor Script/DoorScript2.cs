@@ -50,6 +50,7 @@ public class DoorScript2 : MonoBehaviour
                     {
                         audioSource.PlayOneShot(doorOpenSound);
                         bCollider.enabled = false;
+                        inTrigger = false;
                         uItext.GuiOn = false;
                         open = true;
                         close = false;

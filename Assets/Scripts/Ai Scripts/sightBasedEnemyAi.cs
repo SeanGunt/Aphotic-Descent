@@ -38,8 +38,9 @@ public class sightBasedEnemyAi : MonoBehaviour
         }
         if (walkPointSet)
         {
-            agent.destination = walkPoint;
+            agent.SetDestination(walkPoint);
         }
+        Debug.Log(agent.remainingDistance);
 
         Vector3 distanceToWalkPoint =  transform.position - walkPoint;
 
@@ -92,6 +93,7 @@ public class sightBasedEnemyAi : MonoBehaviour
             default:
             case State.patrolling:
                 Patrolling();
+                SearchWalkPoint();
             break;
 
             case State.attacking:

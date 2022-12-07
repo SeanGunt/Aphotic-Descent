@@ -21,9 +21,7 @@ public class EelBossScript : MonoBehaviour
     private bool g3On = true;
     private int eelHealth = 3;
     private bool eelDead = false;
-    //BasicEnemyAi bAiScr;
     sightBasedEnemyAi siBaAi;
-
     private float eelRange;
     PlayerHealthController pHC;
     InvisibilityMechanic pIM;
@@ -50,7 +48,7 @@ public class EelBossScript : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         if(player != null)
         {
-            Debug.LogWarning("player found");
+            Debug.Log("player found");
             pHC = player.GetComponent<PlayerHealthController>();
             pIM = player.GetComponent<InvisibilityMechanic>();
 
@@ -66,8 +64,6 @@ public class EelBossScript : MonoBehaviour
         {
             Debug.LogWarning("player not Found");
         }
-
-
 
         //CURRENTLY TESTING:
         //Phase 1
