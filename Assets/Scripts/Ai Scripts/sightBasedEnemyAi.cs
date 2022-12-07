@@ -20,10 +20,14 @@ public class sightBasedEnemyAi : MonoBehaviour
     private void Awake()
     {
         walkPointSet = false;
-        state = State.idle;
+        state = State.patrolling;
         agent = GetComponent<NavMeshAgent>();
         pS = player.GetComponent<InvisibilityMechanic>();
-        eFOV = GetComponent<enemyFieldOfView>();
+        eFOV = this.GetComponent<enemyFieldOfView>();
+        if(eFOV != null)
+        {
+            Debug.Log("eFoV enabled");
+        }
     }
 
     private void Patrolling()
@@ -39,7 +43,7 @@ public class sightBasedEnemyAi : MonoBehaviour
 
         Vector3 distanceToWalkPoint =  transform.position - walkPoint;
 
-        if (distanceToWalkPoint.magnitude < 1.0f)
+        if (distanceToWalkPoint.magnitude < 5.0f)
         {
             walkPointSet = false;
         }
