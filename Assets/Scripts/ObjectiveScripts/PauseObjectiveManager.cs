@@ -26,5 +26,9 @@ public class PauseObjectiveManager : MonoBehaviour
         {
             pauseObjectiveText.text = "Investigate The Lab";
         }
+        if (GameDataHolder.objectiveId == 5)
+        {
+            pauseObjectiveText.text = "Defeat The Eel";
+        }
     }
 }

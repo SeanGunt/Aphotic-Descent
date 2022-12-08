@@ -6,7 +6,7 @@ public class FreakFishGrowling : MonoBehaviour
 {
     private AudioSource audioSource;
     [SerializeField] private AudioClip[] growlingSounds;
-    [SerializeField] private AudioClip[] biteSounds;
+    [SerializeField] private AudioClip playerScream;
     private float randomNoiseTimer;
     public static bool hitPlayer;
 
@@ -33,9 +33,8 @@ public class FreakFishGrowling : MonoBehaviour
         randomNoiseTimer = Random.Range(7,15);
     }
 
-    public void PlayBiteSound()
+    public void PlayScream()
     {
-        int randomNoise = Random.Range(0,2);
-        audioSource.PlayOneShot(biteSounds[randomNoise]);
+        audioSource.PlayOneShot(playerScream);
     }
 }

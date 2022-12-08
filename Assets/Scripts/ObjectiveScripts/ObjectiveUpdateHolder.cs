@@ -43,6 +43,14 @@ public class ObjectiveUpdateHolder : MonoBehaviour
         GameDataHolder.labStartObjectiveTriggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
     }
+
+    public void FifthObjective()
+    {
+        objectiveText.text = "Defeat The Eel";
+        GameDataHolder.objectiveId = 5;
+        GameDataHolder.eelObjectiveTriggered = true;
+        StartCoroutine(FadeText(7f, objectiveText));
+    }
     public IEnumerator FadeText(float t, TextMeshProUGUI i)
     {
         i.color = new Color(i.color.r, i.color.g, i.color.b, 1);

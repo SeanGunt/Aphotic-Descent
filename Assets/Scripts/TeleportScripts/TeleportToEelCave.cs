@@ -12,6 +12,7 @@ public class TeleportToEelCave : MonoBehaviour
     }
     public void TeleportPlayer()
     {
+        CrabLabAmbientNoiseManager.inLab = false;
         player.transform.localPosition = teleLocation.transform.position;
     }
 }

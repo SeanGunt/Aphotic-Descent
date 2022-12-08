@@ -20,6 +20,8 @@ public class GameData
     public bool labStartObjectiveTriggered;
     public bool invisibilityAcquired;
     public bool musicStopped;
+    public bool inLab;
+    public bool eelObjectiveTriggered;
 
     public GameData()
     {
@@ -36,6 +38,8 @@ public class GameData
         kelpMazeObjectiveTriggerd = false;
         kelpMazeEndTriggered = false;
         labStartObjectiveTriggered = false;
+        eelObjectiveTriggered = false;
+        inLab = false;
         boxes = 4;
         objectiveId = 0;
         musicStopped = false;

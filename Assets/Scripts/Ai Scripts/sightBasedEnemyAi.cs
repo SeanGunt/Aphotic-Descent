@@ -5,13 +5,15 @@ public class sightBasedEnemyAi : MonoBehaviour
 {
     private State state;
     private NavMeshAgent agent;
-    private Vector3 walkPoint;
     private bool walkPointSet;
-    [SerializeField] private float walkPointRange;
+    private Vector3 walkPoint;
+    [SerializeField] private Transform[] walkPoints;
+    private int randomSpot;
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private GameObject player;
     private InvisibilityMechanic pS;
     private enemyFieldOfView eFOV;
+    [SerializeField] private BGMManager bGMManager;
     enum State
     {
         patrolling, attacking, idle
@@ -44,7 +46,7 @@ public class sightBasedEnemyAi : MonoBehaviour
 
         Vector3 distanceToWalkPoint =  transform.position - walkPoint;
 
-        if (distanceToWalkPoint.magnitude < 5.0f)
+        if (distanceToWalkPoint.magnitude < 10.0f)
         {
             walkPointSet = false;
         }
@@ -52,18 +54,16 @@ public class sightBasedEnemyAi : MonoBehaviour
         if (eFOV.canSeePlayer && !pS.isSafe)
         {
             state = State.attacking;
+            bGMManager.state = BGMManager.State.EelChase;
         }
     }
 
     private void SearchWalkPoint()
     {
-        float randomZ = Random.Range(-walkPointRange, walkPointRange);
-        float randomX = Random.Range(-walkPointRange, walkPointRange);
-
-        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
-
-        if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
+        if (!walkPointSet)
         {
+            randomSpot = Random.Range(0, walkPoints.Length);
+            walkPoint = walkPoints[randomSpot].position;
             walkPointSet = true;
         }
     }
@@ -74,6 +74,7 @@ public class sightBasedEnemyAi : MonoBehaviour
 
         if (!eFOV.canSeePlayer || pS.isSafe)
         {
+            bGMManager.state = BGMManager.State.EelIdle;
             state = State.patrolling;
         }
     }

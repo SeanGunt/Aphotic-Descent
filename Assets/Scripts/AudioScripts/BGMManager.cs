@@ -12,7 +12,7 @@ public class BGMManager : MonoBehaviour
 
     public enum State
     {
-        normalBGM, ffChaseMusic, transition, StopMusic, CrabLabBGM
+        normalBGM, ffChaseMusic, transition, StopMusic, CrabLabBGM, EelIdle, EelChase
     }
 
     private void Awake()
@@ -52,6 +52,14 @@ public class BGMManager : MonoBehaviour
             case State.CrabLabBGM:
                     PlayCrabLabBGM();
             break;
+
+            case State.EelIdle:
+                    PlayEelIdle();
+            break;
+
+            case State.EelChase:
+                    PlayEelChase();
+            break;
         }
     }
 
@@ -72,6 +80,20 @@ public class BGMManager : MonoBehaviour
     private void PlayCrabLabBGM()
     {
         audioSource.clip = bgms[2];
+        audioSource.Play();
+        state = State.transition;
+    }
+
+    private void PlayEelIdle()
+    {
+        audioSource.clip = bgms[3];
+        audioSource.Play();
+        state = State.transition;
+    }
+
+    private void PlayEelChase()
+    {
+        audioSource.clip = bgms[4];
         audioSource.Play();
         state = State.transition;
     }
