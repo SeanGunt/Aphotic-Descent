@@ -21,6 +21,7 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip invisSound;
     public static event Action OnChargeUsed;
+    [SerializeField] private ParticleSystem invisParticle;
 
     private void Start()
     {
@@ -67,6 +68,8 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
             //invisibilityBar.enabled = true;
             //fullInvisBar.enabled = true;
             invisibleTimer = timeInvisible;
+            invisParticle.gameObject.SetActive(true);
+            invisParticle.Play();
             isSafe = true;
             invisibilityCharges--;
             OnChargeUsed?.Invoke();
@@ -85,6 +88,8 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
           fullInvisCharge.fillAmount = invisibleTimer/timeInvisible;
           if (invisibleTimer <= 0)
           {
+            invisParticle.gameObject.SetActive(false);
+            invisParticle.Stop();
             isInvisible = false;
             fullInvisCharge.enabled = false;
             isSafe = false;

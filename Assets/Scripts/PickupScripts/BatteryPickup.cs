@@ -9,6 +9,7 @@ public class BatteryPickup : MonoBehaviour
     [SerializeField]GameObject Itself, pickupParticle;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip batteryPickupSound;
+    [SerializeField] private bool willRespawn;
     void Update()
     {
         if (isInactive)
@@ -47,7 +48,7 @@ public class BatteryPickup : MonoBehaviour
     void RespawnCooldown()
     {
         batteryCooldown = Mathf.Clamp(batteryCooldown, 0f, maxTime);
-        if (isInactive)
+        if (isInactive && willRespawn)
         {
             batteryCooldown -= Time.deltaTime;
             if (batteryCooldown <= 0.1f)
