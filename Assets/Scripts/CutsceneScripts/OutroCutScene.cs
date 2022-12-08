@@ -25,7 +25,7 @@ public class OutroCutScene : MonoBehaviour
             SceneManager.LoadScene("WinScreen");
         }
 
-        if(Input.anyKeyDown)
+        if(Input.anyKeyDown && videoLength < 58f)
         {
             Time.timeScale = 1f;
             SceneManager.LoadScene("WinScreen");
