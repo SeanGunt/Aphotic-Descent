@@ -11,6 +11,7 @@ public class TeleportScript2 : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             GameDataHolder.musicStopped = true;
+            CrabLabAmbientNoiseManager.inLab = true;
             bGMManager.state = BGMManager.State.CrabLabBGM;
             player.transform.localPosition = new Vector3(-105.3f, -46.78f, 241.13f);
         }

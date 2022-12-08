@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ObjectiveDisabler : MonoBehaviour
 {
-    [SerializeField] private GameObject checkpoint2, checkpoint3, checkpoint4;
+    [SerializeField] private GameObject checkpoint2, checkpoint3, checkpoint4, checkpoint5;
 
     private void Start()
     {
@@ -21,6 +21,11 @@ public class ObjectiveDisabler : MonoBehaviour
         if (GameDataHolder.labStartObjectiveTriggered)
         {
             checkpoint4.SetActive(false);
+        }
+
+        if (GameDataHolder.eelObjectiveTriggered)
+        {
+            checkpoint5.SetActive(false);
         }
     }
 }

@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   private float moveSpeed, defaultYPos, timer;
   [SerializeField] private LayerMask ignoreMask;
   private Vector3 velocity, moveDirection;
-  private bool isGrounded, hasUpgradedSuit;
+  [HideInInspector] public bool isGrounded, hasUpgradedSuit;
   [SerializeField] private bool isSwimming, canSwim, isTired, canUseHeadbob;
   [SerializeField] private Image staminaBar, tiredBar, walkState, swimState;
   [SerializeField] private Camera playerCamera;

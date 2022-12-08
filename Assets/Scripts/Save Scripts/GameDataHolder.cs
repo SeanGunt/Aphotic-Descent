@@ -14,6 +14,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
     public static bool kelpMazeObjectiveTriggerd;
     public static bool kelpMazeEndTriggered;
     public static bool labStartObjectiveTriggered;
+    public static bool eelObjectiveTriggered;
     public static int objectiveId;
     public static bool musicStopped;
 
@@ -32,6 +33,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         kelpMazeObjectiveTriggerd = data.kelpMazeObjectiveTriggerd;
         kelpMazeEndTriggered = data.kelpMazeEndTriggered;
         labStartObjectiveTriggered = data.labStartObjectiveTriggered;
+        eelObjectiveTriggered = data.eelObjectiveTriggered;
 
         musicStopped = data.musicStopped;
     }
@@ -41,15 +43,17 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         data.knifeHasBeenPickedUp = knifeHasBeenPickedUp;
         data.flashlightHasBeenPickedUp = flashlightHasBeenPickedUp;
         data.invisibilityAcquired = invisibilityAcquired;
+        data.hasUpgradedSuit = hasUpgradedSuit;
 
         data.boxes = boxes;
         data.doorKey = doorKey;
         data.secondDoorOpened = secondDoorOpened;
-
         data.objectiveId = objectiveId;
+
         data.kelpMazeObjectiveTriggerd = kelpMazeObjectiveTriggerd;
         data.kelpMazeEndTriggered = kelpMazeEndTriggered;
         data.labStartObjectiveTriggered = labStartObjectiveTriggered;
+        data.eelObjectiveTriggered = eelObjectiveTriggered;
 
         data.musicStopped = musicStopped;
     }

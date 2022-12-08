@@ -6,13 +6,18 @@ using UnityEngine.AI;
 public class EelBossScript : MonoBehaviour
 {
     [SerializeField] private GameObject player;
+    [SerializeField] private GameObject deathObject;
     [SerializeField] private float eelSpeed;
     [SerializeField] private float eelDashSpeed;
+    [SerializeField] private GameObject mainCam;
+    [SerializeField] private GameObject jumpscareCam;
+    [SerializeField] private GameObject playerDiver;
 
     //phase 1 vars
     [SerializeField] private GameObject gen1;
     [SerializeField] private GameObject gen2;
     [SerializeField] private GameObject gen3;
+    private CapsuleCollider cc;
     generatorScript gen1Scr;
     generatorScript gen2Scr;
     generatorScript gen3Scr;
@@ -28,6 +33,10 @@ public class EelBossScript : MonoBehaviour
     public NavMeshAgent eelAgent;
     Vector3 destination;
     private float playerDistance;
+    [SerializeField] private Animator animator;
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip eelHiss;
+    private float timer;
 
     private State state;
     public enum State
@@ -38,12 +47,16 @@ public class EelBossScript : MonoBehaviour
 
     void Awake()
     {
+        audioSource = this.GetComponent<AudioSource>();
+        cc = GetComponent<CapsuleCollider>();
+        animator = GetComponentInChildren<Animator>();
         eelAgent = GetComponent<NavMeshAgent>();
         eelAgent.speed = eelSpeed;
         eelAgent.updateRotation = true;
         eelAgent.autoBraking = false;
-        eelAgent.acceleration = 250;
-        eelAgent.angularSpeed = 250;
+        eelAgent.acceleration = eelAgent.acceleration;
+        eelAgent.angularSpeed = eelAgent.angularSpeed;
+        timer = Random.Range(5f,10f);
 
         player = GameObject.FindGameObjectWithTag("Player");
         if(player != null)
@@ -76,7 +89,12 @@ public class EelBossScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        timer -= Time.deltaTime;
+        if (timer <= 0 && !eelDead)
+        {
+            audioSource.PlayOneShot(eelHiss);
+            timer = Random.Range(5f,10f);
+        }
         playerDistance = (player.transform.position-this.transform.position).sqrMagnitude;
 
         switch (state)
@@ -124,8 +142,11 @@ public class EelBossScript : MonoBehaviour
         
         if((eelHealth == 0) && (!g1On && !g2On && !g3On) && (eelDead == false))
         {
+            deathObject.SetActive(true);
+            cc.enabled = false;
             eelDead = true;
             Debug.Log("eel dead");
+            animator.SetBool("isDead", true);
             eelAgent.speed = 0;
             siBaAi.enabled = false;
         }
@@ -142,7 +163,11 @@ public class EelBossScript : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
-            pHC.ChangeHealth(-20.0f);
+            eelAgent.speed = 0;
+            playerDiver.SetActive(false);
+            mainCam.SetActive(false);
+            jumpscareCam.SetActive(true);
+            animator.SetTrigger("Jumpscare");
         }
     }
 }

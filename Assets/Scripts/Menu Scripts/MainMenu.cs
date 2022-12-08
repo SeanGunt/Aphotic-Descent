@@ -12,7 +12,14 @@ public class MainMenu : MonoBehaviour
 
     public void Awake()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 1f;
+    }
+
+    public void PlayIntroCutscene()
+    {
+        SceneManager.LoadScene("IntroCutScene");
     }
 
     public void PlayWhiteboxMaze ()

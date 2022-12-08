@@ -9,7 +9,7 @@ public class TelportScript : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            player.transform.localPosition = new Vector3(-60f, -30f, -70f);
+            player.transform.localPosition = new Vector3(-50f, -30f, -70f);
         }
     }
 }
