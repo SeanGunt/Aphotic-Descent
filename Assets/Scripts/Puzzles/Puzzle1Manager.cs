@@ -21,6 +21,7 @@ public class Puzzle1Manager : MonoBehaviour
         if (barnacleTrig1 && barnacleTrig2 && barnacleTrig3 && barnacleTrig4 && barnacleTrig5)
         {
             doorController.canOpen = true;
+            doorController.close = true;
             textController.Text = "Mechanism fixed. Door unlocked.";
         }
     }
