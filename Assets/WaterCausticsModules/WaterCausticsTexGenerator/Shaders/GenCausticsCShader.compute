@@ -1,0 +1,250 @@
+// WaterCausticsModules
+// Copyright (c) 2021 Masataka Hakozaki
+
+#pragma kernel NoiseCS
+#pragma kernel RefractCS
+#pragma kernel RefractCS_CACalcSeparate
+#pragma kernel ColorCS
+#pragma kernel ColorCS_CACalcSeparate
+
+#pragma warning(disable : 3571)
+
+#define THREAD_SIZE 16
+#define WAVE_MAX_CNT 4
+
+#pragma multi_compile_local __ EXTEND_RAY
+#pragma multi_compile_local STYLE_A STYLE_B STYLE_C
+
+#include "snoise.cginc"
+
+struct CausticsBufStruct {
+    float2 offset;
+    float3 color;
+};
+
+RWStructuredBuffer<float> _BufNoiseRW;
+StructuredBuffer<float> _BufNoise;
+RWStructuredBuffer<CausticsBufStruct> _BufRefractRW;
+StructuredBuffer<CausticsBufStruct> _BufRefract;
+
+cbuffer CB {
+    uint _WaveCnt;
+    float3 _WaveData[WAVE_MAX_CNT];
+    float2 _WaveUVShift[WAVE_MAX_CNT];
+    float2 _WaveNoiseDir[WAVE_MAX_CNT];
+    uint _CalcResUI;
+    float _CalcTexel;
+    float _CalcTexelInv;
+    float3 _LightDir;
+    float3 _Eta;
+    float _Brightness;
+    float _Gamma;
+    float _Clamp;
+    uint _IdxStride;
+    float2 _DrawOffset;
+}
+
+uint idToIdx(uint2 id, uint width) {
+    return id.x + id.y * width;
+}
+
+uint idToIdxWrap(uint2 id, uint width) {
+    uint2 tmp = id % width;
+    return tmp.x + tmp.y * width;
+}
+
+uint2 uvToID(float2 uv, float widthF) {
+    return uint2(uv * widthF + widthF);
+}
+
+uint uvToIdx(float2 uv, float widthF, uint width) {
+    return idToIdxWrap(uint2(uv * widthF + widthF), width);
+}
+
+uint3 idToIdxRGB(uint2 id, uint width) {
+    uint3 idx;
+    idx.r = idToIdx(id.xy, width);
+    idx.g = idx.r + _IdxStride;
+    idx.b = idx.g + _IdxStride;
+    return idx;
+}
+
+uint3 idToIdxWrapRGB(uint2 id, uint width) {
+    uint3 idx;
+    idx.r = idToIdxWrap(id.xy, width);
+    idx.g = idx.r + _IdxStride;
+    idx.b = idx.g + _IdxStride;
+    return idx;
+}
+
+static const float PI = 3.14159265359;
+
+float2 easeInOutSine_f2(float2 t) {
+    return 0.5 - cos(PI * t) * 0.5;
+}
+
+static const float NOISE_RADIUS = 100;
+
+// ----------------------------------------------------------------------------
+float genNoise(float2 uv, float4 lc, float density, float2 dir, float shift) {
+    float2 s0 = uv * density + float2(NOISE_RADIUS, shift);
+    float2 s1 = s0 + density;
+    float3 p0 = float3(s0.x * dir.x, s0.y, s0.x * dir.y);
+    float3 p1 = float3(s1.x * dir.x, s1.y, s1.x * dir.y);
+    float4 n;
+    n.x = snoise(p0);
+    n.y = snoise(float3(p1.x, p0.y, p1.z));
+    n.z = snoise(float3(p0.x, p1.y, p0.z));
+    n.w = snoise(p1);
+    return dot(n, lc);
+}
+
+float4 lerpCoef(float2 uv) {
+    float2 e = easeInOutSine_f2(uv);
+    float2 adj = easeInOutSine_f2(uv * 2);
+    adj = 1 - 0.4142 * 0.5 + 0.4142 * adj;
+    float4 t = float4(e, 1 - e) * adj.xyxy;
+    return t.xzxz * t.yyww;
+}
+
+[numthreads(THREAD_SIZE, THREAD_SIZE, 1)]
+void NoiseCS(uint3 ID : SV_DispatchThreadID) {
+    float2 uv = (float2)ID.xy * _CalcTexel;
+    float noise = 0;
+    [unroll(WAVE_MAX_CNT)]for (uint i = 0; i < _WaveCnt; i++) {
+        float2 uvE = frac(uv + _WaveUVShift [i]);
+        float4 lc = lerpCoef(uvE);
+        uvE -= 0.5;
+        float density = _WaveData[i].x;
+        float height = _WaveData[i].y;
+        float index = _WaveData[i].z;
+        noise += genNoise(uvE, lc, density, _WaveNoiseDir[i], index * 20) * height;
+    }
+    _BufNoiseRW[idToIdx(ID.xy, _CalcResUI)] = noise;
+}
+
+
+// ----------------------------------------------------------------------------
+
+float3 calcNormal(uint2 ID) {
+    uint idx0 = idToIdx(ID.xy, _CalcResUI);
+    uint idx1 = idToIdxWrap(ID.xy + uint2(2, 0), _CalcResUI);
+    uint idx2 = idToIdxWrap(ID.xy + uint2(0, 2), _CalcResUI);
+    float h0 = _BufNoise [idx0];
+    float h1 = _BufNoise [idx1];
+    float h2 = _BufNoise [idx2];
+    float span = _CalcTexel * 2;
+    float3 v0 = float3(span, 0, h1 - h0);
+    float3 v1 = float3(0, span, h2 - h0);
+    return -normalize(cross(v0, v1));
+}
+
+float2 calcOffset(float3 ray) {
+    #if EXTEND_RAY
+        return ray.xy / ray.z + _DrawOffset;
+    #else
+        return ray.xy + _DrawOffset;
+    #endif
+}
+
+[numthreads(THREAD_SIZE, THREAD_SIZE, 1)]
+void RefractCS(uint3 ID : SV_DispatchThreadID) {
+    float3 norm = calcNormal(ID.xy);
+    float3 ray = refract(_LightDir, norm, _Eta.g);
+    uint idx = idToIdx(ID.xy, _CalcResUI);
+    _BufRefractRW[idx].offset = calcOffset(ray);
+}
+
+[numthreads(THREAD_SIZE, THREAD_SIZE, 1)]
+void RefractCS_CACalcSeparate(uint3 ID : SV_DispatchThreadID) {
+    float3 norm = calcNormal(ID.xy);
+    float3 rayR = refract(_LightDir, norm, _Eta.r);
+    float3 rayG = refract(_LightDir, norm, _Eta.g);
+    float3 rayB = refract(_LightDir, norm, _Eta.b);
+    uint3 idx = idToIdxRGB(ID.xy, _CalcResUI);
+    _BufRefractRW[idx.r].offset = calcOffset(rayR);
+    _BufRefractRW[idx.g].offset = calcOffset(rayG);
+    _BufRefractRW[idx.b].offset = calcOffset(rayB);
+}
+
+
+// ----------------------------------------------------------------------------
+
+float calcArea(float3x2 v) {
+    #if STYLE_A
+        float2 v01 = v[1] - v[0];
+        float2 v02 = v[2] - v[0];
+        return abs(v01.x * v02.y - v02.x * v01.y);
+    #elif STYLE_B
+        return distance(v[0], v[1]) * distance(v[0], v[2]);
+    #else // STYLE_C
+        return distance(v[0], v[1]) * distance(v[0], v[2]) * distance(v[1], v[2]);
+    #endif
+}
+
+float3x2 getPt3(uint3 idx) {
+    float3x2 pt;
+    pt[0] = _BufRefractRW[idx[0]].offset * _CalcTexelInv;
+    pt[1] = _BufRefractRW[idx[1]].offset * _CalcTexelInv + float2(2, 0);
+    pt[2] = _BufRefractRW[idx[2]].offset * _CalcTexelInv + float2(1, 2);
+    return pt;
+}
+
+float calcColor(uint3 idx) {
+    #if STYLE_A
+        float baseArea = 4.0;
+    #elif STYLE_B
+        float baseArea = 4.0 * 1.118034;
+    #else // STYLE_C
+        float baseArea = 8.0 * 1.118034 * 1.118034;
+    #endif
+    float area = calcArea(getPt3(idx));
+    area = max(area, 0.000001);
+    float c = pow(baseArea / area, _Gamma) * _Brightness;
+    return min(c, _Clamp);
+}
+
+[numthreads(THREAD_SIZE, THREAD_SIZE, 1)]
+void ColorCS(uint3 ID : SV_DispatchThreadID) {
+    uint m = _CalcResUI - 1;
+    uint3 idxs;
+    idxs[0] = idToIdxWrap(ID.xy + uint2(m, m), _CalcResUI);
+    idxs[1] = idToIdxWrap(ID.xy + uint2(1, m), _CalcResUI);
+    idxs[2] = idToIdxWrap(ID.xy + uint2(0, 1), _CalcResUI);
+
+    float col = calcColor(idxs);
+
+    uint idx = idToIdx(ID.xy, _CalcResUI);
+    _BufRefractRW[idx].color = col.rrr;
+}
+
+[numthreads(THREAD_SIZE, THREAD_SIZE, 1)]
+void ColorCS_CACalcSeparate(uint3 ID : SV_DispatchThreadID) {
+    uint m = _CalcResUI - 1;
+    uint3x3 idxs;
+    idxs[0] = idToIdxWrapRGB(ID.xy + uint2(m, m), _CalcResUI);
+    idxs[1] = idToIdxWrapRGB(ID.xy + uint2(1, m), _CalcResUI);
+    idxs[2] = idToIdxWrapRGB(ID.xy + uint2(0, 1), _CalcResUI);
+    idxs = transpose(idxs);
+
+    float3 col;
+    col.r = calcColor(idxs[0]);
+    col.g = calcColor(idxs[1]);
+    col.b = calcColor(idxs[2]);
+
+    uint3 idx = idToIdxRGB(ID.xy, _CalcResUI);
+    _BufRefractRW[idx.r].color = float3(col.r, 0, 0);
+    _BufRefractRW[idx.g].color = float3(0, col.g, 0);
+    _BufRefractRW[idx.b].color = float3(0, 0, col.b);
+}
+
+
+// ---------------------------------------------------------------------------- for Debug
+#pragma kernel DebugNoiseCS
+[numthreads(THREAD_SIZE, THREAD_SIZE, 1)]
+void DebugNoiseCS(uint3 ID : SV_DispatchThreadID) {
+    uint idx = idToIdx(ID.xy, _CalcResUI);
+    _BufRefractRW[idx].color = pow(_BufNoise [idx] * _Brightness * 1000 + 0.5, _Gamma * 5);
+    _BufRefractRW[idx].offset = 0;
+}
+// ----------------------------------------------------------------------------
