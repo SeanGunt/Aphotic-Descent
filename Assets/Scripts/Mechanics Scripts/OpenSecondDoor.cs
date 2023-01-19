@@ -6,6 +6,7 @@ public class OpenSecondDoor : MonoBehaviour
 {
     [SerializeField] GameObject door;
     [SerializeField] flashlightMechanic fmech;
+    private bool opened;
 
     private void Start()
     {
@@ -14,15 +15,29 @@ public class OpenSecondDoor : MonoBehaviour
             door.transform.eulerAngles = new Vector3(0,-90,0);
         }
     }
+
+    private void Update()
+    {
+        if (GameDataHolder.secondDoorOpened && !opened)
+        {
+            StartCoroutine("DoorSwingOpen");
+        }
+    }
     public void Open()
     {
         if (GameDataHolder.secondDoorOpened == false)
         {
-            door.transform.eulerAngles = new Vector3(0,-90,0);
             fmech.flashlightText.text = "Door Opened";
             fmech.Invoke("ClearUI", 3);
             GameDataHolder.secondDoorOpened = true;
             DataPersistenceManager.instance.SaveGame();
         }
+    }
+
+    private IEnumerator DoorSwingOpen()
+    {
+        door.transform.rotation = Quaternion.RotateTowards(door.transform.rotation, Quaternion.Euler(0.0f, -90.0f, 0.0f), Time.deltaTime * 200);
+        yield return new WaitForSeconds(1f);
+        opened = true;
     }
 }
