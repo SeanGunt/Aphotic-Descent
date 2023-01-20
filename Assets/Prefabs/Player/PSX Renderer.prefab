@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2460157845030572658}
   - component: {fileID: 2460157845030572671}
   - component: {fileID: 2460157845030572656}
-  - component: {fileID: 2460157845030572670}
   m_Layer: 0
   m_Name: RenderTexture
   m_TagString: Untagged
@@ -84,19 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2460157845030572670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2460157845030572659}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cf0982d09a220743ab06c8dbcf7363e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  psxTexture: {fileID: 8400000, guid: 72d80124e9306c442a9763031061d271, type: 2}
 --- !u!1 &2460157845507454472
 GameObject:
   m_ObjectHideFlags: 0

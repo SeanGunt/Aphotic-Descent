@@ -7,6 +7,9 @@ using TMPro;
 
 public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
 {
+    private SkinnedMeshRenderer[] skinnedMeshRenderers;
+    private Material[] originalMaterials;
+    [SerializeField] private Material invisMaterial;
     public float timeInvisible = 5.0f;
     public float invisibleTimer;
     public int invisibilityCharges = 3;
@@ -42,6 +45,13 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
       interactionText.text = "";
       invisibilityBar.enabled = false;
       fullInvisBar.enabled = false;
+
+      skinnedMeshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
+      originalMaterials = new Material[skinnedMeshRenderers.Length];
+      for (int i = 0; i < skinnedMeshRenderers.Length; i++)
+      {
+        originalMaterials[i] = skinnedMeshRenderers[i].material;
+      }
     }
 
     public void LoadData(GameData data)
@@ -65,8 +75,6 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
             audioSource.PlayOneShot(invisSound);
             fullInvisCharge.enabled = true;
             fullInvisCharge.fillAmount = 1;
-            //invisibilityBar.enabled = true;
-            //fullInvisBar.enabled = true;
             invisibleTimer = timeInvisible;
             invisParticle.gameObject.SetActive(true);
             invisParticle.Play();
@@ -84,10 +92,19 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
         }
         if (isInvisible)
         {
+          for (int i = 0; i < skinnedMeshRenderers.Length; i++)
+          {
+            skinnedMeshRenderers[i].material = invisMaterial;
+          }
           invisibleTimer -= Time.deltaTime;
           fullInvisCharge.fillAmount = invisibleTimer/timeInvisible;
+
           if (invisibleTimer <= 0)
           {
+            for (int i = 0; i <skinnedMeshRenderers.Length; i++)
+            {
+              skinnedMeshRenderers[i].material = originalMaterials[i];
+            }
             invisParticle.gameObject.SetActive(false);
             invisParticle.Stop();
             isInvisible = false;
