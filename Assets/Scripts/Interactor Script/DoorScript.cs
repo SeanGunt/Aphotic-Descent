@@ -9,12 +9,24 @@ public class DoorScript : MonoBehaviour
     public bool inTrigger;
     private BoxCollider bCollider;
     private UItext uItext;
+    private PlayerInputActions playerInputActions;
 
     private void Awake()
     {
         inTrigger = false;
         bCollider = GetComponent<BoxCollider>();
         uItext = GetComponent<UItext>();
+        playerInputActions = new PlayerInputActions();
+    }
+    
+    private void OnEnable()
+    {
+        playerInputActions.Enable();
+    }
+
+    private void OnDisable()
+    {
+        playerInputActions.Disable();
     }
  
     void OnTriggerEnter(Collider other)
@@ -41,7 +53,7 @@ public class DoorScript : MonoBehaviour
             {
                 if (GameDataHolder.doorKey)
                 {
-                    if (Input.GetButtonDown("Interact"))
+                    if (playerInputActions.PlayerControls.Interact.triggered)
                     {
                         bCollider.enabled = false;
                         uItext.GuiOn = false;

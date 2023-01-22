@@ -6,6 +6,7 @@ public class DoorKey : MonoBehaviour
 {
     public bool inTrigger;
     public GameObject tutTextObj;
+    private PlayerInputActions playerInputActions;
     public TextMeshProUGUI tutText;
     [SerializeField] private ClearUIText clearUIText;
     [SerializeField] private AudioSource audioSource;
@@ -17,6 +18,21 @@ public class DoorKey : MonoBehaviour
         {
             this.gameObject.SetActive(false);
         }
+    }
+
+    private void Awake()
+    {
+        playerInputActions = new PlayerInputActions();
+    }
+
+    private void OnEnable()
+    {
+        playerInputActions.Enable();
+    }
+
+    private void OnDisable()
+    {
+        playerInputActions.Disable();
     }
  
     void OnTriggerEnter(Collider other)
@@ -33,7 +49,7 @@ public class DoorKey : MonoBehaviour
     {
         if (inTrigger)
         {
-            if (Input.GetButtonDown("Interact"))
+            if (playerInputActions.PlayerControls.Interact.triggered)
             {
                 audioSource.PlayOneShot(pickupSound);
                 clearUIText.CancelInvoke();

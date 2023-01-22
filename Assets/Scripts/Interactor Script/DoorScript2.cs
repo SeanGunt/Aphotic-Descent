@@ -13,6 +13,7 @@ public class DoorScript2 : MonoBehaviour
     [SerializeField]private float rotX, rotY, rotZ;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip doorOpenSound;
+    private PlayerInputActions playerInputActions;
 
     private void Awake()
     {
@@ -20,6 +21,17 @@ public class DoorScript2 : MonoBehaviour
         bCollider = GetComponent<BoxCollider>();
         uItext = GetComponent<UItext>();
         canOpen = true;
+        playerInputActions = new PlayerInputActions();
+    }
+
+    private void OnEnable()
+    {
+        playerInputActions.Enable();
+    }
+
+    private void OnDisable()
+    {
+        playerInputActions.Disable();
     }
  
     void OnTriggerEnter(Collider other)
@@ -46,7 +58,7 @@ public class DoorScript2 : MonoBehaviour
             {
                 if (GameDataHolder.doorKey && canOpen)
                 {
-                    if (Input.GetButtonDown("Interact"))
+                    if (playerInputActions.PlayerControls.Interact.triggered)
                     {
                         audioSource.PlayOneShot(doorOpenSound);
                         bCollider.enabled = false;
