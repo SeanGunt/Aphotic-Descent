@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class WeaponController : MonoBehaviour
 {
@@ -8,17 +9,30 @@ public class WeaponController : MonoBehaviour
     public bool CanAttack;
     public float AttackCooldown;
     public bool IsAttacking = false;
+    private PlayerInputActions playerInputActions;
     private BoxCollider bc;
     public Animator animator;
     private void Awake()
     {
         bc = Knife.GetComponent<BoxCollider>();
         bc.enabled = false;
+        playerInputActions = new PlayerInputActions();
+    }
+
+    private void OnEnable()
+    {
+        playerInputActions.Enable();
+    }
+
+    private void OnDisable()
+    {
+        playerInputActions.Disable();
     }
     
     void Update()
     {
-        if (Input.GetButtonDown("Knife") || Input.GetAxisRaw("Knife") > 0)
+        if (playerInputActions.PlayerControls.Knife.triggered)
+        //if (Input.GetButtonDown("Knife") || Input.GetAxisRaw("Knife") > 0)
         {
             if (CanAttack && GameDataHolder.knifeHasBeenPickedUp)
             {

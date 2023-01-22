@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 using TMPro;
 
 public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
 {
+    private PlayerInputActions playerInputActions;
     private SkinnedMeshRenderer[] skinnedMeshRenderers;
     private Material[] originalMaterials;
     [SerializeField] private Material invisMaterial;
@@ -45,6 +47,7 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
       interactionText.text = "";
       invisibilityBar.enabled = false;
       fullInvisBar.enabled = false;
+      playerInputActions = new PlayerInputActions();
 
       skinnedMeshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
       originalMaterials = new Material[skinnedMeshRenderers.Length];
@@ -52,6 +55,16 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
       {
         originalMaterials[i] = skinnedMeshRenderers[i].material;
       }
+    }
+
+    private void OnEnable()
+    {
+      playerInputActions.Enable();
+    }
+
+    private void OnDisable()
+    {
+      playerInputActions.Disable();
     }
 
     public void LoadData(GameData data)
@@ -66,29 +79,10 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
     void Update()
     {
         invisibleTimer = Mathf.Clamp(invisibleTimer, 0f, timeInvisible);
-        if (Input.GetButtonDown("Invisibility") && GameDataHolder.invisibilityAcquired)
+        if (playerInputActions.PlayerControls.Invisibility.triggered && GameDataHolder.invisibilityAcquired)
+        //if (Input.GetButtonDown("Invisibility") && GameDataHolder.invisibilityAcquired)
         {
-          if (invisibilityCharges > 0 && !isSafe)
-          {
-            CancelInvoke("ClearUI");
-            isInvisible = true;
-            audioSource.PlayOneShot(invisSound);
-            fullInvisCharge.enabled = true;
-            fullInvisCharge.fillAmount = 1;
-            invisibleTimer = timeInvisible;
-            invisParticle.gameObject.SetActive(true);
-            invisParticle.Play();
-            isSafe = true;
-            invisibilityCharges--;
-            OnChargeUsed?.Invoke();
-            invisibilityChargesText.text = ": " + invisibilityCharges.ToString();
-            interactionText.text = "You are invisible!";
-          }
-          else if (invisibilityCharges <= 0)
-          {
-            interactionText.text = "You have no charges!";
-            Invoke ("ClearUI", 3);
-          }
+          GoInvis();
         }
         if (isInvisible)
         {
@@ -132,6 +126,31 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
         Debug.Log("InvisPicked Up");
         Invoke ("ClearUI", 3);
       }
+    }
+
+    private void GoInvis()
+    {
+      if (invisibilityCharges > 0 && !isSafe)
+          {
+            CancelInvoke("ClearUI");
+            isInvisible = true;
+            audioSource.PlayOneShot(invisSound);
+            fullInvisCharge.enabled = true;
+            fullInvisCharge.fillAmount = 1;
+            invisibleTimer = timeInvisible;
+            invisParticle.gameObject.SetActive(true);
+            invisParticle.Play();
+            isSafe = true;
+            invisibilityCharges--;
+            OnChargeUsed?.Invoke();
+            invisibilityChargesText.text = ": " + invisibilityCharges.ToString();
+            interactionText.text = "You are invisible!";
+          }
+          else if (invisibilityCharges <= 0)
+          {
+            interactionText.text = "You have no charges!";
+            Invoke ("ClearUI", 3);
+          }
     }
 
     public void SetInvisUIActive()

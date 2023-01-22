@@ -14,8 +14,24 @@ public class Interactor : MonoBehaviour
     public Vector2 defaultIconSize;
     public Sprite defaultInteractIcon;
     public Vector2 defaultInteractIconSize;
+    private PlayerInputActions playerInputActions;
     UnityEvent onInteract;
    
+    private void Awake()
+    {
+        playerInputActions = new PlayerInputActions();
+    }
+
+    private void OnEnable()
+    {
+        playerInputActions.Enable();
+    }
+
+    private void OnDisable()
+    {
+        playerInputActions.Disable();
+    }
+    
     void Update()
     {
         RaycastHit hit;
@@ -25,7 +41,7 @@ public class Interactor : MonoBehaviour
             if(hit.collider.GetComponent<Interactable>() != false)
             {
                 onInteract = hit.collider.GetComponent<Interactable>().onInteract;
-                if (Input.GetButtonDown("Interact"))
+                if (playerInputActions.PlayerControls.Interact.triggered)
                 {
                 onInteract.Invoke();
                 }
