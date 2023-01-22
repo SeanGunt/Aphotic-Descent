@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     movement = playerInputActions.PlayerControls.Movement;
     movement.Enable();
 
-    playerInputActions.PlayerControls.Ascend.performed += DoAscend;
+    //playerInputActions.PlayerControls.Ascend.performed += DoAscend;
     playerInputActions.PlayerControls.Ascend.Enable();
   }
 
@@ -123,13 +123,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         Vector3 move = transform.right * x + transform.forward * z;
 
         //Float Up
-        // if (Input.GetButton("Ascend") && canSwim && hasUpgradedSuit)
-        // {
-        //   velocity.y = floatSpeed;
-        //   isSwimming = true;
-        //   walkState.gameObject.SetActive(false);
-        //   swimState.gameObject.SetActive(true);
-        // }
+        if (Input.GetButton("Ascend") && canSwim && hasUpgradedSuit)
+        {
+          velocity.y = floatSpeed;
+          isSwimming = true;
+          walkState.gameObject.SetActive(false);
+          swimState.gameObject.SetActive(true);
+        }
 
         //Float Down
         if (Input.GetButton("Descend") && canSwim && !isGrounded && hasUpgradedSuit)
@@ -295,17 +295,17 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       state = State.outOfWater;
     }
 
-    private void DoAscend(InputAction.CallbackContext obj)
-    {
-      Debug.Log("Ascending!!");
-      if (canSwim && hasUpgradedSuit)
-      {
-        velocity.y = floatSpeed;
-        isSwimming = true;
-        walkState.gameObject.SetActive(false);
-        swimState.gameObject.SetActive(true);
-      }
-    }
+    // private void DoAscend(InputAction.CallbackContext obj)
+    // {
+    //   Debug.Log("Ascending!!");
+    //   if (canSwim && hasUpgradedSuit)
+    //   {
+    //     velocity.y = floatSpeed;
+    //     isSwimming = true;
+    //     walkState.gameObject.SetActive(false);
+    //     swimState.gameObject.SetActive(true);
+    //   }
+    // }
 
     private void FixedUpdate()
     {
