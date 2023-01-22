@@ -15,7 +15,10 @@ public class flashlightMechanic : MonoBehaviour
     [SerializeField]private HiddenObjectsInteraction hI;
     [SerializeField]private RevealHiddenObjects rHO;
     [SerializeField]private SpawnHiddenObject sHO;
+    [SerializeField]private float flashlightCooldown = 15.0f;
+    private float flCdResetTime;
     private BlacklightEvent blEvent;
+    private bool flashlightDisable;
     public bool flashlightEmpty;
     public float range = 10f;
     public Camera mainCam;
@@ -33,6 +36,8 @@ public class flashlightMechanic : MonoBehaviour
         PMS = player.GetComponent<PlayerMovement>();
         FlashlightLight.gameObject.SetActive(false);
         BlacklightLight.gameObject.SetActive(false);
+
+        flCdResetTime = flashlightCooldown;
     }
 
     // Update is called once per frame
@@ -40,6 +45,9 @@ public class flashlightMechanic : MonoBehaviour
     {
         if (!flashlightEmpty && GameDataHolder.flashlightHasBeenPickedUp)
         {
+
+
+            //flashlight input effects start here
             if (Input.GetButtonDown("Flashlight"))
             {
                 if (!flashlightOn)
@@ -68,8 +76,12 @@ public class flashlightMechanic : MonoBehaviour
                     Invoke("ClearUI", 4);
                 }
             }
+
+
             flashlightBattery = Mathf.Clamp(flashlightBattery, 0f, maxBattery);
-            if (flashlightOn)
+
+
+            if (flashlightOn && !flashlightDisable)
             {
                 batteryBar.fillAmount = flashlightBattery/maxBattery;
                 if (Input.GetButton("Blacklight"))
@@ -101,14 +113,25 @@ public class flashlightMechanic : MonoBehaviour
                 blLight.gameObject.SetActive(false);
                 Invoke("ClearUI", 2);
                 flashlightEmpty = true;
+
+                flashlightDisable = true;
             }
         }
         else
         {
             BlacklightLight.gameObject.SetActive(false);
             FlashlightLight.gameObject.SetActive(false);
-        }  
+        }
+
+        if(flashlightDisable)
+        {
+            FlCooldown();
+        }
+
         FlashlightUIControl();
+        //flashlight input effects end here
+
+
     }
     void BlacklightReveal()
     {
@@ -161,6 +184,7 @@ public class flashlightMechanic : MonoBehaviour
       flashlightText.text = "";
     }
 
+
     public void FillBattery(float amount)
     {
         flashlightBattery += amount;
@@ -170,6 +194,7 @@ public class flashlightMechanic : MonoBehaviour
         }
         batteryBar.fillAmount = flashlightBattery/maxBattery;
     }
+
 
     void FlashlightUIControl()
     {
@@ -199,5 +224,21 @@ public class flashlightMechanic : MonoBehaviour
         {
             flashlightUI.gameObject.SetActive(false);
         }
+    }
+
+    void FlCooldown()
+    {  
+        flashlightCooldown -= Time.deltaTime;
+        if(flashlightCooldown <= 0)
+        {
+            flashlightDisable = false;
+            flashlightCooldown = flCdResetTime;
+
+            FillBattery(maxBattery);
+            flashlightEmpty = false;
+
+            flashlightText.text = "Flashlight Battery Recharged";
+            Invoke("ClearUI", 3);
+        }   
     }
 }
