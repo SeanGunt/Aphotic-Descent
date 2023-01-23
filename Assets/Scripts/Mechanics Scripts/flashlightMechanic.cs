@@ -9,6 +9,7 @@ public class flashlightMechanic : MonoBehaviour
     [SerializeField] GameObject BlacklightLight;
     private bool flashlightOn = false;
     private bool blacklightIsOn = false;
+    private PlayerInputActions playerInputActions;
     [SerializeField]public float flashlightBattery, maxBattery;
     [SerializeField]private Image batteryBar, fullBatteryBar, emptyBatteryBar, flashlightUI, emptyLight, onLight, blLight;
     [SerializeField]public Text flashlightText;
@@ -30,6 +31,21 @@ public class flashlightMechanic : MonoBehaviour
     public GameObject player;
     private PlayerMovement PMS;
 
+    void Awake()
+    {
+        playerInputActions = new PlayerInputActions();
+    }
+
+    private void OnEnable()
+    {
+        playerInputActions.Enable();
+    }
+
+    private void OnDisable()
+    {
+        playerInputActions.Disable();
+    }
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -45,10 +61,8 @@ public class flashlightMechanic : MonoBehaviour
     {
         if (!flashlightEmpty && GameDataHolder.flashlightHasBeenPickedUp)
         {
-
-
             //flashlight input effects start here
-            if (Input.GetButtonDown("Flashlight"))
+            if (playerInputActions.PlayerControls.Flashlight.triggered)
             {
                 if (!flashlightOn)
                 {
@@ -80,11 +94,12 @@ public class flashlightMechanic : MonoBehaviour
 
             flashlightBattery = Mathf.Clamp(flashlightBattery, 0f, maxBattery);
 
+            bool isBlacklightKeyHeld = playerInputActions.PlayerControls.Blacklight.ReadValue<float>() > 0.1f;
 
             if (flashlightOn && !flashlightDisable)
             {
                 batteryBar.fillAmount = flashlightBattery/maxBattery;
-                if (Input.GetButton("Blacklight"))
+                if (isBlacklightKeyHeld)
                 {
                     if (!blacklightIsOn)
                     {

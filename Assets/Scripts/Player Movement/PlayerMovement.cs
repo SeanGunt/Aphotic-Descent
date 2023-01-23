@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
-  public CharacterController controller;
+  private CharacterController controller;
   private PlayerInputActions playerInputActions;
   private InputAction movement;
   [SerializeField] private float groundedSpeed, airSpeed, floatSpeed, outOfWaterSpeed, 
@@ -47,6 +47,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     playerCamera = GetComponentInChildren<Camera>();
     defaultYPos = playerCamera.transform.localPosition.y;
     playerInputActions = new PlayerInputActions();
+    controller = GetComponent<CharacterController>();
   }
 
   private void OnEnable()
@@ -54,14 +55,15 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     movement = playerInputActions.PlayerControls.Movement;
     movement.Enable();
 
-    //playerInputActions.PlayerControls.Ascend.performed += DoAscend;
     playerInputActions.PlayerControls.Ascend.Enable();
+    playerInputActions.PlayerControls.Descend.Enable();
   }
 
   private void OnDisable()
   {
     movement.Disable();
     playerInputActions.PlayerControls.Ascend.Disable();
+    playerInputActions.PlayerControls.Descend.Disable();
   }
   
   private void Update()
@@ -118,12 +120,15 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
           moveSpeed = airSpeed;
         }
       
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
-        Vector3 move = transform.right * x + transform.forward * z;
+        Vector2 input = movement.ReadValue<Vector2>();
+        Vector3 move = new Vector3(input.x, 0, input.y);
+        move = move.x * transform.right + move.z * transform.forward;
+        controller.Move(move * Time.deltaTime * moveSpeed);
 
+        bool isAscendKeyHeld = playerInputActions.PlayerControls.Ascend.ReadValue<float>() > 0.1f;
+        
         //Float Up
-        if (Input.GetButton("Ascend") && canSwim && hasUpgradedSuit)
+        if (isAscendKeyHeld && canSwim && hasUpgradedSuit)
         {
           velocity.y = floatSpeed;
           isSwimming = true;
@@ -131,8 +136,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
           swimState.gameObject.SetActive(true);
         }
 
+        bool isDescendKeyHeld = playerInputActions.PlayerControls.Descend.ReadValue<float>() > 0.1f;
+        
         //Float Down
-        if (Input.GetButton("Descend") && canSwim && !isGrounded && hasUpgradedSuit)
+        if (isDescendKeyHeld && canSwim && !isGrounded && hasUpgradedSuit)
         {
           velocity.y = -floatSpeed * 2;
           isSwimming = true;
@@ -170,13 +177,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
           
         moveDirection = move;
-        controller.Move(move * moveSpeed * Time.deltaTime);
         velocity.y += gravityInWater * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
 
-        animator.SetFloat("walkHorizontal", Input.GetAxis("Horizontal"));
-        animator.SetFloat("walkVertical", Input.GetAxis("Vertical"));
-        if (Input.GetAxis("Horizontal") > -0.1 && Input.GetAxis("Horizontal") < 0.1 && Input.GetAxis("Vertical") > -0.1 && Input.GetAxis("Vertical") < 0.1)
+        animator.SetFloat("walkHorizontal", move.x);
+        animator.SetFloat("walkVertical", move.z);
+        if (move.x > -0.1 && move.x < 0.1 && move.z > -0.1 && move.z < 0.1)
         {
           animator.SetBool("notMoving", true);
         }
@@ -207,9 +213,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
       moveSpeed = outOfWaterSpeed;
       canSwim = false;
-      float x = Input.GetAxis("Horizontal");
-      float z = Input.GetAxis("Vertical");
-      Vector3 move = transform.right * x + transform.forward * z;
+      Vector2 input = movement.ReadValue<Vector2>();
+      Vector3 move = new Vector3(input.x, 0, input.y);
+      move = move.x * transform.right + move.z * transform.forward;
+      controller.Move(move * Time.deltaTime * moveSpeed);
       
       if(canUseHeadbob)
         {
@@ -217,12 +224,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
 
       moveDirection = move;
-      controller.Move(move * moveSpeed * Time.deltaTime);
       velocity.y += gravityOutOfWater * Time.deltaTime;
       controller.Move(velocity * Time.deltaTime);
-      animator.SetFloat("walkHorizontal", Input.GetAxis("Horizontal"));
-      animator.SetFloat("walkVertical", Input.GetAxis("Vertical"));
-      if (Input.GetAxis("Horizontal") > -0.1 && Input.GetAxis("Horizontal") < 0.1 && Input.GetAxis("Vertical") > -0.1 && Input.GetAxis("Vertical") < 0.1)
+      
+      animator.SetFloat("walkHorizontal", move.x);
+      animator.SetFloat("walkVertical", move.z);
+      if (move.x > -0.1 && move.x < 0.1 && move.z > -0.1 && move.z < 0.1)
         {
           animator.SetBool("notMoving", true);
         }
@@ -294,18 +301,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       yield return new WaitForSeconds(waitTime);
       state = State.outOfWater;
     }
-
-    // private void DoAscend(InputAction.CallbackContext obj)
-    // {
-    //   Debug.Log("Ascending!!");
-    //   if (canSwim && hasUpgradedSuit)
-    //   {
-    //     velocity.y = floatSpeed;
-    //     isSwimming = true;
-    //     walkState.gameObject.SetActive(false);
-    //     swimState.gameObject.SetActive(true);
-    //   }
-    // }
 
     private void FixedUpdate()
     {
