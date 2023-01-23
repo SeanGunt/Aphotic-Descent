@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -8,16 +9,34 @@ using UnityEngine.Rendering.Universal;
 public class PauseControls : MonoBehaviour
 {
     public GameObject PauseMenu;
+    private PlayerInputActions playerInputActions;
+    private InputAction pause;
     [SerializeField] private GameObject gameUI, objectiveText;
     [SerializeField] GameObject Player;
     public bool paused, otherMenuActive;
     public Volume volume;
 
+    void Awake()
+    {
+        playerInputActions = new PlayerInputActions();
+    }
+
+    private void OnEnable()
+    {
+        pause = playerInputActions.PlayerControls.Pause;
+        pause.Enable();
+    }
+
+    private void OnDisable()
+    {
+        pause.Disable();
+    }
+    
     void Update()
     {
         if (!Player.GetComponent<PlayerHealthController>().gameOver && !otherMenuActive)
         {
-            if (Input.GetButtonDown("Pause") && !paused && !LogPickup.logPickedUp && !Puzzle4UI.computerActivated)
+            if (pause.triggered && !paused && !LogPickup.logPickedUp && !Puzzle4UI.computerActivated)
             {
                 DepthOfField depthOfField;
                 if (volume.profile.TryGet<DepthOfField>(out depthOfField))
@@ -32,7 +51,7 @@ public class PauseControls : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             }
-            else if (Input.GetButtonDown("Pause") && paused && !LogPickup.logPickedUp && !Puzzle4UI.computerActivated)
+            else if (pause.triggered && paused && !LogPickup.logPickedUp && !Puzzle4UI.computerActivated)
             {
                 DepthOfField depthOfField;
                 if (volume.profile.TryGet<DepthOfField>(out depthOfField))
