@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 
@@ -9,12 +10,26 @@ public class MainMenu : MonoBehaviour
     [SerializeField] GameObject mainMenu, optionsMenu, howToMenu, creditsMenu;
 
     [SerializeField] GameObject optionsFirstButton, optionsClosedButton, howToFirstButton, howToClosedButton, creditsFirstButton, creditsClosedButton;
+    private PlayerInputActions playerInputActions;
+    private InputAction escape;
 
     public void Awake()
     {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 1f;
+        playerInputActions = new PlayerInputActions();
+    }
+
+    private void OnEnable()
+    {
+        escape = playerInputActions.PlayerControls.Escape;
+        escape.Enable();
+    }
+
+    private void OnDisable()
+    {
+        escape.Disable();
     }
 
     public void PlayIntroCutscene()
@@ -110,7 +125,7 @@ public class MainMenu : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (escape.triggered)
         {
             Application.Quit();
             Debug.Log("Quit");

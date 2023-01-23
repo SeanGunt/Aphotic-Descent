@@ -383,6 +383,17 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""d4b68b11-7cc6-4f00-a7cf-a0de794480ca"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""6aae9c27-0871-4269-a5a9-48ad10f4755a"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",

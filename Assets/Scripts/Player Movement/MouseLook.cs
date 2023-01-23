@@ -9,7 +9,7 @@ public class MouseLook : MonoBehaviour
     [SerializeField] private Transform playerBody;
     private float xRotation = 0f;
     private PlayerInputActions playerInputActions;
-    private InputAction look;
+    private InputAction look, escape;
 
     void Start()
     {
@@ -26,14 +26,18 @@ public class MouseLook : MonoBehaviour
     {
         look = playerInputActions.PlayerControls.Look;
         look.Enable();
+
+        escape = playerInputActions.PlayerControls.Escape;
+        escape.Enable();
     }
 
     private void OnDisable()
     {
         look.Disable();
+        escape.Disable();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         Vector2 mInput = look.ReadValue<Vector2>();
         
@@ -47,7 +51,7 @@ public class MouseLook : MonoBehaviour
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         playerBody.Rotate(Vector3.up * mouseX); 
         
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (escape.triggered)
         {
             Application.Quit();
             Debug.Log("Quit");
