@@ -107,6 +107,24 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""ea6a0224-8f74-4d8c-9f7b-f30d071a0077"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""1d98650e-7ca2-4eeb-b831-444189a4cd37"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -351,6 +369,28 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Blacklight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b4f89e76-7844-423f-b8e9-5c20142fdc20"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6aae9c27-0871-4269-a5a9-48ad10f4755a"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -413,6 +453,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_PlayerControls_Invisibility = m_PlayerControls.FindAction("Invisibility", throwIfNotFound: true);
         m_PlayerControls_Flashlight = m_PlayerControls.FindAction("Flashlight", throwIfNotFound: true);
         m_PlayerControls_Blacklight = m_PlayerControls.FindAction("Blacklight", throwIfNotFound: true);
+        m_PlayerControls_Pause = m_PlayerControls.FindAction("Pause", throwIfNotFound: true);
+        m_PlayerControls_Escape = m_PlayerControls.FindAction("Escape", throwIfNotFound: true);
         // MenuControls
         m_MenuControls = asset.FindActionMap("MenuControls", throwIfNotFound: true);
         m_MenuControls_Newaction = m_MenuControls.FindAction("New action", throwIfNotFound: true);
@@ -484,6 +526,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerControls_Invisibility;
     private readonly InputAction m_PlayerControls_Flashlight;
     private readonly InputAction m_PlayerControls_Blacklight;
+    private readonly InputAction m_PlayerControls_Pause;
+    private readonly InputAction m_PlayerControls_Escape;
     public struct PlayerControlsActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -497,6 +541,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @Invisibility => m_Wrapper.m_PlayerControls_Invisibility;
         public InputAction @Flashlight => m_Wrapper.m_PlayerControls_Flashlight;
         public InputAction @Blacklight => m_Wrapper.m_PlayerControls_Blacklight;
+        public InputAction @Pause => m_Wrapper.m_PlayerControls_Pause;
+        public InputAction @Escape => m_Wrapper.m_PlayerControls_Escape;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -533,6 +579,12 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Blacklight.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnBlacklight;
                 @Blacklight.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnBlacklight;
                 @Blacklight.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnBlacklight;
+                @Pause.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnPause;
+                @Escape.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnEscape;
+                @Escape.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnEscape;
+                @Escape.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnEscape;
             }
             m_Wrapper.m_PlayerControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -564,6 +616,12 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Blacklight.started += instance.OnBlacklight;
                 @Blacklight.performed += instance.OnBlacklight;
                 @Blacklight.canceled += instance.OnBlacklight;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
+                @Escape.started += instance.OnEscape;
+                @Escape.performed += instance.OnEscape;
+                @Escape.canceled += instance.OnEscape;
             }
         }
     }
@@ -621,6 +679,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnInvisibility(InputAction.CallbackContext context);
         void OnFlashlight(InputAction.CallbackContext context);
         void OnBlacklight(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
+        void OnEscape(InputAction.CallbackContext context);
     }
     public interface IMenuControlsActions
     {
