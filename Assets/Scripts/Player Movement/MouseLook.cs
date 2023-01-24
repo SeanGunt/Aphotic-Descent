@@ -39,10 +39,13 @@ public class MouseLook : MonoBehaviour
 
     void Update()
     {
-        Vector2 mInput = look.ReadValue<Vector2>();
+        //Vector2 mInput = look.ReadValue<Vector2>();
         
-        float mouseX = mInput.x * mouseSensitivity * Time.deltaTime;
-        float mouseY = mInput.y * mouseSensitivity * Time.deltaTime;
+        /*float mouseX = mInput.x * mouseSensitivity * Time.deltaTime;
+        float mouseY = mInput.y * mouseSensitivity * Time.deltaTime;*/
+
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
         
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
