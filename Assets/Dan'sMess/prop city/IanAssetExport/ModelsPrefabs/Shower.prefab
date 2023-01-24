@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5806056521325703795
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 939514398768930499}
+  m_Layer: 0
+  m_Name: Shower
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &939514398768930499
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5806056521325703795}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4715590928329596950}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &5114855019780147197
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 939514398768930499}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: cc40edce945ed8549a71b9d4dbb80a7e, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: cc40edce945ed8549a71b9d4dbb80a7e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: cc40edce945ed8549a71b9d4dbb80a7e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: cc40edce945ed8549a71b9d4dbb80a7e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: cc40edce945ed8549a71b9d4dbb80a7e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: cc40edce945ed8549a71b9d4dbb80a7e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: cc40edce945ed8549a71b9d4dbb80a7e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: cc40edce945ed8549a71b9d4dbb80a7e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: cc40edce945ed8549a71b9d4dbb80a7e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: cc40edce945ed8549a71b9d4dbb80a7e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: cc40edce945ed8549a71b9d4dbb80a7e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3036221698356709270, guid: cc40edce945ed8549a71b9d4dbb80a7e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6d5b9f5ff6b9ebc419a57b72c16bb3d0, type: 2}
+    - target: {fileID: -3036221698356709270, guid: cc40edce945ed8549a71b9d4dbb80a7e, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: c621be2f0c7dc374fb5e9f79eec82e36, type: 2}
+    - target: {fileID: -3036221698356709270, guid: cc40edce945ed8549a71b9d4dbb80a7e, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: f8586dd4340a0fd42ab506046bee8581, type: 2}
+    - target: {fileID: -252219881194283323, guid: cc40edce945ed8549a71b9d4dbb80a7e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1b685bf4ab7f0fb4b88df28b79ebe315, type: 2}
+    - target: {fileID: 919132149155446097, guid: cc40edce945ed8549a71b9d4dbb80a7e, type: 3}
+      propertyPath: m_Name
+      value: shower_color_id_real
+      objectReference: {fileID: 0}
+    - target: {fileID: 2984431918466804868, guid: cc40edce945ed8549a71b9d4dbb80a7e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: eb645fb08fa862d4a971094570d8d76e, type: 2}
+    - target: {fileID: 4815969889253825525, guid: cc40edce945ed8549a71b9d4dbb80a7e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e1e554096c5beeb4196bc971940de803, type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cc40edce945ed8549a71b9d4dbb80a7e, type: 3}
+--- !u!4 &4715590928329596950 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: cc40edce945ed8549a71b9d4dbb80a7e, type: 3}
+  m_PrefabInstance: {fileID: 5114855019780147197}
+  m_PrefabAsset: {fileID: 0}
