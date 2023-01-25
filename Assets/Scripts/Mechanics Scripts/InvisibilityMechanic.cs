@@ -12,6 +12,8 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
     private SkinnedMeshRenderer[] skinnedMeshRenderers;
     private Material[] originalMaterials;
     [SerializeField] private Material invisMaterial;
+    Shader invisShader;
+    private float fresnelPower = 3.0f;
     public float timeInvisible = 5.0f;
     public float invisibleTimer;
     public int invisibilityCharges = 3;
@@ -90,6 +92,8 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
           {
             skinnedMeshRenderers[i].material = invisMaterial;
           }
+          fresnelPower -= Time.deltaTime;
+          invisMaterial.SetFloat("_FresnelPower", fresnelPower);
           invisibleTimer -= Time.deltaTime;
           fullInvisCharge.fillAmount = invisibleTimer/timeInvisible;
 
@@ -99,6 +103,8 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
             {
               skinnedMeshRenderers[i].material = originalMaterials[i];
             }
+            fresnelPower = 3f;
+            invisMaterial.SetFloat("_FresnelPower", fresnelPower);
             invisParticle.gameObject.SetActive(false);
             invisParticle.Stop();
             isInvisible = false;
