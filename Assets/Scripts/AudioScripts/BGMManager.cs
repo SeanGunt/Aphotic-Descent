@@ -1,106 +1,62 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class BGMManager : MonoBehaviour
 {
     private AudioSource audioSource;
     [SerializeField] private ffScr freakFishScript;
+    [SerializeField] private AudioMixer audioMixer;
     [SerializeField] AudioClip[] bgms;
-    [HideInInspector] public State state;
     [HideInInspector] public float audioVolume;
-
-    public enum State
-    {
-        normalBGM, ffChaseMusic, transition, StopMusic, CrabLabBGM, EelIdle, EelChase
-    }
+    private float mixerBGMVolume = 0f;
 
     private void Awake()
     {
+        audioMixer.SetFloat("BGM", mixerBGMVolume);
         audioSource = this.GetComponent<AudioSource>();
-        audioSource.clip = bgms[0];
+        SwitchBGM(0);
     }
 
     private void Start()
     {
         if (GameDataHolder.musicStopped)
         {
-            state = State.CrabLabBGM;
+            SwitchBGM(4);
         }
     }
 
-    private void Update()
+    public void SwitchBGM(int clipNumber)
     {
-        switch (state)
+        audioSource.clip = bgms[clipNumber];
+        audioSource.Play();
+    }
+
+    public void SwitchBGMFade(int clipNumber)
+    {
+        StartCoroutine("Fade", clipNumber);
+    }   
+
+    public IEnumerator Fade(int clipNumber)
+    {
+        float waitTime = 30f;
+        float startVolume = 0f;
+        float endVolume = -25f;
+
+        while(endVolume < startVolume)
         {
-            default:
-            case State.transition:
-
-            break;
-
-            case State.StopMusic:
-                    StopMusic();
-            break;
-            case State.normalBGM:
-                    PlayNormalBGM();
-            break;
-
-            case State.ffChaseMusic:
-                    PlayFFChaseSound();
-            break;
-
-            case State.CrabLabBGM:
-                    PlayCrabLabBGM();
-            break;
-
-            case State.EelIdle:
-                    PlayEelIdle();
-            break;
-
-            case State.EelChase:
-                    PlayEelChase();
-            break;
+            startVolume -= Time.deltaTime * waitTime;
+            audioMixer.SetFloat("BGM", startVolume);
+            yield return null;
         }
-    }
-
-    public void PlayNormalBGM()
-    {
-        audioSource.clip = bgms[0];
+        audioMixer.SetFloat("BGM", mixerBGMVolume);
+        audioSource.clip = bgms[clipNumber];
         audioSource.Play();
-        state = State.transition;
-    }
-
-    private void PlayFFChaseSound()
-    {
-        audioSource.clip = bgms[1];
-        audioSource.Play();
-        state =  State.transition;
-    }
-
-    private void PlayCrabLabBGM()
-    {
-        audioSource.clip = bgms[2];
-        audioSource.Play();
-        state = State.transition;
-    }
-
-    private void PlayEelIdle()
-    {
-        audioSource.clip = bgms[3];
-        audioSource.Play();
-        state = State.transition;
-    }
-
-    private void PlayEelChase()
-    {
-        audioSource.clip = bgms[4];
-        audioSource.Play();
-        state = State.transition;
     }
 
     private void StopMusic()
     {
         audioSource.Stop();
-        state = State.transition;
     }
 }

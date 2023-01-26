@@ -8,7 +8,7 @@ public class EelMusic : MonoBehaviour
 
     public void PlayEelIdleMusic()
     {
-        bGMManager.state = BGMManager.State.EelIdle;
+        bGMManager.SwitchBGM(3);
         Destroy(this.gameObject);
     }
 
