@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class IntroCutScene : MonoBehaviour
 {
+   public GameObject aSyncLoaderGameObject;
+   private ASyncLoader aSyncLoader;
     private VideoPlayer videoPlayer;
     double videoLength;
 
@@ -13,6 +15,8 @@ public class IntroCutScene : MonoBehaviour
     {
         videoPlayer = GetComponent<VideoPlayer>();
         videoLength = videoPlayer.length;
+        aSyncLoader = aSyncLoaderGameObject.GetComponent<ASyncLoader>();
+
     }
 
     private void Update()
@@ -21,13 +25,15 @@ public class IntroCutScene : MonoBehaviour
         if (videoLength <= 0)
         {
             Time.timeScale = 1f;
-            SceneManager.LoadScene("VerticalSlice");
+            //SceneManager.LoadScene("VerticalSlice");
+            aSyncLoader.LoadLevelBtn("VerticalSlice");
         }
 
         if(Input.anyKeyDown)
         {
             Time.timeScale = 1f;
-            SceneManager.LoadScene("VerticalSlice");
+            //SceneManager.LoadScene("VerticalSlice");
+             aSyncLoader.LoadLevelBtn("VerticalSlice");
         }
     }
 }
