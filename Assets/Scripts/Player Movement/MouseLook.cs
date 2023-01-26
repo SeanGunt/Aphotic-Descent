@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class MouseLook : MonoBehaviour
 {
 
-    public float mouseSensitivity = 100f;
+    public float mouseSensitivity = 30f;
    
     [SerializeField] private Transform playerBody;
     private float xRotation = 0f;
@@ -39,20 +39,17 @@ public class MouseLook : MonoBehaviour
 
     void Update()
     {
-        //Vector2 mInput = look.ReadValue<Vector2>();
+        Vector2 mInput = look.ReadValue<Vector2>();
         
-        /*float mouseX = mInput.x * mouseSensitivity * Time.deltaTime;
-        float mouseY = mInput.y * mouseSensitivity * Time.deltaTime;*/
-
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        float mouseX = mInput.x;
+        float mouseY = mInput.y;
         
-        xRotation -= mouseY;
+        xRotation -= (mouseY * Time.deltaTime) * mouseSensitivity;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
        
 
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        playerBody.Rotate(Vector3.up * mouseX); 
+        playerBody.Rotate(Vector3.up * (mouseX * Time.deltaTime) * mouseSensitivity); 
         
         if (escape.triggered)
         {
