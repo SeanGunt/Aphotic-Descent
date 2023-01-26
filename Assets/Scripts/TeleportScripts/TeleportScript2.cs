@@ -12,7 +12,7 @@ public class TeleportScript2 : MonoBehaviour
         {
             GameDataHolder.musicStopped = true;
             CrabLabAmbientNoiseManager.inLab = true;
-            bGMManager.state = BGMManager.State.CrabLabBGM;
+            bGMManager.SwitchBGM(2);
             player.transform.localPosition = new Vector3(-105.3f, -46.78f, 241.13f);
         }
     }

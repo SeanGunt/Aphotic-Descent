@@ -42,7 +42,7 @@ public class sightBasedEnemyAi : MonoBehaviour
         {
             agent.SetDestination(walkPoint);
         }
-        Debug.Log(agent.remainingDistance);
+        //Debug.Log(agent.remainingDistance);
 
         Vector3 distanceToWalkPoint =  transform.position - walkPoint;
 
@@ -54,7 +54,7 @@ public class sightBasedEnemyAi : MonoBehaviour
         if (eFOV.canSeePlayer && !pS.isSafe)
         {
             state = State.attacking;
-            bGMManager.state = BGMManager.State.EelChase;
+            bGMManager.SwitchBGM(4);
         }
     }
 
@@ -74,7 +74,7 @@ public class sightBasedEnemyAi : MonoBehaviour
 
         if (!eFOV.canSeePlayer || pS.isSafe)
         {
-            bGMManager.state = BGMManager.State.EelIdle;
+            bGMManager.SwitchBGM(3);
             state = State.patrolling;
         }
     }

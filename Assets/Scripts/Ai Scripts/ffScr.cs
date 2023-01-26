@@ -14,6 +14,7 @@ public class ffScr : MonoBehaviour
     [SerializeField] public float stunTime;
     private float bleedRange;
     private float rangeUsed;
+    private float baseAttackTime = 2.0f;
     Vector3 destination;
     private float playerDistance;
     private bool unchosen = true;
@@ -112,7 +113,7 @@ public class ffScr : MonoBehaviour
 
         if(playerDistance < rangeUsed*rangeUsed)
         {
-            bGMManager.state = BGMManager.State.ffChaseMusic;
+            bGMManager.SwitchBGMFade(1);
             state = State.attacking;
         }
     }
@@ -127,10 +128,12 @@ public class ffScr : MonoBehaviour
     {
         theAgent.destination = player.transform.position;
         currentlyAttacking = true;
+        baseAttackTime -= Time.deltaTime;
 
-        if(playerDistance > rangeUsed*rangeUsed)
+        if(playerDistance > rangeUsed*rangeUsed && baseAttackTime <= 0f)
         {
-            bGMManager.state = BGMManager.State.normalBGM;
+            baseAttackTime = 2.0f;
+            bGMManager.SwitchBGMFade(0);
             state = State.wasAttacking;
         }
     }
@@ -154,7 +157,6 @@ public class ffScr : MonoBehaviour
             audioSource.PlayOneShot(hurtSounds[randomNoise]);
         }
     }
-    
 
     void OnDrawGizmos()
     {
