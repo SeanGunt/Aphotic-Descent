@@ -26,7 +26,6 @@ public class ffScr : MonoBehaviour
     private AudioSource audioSource;
     [SerializeField] private AudioClip[] hurtSounds;
     [SerializeField] private AudioClip stingerMusic;
-    [SerializeField] private BGMManager bGMManager;
 
     private State state;
     public enum State
@@ -113,7 +112,7 @@ public class ffScr : MonoBehaviour
 
         if(playerDistance < rangeUsed*rangeUsed)
         {
-            bGMManager.SwitchBGMFade(1);
+            BGMManager.instance.SwitchBGMFade(1);
             state = State.attacking;
         }
     }
@@ -133,7 +132,7 @@ public class ffScr : MonoBehaviour
         if(playerDistance > rangeUsed*rangeUsed && baseAttackTime <= 0f)
         {
             baseAttackTime = 2.0f;
-            bGMManager.SwitchBGMFade(0);
+            BGMManager.instance.SwitchBGMFade(0);
             state = State.wasAttacking;
         }
     }

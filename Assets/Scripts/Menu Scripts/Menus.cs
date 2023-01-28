@@ -68,6 +68,7 @@ public class Menus : MonoBehaviour
         Player.GetComponent<PauseControls>().paused = false;
         Time.timeScale = 1;
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
     public void ExitGame()
     {
