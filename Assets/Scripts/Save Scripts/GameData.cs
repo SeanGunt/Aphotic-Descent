@@ -19,7 +19,6 @@ public class GameData
     public bool kelpMazeEndTriggered;
     public bool labStartObjectiveTriggered;
     public bool invisibilityAcquired;
-    public bool musicStopped;
     public bool inLab;
     public bool eelObjectiveTriggered;
 
@@ -42,6 +41,5 @@ public class GameData
         inLab = false;
         boxes = 4;
         objectiveId = 0;
-        musicStopped = false;
     }
 }

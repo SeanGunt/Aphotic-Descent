@@ -5,8 +5,8 @@ using UnityEngine.Audio;
 
 public class BGMManager : MonoBehaviour
 {
+    public static BGMManager instance;
     private AudioSource audioSource;
-    [SerializeField] private ffScr freakFishScript;
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] AudioClip[] bgms;
     [HideInInspector] public float audioVolume;
@@ -14,6 +14,11 @@ public class BGMManager : MonoBehaviour
 
     private void Awake()
     {
+        if (instance != null)
+        {
+            Debug.Log("Found more than one instance of BGMManager in scene");
+        }
+        instance = this;
         audioMixer.SetFloat("BGM", mixerBGMVolume);
         audioSource = this.GetComponent<AudioSource>();
         SwitchBGM(0);
@@ -21,9 +26,9 @@ public class BGMManager : MonoBehaviour
 
     private void Start()
     {
-        if (GameDataHolder.musicStopped)
+        if (GameDataHolder.inLab)
         {
-            SwitchBGM(4);
+            SwitchBGM(2);
         }
     }
 
