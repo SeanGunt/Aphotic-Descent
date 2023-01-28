@@ -113,6 +113,7 @@ public class ffScr : MonoBehaviour
         if(playerDistance < rangeUsed*rangeUsed)
         {
             BGMManager.instance.SwitchBGMFade(1);
+            BreathingManager.instance.SwitchBreathRate(2);
             state = State.attacking;
         }
     }
@@ -133,6 +134,7 @@ public class ffScr : MonoBehaviour
         {
             baseAttackTime = 2.0f;
             BGMManager.instance.SwitchBGMFade(0);
+            BreathingManager.instance.SwitchBreathRate(0);
             state = State.wasAttacking;
         }
     }
@@ -142,6 +144,7 @@ public class ffScr : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             audioSource.PlayOneShot(stingerMusic);
+            BreathingManager.instance.StopBreathe();
             theAgent.speed = 0;
             FreakFishGrowling.hitPlayer = true;
             playerDiver.SetActive(false);
