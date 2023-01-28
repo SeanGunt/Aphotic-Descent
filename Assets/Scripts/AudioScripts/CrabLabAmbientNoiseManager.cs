@@ -22,7 +22,7 @@ public class CrabLabAmbientNoiseManager : MonoBehaviour
         {
             int randomNoise = Random.Range(0,16);
             int randomPoint = Random.Range(0,6);
-            AudioSource.PlayClipAtPoint(crabLabAmbientSounds[randomNoise], soundPoints[randomPoint].transform.position, audioSource.volume * 1.5f);
+            AudioSource.PlayClipAtPoint(crabLabAmbientSounds[randomNoise], soundPoints[randomPoint].transform.position, audioSource.volume * 2f);
             soundTimer = Random.Range(5f, 7f);
         }
     }
