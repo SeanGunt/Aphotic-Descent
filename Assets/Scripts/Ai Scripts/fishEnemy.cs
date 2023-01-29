@@ -7,17 +7,12 @@ public class fishEnemy : MonoBehaviour
     public Transform[] patrolPositions;
     public float chaseSpeed = 2.0F;
     public float patrolSpeed = 2.0F;
-    [SerializeField]private GameObject playerDiver;
-    [SerializeField]private GameObject player;
-    [SerializeField]private GameObject mainCam;
-    [SerializeField]private GameObject jumpscareCam;
-    [SerializeField]private GameObject deathObject;
+    [SerializeField]private GameObject playerDiver, player, mainCam, jumpscareCam, deathObject;
     [SerializeField]private Animator animator;
     PlayerHealthController pHC;
-
-    [SerializeField] private GameObject gen1;
-    [SerializeField] private GameObject gen2;
-    [SerializeField] private GameObject gen3;
+    RaycastHit hit;
+    [SerializeField]private LayerMask doNotIgnoreLayer;
+    [SerializeField] private GameObject gen1, gen2, gen3;
     private CapsuleCollider cc;
     generatorScript gen1Scr;
     generatorScript gen2Scr;
@@ -30,8 +25,10 @@ public class fishEnemy : MonoBehaviour
     private AudioSource audioSource;
     private float beginningTime;
     private float totalLength;
+    [SerializeField] private float amount;
     public bool backToStart = false;
     private bool movingToNextPosition = false;
+    [SerializeField]private bool unobstructed, repositioning;
 
     Vector3 destination;
     private State state;
@@ -75,10 +72,12 @@ public class fishEnemy : MonoBehaviour
             default:
             case State.patrolling:
                 Patrolling();
+                RepositionCheck();
                 phase1();
                 break;
             case State.attacking:
                 Attacking();
+                RepositionCheck();
                 phase1();
                 break;
         }
@@ -104,9 +103,10 @@ public class fishEnemy : MonoBehaviour
         if (totalLength <= 0.01f)
         {
             movingToNextPosition = false;
+            repositioning = false;
         }
 
-        if (eFOV.canSeePlayer)
+        if (eFOV.canSeePlayer && !repositioning)
         {
             state = State.attacking;
         }
@@ -116,7 +116,7 @@ public class fishEnemy : MonoBehaviour
     {
         RotateTowards(playerDiver.transform.position);
         this.transform.position = Vector3.MoveTowards(this.transform.position, playerDiver.transform.position, Time.deltaTime*chaseSpeed);
-        if (!eFOV.canSeePlayer)
+        if (!eFOV.canSeePlayer || repositioning)
         {
             state = State.patrolling;
         }
@@ -161,6 +161,36 @@ public class fishEnemy : MonoBehaviour
             animator.SetBool("isDead", true);
             chaseSpeed = 0;
             patrolSpeed = 0;
+        }
+    }
+
+    void RepositionCheck()
+    {
+        Vector3 centerRay = transform.TransformDirection(new Vector3( 0, 0, 1))* amount/2;
+        Vector3 rightRay = transform.TransformDirection(new Vector3( 1, 0, 1))* amount;
+        Vector3 leftRay = transform.TransformDirection(new Vector3(-1, 0, 1))* amount;
+
+        Debug.DrawRay(transform.position, rightRay, Color.red);
+        Debug.DrawRay(transform.position, centerRay, Color.red);
+        Debug.DrawRay(transform.position, leftRay, Color.red);
+
+        if((Physics.Raycast(transform.position,rightRay,out hit, amount, doNotIgnoreLayer) || 
+            Physics.Raycast(transform.position,leftRay, out hit, amount, doNotIgnoreLayer) ||
+            Physics.Raycast(transform.position,centerRay, out hit, amount/2, doNotIgnoreLayer)) == false)
+            {
+                unobstructed = true;               
+            }
+        else
+        {
+            Debug.Log(hit.collider.gameObject.name + " was hit by raycast.");
+
+            if (unobstructed)
+            {
+                movingToNextPosition = true;
+                repositioning = true;
+                state = State.patrolling;
+                unobstructed = false;
+            }
         }
     }
 
