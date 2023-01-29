@@ -7,11 +7,11 @@ public class fishEnemy : MonoBehaviour
     public Transform[] patrolPositions;
     public float chaseSpeed = 2.0F;
     public float patrolSpeed = 2.0F;
-    [SerializeField]private GameObject playerDiver, player, mainCam, jumpscareCam, deathObject;
+    [SerializeField]private GameObject playerDiver, player, playerHead, mainCam, jumpscareCam, deathObject;
     [SerializeField]private Animator animator;
     PlayerHealthController pHC;
     RaycastHit hit;
-    [SerializeField]private LayerMask doNotIgnoreLayer;
+    [SerializeField]private LayerMask doNotIgnoreLayer, playerLayer;
     [SerializeField] private GameObject gen1, gen2, gen3;
     private CapsuleCollider cc;
     generatorScript gen1Scr;
@@ -36,7 +36,7 @@ public class fishEnemy : MonoBehaviour
 
     private enum State
     {
-        attacking, patrolling
+        attacking, patrolling, repositioning, dead
     }
     
     void Awake()
@@ -77,8 +77,15 @@ public class fishEnemy : MonoBehaviour
                 break;
             case State.attacking:
                 Attacking();
+                phase1();
+                break;
+            case State.repositioning:
+                Repositioning();
                 RepositionCheck();
                 phase1();
+                break;
+            case State.dead:
+                Dead();
                 break;
         }
         
@@ -104,20 +111,65 @@ public class fishEnemy : MonoBehaviour
         {
             movingToNextPosition = false;
             repositioning = false;
+            unobstructed = true;
         }
 
         if (eFOV.canSeePlayer && !repositioning)
         {
+            BGMManager.instance.SwitchBGM(4);
             state = State.attacking;
         }
     }
 
     private void Attacking()
     {
-        RotateTowards(playerDiver.transform.position);
-        this.transform.position = Vector3.MoveTowards(this.transform.position, playerDiver.transform.position, Time.deltaTime*chaseSpeed);
-        if (!eFOV.canSeePlayer || repositioning)
+        RotateTowards(playerHead.transform.position);
+        this.transform.position = Vector3.MoveTowards(this.transform.position, playerHead.transform.position, Time.deltaTime*chaseSpeed);
+        if (!eFOV.canSeePlayer)
         {
+            state = State.patrolling;
+            BGMManager.instance.SwitchBGM(3);
+        }
+    }
+
+    private void Dead()
+    {
+        deathObject.SetActive(true);
+        cc.enabled = false;
+        eFOV.enabled = false;
+        eelDead = true;
+        Debug.Log("eel dead");
+        animator.SetBool("isDead", true);
+        chaseSpeed = 0;
+        patrolSpeed = 0;
+    }
+
+    private void Repositioning()
+    {
+        if (patrolPositions.Length == 0)
+        {
+            return;
+        }
+
+        if(!movingToNextPosition)
+        {
+            destination = patrolPositions[Random.Range(0,patrolPositions.Length)].position;
+            movingToNextPosition = true;
+        }
+        if(repositioning)
+        {
+            destination = patrolPositions[Random.Range(0,patrolPositions.Length)].position;
+            movingToNextPosition = true;
+            repositioning = false;
+        }
+        RotateTowards(destination);
+        this.transform.position = Vector3.MoveTowards(transform.position, destination, patrolSpeed*Time.deltaTime);
+        totalLength = Vector3.Distance(this.transform.position, destination);
+        
+        if (totalLength <= 0.01f)
+        {
+            movingToNextPosition = false;
+            unobstructed = true;
             state = State.patrolling;
         }
     }
@@ -154,21 +206,15 @@ public class fishEnemy : MonoBehaviour
         
         if((eelHealth == 0) && (!g1On && !g2On && !g3On) && (eelDead == false))
         {
-            deathObject.SetActive(true);
-            cc.enabled = false;
-            eelDead = true;
-            Debug.Log("eel dead");
-            animator.SetBool("isDead", true);
-            chaseSpeed = 0;
-            patrolSpeed = 0;
+            state = State.dead;
         }
     }
 
     void RepositionCheck()
     {
-        Vector3 centerRay = transform.TransformDirection(new Vector3( 0, 0, 1))* amount/2;
-        Vector3 rightRay = transform.TransformDirection(new Vector3( 1, 0, 1))* amount;
-        Vector3 leftRay = transform.TransformDirection(new Vector3(-1, 0, 1))* amount;
+        Vector3 centerRay = transform.TransformDirection(new Vector3( 0, 0, 1))* amount/4;
+        Vector3 rightRay = transform.TransformDirection(new Vector3( 1, 0, 1))* amount/5;
+        Vector3 leftRay = transform.TransformDirection(new Vector3(-1, 0, 1))* amount/5;
 
         Debug.DrawRay(transform.position, rightRay, Color.red);
         Debug.DrawRay(transform.position, centerRay, Color.red);
@@ -180,15 +226,19 @@ public class fishEnemy : MonoBehaviour
             {
                 unobstructed = true;               
             }
+        // else if((Physics.Raycast(transform.position,rightRay,out hit, amount, playerLayer) || 
+        //     Physics.Raycast(transform.position,leftRay, out hit, amount, playerLayer) ||
+        //     Physics.Raycast(transform.position,centerRay, out hit, amount/2, playerLayer)) == true)
+        //     {
+        //         state = State.attacking;
+        //     }
         else
         {
             Debug.Log(hit.collider.gameObject.name + " was hit by raycast.");
-
             if (unobstructed)
             {
-                movingToNextPosition = true;
                 repositioning = true;
-                state = State.patrolling;
+                state = State.repositioning;
                 unobstructed = false;
             }
         }
