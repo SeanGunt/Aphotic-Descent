@@ -7,6 +7,7 @@ public class flashlightMechanic : MonoBehaviour
 {
     [SerializeField] GameObject FlashlightLight;
     [SerializeField] GameObject BlacklightLight;
+    [HideInInspector] public static RaycastHit hit;
     private bool flashlightOn = false;
     private bool blacklightIsOn = false;
     private PlayerInputActions playerInputActions;
@@ -152,7 +153,6 @@ public class flashlightMechanic : MonoBehaviour
     {
         BlacklightLight.gameObject.SetActive(true);
         FlashlightLight.gameObject.SetActive(false);
-        RaycastHit hit;
         if(Physics.Raycast(mainCam.transform.position, mainCam.transform.forward, out hit, range, layer))
         {
             if (hit.collider.GetComponent<HiddenObjectsInteraction>() != false)

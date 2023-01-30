@@ -8,12 +8,16 @@ public class hazardZone : MonoBehaviour
     private BoxCollider bc;
     private AudioSource audioSource;
     [SerializeField] private AudioClip trapSound;
-    void OnTriggerStay(Collider other)
+
+    private void Awake()
     {
-        PlayerHealthController controller = other.GetComponent<PlayerHealthController>();
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         bc = GetComponent<BoxCollider>();
+    }
+    void OnTriggerStay(Collider other)
+    {
+        PlayerHealthController controller = other.GetComponent<PlayerHealthController>();
 
         if (controller != null)
         {
@@ -24,5 +28,12 @@ public class hazardZone : MonoBehaviour
             animator.SetTrigger("steppedOn");
             bc.enabled = false;
         }
+    }
+
+    public void Blacklighted()
+    {
+        audioSource.PlayOneShot(trapSound);
+        animator.SetTrigger("steppedOn");
+        bc.enabled = false;
     }
 }
