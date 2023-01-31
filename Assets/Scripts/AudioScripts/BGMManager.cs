@@ -26,6 +26,10 @@ public class BGMManager : MonoBehaviour
 
     private void Start()
     {
+        if(GameDataHolder.inKelpMaze)
+        {
+            SwitchBGM(0);
+        }
         if (GameDataHolder.inLab)
         {
             SwitchBGM(2);
