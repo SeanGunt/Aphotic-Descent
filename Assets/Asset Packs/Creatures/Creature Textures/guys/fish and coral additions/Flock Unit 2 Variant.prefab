@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &9187397795051560943
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3865245070340898371, guid: 630be012b8313584fb966a81ba90b839, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3865245070340898371, guid: 630be012b8313584fb966a81ba90b839, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.005
+      objectReference: {fileID: 0}
+    - target: {fileID: 3865245070340898371, guid: 630be012b8313584fb966a81ba90b839, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.005
+      objectReference: {fileID: 0}
+    - target: {fileID: 3865245070340898371, guid: 630be012b8313584fb966a81ba90b839, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.005
+      objectReference: {fileID: 0}
+    - target: {fileID: 3865245070340898371, guid: 630be012b8313584fb966a81ba90b839, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -70.54495
+      objectReference: {fileID: 0}
+    - target: {fileID: 3865245070340898371, guid: 630be012b8313584fb966a81ba90b839, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -24.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 3865245070340898371, guid: 630be012b8313584fb966a81ba90b839, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 29.667198
+      objectReference: {fileID: 0}
+    - target: {fileID: 3865245070340898371, guid: 630be012b8313584fb966a81ba90b839, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3865245070340898371, guid: 630be012b8313584fb966a81ba90b839, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3865245070340898371, guid: 630be012b8313584fb966a81ba90b839, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3865245070340898371, guid: 630be012b8313584fb966a81ba90b839, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3865245070340898371, guid: 630be012b8313584fb966a81ba90b839, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3865245070340898371, guid: 630be012b8313584fb966a81ba90b839, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3865245070340898371, guid: 630be012b8313584fb966a81ba90b839, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4535066847028962553, guid: 630be012b8313584fb966a81ba90b839, type: 3}
+      propertyPath: m_Name
+      value: Flock Unit 2 Variant
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 630be012b8313584fb966a81ba90b839, type: 3}
+--- !u!1 &4715263153947982614 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4535066847028962553, guid: 630be012b8313584fb966a81ba90b839, type: 3}
+  m_PrefabInstance: {fileID: 9187397795051560943}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &838838736293227563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4715263153947982614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63cbe26376bd9af4da883c01dc730992, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FOVAngle: 270
+  smoothDamp: 1
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 8072
+  directionsToCheckWhenAvoidingObstacles:
+  - {x: 1, y: 0, z: 0}
+  - {x: -1, y: 0, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: -1, z: 0}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: -1}
