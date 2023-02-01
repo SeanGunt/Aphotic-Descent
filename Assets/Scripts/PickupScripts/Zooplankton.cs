@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Zooplankton : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider Player)
+    public void CollectPlankton()
     {
-        ZooplankotCount zooplankotCount = Player.GetComponent<ZooplankotCount>();
+        GameObject player;
+        player = GameObject.FindGameObjectWithTag("Player");
+        ZooplankotCount zooplankotCount = player.GetComponent<ZooplankotCount>();
         if (zooplankotCount !=null)
         {
             zooplankotCount.ZooplanktonCollected();
