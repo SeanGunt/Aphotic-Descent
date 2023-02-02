@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3642511112731243272}
   - component: {fileID: 370165001837427885}
   - component: {fileID: 2506218361669404775}
+  - component: {fileID: 4213387431505537682}
   m_Layer: 0
   m_Name: Fanned Coral
   m_TagString: Untagged
@@ -25,14 +26,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4163327315003206066}
-  m_LocalRotation: {x: 0.00000007756319, y: 0.30560416, z: -0.000000024894629, w: 0.95215863}
+  m_LocalRotation: {x: 0, y: 0.30560386, z: 0, w: 0.95215875}
   m_LocalPosition: {x: -57.244312, y: -35.456863, z: 34.339508}
-  m_LocalScale: {x: 32.424343, y: 32.424343, z: 32.424343}
+  m_LocalScale: {x: 15.449142, y: 15.449144, z: 15.449144}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 35.589, z: 0}
 --- !u!33 &370165001837427885
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -61,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: db8b2be4908f2a447bfcf8979a4c18d5, type: 2}
+  - {fileID: 2100000, guid: 396d584aeb8f8ab40ad032daf92463c4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,3 +84,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4213387431505537682
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4163327315003206066}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.15200382, y: 0.11354962, z: 0.04081469}
+  m_Center: {x: -0.025412068, y: 0.22415252, z: -0.08739373}
