@@ -29,14 +29,14 @@ public class fishEnemy : MonoBehaviour
     public bool backToStart = false;
     private bool movingToNextPosition = false;
     [SerializeField]private bool unobstructed, repositioning;
-
     Vector3 destination;
     private State state;
     private enemyFieldOfView eFOV;
+    Vector3 lastPosition;
 
     private enum State
     {
-        attacking, patrolling, repositioning, dead
+        attacking, patrolling, repositioning, dead, killedPlayer
     }
     
     void Awake()
@@ -84,11 +84,13 @@ public class fishEnemy : MonoBehaviour
                 RepositionCheck();
                 phase1();
                 break;
+            case State.killedPlayer:
+                break;
             case State.dead:
                 Dead();
                 break;
         }
-        
+        HandleTailWiggleSpeed();
     }
 
     private void Patrolling()
@@ -104,10 +106,10 @@ public class fishEnemy : MonoBehaviour
             movingToNextPosition = true;
         }
         RotateTowards(destination);
-        this.transform.position = Vector3.MoveTowards(transform.position, destination, patrolSpeed*Time.deltaTime);
+        this.transform.position = Vector3.Slerp(transform.position, destination, patrolSpeed * Time.deltaTime);
         totalLength = Vector3.Distance(this.transform.position, destination);
         
-        if (totalLength <= 0.01f)
+        if (totalLength <= 10f)
         {
             movingToNextPosition = false;
             repositioning = false;
@@ -117,6 +119,7 @@ public class fishEnemy : MonoBehaviour
         if (eFOV.canSeePlayer && !repositioning)
         {
             BGMManager.instance.SwitchBGM(4);
+            BreathingManager.instance.SwitchBreathRate(2);
             state = State.attacking;
         }
     }
@@ -124,9 +127,10 @@ public class fishEnemy : MonoBehaviour
     private void Attacking()
     {
         RotateTowards(playerHead.transform.position);
-        this.transform.position = Vector3.MoveTowards(this.transform.position, playerHead.transform.position, Time.deltaTime*chaseSpeed);
+        this.transform.position = Vector3.MoveTowards(this.transform.position, playerHead.transform.position, Time.deltaTime * chaseSpeed);
         if (!eFOV.canSeePlayer)
         {
+            BreathingManager.instance.SwitchBreathRate(0);
             state = State.patrolling;
             BGMManager.instance.SwitchBGM(3);
         }
@@ -138,7 +142,6 @@ public class fishEnemy : MonoBehaviour
         cc.enabled = false;
         eFOV.enabled = false;
         eelDead = true;
-        Debug.Log("eel dead");
         animator.SetBool("isDead", true);
         chaseSpeed = 0;
         patrolSpeed = 0;
@@ -163,10 +166,10 @@ public class fishEnemy : MonoBehaviour
             repositioning = false;
         }
         RotateTowards(destination);
-        this.transform.position = Vector3.MoveTowards(transform.position, destination, patrolSpeed*Time.deltaTime);
+        this.transform.position = Vector3.MoveTowards(transform.position, destination, chaseSpeed * Time.deltaTime);
         totalLength = Vector3.Distance(this.transform.position, destination);
         
-        if (totalLength <= 0.01f)
+        if (totalLength <= 10f)
         {
             movingToNextPosition = false;
             unobstructed = true;
@@ -178,7 +181,7 @@ public class fishEnemy : MonoBehaviour
     {
         Vector3 direction = (target - this.transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, direction.y, direction.z));
-        this.transform.rotation = Quaternion.Slerp(this.transform.rotation, lookRotation, Time.deltaTime *5f);
+        this.transform.rotation = Quaternion.Slerp(this.transform.rotation, lookRotation, Time.deltaTime * 2f);
     }
 
     void phase1()
@@ -226,15 +229,8 @@ public class fishEnemy : MonoBehaviour
             {
                 unobstructed = true;               
             }
-        // else if((Physics.Raycast(transform.position,rightRay,out hit, amount, playerLayer) || 
-        //     Physics.Raycast(transform.position,leftRay, out hit, amount, playerLayer) ||
-        //     Physics.Raycast(transform.position,centerRay, out hit, amount/2, playerLayer)) == true)
-        //     {
-        //         state = State.attacking;
-        //     }
         else
         {
-            Debug.Log(hit.collider.gameObject.name + " was hit by raycast.");
             if (unobstructed)
             {
                 repositioning = true;
@@ -244,10 +240,20 @@ public class fishEnemy : MonoBehaviour
         }
     }
 
+    private void HandleTailWiggleSpeed()
+    {
+        float velocity = Vector3.Distance(transform.position, lastPosition);
+        lastPosition = transform.position;
+        animator.SetFloat("speed", velocity * 5);
+    }
+    
+
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Player")
         {
+            state = State.killedPlayer;
+            BreathingManager.instance.StopBreathe();
             chaseSpeed = 0;
             patrolSpeed = 0;
             playerDiver.SetActive(false);
