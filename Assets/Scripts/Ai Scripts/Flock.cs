@@ -7,8 +7,6 @@ public class Flock : MonoBehaviour
 {
     [Header("Spawn Setup")]
     [SerializeField] private FlockUnit flockUnitPrefab;
-    [SerializeField] private FlockUnit flockUnitPrefab2;
-    [SerializeField] private FlockUnit flockUnitPrefab3;
     [SerializeField] private int flockSize;
     [SerializeField] private Vector3 spawnBounds;
 
@@ -91,8 +89,6 @@ public class Flock : MonoBehaviour
             var spawnPosition = transform.position + randomVector;
             var rotation = Quaternion.Euler(0, UnityEngine.Random.Range(0, 360), 0);
             allUnits[i] = Instantiate(flockUnitPrefab, spawnPosition, rotation);
-            allUnits[i] = Instantiate(flockUnitPrefab2, spawnPosition, rotation);
-            allUnits[i] = Instantiate(flockUnitPrefab3, spawnPosition, rotation);
             allUnits[i].AssignFlock(this);
             allUnits[i].InitializeSpeed(UnityEngine.Random.Range(minSpeed, maxSpeed));
         }
