@@ -48,8 +48,8 @@ public class OptionsMenuController : MonoBehaviour
     public void SetScreenShake(bool condition)
     {
         int val = 1;
-        if (condition = true) val = 1;
-        else if(condition = false) val = 0;
+        if (condition == true) val = 1;
+        else if(condition == false) val = 0;
         if (!initialized) return;
         if (!Application.isPlaying) return;
 
