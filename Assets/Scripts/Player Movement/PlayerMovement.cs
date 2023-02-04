@@ -10,9 +10,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   private PlayerInputActions playerInputActions;
   private InputAction movement;
   [SerializeField] private float groundedSpeed, airSpeed, floatSpeed, outOfWaterSpeed, 
-  groundDistance, gravityInWater, gravityOutOfWater, playerStamina, maxStamina, tiredCooldown,
+  groundDistance, gravityInWater, gravityOutOfWater, tiredCooldown,
   walkBobSpeed, walkBobAmount, underwaterBobSpeed, underwaterBobAmount;
   private float moveSpeed, defaultYPos, timer;
+  public float playerStamina, maxStamina;
   [SerializeField] private LayerMask ignoreMask;
   private Vector3 velocity, moveDirection;
   [HideInInspector] public bool isGrounded, hasUpgradedSuit;
