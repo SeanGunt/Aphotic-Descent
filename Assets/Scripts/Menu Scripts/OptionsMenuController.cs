@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public class OptionsMenuController : MonoBehaviour
 {
     public bool initialized = false;
-    public bool screenShake = true;
+    //public bool screenShake = true;
     public Slider mouseSensitivitySlider;
+    public Toggle screenShakeToggle;
 
     // Start is called before the first frame update
     void Start()
@@ -25,11 +26,11 @@ public class OptionsMenuController : MonoBehaviour
 
         if (PlayerPrefs.HasKey("screenShake"))
         {
-            screenShake = PlayerPrefs.GetInt("screenShake") == 1;
+            screenShakeToggle.isOn = PlayerPrefs.GetInt("screenShake") == 1;
         }
         else
         {
-            PlayerPrefs.SetInt("screenShake", screenShake ? 1 : 0);
+            PlayerPrefs.SetInt("screenShake", screenShakeToggle.isOn ? 1 : 0);
         }
         initialized = true;
     }
@@ -45,8 +46,9 @@ public class OptionsMenuController : MonoBehaviour
         
     }
 
-    public void SetScreenShake(bool condition)
+    public void SetScreenShake()
     {
+        bool condition = screenShakeToggle.isOn;
         int val = 1;
         if (condition == true) val = 1;
         else if(condition == false) val = 0;
@@ -54,6 +56,7 @@ public class OptionsMenuController : MonoBehaviour
         if (!Application.isPlaying) return;
 
         PlayerPrefs.SetInt("screenShake", val);
+        PlayerPrefs.Save();
         Debug.Log("Set screen shake to " + val);
     }
 
