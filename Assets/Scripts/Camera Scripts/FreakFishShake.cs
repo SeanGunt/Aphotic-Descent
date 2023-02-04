@@ -5,7 +5,7 @@ using UnityEngine;
 public class FreakFishShake : MonoBehaviour
 {
     public bool start = false;
-    public float duration = 1f;
+    public float duration = 2f;
     public AnimationCurve curve;
 
     private void Awake()
@@ -19,6 +19,14 @@ public class FreakFishShake : MonoBehaviour
         {
             start = false;
             StartCoroutine(Shaking());
+        }
+        if (PlayerPrefs.HasKey("screenShake") && PlayerPrefs.GetInt("screenShake") != 1)
+        {
+            duration = 0f;
+        }
+        else
+        {
+            duration = 2f;
         }
     }
 
