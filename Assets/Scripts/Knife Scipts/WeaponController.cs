@@ -12,6 +12,8 @@ public class WeaponController : MonoBehaviour
     private PlayerInputActions playerInputActions;
     private BoxCollider bc;
     public Animator animator;
+    public float knifeSwingCost;
+    PlayerMovement playerMoveScript;
     private void Awake()
     {
         bc = Knife.GetComponent<BoxCollider>();
@@ -36,6 +38,7 @@ public class WeaponController : MonoBehaviour
         {
             if (CanAttack && GameDataHolder.knifeHasBeenPickedUp)
             {
+                playerMoveScript = GameObject.FindWithTag("Player").GetComponent<PlayerMovement>();
                 KnifeAttack();
             }
         }
@@ -53,10 +56,15 @@ public class WeaponController : MonoBehaviour
 
     public void KnifeAttack()
     {
-        animator.SetTrigger("swungKnife");
-        IsAttacking = true;
-        CanAttack = false;
-        StartCoroutine(ResetAttackCooldown());
+        if(playerMoveScript.playerStamina > 0 && !IsAttacking)
+        {
+            playerMoveScript.playerStamina -= (playerMoveScript.maxStamina / knifeSwingCost); //the lower the number the more stam it costs, and maxStam is 8 atm
+
+            animator.SetTrigger("swungKnife");
+            IsAttacking = true;
+            CanAttack = false;
+            StartCoroutine(ResetAttackCooldown());
+        }
     }
 
 
@@ -69,7 +77,7 @@ public class WeaponController : MonoBehaviour
 
     IEnumerator ResetAttackBool() 
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(1.1f);
         IsAttacking = false;
     }
 }
