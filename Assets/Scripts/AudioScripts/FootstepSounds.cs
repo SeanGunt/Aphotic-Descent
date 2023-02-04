@@ -31,7 +31,7 @@ public class FootstepSounds : MonoBehaviour
                 int randomNoise = Random.Range(0, 3);
                 audioSource.PlayOneShot(sandSounds[randomNoise]);
             }
-            if (walkingLayer == 0)
+            if (walkingLayer == 18)
             {
                 int randomNoise = Random.Range(0, 4);
                 audioSource.PlayOneShot(metalSounds[randomNoise]);

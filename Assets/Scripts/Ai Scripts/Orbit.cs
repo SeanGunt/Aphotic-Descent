@@ -27,7 +27,7 @@ public class Orbit : MonoBehaviour {
 			float z = Mathf.Sin(timer) * zSpread;
 			Vector3 pos = new Vector3(x, yOffset, z);
 			transform.position = pos + centerPoint.position;
-			this.transform.RotateAround(centerPoint.position, Vector3.up, Time.deltaTime * 8.5f);
+			this.transform.RotateAround(centerPoint.position, Vector3.up, Time.deltaTime * 3f);
 		} 
 		else 
 		{
