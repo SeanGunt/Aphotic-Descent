@@ -9,12 +9,10 @@ public class KnifeCollider : MonoBehaviour
     public void EnableCollider()
     {
         bc.enabled = true;
-        Debug.Log("Enabled");
     }
 
     public void DisableCollider()
     {
         bc.enabled = false;
-        Debug.Log("Disabled");
     }
 }
