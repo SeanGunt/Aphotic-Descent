@@ -9,6 +9,7 @@ using TMPro;
 public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
 {
     private PlayerInputActions playerInputActions;
+    private InputAction invisibility;
     private SkinnedMeshRenderer[] skinnedMeshRenderers;
     private Material[] originalMaterials;
     [SerializeField] private Material invisMaterial;
@@ -49,7 +50,7 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
       interactionText.text = "";
       invisibilityBar.enabled = false;
       fullInvisBar.enabled = false;
-      playerInputActions = new PlayerInputActions();
+      playerInputActions = InputManager.inputActions;
 
       skinnedMeshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
       originalMaterials = new Material[skinnedMeshRenderers.Length];
@@ -61,12 +62,13 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
 
     private void OnEnable()
     {
-      playerInputActions.Enable();
+      invisibility = playerInputActions.PlayerControls.Invisibility;
+      //playerInputActions.Enable();
     }
 
     private void OnDisable()
     {
-      playerInputActions.Disable();
+      //playerInputActions.Disable();
     }
 
     public void LoadData(GameData data)
@@ -81,7 +83,7 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
     void Update()
     {
         invisibleTimer = Mathf.Clamp(invisibleTimer, 0f, timeInvisible);
-        if (playerInputActions.PlayerControls.Invisibility.triggered && GameDataHolder.invisibilityAcquired)
+        if (invisibility.triggered && GameDataHolder.invisibilityAcquired)
         //if (Input.GetButtonDown("Invisibility") && GameDataHolder.invisibilityAcquired)
         {
           GoInvis();

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using TMPro;
 
 public class FlashlightPickup : MonoBehaviour
@@ -12,6 +13,7 @@ public class FlashlightPickup : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip pickupSound;
     private PlayerInputActions playerInputActions;
+    private InputAction interact;
 
     private void Start()
     {
@@ -23,17 +25,18 @@ public class FlashlightPickup : MonoBehaviour
 
     private void Awake()
     {
-        playerInputActions = new PlayerInputActions();
+        playerInputActions = InputManager.inputActions;
     }
 
     private void OnEnable()
     {
-        playerInputActions.Enable();
+        interact = playerInputActions.PlayerControls.Interact;
+        //interact.Enable();
     }
 
     private void OnDisable()
     {
-        playerInputActions.Disable();
+        //interact.Disable();
     }
  
     void OnTriggerEnter(Collider other)
@@ -50,7 +53,7 @@ public class FlashlightPickup : MonoBehaviour
     {
         if (inTrigger)
         {
-            if (playerInputActions.PlayerControls.Interact.triggered)
+            if (interact.triggered)
             {
                 audioSource.PlayOneShot(pickupSound);
                 clearUIText.CancelInvoke();

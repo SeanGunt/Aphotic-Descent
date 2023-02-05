@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class flashlightMechanic : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class flashlightMechanic : MonoBehaviour
     private bool flashlightOn = false;
     private bool blacklightIsOn = false;
     private PlayerInputActions playerInputActions;
+    private InputAction flashlight, blacklight;
     [SerializeField]public float flashlightBattery, maxBattery;
     [SerializeField]private Image batteryBar, fullBatteryBar, emptyBatteryBar, flashlightUI, emptyLight, onLight, blLight;
     [SerializeField]public Text flashlightText;
@@ -34,17 +36,19 @@ public class flashlightMechanic : MonoBehaviour
 
     void Awake()
     {
-        playerInputActions = new PlayerInputActions();
+        playerInputActions = InputManager.inputActions;
     }
 
     private void OnEnable()
     {
-        playerInputActions.Enable();
+        flashlight = playerInputActions.PlayerControls.Flashlight;
+        blacklight = playerInputActions.PlayerControls.Blacklight;
+        //playerInputActions.Enable();
     }
 
     private void OnDisable()
     {
-        playerInputActions.Disable();
+        //playerInputActions.Disable();
     }
     
     // Start is called before the first frame update
@@ -63,7 +67,7 @@ public class flashlightMechanic : MonoBehaviour
         if (!flashlightEmpty && GameDataHolder.flashlightHasBeenPickedUp)
         {
             //flashlight input effects start here
-            if (playerInputActions.PlayerControls.Flashlight.triggered)
+            if (flashlight.triggered)
             {
                 if (!flashlightOn)
                 {
@@ -95,7 +99,7 @@ public class flashlightMechanic : MonoBehaviour
 
             flashlightBattery = Mathf.Clamp(flashlightBattery, 0f, maxBattery);
 
-            bool isBlacklightKeyHeld = playerInputActions.PlayerControls.Blacklight.ReadValue<float>() > 0.1f;
+            bool isBlacklightKeyHeld = blacklight.ReadValue<float>() > 0.1f;
 
             if (flashlightOn && !flashlightDisable)
             {

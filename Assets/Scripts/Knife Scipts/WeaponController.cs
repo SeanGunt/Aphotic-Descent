@@ -10,6 +10,7 @@ public class WeaponController : MonoBehaviour
     public float AttackCooldown;
     public bool IsAttacking = false;
     private PlayerInputActions playerInputActions;
+    private InputAction knife;
     private BoxCollider bc;
     public Animator animator;
     public float knifeSwingCost;
@@ -18,22 +19,23 @@ public class WeaponController : MonoBehaviour
     {
         bc = Knife.GetComponent<BoxCollider>();
         bc.enabled = false;
-        playerInputActions = new PlayerInputActions();
+        playerInputActions = InputManager.inputActions;
     }
 
     private void OnEnable()
     {
-        playerInputActions.Enable();
+        knife = playerInputActions.PlayerControls.Knife;
+        //playerInputActions.Enable();
     }
 
     private void OnDisable()
     {
-        playerInputActions.Disable();
+        //playerInputActions.Disable();
     }
     
     void Update()
     {
-        if (playerInputActions.PlayerControls.Knife.triggered)
+        if (knife.triggered)
         //if (Input.GetButtonDown("Knife") || Input.GetAxisRaw("Knife") > 0)
         {
             if (CanAttack && GameDataHolder.knifeHasBeenPickedUp)

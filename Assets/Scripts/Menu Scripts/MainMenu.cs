@@ -18,18 +18,18 @@ public class MainMenu : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 1f;
-        playerInputActions = new PlayerInputActions();
+        playerInputActions = InputManager.inputActions;
     }
 
     private void OnEnable()
     {
         escape = playerInputActions.PlayerControls.Escape;
-        escape.Enable();
+        //escape.Enable();
     }
 
     private void OnDisable()
     {
-        escape.Disable();
+        //escape.Disable();
     }
 
     public void PlayIntroCutscene()

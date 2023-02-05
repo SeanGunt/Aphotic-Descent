@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     state = State.settingPosition;
     playerCamera = GetComponentInChildren<Camera>();
     defaultYPos = playerCamera.transform.localPosition.y;
-    playerInputActions = new PlayerInputActions();
+    playerInputActions = InputManager.inputActions;
     controller = GetComponent<CharacterController>();
   }
 

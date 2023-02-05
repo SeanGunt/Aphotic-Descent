@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
@@ -8,6 +9,7 @@ public class DisableLore : MonoBehaviour
 {
     private PauseControls pauseControls;
     private PlayerInputActions playerInputActions;
+    private InputAction interact;
     private GameObject player;
     private Volume volume;
     private GameObject volumeObj;
@@ -18,24 +20,25 @@ public class DisableLore : MonoBehaviour
         pauseControls = player.GetComponent<PauseControls>();
         volumeObj =  GameObject.FindGameObjectWithTag("PostProcMain");
         volume = volumeObj.GetComponent<Volume>();
-        playerInputActions = new PlayerInputActions();
+        playerInputActions = InputManager.inputActions;
     }
 
     private void OnEnable()
     {
-        playerInputActions.Enable();
+        interact = playerInputActions.PlayerControls.Interact;
+        //playerInputActions.Enable();
     }
 
     private void OnDisable()
     {
-        playerInputActions.Disable();
+        //playerInputActions.Disable();
     }
 
     private void Update()
     {
         if (this.gameObject.activeInHierarchy)
         {
-            if (playerInputActions.PlayerControls.Interact.triggered)
+            if (interact.triggered)
             {
                 DepthOfField depthOfField;
                 if (volume.profile.TryGet<DepthOfField>(out depthOfField))

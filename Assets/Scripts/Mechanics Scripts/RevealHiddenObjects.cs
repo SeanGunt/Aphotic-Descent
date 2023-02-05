@@ -39,8 +39,6 @@ public class RevealHiddenObjects : MonoBehaviour
                 RevealObject();
             }
         }
-        
-        
     }
 
     void RevelationTimer()
