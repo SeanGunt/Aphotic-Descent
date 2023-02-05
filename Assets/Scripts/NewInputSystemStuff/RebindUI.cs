@@ -32,9 +32,17 @@ public class RebindUI : MonoBehaviour
 
         if(inputActionReference != null)
         {
+            InputManager.LoadBindingOverride(actionName);
             GetBindingInfo();
             UpdateUI();
         }
+
+        InputManager.rebindComplete += UpdateUI;
+    }
+
+    private void OnDisable()
+    {
+        InputManager.rebindComplete -= UpdateUI;
     }
     
     private void OnValidate()
@@ -64,7 +72,7 @@ public class RebindUI : MonoBehaviour
         {
             if(Application.isPlaying)
             {
-                //grab info from Input manager
+                rebindText.text = InputManager.GetBindingName(actionName, bindingIndex);
             }
             else
                 rebindText.text = inputActionReference.action.GetBindingDisplayString(bindingIndex);
@@ -78,6 +86,7 @@ public class RebindUI : MonoBehaviour
 
     private void ResetBinding()
     {
-
+        InputManager.ResetBinding(actionName, bindingIndex);
+        UpdateUI();
     }
 }

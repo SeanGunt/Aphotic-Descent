@@ -19,7 +19,7 @@ public class MouseLook : MonoBehaviour
 
     void Awake()
     {
-        playerInputActions = new PlayerInputActions();
+        playerInputActions = InputManager.inputActions;
     }
 
     private void OnEnable()

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using System.Collections;
  
 public class DoorScript : MonoBehaviour 
@@ -10,23 +11,25 @@ public class DoorScript : MonoBehaviour
     private BoxCollider bCollider;
     private UItext uItext;
     private PlayerInputActions playerInputActions;
+    private InputAction interact;
 
     private void Awake()
     {
         inTrigger = false;
         bCollider = GetComponent<BoxCollider>();
         uItext = GetComponent<UItext>();
-        playerInputActions = new PlayerInputActions();
+        playerInputActions = InputManager.inputActions;
     }
     
     private void OnEnable()
     {
-        playerInputActions.Enable();
+        interact = playerInputActions.PlayerControls.Interact;
+        //playerInputActions.Enable();
     }
 
     private void OnDisable()
     {
-        playerInputActions.Disable();
+        //playerInputActions.Disable();
     }
  
     void OnTriggerEnter(Collider other)
@@ -53,7 +56,7 @@ public class DoorScript : MonoBehaviour
             {
                 if (GameDataHolder.doorKey)
                 {
-                    if (playerInputActions.PlayerControls.Interact.triggered)
+                    if (interact.triggered)
                     {
                         bCollider.enabled = false;
                         uItext.GuiOn = false;

@@ -1,15 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GateButton : MonoBehaviour
 {
     public bool inTrigger;
     GateScr gScr;
+    private PlayerInputActions playerInputActions;
+    private InputAction interact;
  
     void Awake()
     {
         gScr = this.gameObject.GetComponentInChildren<GateScr>();
+        playerInputActions = InputManager.inputActions;
+    }
+
+    private void OnEnable()
+    {
+        interact = playerInputActions.PlayerControls.Interact;
+        //interact.Enable();
+    }
+
+    private void OnDisable()
+    {
+        //interact.Disable();
     }
 
     void OnTriggerEnter(Collider other)
@@ -26,7 +41,7 @@ public class GateButton : MonoBehaviour
     {
         if(inTrigger)
         {
-            if(Input.GetButtonDown("Interact"))
+            if(interact.triggered)
             {
                 if(gScr != null)
                 {

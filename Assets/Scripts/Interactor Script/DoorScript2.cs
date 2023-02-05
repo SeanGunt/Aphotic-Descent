@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class DoorScript2 : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class DoorScript2 : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip doorOpenSound;
     private PlayerInputActions playerInputActions;
+    private InputAction interact;
 
     private void Awake()
     {
@@ -21,17 +23,18 @@ public class DoorScript2 : MonoBehaviour
         bCollider = GetComponent<BoxCollider>();
         uItext = GetComponent<UItext>();
         canOpen = true;
-        playerInputActions = new PlayerInputActions();
+        playerInputActions = InputManager.inputActions;
     }
 
     private void OnEnable()
     {
-        playerInputActions.Enable();
+        interact = playerInputActions.PlayerControls.Interact;
+        //playerInputActions.Enable();
     }
 
     private void OnDisable()
     {
-        playerInputActions.Disable();
+        //playerInputActions.Disable();
     }
  
     void OnTriggerEnter(Collider other)
@@ -58,7 +61,7 @@ public class DoorScript2 : MonoBehaviour
             {
                 if (GameDataHolder.doorKey && canOpen)
                 {
-                    if (playerInputActions.PlayerControls.Interact.triggered)
+                    if (interact.triggered)
                     {
                         audioSource.PlayOneShot(doorOpenSound);
                         bCollider.enabled = false;

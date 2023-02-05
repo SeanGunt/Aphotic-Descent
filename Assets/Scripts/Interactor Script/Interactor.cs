@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 
 public class Interactor : MonoBehaviour
@@ -15,21 +16,23 @@ public class Interactor : MonoBehaviour
     public Sprite defaultInteractIcon;
     public Vector2 defaultInteractIconSize;
     private PlayerInputActions playerInputActions;
+    private InputAction interact;
     UnityEvent onInteract;
    
     private void Awake()
     {
-        playerInputActions = new PlayerInputActions();
+        playerInputActions = InputManager.inputActions;
     }
 
     private void OnEnable()
     {
-        playerInputActions.Enable();
+        interact = playerInputActions.PlayerControls.Interact;
+        //playerInputActions.Enable();
     }
 
     private void OnDisable()
     {
-        playerInputActions.Disable();
+        //playerInputActions.Disable();
     }
     
     void Update()
@@ -41,7 +44,7 @@ public class Interactor : MonoBehaviour
             if(hit.collider.GetComponent<Interactable>() != false)
             {
                 onInteract = hit.collider.GetComponent<Interactable>().onInteract;
-                if (playerInputActions.PlayerControls.Interact.triggered)
+                if (interact.triggered)
                 {
                 onInteract.Invoke();
                 }

@@ -1,12 +1,14 @@
 using UnityEngine;
 using System.Collections;
 using TMPro;
+using UnityEngine.InputSystem;
  
 public class DoorKey : MonoBehaviour 
 {
     public bool inTrigger;
     public GameObject tutTextObj;
     private PlayerInputActions playerInputActions;
+    private InputAction interact;
     public TextMeshProUGUI tutText;
     [SerializeField] private ClearUIText clearUIText;
     [SerializeField] private AudioSource audioSource;
@@ -22,17 +24,18 @@ public class DoorKey : MonoBehaviour
 
     private void Awake()
     {
-        playerInputActions = new PlayerInputActions();
+        playerInputActions = InputManager.inputActions;
     }
 
     private void OnEnable()
     {
-        playerInputActions.Enable();
+        interact = playerInputActions.PlayerControls.Interact;
+        //playerInputActions.Enable();
     }
 
     private void OnDisable()
     {
-        playerInputActions.Disable();
+        //playerInputActions.Disable();
     }
  
     void OnTriggerEnter(Collider other)
@@ -49,7 +52,7 @@ public class DoorKey : MonoBehaviour
     {
         if (inTrigger)
         {
-            if (playerInputActions.PlayerControls.Interact.triggered)
+            if (interact.triggered)
             {
                 audioSource.PlayOneShot(pickupSound);
                 clearUIText.CancelInvoke();
