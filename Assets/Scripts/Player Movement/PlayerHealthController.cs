@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class PlayerHealthController : MonoBehaviour
 {
-    [SerializeField]private float playerHealth, maxHealth, invincibleTimer, timeInvincible, healCooldown, maxHealCooldown, regenRate;
+    [SerializeField]private float invincibleTimer, timeInvincible, healCooldown, maxHealCooldown, regenRate;
+    [SerializeField]public float playerHealth, maxHealth;
     [SerializeField]private Image redSplatterImage = null;
     [SerializeField]private bool isInvincible, startCooldown, canRegen;
     public bool isBleeding, gameOver;

@@ -8,12 +8,13 @@ public class psEnemyAI : MonoBehaviour
     [SerializeField] private Transform[] travelPoints;
     [SerializeField] private GameObject thePlayer;
     [SerializeField] private GameObject psGunAimer;
-    [SerializeField] private GameObject psGunHead;
     [SerializeField] private Vector3 playerLocation;
-    [SerializeField] private float moveTimer = 15.0f;
-    [SerializeField] private float shootTimer = 3.0f;
+    [SerializeField] private float moveTimer = 14.0f;
+    [SerializeField] private float shootTimer = 2.0f;
     [SerializeField] private float distBtwn;
-    [SerializeField] private float closestPoint;
+    
+    //[SerializeField] private float closestPoint;
+    
     [SerializeField] private float gunRange;
     public NavMeshAgent psAgent;
     private bool unchosen = true;
@@ -51,9 +52,6 @@ public class psEnemyAI : MonoBehaviour
 
         if(unchosen)
         {
-            //currently the same as the freakfish
-            //if you see this I've forgotten to remove this comment
-
             moveToPoint();
         }
 
@@ -102,10 +100,6 @@ public class psEnemyAI : MonoBehaviour
 
     void stopAndAim()
     {
-        //the plan is to rotate the gunAimer at the player when this is active
-        //then check if gunRayCast is detecting the player, and if so, shoot
-        //else stand and wait?
-        
         inShootRange = true;
 
         gunRotating.rotateToPlayer = true;
@@ -114,6 +108,9 @@ public class psEnemyAI : MonoBehaviour
     /*  
     void findClosestPoint()
     {
+        //TODO this?
+        //finds the travelPoint closest to player and aims from there
+
         //closestPoint = Mathf.Infinity;
         Transform closestPoint;
 
