@@ -7,6 +7,7 @@ public class psGunRotate : MonoBehaviour
     [SerializeField] private GameObject thePlayer;
     [SerializeField] private GameObject psGunHead;
     [SerializeField] private float gunRange;
+    [SerializeField] private float gunDamage;
     [SerializeField] private LayerMask doNotIgnoreLayer;
     public bool rotateToPlayer;
     private Vector3 startPos;
@@ -48,6 +49,8 @@ public class psGunRotate : MonoBehaviour
         if(Physics.Raycast(psGunHead.transform.position, centerRay, out hit, gunRange, doNotIgnoreLayer))
         {
             Debug.Log(hit.collider.gameObject.name + " was hit");
+            pHC.ChangeHealth(-(pHC.maxHealth / gunDamage)); //essentially, 'what fraction of health (based on total maxHealth) will the gun remove from the player?'
+                                                            //maxHealth is 15.0 atm, lower number for damage means more health is taken away
         }
     }
 }
