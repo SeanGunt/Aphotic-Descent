@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class TitleScreen : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class TitleScreen : MonoBehaviour
     }
     void Update()
     {
-        if (Input.anyKeyDown && titleScreenEvent != null)
+        if ((Keyboard.current.anyKey.isPressed || Mouse.current.leftButton.isPressed || Mouse.current.rightButton.isPressed) && titleScreenEvent != null)
         {
             titleScreenEvent.Invoke();
         }

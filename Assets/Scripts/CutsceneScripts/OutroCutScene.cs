@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Video;
 using UnityEngine.SceneManagement;
 
@@ -25,7 +26,7 @@ public class OutroCutScene : MonoBehaviour
             SceneManager.LoadScene("WinScreen");
         }
 
-        if(Input.anyKeyDown && videoLength < 58f)
+        if((Keyboard.current.anyKey.isPressed || Mouse.current.leftButton.isPressed || Mouse.current.rightButton.isPressed) && videoLength < 58f)
         {
             Time.timeScale = 1f;
             SceneManager.LoadScene("WinScreen");

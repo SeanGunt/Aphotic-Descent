@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GivePlayerEverything : MonoBehaviour
 {
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.UpArrow))
+        if(Keyboard.current.upArrowKey.isPressed)
         {
             GameDataHolder.flashlightHasBeenPickedUp = true;
             GameDataHolder.knifeHasBeenPickedUp = true;
