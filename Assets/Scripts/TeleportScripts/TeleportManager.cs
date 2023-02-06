@@ -6,12 +6,13 @@ using UnityEngine.Events;
 public class TeleportManager : MonoBehaviour
 {
     public UnityEvent unityEvent;
-    private GameObject player;
+    private GameObject player, fogCube;
     [SerializeField] private Vector3 teleportPosition;
 
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        fogCube = GameObject.FindGameObjectWithTag("FogCube");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -32,5 +33,6 @@ public class TeleportManager : MonoBehaviour
         GameDataHolder.inLab = true;
         GameDataHolder.inKelpMaze = false;
         BGMManager.instance.SwitchBGM(2);
+        fogCube.SetActive(false);
     }
 }

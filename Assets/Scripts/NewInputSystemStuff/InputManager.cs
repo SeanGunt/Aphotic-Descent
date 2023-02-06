@@ -10,24 +10,28 @@ public class InputManager : MonoBehaviour
 {
     public static PlayerInputActions inputActions;
     public static event Action<InputActionMap> actionMapChange;
-
     public static event Action rebindComplete;
     public static event Action rebindCanceled;
     public static event Action<InputAction, int> rebindStarted;
 
-    private void Awake()
+    private void OnValidate()
     {
         if (inputActions == null)
+        {
             inputActions = new PlayerInputActions();
+            Debug.Log("Created input actions");
+        }
+        else
+        {
+            Debug.Log("Didn't create input actions");
+        }
     }
     
-    // Start is called before the first frame update
     void Start()
     {
         ToggleActionMap(inputActions.PlayerControls);
     }
 
-    // Update is called once per frame
     public static void ToggleActionMap(InputActionMap actionMap)
     {
         if (actionMap.enabled)
