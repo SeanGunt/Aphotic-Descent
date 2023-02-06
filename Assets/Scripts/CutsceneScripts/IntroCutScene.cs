@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class IntroCutScene : MonoBehaviour
@@ -29,7 +30,7 @@ public class IntroCutScene : MonoBehaviour
             aSyncLoader.LoadLevelBtn("VerticalSlice");
         }
 
-        if(Input.anyKeyDown)
+        if(Keyboard.current.anyKey.isPressed || Mouse.current.leftButton.isPressed || Mouse.current.rightButton.isPressed)
         {
             Time.timeScale = 1f;
             //SceneManager.LoadScene("VerticalSlice");
