@@ -25,16 +25,16 @@ public class MouseLook : MonoBehaviour
     private void OnEnable()
     {
         look = playerInputActions.PlayerControls.Look;
-        look.Enable();
+        //look.Enable();
 
         escape = playerInputActions.PlayerControls.Escape;
-        escape.Enable();
+        //escape.Enable();
     }
 
     private void OnDisable()
     {
-        look.Disable();
-        escape.Disable();
+        //look.Disable();
+        //escape.Disable();
     }
 
     void Update()

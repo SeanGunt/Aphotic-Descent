@@ -13,10 +13,10 @@ public class WeaponController : MonoBehaviour
     private InputAction knife;
     private BoxCollider bc;
     public Animator animator;
-    public float knifeSwingCost;
-    PlayerMovement playerMoveScript;
+    private PlayerMovement playerMovement;
     private void Awake()
     {
+        playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
         bc = Knife.GetComponent<BoxCollider>();
         bc.enabled = false;
         playerInputActions = InputManager.inputActions;
@@ -40,7 +40,6 @@ public class WeaponController : MonoBehaviour
         {
             if (CanAttack && GameDataHolder.knifeHasBeenPickedUp)
             {
-                playerMoveScript = GameObject.FindWithTag("Player").GetComponent<PlayerMovement>();
                 KnifeAttack();
             }
         }
@@ -58,9 +57,8 @@ public class WeaponController : MonoBehaviour
 
     public void KnifeAttack()
     {
-        if(playerMoveScript.playerStamina > 0 && !IsAttacking)
+        if(!IsAttacking && playerMovement.playerStamina > 0)
         {
-            playerMoveScript.playerStamina -= (playerMoveScript.maxStamina / knifeSwingCost); //the lower the number the more stam it costs, and maxStam is 8 atm
 
             animator.SetTrigger("swungKnife");
             IsAttacking = true;

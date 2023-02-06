@@ -244,7 +244,7 @@ public class fishEnemy : MonoBehaviour
     {
         float velocity = Vector3.Distance(transform.position, lastPosition);
         lastPosition = transform.position;
-        animator.SetFloat("speed", velocity * 5);
+        animator.SetFloat("speed", velocity * 8);
     }
     
 

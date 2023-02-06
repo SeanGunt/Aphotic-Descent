@@ -8,17 +8,17 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
   private CharacterController controller;
   private PlayerInputActions playerInputActions;
-  private InputAction movement;
+  private InputAction movement, ascend, descend;
   [SerializeField] private float groundedSpeed, airSpeed, floatSpeed, outOfWaterSpeed, 
   groundDistance, gravityInWater, gravityOutOfWater, tiredCooldown,
   walkBobSpeed, walkBobAmount, underwaterBobSpeed, underwaterBobAmount;
   private float moveSpeed, defaultYPos, timer;
-  public float playerStamina, maxStamina;
+  public float playerStamina, maxStamina, staminaDelay;
   [SerializeField] private LayerMask ignoreMask;
   private Vector3 velocity, moveDirection;
   [HideInInspector] public bool isGrounded, hasUpgradedSuit;
   [SerializeField] private bool isSwimming, canSwim, isTired, canUseHeadbob;
-  [SerializeField] private Image staminaBar, tiredBar, walkState, swimState;
+  [SerializeField] public Image staminaBar, tiredBar, walkState, swimState;
   [SerializeField] private Camera playerCamera;
   [SerializeField] private Animator animator;
   [HideInInspector] public bool inWater;
@@ -45,6 +45,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   private void Awake()
   {
     state = State.settingPosition;
+    isTired = false;
+    tiredBar.enabled = false;
     playerCamera = GetComponentInChildren<Camera>();
     defaultYPos = playerCamera.transform.localPosition.y;
     playerInputActions = InputManager.inputActions;
@@ -54,17 +56,19 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   private void OnEnable()
   {
     movement = playerInputActions.PlayerControls.Movement;
-    movement.Enable();
+    ascend = playerInputActions.PlayerControls.Ascend;
+    descend = playerInputActions.PlayerControls.Descend;
+    //movement.Enable();
 
-    playerInputActions.PlayerControls.Ascend.Enable();
-    playerInputActions.PlayerControls.Descend.Enable();
+    //playerInputActions.PlayerControls.Ascend.Enable();
+    //playerInputActions.PlayerControls.Descend.Enable();
   }
 
   private void OnDisable()
   {
-    movement.Disable();
-    playerInputActions.PlayerControls.Ascend.Disable();
-    playerInputActions.PlayerControls.Descend.Disable();
+    //movement.Disable();
+    //playerInputActions.PlayerControls.Ascend.Disable();
+    //playerInputActions.PlayerControls.Descend.Disable();
   }
   
   private void Update()
@@ -90,6 +94,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
               canSwim = false;
           break;
       }
+      staminaDelay -= Time.deltaTime;
   }
 
     private void MoveInWater()
@@ -111,7 +116,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
           isSwimming = false;
           walkState.gameObject.SetActive(true);
           swimState.gameObject.SetActive(false);
-          if (!canSwim || playerStamina < maxStamina)
+          if (!canSwim || playerStamina < maxStamina && staminaDelay <= 0)
           {
             StaminaRecharge(playerStamina, maxStamina);
           }
@@ -210,6 +215,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
           velocity.y = 0;
           walkState.gameObject.SetActive(true);
           swimState.gameObject.SetActive(false);
+          if (!canSwim || playerStamina < maxStamina && staminaDelay <= 0)
+          {
+            StaminaRecharge(playerStamina, maxStamina);
+          }
         }
 
       moveSpeed = outOfWaterSpeed;
@@ -297,19 +306,16 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       }
     }
 
+    public void BecomeTired()
+    {
+      isTired = true;
+      tiredBar.enabled = true;
+      tiredBar.fillAmount = 1;
+    }
+
     IEnumerator SetPlayerState(float waitTime)
     {
       yield return new WaitForSeconds(waitTime);
       state = State.outOfWater;
     }
-
-    private void FixedUpdate()
-    {
-      //Debug.Log("Movement Values " + movement.ReadValue<Vector2>());
-    }
-    
-  void start()
-  {
-    DontDestroyOnLoad(gameObject);
-  }
 }
