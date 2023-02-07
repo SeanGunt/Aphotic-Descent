@@ -14,7 +14,7 @@ public class InputManager : MonoBehaviour
     public static event Action rebindCanceled;
     public static event Action<InputAction, int> rebindStarted;
 
-    private void OnValidate()
+    private void Awake()
     {
         if (inputActions == null)
         {
