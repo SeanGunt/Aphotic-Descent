@@ -7,8 +7,9 @@ using UnityEngine.SceneManagement;
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
   private CharacterController controller;
-  private PlayerInputActions playerInputActions;
-  private InputAction movement, ascend, descend;
+  //private PlayerInputActions playerInputActions;
+  //private InputAction movement, ascend, descend;
+  private PlayerInput playerInput;
   [SerializeField] private float groundedSpeed, airSpeed, floatSpeed, outOfWaterSpeed, 
   groundDistance, gravityInWater, gravityOutOfWater, tiredCooldown,
   walkBobSpeed, walkBobAmount, underwaterBobSpeed, underwaterBobAmount;
@@ -49,27 +50,28 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     tiredBar.enabled = false;
     playerCamera = GetComponentInChildren<Camera>();
     defaultYPos = playerCamera.transform.localPosition.y;
-    playerInputActions = new PlayerInputActions();
+    //playerInputActions = new PlayerInputActions();
+    playerInput = GetComponent<PlayerInput>();
     controller = GetComponent<CharacterController>();
   }
 
-  private void OnEnable()
-  {
-    movement = playerInputActions.PlayerControls.Movement;
-    ascend = playerInputActions.PlayerControls.Ascend;
-    descend = playerInputActions.PlayerControls.Descend;
-    movement.Enable();
+  // private void OnEnable()
+  // {
+  //   movement = playerInputActions.PlayerControls.Movement;
+  //   ascend = playerInputActions.PlayerControls.Ascend;
+  //   descend = playerInputActions.PlayerControls.Descend;
+  //   movement.Enable();
 
-    ascend.Enable();
-    descend.Enable();
-  }
+  //   ascend.Enable();
+  //   descend.Enable();
+  // }
 
-  private void OnDisable()
-  {
-    movement.Disable();
-    ascend.Disable();
-    descend.Disable();
-  }
+  // private void OnDisable()
+  // {
+  //   movement.Disable();
+  //   ascend.Disable();
+  //   descend.Disable();
+  // }
   
   private void Update()
   {
@@ -126,12 +128,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
           moveSpeed = airSpeed;
         }
       
-        Vector2 input = movement.ReadValue<Vector2>();
+        Vector2 input = playerInput.actions["Movement"].ReadValue<Vector2>();
         Vector3 move = new Vector3(input.x, 0, input.y);
         move = move.x * transform.right + move.z * transform.forward;
         controller.Move(move * Time.deltaTime * moveSpeed);
 
-        bool isAscendKeyHeld = playerInputActions.PlayerControls.Ascend.ReadValue<float>() > 0.1f;
+        bool isAscendKeyHeld = playerInput.actions["Ascend"].ReadValue<float>() > 0.1f;
         
         //Float Up
         if (isAscendKeyHeld && canSwim && hasUpgradedSuit)
@@ -142,7 +144,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
           swimState.gameObject.SetActive(true);
         }
 
-        bool isDescendKeyHeld = playerInputActions.PlayerControls.Descend.ReadValue<float>() > 0.1f;
+        bool isDescendKeyHeld = playerInput.actions["Descend"].ReadValue<float>() > 0.1f;
         
         //Float Down
         if (isDescendKeyHeld && canSwim && !isGrounded && hasUpgradedSuit)
@@ -223,7 +225,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
       moveSpeed = outOfWaterSpeed;
       canSwim = false;
-      Vector2 input = movement.ReadValue<Vector2>();
+      Vector2 input = playerInput.actions["Movement"].ReadValue<Vector2>();
       Vector3 move = new Vector3(input.x, 0, input.y);
       move = move.x * transform.right + move.z * transform.forward;
       controller.Move(move * Time.deltaTime * moveSpeed);
