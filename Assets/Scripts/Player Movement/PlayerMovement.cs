@@ -49,7 +49,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     tiredBar.enabled = false;
     playerCamera = GetComponentInChildren<Camera>();
     defaultYPos = playerCamera.transform.localPosition.y;
-    playerInputActions = InputManager.inputActions;
+    playerInputActions = new PlayerInputActions();
     controller = GetComponent<CharacterController>();
   }
 
@@ -58,17 +58,17 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     movement = playerInputActions.PlayerControls.Movement;
     ascend = playerInputActions.PlayerControls.Ascend;
     descend = playerInputActions.PlayerControls.Descend;
-    //movement.Enable();
+    movement.Enable();
 
-    //playerInputActions.PlayerControls.Ascend.Enable();
-    //playerInputActions.PlayerControls.Descend.Enable();
+    ascend.Enable();
+    descend.Enable();
   }
 
   private void OnDisable()
   {
-    //movement.Disable();
-    //playerInputActions.PlayerControls.Ascend.Disable();
-    //playerInputActions.PlayerControls.Descend.Disable();
+    movement.Disable();
+    ascend.Disable();
+    descend.Disable();
   }
   
   private void Update()

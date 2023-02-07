@@ -13,18 +13,18 @@ public class GateButton : MonoBehaviour
     void Awake()
     {
         gScr = this.gameObject.GetComponentInChildren<GateScr>();
-        playerInputActions = InputManager.inputActions;
+        playerInputActions = new PlayerInputActions();
     }
 
     private void OnEnable()
     {
         interact = playerInputActions.PlayerControls.Interact;
-        //interact.Enable();
+        interact.Enable();
     }
 
     private void OnDisable()
     {
-        //interact.Disable();
+        interact.Disable();
     }
 
     void OnTriggerEnter(Collider other)

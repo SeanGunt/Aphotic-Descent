@@ -16,18 +16,18 @@ public class GameOverMenu : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        playerInputActions = InputManager.inputActions;
+        playerInputActions = new PlayerInputActions();
     }
 
     private void OnEnable()
     {
         escape = playerInputActions.PlayerControls.Escape;
-        // escape.Enable();
+        escape.Enable();
     }
 
     private void OnDisable()
     {
-        // escape.Disable();
+        escape.Disable();
     }
     
     void Start()

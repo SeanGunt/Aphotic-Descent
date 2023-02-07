@@ -21,18 +21,18 @@ public class Interactor : MonoBehaviour
    
     private void Awake()
     {
-        playerInputActions = InputManager.inputActions;
+        playerInputActions = new PlayerInputActions();
     }
 
     private void OnEnable()
     {
         interact = playerInputActions.PlayerControls.Interact;
-        //playerInputActions.Enable();
+        playerInputActions.Enable();
     }
 
     private void OnDisable()
     {
-        //playerInputActions.Disable();
+        playerInputActions.Disable();
     }
     
     void Update()

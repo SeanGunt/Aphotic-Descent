@@ -18,18 +18,18 @@ public class PauseControls : MonoBehaviour
 
     void Awake()
     {
-        playerInputActions = InputManager.inputActions;
+        playerInputActions = new PlayerInputActions();
     }
 
     private void OnEnable()
     {
         pause = playerInputActions.PlayerControls.Pause;
-        //pause.Enable();
+        pause.Enable();
     }
 
     private void OnDisable()
     {
-        //pause.Disable();
+        pause.Disable();
     }
     
     void Update()

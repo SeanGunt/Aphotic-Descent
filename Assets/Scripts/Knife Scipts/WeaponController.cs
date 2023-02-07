@@ -19,18 +19,18 @@ public class WeaponController : MonoBehaviour
         playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
         bc = Knife.GetComponent<BoxCollider>();
         bc.enabled = false;
-        playerInputActions = InputManager.inputActions;
+        playerInputActions = new PlayerInputActions();
     }
 
     private void OnEnable()
     {
         knife = playerInputActions.PlayerControls.Knife;
-        //playerInputActions.Enable();
+        playerInputActions.Enable();
     }
 
     private void OnDisable()
     {
-        //playerInputActions.Disable();
+        playerInputActions.Disable();
     }
     
     void Update()

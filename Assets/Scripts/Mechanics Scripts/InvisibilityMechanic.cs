@@ -50,7 +50,7 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
       interactionText.text = "";
       invisibilityBar.enabled = false;
       fullInvisBar.enabled = false;
-      playerInputActions = InputManager.inputActions;
+      playerInputActions = new PlayerInputActions();
 
       skinnedMeshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
       originalMaterials = new Material[skinnedMeshRenderers.Length];
@@ -63,12 +63,12 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
     private void OnEnable()
     {
       invisibility = playerInputActions.PlayerControls.Invisibility;
-      //playerInputActions.Enable();
+      playerInputActions.Enable();
     }
 
     private void OnDisable()
     {
-      //playerInputActions.Disable();
+      playerInputActions.Disable();
     }
 
     public void LoadData(GameData data)

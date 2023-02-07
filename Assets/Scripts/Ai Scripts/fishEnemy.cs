@@ -10,6 +10,7 @@ public class fishEnemy : MonoBehaviour
     [SerializeField]private GameObject playerDiver, player, playerHead, mainCam, jumpscareCam, deathObject;
     [SerializeField]private Animator animator;
     PlayerHealthController pHC;
+    InvisibilityMechanic iM;
     RaycastHit hit;
     [SerializeField]private LayerMask doNotIgnoreLayer, playerLayer;
     [SerializeField] private GameObject gen1, gen2, gen3;
@@ -55,6 +56,7 @@ public class fishEnemy : MonoBehaviour
         {
             Debug.Log("player found");
             pHC = player.GetComponent<PlayerHealthController>();
+            iM = player.GetComponent<InvisibilityMechanic>();
 
             gen1Scr = gen1.GetComponent<generatorScript>();
             gen2Scr = gen2.GetComponent<generatorScript>();
@@ -116,7 +118,7 @@ public class fishEnemy : MonoBehaviour
             unobstructed = true;
         }
 
-        if (eFOV.canSeePlayer && !repositioning)
+        if (eFOV.canSeePlayer && !repositioning && !iM.isSafe)
         {
             BGMManager.instance.SwitchBGM(4);
             BreathingManager.instance.SwitchBreathRate(2);
@@ -128,7 +130,7 @@ public class fishEnemy : MonoBehaviour
     {
         RotateTowards(playerHead.transform.position);
         this.transform.position = Vector3.MoveTowards(this.transform.position, playerHead.transform.position, Time.deltaTime * chaseSpeed);
-        if (!eFOV.canSeePlayer)
+        if (!eFOV.canSeePlayer || iM.isSafe)
         {
             BreathingManager.instance.SwitchBreathRate(0);
             state = State.patrolling;

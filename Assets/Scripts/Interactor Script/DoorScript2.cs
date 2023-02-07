@@ -23,18 +23,18 @@ public class DoorScript2 : MonoBehaviour
         bCollider = GetComponent<BoxCollider>();
         uItext = GetComponent<UItext>();
         canOpen = true;
-        playerInputActions = InputManager.inputActions;
+        playerInputActions = new PlayerInputActions();
     }
 
     private void OnEnable()
     {
         interact = playerInputActions.PlayerControls.Interact;
-        //playerInputActions.Enable();
+        interact.Enable();
     }
 
     private void OnDisable()
     {
-        //playerInputActions.Disable();
+        interact.Disable();
     }
  
     void OnTriggerEnter(Collider other)

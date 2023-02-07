@@ -20,18 +20,18 @@ public class DisableLore : MonoBehaviour
         pauseControls = player.GetComponent<PauseControls>();
         volumeObj =  GameObject.FindGameObjectWithTag("PostProcMain");
         volume = volumeObj.GetComponent<Volume>();
-        playerInputActions = InputManager.inputActions;
+        playerInputActions = new PlayerInputActions();
     }
 
     private void OnEnable()
     {
         interact = playerInputActions.PlayerControls.Interact;
-        //playerInputActions.Enable();
+        interact.Enable();
     }
 
     private void OnDisable()
     {
-        //playerInputActions.Disable();
+        interact.Disable();
     }
 
     private void Update()

@@ -36,19 +36,19 @@ public class flashlightMechanic : MonoBehaviour
 
     void Awake()
     {
-        playerInputActions = InputManager.inputActions;
+        playerInputActions = new PlayerInputActions();
     }
 
     private void OnEnable()
     {
         flashlight = playerInputActions.PlayerControls.Flashlight;
         blacklight = playerInputActions.PlayerControls.Blacklight;
-        //playerInputActions.Enable();
+        playerInputActions.Enable();
     }
 
     private void OnDisable()
     {
-        //playerInputActions.Disable();
+        playerInputActions.Disable();
     }
     
     // Start is called before the first frame update
