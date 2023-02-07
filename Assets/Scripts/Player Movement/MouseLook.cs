@@ -19,22 +19,22 @@ public class MouseLook : MonoBehaviour
 
     void Awake()
     {
-        playerInputActions = InputManager.inputActions;
+        playerInputActions = new PlayerInputActions();
     }
 
     private void OnEnable()
     {
         look = playerInputActions.PlayerControls.Look;
-        //look.Enable();
+        look.Enable();
 
         escape = playerInputActions.PlayerControls.Escape;
-        //escape.Enable();
+        escape.Enable();
     }
 
     private void OnDisable()
     {
-        //look.Disable();
-        //escape.Disable();
+        look.Disable();
+        escape.Disable();
     }
 
     void Update()
