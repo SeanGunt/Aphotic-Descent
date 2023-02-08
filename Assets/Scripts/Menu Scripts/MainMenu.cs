@@ -7,9 +7,9 @@ using UnityEngine.EventSystems;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] GameObject mainMenu, optionsMenu, howToMenu, creditsMenu;
+    [SerializeField] GameObject mainMenu, optionsMenu, howToMenu, creditsMenu, rebindingMenu;
 
-    [SerializeField] GameObject optionsFirstButton, optionsClosedButton, howToFirstButton, howToClosedButton, creditsFirstButton, creditsClosedButton;
+    [SerializeField] GameObject optionsFirstButton, optionsClosedButton, howToFirstButton, howToClosedButton, creditsFirstButton, creditsClosedButton, rebindingFirstButton, rebindingClosedButton;
     private PlayerInputActions playerInputActions;
     private InputAction escape;
 
@@ -115,6 +115,24 @@ public class MainMenu : MonoBehaviour
 
         //sets a new selected button
         EventSystem.current.SetSelectedGameObject(creditsClosedButton);
+    }
+
+    public void OpenRebinding()
+    {
+        rebindingMenu.SetActive(true);
+        optionsMenu.SetActive(false);
+
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(rebindingFirstButton);
+    }
+
+    public void CloseRebinding()
+    {
+        rebindingMenu.SetActive(false);
+        optionsMenu.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(rebindingClosedButton);
     }
 
     public void QuitGame ()
