@@ -9,8 +9,9 @@ using UnityEngine.Rendering.Universal;
 public class PauseControls : MonoBehaviour
 {
     public GameObject PauseMenu;
-    private PlayerInputActions playerInputActions;
-    private InputAction pause;
+    // private PlayerInputActions playerInputActions;
+    // private InputAction pause;
+    private PlayerInput playerInput;
     [SerializeField] private GameObject gameUI, objectiveText;
     [SerializeField] GameObject Player;
     public bool paused, otherMenuActive;
@@ -18,25 +19,26 @@ public class PauseControls : MonoBehaviour
 
     void Awake()
     {
-        playerInputActions = new PlayerInputActions();
+        // playerInputActions = new PlayerInputActions();
+        playerInput = Player.GetComponent<PlayerInput>();
     }
 
-    private void OnEnable()
-    {
-        pause = playerInputActions.PlayerControls.Pause;
-        pause.Enable();
-    }
+    // private void OnEnable()
+    // {
+    //     pause = playerInputActions.PlayerControls.Pause;
+    //     pause.Enable();
+    // }
 
-    private void OnDisable()
-    {
-        pause.Disable();
-    }
+    // private void OnDisable()
+    // {
+    //     pause.Disable();
+    // }
     
     void Update()
     {
         if (!Player.GetComponent<PlayerHealthController>().gameOver && !otherMenuActive)
         {
-            if (pause.triggered && !paused && !LogPickup.logPickedUp && !Puzzle4UI.computerActivated)
+            if (playerInput.actions["Pause"].triggered && !paused && !LogPickup.logPickedUp && !Puzzle4UI.computerActivated)
             {
                 DepthOfField depthOfField;
                 if (volume.profile.TryGet<DepthOfField>(out depthOfField))
@@ -47,11 +49,13 @@ public class PauseControls : MonoBehaviour
                 gameUI.SetActive(false);
                 objectiveText.SetActive(false);
                 paused = true;
+                playerInput.currentActionMap.Disable();
+                playerInput.actions["Pause"].Enable();
                 Time.timeScale = 0;
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             }
-            else if (pause.triggered && paused && !LogPickup.logPickedUp && !Puzzle4UI.computerActivated)
+            else if ((playerInput.actions["Pause"].triggered) && paused && !LogPickup.logPickedUp && !Puzzle4UI.computerActivated)
             {
                 DepthOfField depthOfField;
                 if (volume.profile.TryGet<DepthOfField>(out depthOfField))
@@ -62,6 +66,7 @@ public class PauseControls : MonoBehaviour
                 gameUI.SetActive(true);
                 objectiveText.SetActive(true);
                 paused = false;
+                playerInput.currentActionMap.Enable();
                 Time.timeScale = 1;
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
