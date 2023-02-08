@@ -7,6 +7,7 @@ public class InteractorTrigger : MonoBehaviour
     [SerializeField] private UnityEvent unityEvent;
     private bool inTrigger;
     private PlayerInputActions playerInputActions;
+    private PlayerInput playerInput;
     private InputAction interact;
     
     private void Awake()

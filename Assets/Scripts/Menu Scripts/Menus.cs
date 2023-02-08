@@ -10,27 +10,28 @@ public class Menus : MonoBehaviour
     public GameObject PauseMenu;
     public GameObject LevelSelect;
     public GameObject SettingsMenu;
+    public GameObject RebindingMenu;
     public Volume volume;
-    [SerializeField] private GameObject gameUI, levelSelectFirstButton, levelSelectClosedButton, settingsFirstButton, settingsClosedButton, objectiveTextObj;
+    [SerializeField] private GameObject gameUI, levelSelectFirstButton, levelSelectClosedButton, settingsFirstButton, settingsClosedButton, objectiveTextObj, rebindingFirstButton, rebindingClosedButton;
     
 
-    public void OpenLevelSelect()
-    {
-        PauseMenu.SetActive(false);
-        LevelSelect.SetActive(true);
-        Player.GetComponent<PauseControls>().otherMenuActive = true;
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(levelSelectFirstButton);
-    }
+    // public void OpenLevelSelect()
+    // {
+    //     PauseMenu.SetActive(false);
+    //     LevelSelect.SetActive(true);
+    //     Player.GetComponent<PauseControls>().otherMenuActive = true;
+    //     EventSystem.current.SetSelectedGameObject(null);
+    //     EventSystem.current.SetSelectedGameObject(levelSelectFirstButton);
+    // }
 
-    public void CloseLevelSelect()
-    {
-        PauseMenu.SetActive(true);
-        LevelSelect.SetActive(false);
-        Player.GetComponent<PauseControls>().otherMenuActive = false;
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(levelSelectClosedButton);
-    }
+    // public void CloseLevelSelect()
+    // {
+    //     PauseMenu.SetActive(true);
+    //     LevelSelect.SetActive(false);
+    //     Player.GetComponent<PauseControls>().otherMenuActive = false;
+    //     EventSystem.current.SetSelectedGameObject(null);
+    //     EventSystem.current.SetSelectedGameObject(levelSelectClosedButton);
+    // }
 
     public void OpenSettings()
     {
@@ -50,11 +51,11 @@ public class Menus : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(settingsClosedButton);
     }
     
-    public void PlayWhiteboxMaze ()
-    {
-        Time.timeScale = 1.0f;
-        SceneManager.LoadScene(1);
-    }
+    // public void PlayWhiteboxMaze ()
+    // {
+    //     Time.timeScale = 1.0f;
+    //     SceneManager.LoadScene(1);
+    // }
     public void ResumeGame()
     {
         DepthOfField depthOfField;
@@ -70,6 +71,23 @@ public class Menus : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
+
+    public void OpenRemappingMenu()
+    {
+        SettingsMenu.SetActive(false);
+        RebindingMenu.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(rebindingFirstButton);
+    }
+
+    public void CloseRemappingMenu()
+    {
+        SettingsMenu.SetActive(true);
+        RebindingMenu.SetActive(false);
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(rebindingClosedButton);
+    }
+
     public void ExitGame()
     {
         Application.Quit();
