@@ -13,13 +13,14 @@ public class PauseControls : MonoBehaviour
     // private InputAction pause;
     private PlayerInput playerInput;
     [SerializeField] private GameObject gameUI, objectiveText;
-    [SerializeField] GameObject Player;
+    GameObject Player;
     public bool paused, otherMenuActive;
     public Volume volume;
 
     void Awake()
     {
         // playerInputActions = new PlayerInputActions();
+        Player = GameObject.FindWithTag("Player");
         playerInput = Player.GetComponent<PlayerInput>();
     }
 

@@ -42,7 +42,7 @@ public class fishEnemy : MonoBehaviour
     
     void Awake()
     {
-        this.GetComponent<AudioSource>();
+        audioSource = this.GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player");
         cc = GetComponent<CapsuleCollider>();
         beginningTime = Time.time;
@@ -211,6 +211,7 @@ public class fishEnemy : MonoBehaviour
         
         if((eelHealth == 0) && (!g1On && !g2On && !g3On) && (eelDead == false))
         {
+            BGMManager.instance.SwitchBGM(0);
             state = State.dead;
         }
     }
