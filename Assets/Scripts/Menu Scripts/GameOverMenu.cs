@@ -7,13 +7,14 @@ using UnityEngine.InputSystem;
 
 public class GameOverMenu : MonoBehaviour
 {
-    [SerializeField] GameObject gameOverFirstButton, Player;
-
+    [SerializeField] GameObject gameOverFirstButton;
+    private GameObject Player;
     private PlayerInputActions playerInputActions;
     private InputAction escape;
 
     private void Awake()
     {
+        Player = GameObject.FindGameObjectWithTag("Player");
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         playerInputActions = new PlayerInputActions();
