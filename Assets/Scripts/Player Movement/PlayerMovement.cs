@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   public float playerStamina, maxStamina, staminaDelay;
   [SerializeField] private LayerMask ignoreMask;
   private Vector3 velocity, moveDirection;
-  [HideInInspector] public bool isGrounded, hasUpgradedSuit;
+  [HideInInspector] public bool isGrounded, hasUpgradedSuit, headbobActive;
   [SerializeField] private bool isSwimming, canSwim, isTired, canUseHeadbob;
   [SerializeField] public Image staminaBar, tiredBar, walkState, swimState;
   [SerializeField] private Camera playerCamera;
@@ -53,6 +53,17 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     //playerInputActions = new PlayerInputActions();
     playerInput = GetComponent<PlayerInput>();
     controller = GetComponent<CharacterController>();
+    
+    if(PlayerPrefs.GetInt("headBob") == 1)
+    {
+      headbobActive = true;
+      Debug.Log(headbobActive + " headbob");
+    }
+    else
+    {
+      headbobActive = false;
+      Debug.Log(headbobActive + " headbob");
+    }
   }
 
   // private void OnEnable()
@@ -96,6 +107,18 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
               canSwim = false;
           break;
       }
+
+      if(PlayerPrefs.GetInt("headBob") == 1)
+    {
+      headbobActive = true;
+      //Debug.Log(canUseHeadbob + " headbob");
+    }
+    else
+    {
+      headbobActive = false;
+      //Debug.Log(canUseHeadbob + " headbob");
+    }
+
       staminaDelay -= Time.deltaTime;
   }
 
@@ -179,7 +202,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
 
         //HeadBobbingCall
-        if(canUseHeadbob)
+        if(canUseHeadbob && headbobActive)
         {
           HandleHeadBob(underwaterBobAmount, underwaterBobSpeed);
         }
