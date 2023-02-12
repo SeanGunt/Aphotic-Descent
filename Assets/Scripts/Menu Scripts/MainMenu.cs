@@ -32,8 +32,10 @@ public class MainMenu : MonoBehaviour
         escape.Disable();
     }
 
-    public void PlayIntroCutscene()
+    public void NewGame()
     {
+        DataPersistenceManager.instance.DeleteData();
+        DataPersistenceManager.instance.LoadGame();
         SceneManager.LoadScene("IntroCutScene");
     }
 

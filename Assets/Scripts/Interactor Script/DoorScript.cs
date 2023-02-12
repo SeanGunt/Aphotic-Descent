@@ -12,6 +12,8 @@ public class DoorScript : MonoBehaviour
     private UItext uItext;
     private PlayerInputActions playerInputActions;
     private InputAction interact;
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip doorOpeningSound;
 
     private void Awake()
     {
@@ -19,6 +21,7 @@ public class DoorScript : MonoBehaviour
         bCollider = GetComponent<BoxCollider>();
         uItext = GetComponent<UItext>();
         playerInputActions = new PlayerInputActions();
+        audioSource = GetComponentInChildren<AudioSource>();
     }
     
     private void OnEnable()
@@ -58,6 +61,7 @@ public class DoorScript : MonoBehaviour
                 {
                     if (interact.triggered)
                     {
+                        audioSource.PlayOneShot(doorOpeningSound);
                         bCollider.enabled = false;
                         uItext.GuiOn = false;
                         open = true;

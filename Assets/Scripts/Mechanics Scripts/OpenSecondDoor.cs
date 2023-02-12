@@ -7,6 +7,13 @@ public class OpenSecondDoor : MonoBehaviour
     [SerializeField] GameObject door;
     [SerializeField] flashlightMechanic fmech;
     private bool opened;
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip doorOpeningSound;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     private void Start()
     {
@@ -29,6 +36,7 @@ public class OpenSecondDoor : MonoBehaviour
         {
             fmech.flashlightText.text = "Door Opened";
             fmech.Invoke("ClearUI", 3);
+            audioSource.PlayOneShot(doorOpeningSound);
             GameDataHolder.secondDoorOpened = true;
             DataPersistenceManager.instance.SaveGame();
         }

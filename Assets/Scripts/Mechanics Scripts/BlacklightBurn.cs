@@ -9,6 +9,9 @@ public class BlacklightBurn : MonoBehaviour
     private MeshCollider meshCollider;
     private float deleteTime = 5f;
     private bool activated;
+    private bool canPlaySound;
+    [SerializeField] private AudioClip blacklightBurnSound;
+    private AudioSource audioSource;
 
     private void Awake()
     {
@@ -16,7 +19,8 @@ public class BlacklightBurn : MonoBehaviour
         meshCollider = GetComponent<MeshCollider>();
         material = Instantiate(renderer.sharedMaterial);
         renderer.material = material;
-
+        canPlaySound = true;
+        audioSource = GetComponentInParent<AudioSource>();
     }
 
     private void Update()
@@ -47,5 +51,10 @@ public class BlacklightBurn : MonoBehaviour
         material.SetFloat("_RippleSpeed", 1.5f);
         meshCollider.enabled = false;
         activated = true;
+        if(canPlaySound)
+        {
+            AudioSource.PlayClipAtPoint(blacklightBurnSound, flashlightMechanic.hit.point, audioSource.volume * 0.5f);
+            canPlaySound = false;
+        }
     }
 }
