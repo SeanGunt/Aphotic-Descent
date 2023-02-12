@@ -158,7 +158,7 @@ public class flashlightMechanic : MonoBehaviour
         BlacklightLight.gameObject.SetActive(true);
         FlashlightLight.gameObject.SetActive(false);
         //if(Physics.Raycast(mainCam.transform.position, mainCam.transform.forward, out hit, range, layer))
-        if(Physics.SphereCast(mainCam.transform.position, 1.5f, mainCam.transform.forward, out hit, range, layer) || Physics.Raycast(mainCam.transform.position, mainCam.transform.forward, out hit, range, layer))
+        if(Physics.SphereCast(mainCam.transform.position, 1f, mainCam.transform.forward, out hit, range, layer) || Physics.Raycast(mainCam.transform.position, mainCam.transform.forward, out hit, range, layer))
         { 
             if (hit.collider.GetComponent<HiddenObjectsInteraction>() != false)
             {
