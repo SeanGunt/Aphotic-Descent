@@ -9,7 +9,6 @@ public class OptionsMenuController : MonoBehaviour
     //public bool screenShake = true;
     public Slider mouseSensitivitySlider;
     public Toggle screenShakeToggle;
-    public Toggle headBobToggle;
 
     // Start is called before the first frame update
     void Start()
@@ -33,16 +32,6 @@ public class OptionsMenuController : MonoBehaviour
         {
             PlayerPrefs.SetInt("screenShake", screenShakeToggle.isOn ? 1 : 0);
         }
-
-        if (PlayerPrefs.HasKey("headBob"))
-        {
-            headBobToggle.isOn = PlayerPrefs.GetInt("headBob") == 1;
-        }
-        else
-        {
-            PlayerPrefs.SetInt("headBob", headBobToggle.isOn ? 1 : 0);
-        }
-        
         initialized = true;
     }
 
@@ -71,23 +60,4 @@ public class OptionsMenuController : MonoBehaviour
         Debug.Log("Set screen shake to " + val);
     }
 
-    public void SetHeadbob()
-    {
-        bool condition2 = headBobToggle.isOn;
-        int val2 = 1;
-        if(condition2 == true) 
-        {
-            val2 = 1;
-        }
-        else if(condition2 == false) 
-        {
-            val2 = 0;
-        }
-        if (!initialized) return;
-        if (!Application.isPlaying) return;
-
-        PlayerPrefs.SetInt("headBob", val2);
-        PlayerPrefs.Save();
-        Debug.Log("Set headbob to " + val2);
-    }
 }
