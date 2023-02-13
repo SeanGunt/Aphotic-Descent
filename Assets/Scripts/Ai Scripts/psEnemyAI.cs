@@ -12,9 +12,6 @@ public class psEnemyAI : MonoBehaviour
     [SerializeField] private float moveTimer = 14.0f;
     [SerializeField] private float shootTimer = 2.0f;
     [SerializeField] private float distBtwn;
-    
-    //[SerializeField] private float closestPoint;
-    
     [SerializeField] private float gunRange;
     public NavMeshAgent psAgent;
     private bool unchosen = true;
@@ -22,6 +19,7 @@ public class psEnemyAI : MonoBehaviour
     private float moveTimerReset;
     private float shootTimerReset;
     private float resetSpeed;
+    public int aimWhere;
     psGunRotate gunRotating;
     RaycastHit hit;
 
@@ -98,30 +96,23 @@ public class psEnemyAI : MonoBehaviour
         psAgent.destination = travelPoints[Random.Range(0, travelPoints.Length)].position;
     }
 
-    void stopAndAim()
+    public void stopAndAim()
     {
         inShootRange = true;
-
-        gunRotating.rotateToPlayer = true;
-    }
-
-    /*  
-    void findClosestPoint()
-    {
-        //TODO this?
-        //finds the travelPoint closest to player and aims from there
-
-        //closestPoint = Mathf.Infinity;
-        Transform closestPoint;
-
-        foreach(Transform currentPoint in travelPoints)
+        if(aimWhere == 0)
         {
-            closestPoint = (currentPoint.position - thePlayer.transform.position).sqrMagnitude;
-            if(closestPoint > currentPoint)
-            {
-                currentPoint = closestPoint;
-            }
+            gunRotating.rotateToTarget = false;
+            gunRotating.rotateToPlayer = true;
+        }
+        else if(aimWhere == 1)
+        {
+            gunRotating.rotateToPlayer = false;
+            gunRotating.rotateToTarget = true;
+        }
+        else
+        {
+            gunRotating.rotateToPlayer = false;
+            gunRotating.rotateToTarget = false;
         }
     }
-    */
 }
