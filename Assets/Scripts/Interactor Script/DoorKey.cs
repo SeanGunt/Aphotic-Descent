@@ -8,6 +8,8 @@ public class DoorKey : MonoBehaviour
     public bool inTrigger;
     public GameObject tutTextObj;
     private PlayerInputActions playerInputActions;
+    private GameObject Player;
+    private PlayerInput playerInput;
     private InputAction interact;
     public TextMeshProUGUI tutText;
     [SerializeField] private ClearUIText clearUIText;
@@ -24,18 +26,8 @@ public class DoorKey : MonoBehaviour
 
     private void Awake()
     {
-        playerInputActions = new PlayerInputActions();
-    }
-
-    private void OnEnable()
-    {
-        interact = playerInputActions.PlayerControls.Interact;
-        playerInputActions.Enable();
-    }
-
-    private void OnDisable()
-    {
-        playerInputActions.Disable();
+        Player = GameObject.FindWithTag("Player");
+        playerInput = Player.GetComponent<PlayerInput>();
     }
  
     void OnTriggerEnter(Collider other)
@@ -52,7 +44,7 @@ public class DoorKey : MonoBehaviour
     {
         if (inTrigger)
         {
-            if (interact.triggered)
+            if (playerInput.actions["Interact"].triggered)
             {
                 audioSource.PlayOneShot(pickupSound);
                 clearUIText.CancelInvoke();

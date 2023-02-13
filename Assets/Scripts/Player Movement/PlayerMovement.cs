@@ -7,8 +7,6 @@ using UnityEngine.SceneManagement;
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
   private CharacterController controller;
-  //private PlayerInputActions playerInputActions;
-  //private InputAction movement, ascend, descend;
   private PlayerInput playerInput;
   [SerializeField] private float groundedSpeed, airSpeed, floatSpeed, outOfWaterSpeed, 
   groundDistance, gravityInWater, gravityOutOfWater, tiredCooldown,
@@ -50,7 +48,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     tiredBar.enabled = false;
     playerCamera = GetComponentInChildren<Camera>();
     defaultYPos = playerCamera.transform.localPosition.y;
-    //playerInputActions = new PlayerInputActions();
     playerInput = GetComponent<PlayerInput>();
     controller = GetComponent<CharacterController>();
     
@@ -66,24 +63,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     }
   }
 
-  // private void OnEnable()
-  // {
-  //   movement = playerInputActions.PlayerControls.Movement;
-  //   ascend = playerInputActions.PlayerControls.Ascend;
-  //   descend = playerInputActions.PlayerControls.Descend;
-  //   movement.Enable();
-
-  //   ascend.Enable();
-  //   descend.Enable();
-  // }
-
-  // private void OnDisable()
-  // {
-  //   movement.Disable();
-  //   ascend.Disable();
-  //   descend.Disable();
-  // }
-  
   private void Update()
   {
       if(GameDataHolder.hasUpgradedSuit == true)

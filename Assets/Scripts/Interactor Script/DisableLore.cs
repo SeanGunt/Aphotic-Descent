@@ -8,8 +8,7 @@ using UnityEngine.Rendering.Universal;
 public class DisableLore : MonoBehaviour
 {
     private PauseControls pauseControls;
-    private PlayerInputActions playerInputActions;
-    private InputAction interact;
+    private PlayerInput playerInput;
     private GameObject player;
     private Volume volume;
     private GameObject volumeObj;
@@ -17,28 +16,17 @@ public class DisableLore : MonoBehaviour
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        playerInput = player.GetComponent<PlayerInput>();
         pauseControls = player.GetComponent<PauseControls>();
         volumeObj =  GameObject.FindGameObjectWithTag("PostProcMain");
         volume = volumeObj.GetComponent<Volume>();
-        playerInputActions = new PlayerInputActions();
-    }
-
-    private void OnEnable()
-    {
-        interact = playerInputActions.PlayerControls.Interact;
-        interact.Enable();
-    }
-
-    private void OnDisable()
-    {
-        interact.Disable();
     }
 
     private void Update()
     {
         if (this.gameObject.activeInHierarchy)
         {
-            if (interact.triggered)
+            if (playerInput.actions["Interact"].triggered)
             {
                 DepthOfField depthOfField;
                 if (volume.profile.TryGet<DepthOfField>(out depthOfField))

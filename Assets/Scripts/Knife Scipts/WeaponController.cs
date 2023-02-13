@@ -9,34 +9,21 @@ public class WeaponController : MonoBehaviour
     public bool CanAttack;
     public float AttackCooldown;
     public bool IsAttacking = false;
-    private PlayerInputActions playerInputActions;
-    private InputAction knife;
+    private PlayerInput playerInput;
     private BoxCollider bc;
     public Animator animator;
     private PlayerMovement playerMovement;
     private void Awake()
     {
-        playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+        playerMovement = this.GetComponent<PlayerMovement>();
         bc = Knife.GetComponent<BoxCollider>();
         bc.enabled = false;
-        playerInputActions = new PlayerInputActions();
-    }
-
-    private void OnEnable()
-    {
-        knife = playerInputActions.PlayerControls.Knife;
-        playerInputActions.Enable();
-    }
-
-    private void OnDisable()
-    {
-        playerInputActions.Disable();
+        playerInput = this.GetComponent<PlayerInput>();
     }
     
     void Update()
     {
-        if (knife.triggered)
-        //if (Input.GetButtonDown("Knife") || Input.GetAxisRaw("Knife") > 0)
+        if (playerInput.actions["Knife"].ReadValue<float>() > 0)
         {
             if (CanAttack && GameDataHolder.knifeHasBeenPickedUp)
             {
