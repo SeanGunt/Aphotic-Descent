@@ -9,8 +9,6 @@ using UnityEngine.Rendering.Universal;
 public class PauseControls : MonoBehaviour
 {
     public GameObject PauseMenu;
-    // private PlayerInputActions playerInputActions;
-    // private InputAction pause;
     private PlayerInput playerInput;
     [SerializeField] private GameObject gameUI, objectiveText;
     GameObject Player;
@@ -19,21 +17,9 @@ public class PauseControls : MonoBehaviour
 
     void Awake()
     {
-        // playerInputActions = new PlayerInputActions();
         Player = GameObject.FindWithTag("Player");
         playerInput = Player.GetComponent<PlayerInput>();
     }
-
-    // private void OnEnable()
-    // {
-    //     pause = playerInputActions.PlayerControls.Pause;
-    //     pause.Enable();
-    // }
-
-    // private void OnDisable()
-    // {
-    //     pause.Disable();
-    // }
     
     void Update()
     {

@@ -12,8 +12,8 @@ public class FlashlightPickup : MonoBehaviour
     [SerializeField] private ClearUIText clearUIText;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip pickupSound;
-    private PlayerInputActions playerInputActions;
-    private InputAction interact;
+    private GameObject Player;
+    private PlayerInput playerInput;
 
     private void Start()
     {
@@ -25,18 +25,8 @@ public class FlashlightPickup : MonoBehaviour
 
     private void Awake()
     {
-        playerInputActions = new PlayerInputActions();
-    }
-
-    private void OnEnable()
-    {
-        interact = playerInputActions.PlayerControls.Interact;
-        interact.Enable();
-    }
-
-    private void OnDisable()
-    {
-        interact.Disable();
+        Player = GameObject.FindWithTag("Player");
+        playerInput = Player.GetComponent<PlayerInput>();
     }
  
     void OnTriggerEnter(Collider other)
@@ -53,7 +43,7 @@ public class FlashlightPickup : MonoBehaviour
     {
         if (inTrigger)
         {
-            if (interact.triggered)
+            if (playerInput.actions["Interact"].triggered)
             {
                 audioSource.PlayOneShot(pickupSound);
                 clearUIText.CancelInvoke();

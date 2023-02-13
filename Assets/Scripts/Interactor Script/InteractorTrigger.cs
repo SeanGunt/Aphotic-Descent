@@ -6,24 +6,13 @@ public class InteractorTrigger : MonoBehaviour
 {
     [SerializeField] private UnityEvent unityEvent;
     private bool inTrigger;
-    private PlayerInputActions playerInputActions;
     private PlayerInput playerInput;
-    private InputAction interact;
+    private GameObject Player;
     
     private void Awake()
     {
-        playerInputActions = new PlayerInputActions();
-    }
-
-    private void OnEnable()
-    {
-        interact = playerInputActions.PlayerControls.Interact;
-        playerInputActions.Enable();
-    }
-
-    private void OnDisable()
-    {
-        playerInputActions.Disable();
+        Player = GameObject.FindWithTag("Player");
+        playerInput = Player.GetComponent<PlayerInput>();
     }
 
     private void OnTriggerStay(Collider other)
@@ -47,7 +36,7 @@ public class InteractorTrigger : MonoBehaviour
         if (!inTrigger) return;
         else
         {
-            if (interact.triggered)
+            if (playerInput.actions["Interact"].triggered)
             {
                 unityEvent.Invoke();
             }

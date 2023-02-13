@@ -7,24 +7,14 @@ public class GateButton : MonoBehaviour
 {
     public bool inTrigger;
     GateScr gScr;
-    private PlayerInputActions playerInputActions;
-    private InputAction interact;
+    private GameObject Player;
+    private PlayerInput playerInput;
  
     void Awake()
     {
         gScr = this.gameObject.GetComponentInChildren<GateScr>();
-        playerInputActions = new PlayerInputActions();
-    }
-
-    private void OnEnable()
-    {
-        interact = playerInputActions.PlayerControls.Interact;
-        interact.Enable();
-    }
-
-    private void OnDisable()
-    {
-        interact.Disable();
+        Player = GameObject.FindWithTag("Player");
+        playerInput = Player.GetComponent<PlayerInput>();
     }
 
     void OnTriggerEnter(Collider other)
@@ -41,7 +31,7 @@ public class GateButton : MonoBehaviour
     {
         if(inTrigger)
         {
-            if(interact.triggered)
+            if(playerInput.actions["Interact"].triggered)
             {
                 if(gScr != null)
                 {

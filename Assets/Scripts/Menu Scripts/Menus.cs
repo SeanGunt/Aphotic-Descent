@@ -3,36 +3,26 @@ using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
+using UnityEngine.InputSystem;
 
 public class Menus : MonoBehaviour
 {
-    public GameObject Player;
+    private GameObject Player;
     public GameObject PauseMenu;
     public GameObject LevelSelect;
     public GameObject SettingsMenu;
     public GameObject RebindingMenu;
+    private PlayerInput playerInput;
     public Volume volume;
     [SerializeField] private GameObject gameUI, levelSelectFirstButton, levelSelectClosedButton, settingsFirstButton, settingsClosedButton, objectiveTextObj, rebindingFirstButton, rebindingClosedButton;
     
 
-    // public void OpenLevelSelect()
-    // {
-    //     PauseMenu.SetActive(false);
-    //     LevelSelect.SetActive(true);
-    //     Player.GetComponent<PauseControls>().otherMenuActive = true;
-    //     EventSystem.current.SetSelectedGameObject(null);
-    //     EventSystem.current.SetSelectedGameObject(levelSelectFirstButton);
-    // }
-
-    // public void CloseLevelSelect()
-    // {
-    //     PauseMenu.SetActive(true);
-    //     LevelSelect.SetActive(false);
-    //     Player.GetComponent<PauseControls>().otherMenuActive = false;
-    //     EventSystem.current.SetSelectedGameObject(null);
-    //     EventSystem.current.SetSelectedGameObject(levelSelectClosedButton);
-    // }
-
+    private void Awake()
+    {
+        Player = GameObject.FindGameObjectWithTag("Player");
+        playerInput = Player.GetComponent<PlayerInput>();
+    }
+    
     public void OpenSettings()
     {
         PauseMenu.SetActive(false);
@@ -50,12 +40,7 @@ public class Menus : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(settingsClosedButton);
     }
-    
-    // public void PlayWhiteboxMaze ()
-    // {
-    //     Time.timeScale = 1.0f;
-    //     SceneManager.LoadScene(1);
-    // }
+
     public void ResumeGame()
     {
         DepthOfField depthOfField;
@@ -66,6 +51,7 @@ public class Menus : MonoBehaviour
         PauseMenu.SetActive(false);
         gameUI.SetActive(true);
         objectiveTextObj.SetActive(true);
+        playerInput.currentActionMap.Enable();
         Player.GetComponent<PauseControls>().paused = false;
         Time.timeScale = 1;
         Cursor.visible = false;

@@ -11,8 +11,7 @@ public class flashlightMechanic : MonoBehaviour
     [HideInInspector] public static RaycastHit hit;
     private bool flashlightOn = false;
     private bool blacklightIsOn = false;
-    private PlayerInputActions playerInputActions;
-    private InputAction flashlight, blacklight;
+    private PlayerInput playerInput;
     [SerializeField]public float flashlightBattery, maxBattery;
     [SerializeField]private Image batteryBar, fullBatteryBar, emptyBatteryBar, flashlightUI, emptyLight, onLight, blLight;
     [SerializeField]public Text flashlightText;
@@ -31,24 +30,13 @@ public class flashlightMechanic : MonoBehaviour
     public AudioClip flashlightOutOfWaterSound;
     public AudioClip flashlightInWaterSound;
     public AudioClip blacklightOnSound;
-    public GameObject player;
+    private GameObject player;
     private PlayerMovement PMS;
 
     void Awake()
     {
-        playerInputActions = new PlayerInputActions();
-    }
-
-    private void OnEnable()
-    {
-        flashlight = playerInputActions.PlayerControls.Flashlight;
-        blacklight = playerInputActions.PlayerControls.Blacklight;
-        playerInputActions.Enable();
-    }
-
-    private void OnDisable()
-    {
-        playerInputActions.Disable();
+        player = GameObject.FindWithTag("Player");
+        playerInput = player.GetComponent<PlayerInput>();
     }
     
     // Start is called before the first frame update
@@ -67,7 +55,7 @@ public class flashlightMechanic : MonoBehaviour
         if (!flashlightEmpty && GameDataHolder.flashlightHasBeenPickedUp)
         {
             //flashlight input effects start here
-            if (flashlight.triggered)
+            if (playerInput.actions["Flashlight"].triggered)
             {
                 if (!flashlightOn)
                 {
@@ -99,7 +87,7 @@ public class flashlightMechanic : MonoBehaviour
 
             flashlightBattery = Mathf.Clamp(flashlightBattery, 0f, maxBattery);
 
-            bool isBlacklightKeyHeld = blacklight.ReadValue<float>() > 0.1f;
+            bool isBlacklightKeyHeld = playerInput.actions["Blacklight"].ReadValue<float>() > 0.1f;
 
             if (flashlightOn && !flashlightDisable)
             {
