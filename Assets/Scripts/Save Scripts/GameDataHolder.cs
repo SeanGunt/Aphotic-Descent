@@ -15,6 +15,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
     public static bool kelpMazeEndTriggered;
     public static bool labStartObjectiveTriggered;
     public static bool eelObjectiveTriggered;
+    public static bool inSub;
     public static bool inLab;
     public static bool inKelpMaze;
     public static int objectiveId;
@@ -35,6 +36,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         kelpMazeEndTriggered = data.kelpMazeEndTriggered;
         labStartObjectiveTriggered = data.labStartObjectiveTriggered;
         eelObjectiveTriggered = data.eelObjectiveTriggered;
+
         inLab = data.inLab;
         inKelpMaze = data.inKelpMaze;
     }
@@ -55,6 +57,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         data.kelpMazeEndTriggered = kelpMazeEndTriggered;
         data.labStartObjectiveTriggered = labStartObjectiveTriggered;
         data.eelObjectiveTriggered = eelObjectiveTriggered;
+        
         data.inLab = inLab;
         data.inKelpMaze = inKelpMaze;
     }

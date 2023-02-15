@@ -21,11 +21,14 @@ public class BGMManager : MonoBehaviour
         instance = this;
         audioMixer.SetFloat("BGM", mixerBGMVolume);
         audioSource = this.GetComponent<AudioSource>();
-        SwitchBGM(0);
     }
 
     private void Start()
     {
+        if(GameDataHolder.inSub)
+        {
+            SwitchBGM(2);
+        }
         if(GameDataHolder.inKelpMaze)
         {
             SwitchBGM(0);

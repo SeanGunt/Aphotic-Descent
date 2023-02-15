@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 [ExecuteInEditMode]
 public class UItext : MonoBehaviour {
 
+	public bool inTrigger;
+	private PauseControls pauseControls;
 	[Space(10)]
 	[Header("Toggle for the gui on off")]
 	public bool GuiOn;
@@ -19,12 +21,16 @@ public class UItext : MonoBehaviour {
 	[Space(10)]
 	public GUISkin customSkin;
 
-	// if this script is on an object with a collider display the Gui
+	private void Awake()
+	{
+		pauseControls = GameObject.FindGameObjectWithTag("Player").GetComponent<PauseControls>();
+	}
 	void OnTriggerEnter(Collider other) 
 	{
          if (other.gameObject.tag == "Player") 
          {
-             GuiOn = true;
+			inTrigger = true;
+            GuiOn = true;
          }
 		
 	}
@@ -33,13 +39,27 @@ public class UItext : MonoBehaviour {
 	{
 		if (other.gameObject.tag == "Player") 
          {
+			inTrigger = false;
              GuiOn = false;
          }
 	}
 
 	void OnDisable()
 	{
+		inTrigger = false;
 		GuiOn = false;
+	}
+
+	private void Update()
+	{
+		if(inTrigger && pauseControls.paused)
+		{
+			GuiOn = false;
+		}
+		else if (inTrigger && !pauseControls.paused)
+		{
+			GuiOn = true;
+		}
 	}
 
 	void OnGUI()
