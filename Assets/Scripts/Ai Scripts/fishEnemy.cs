@@ -24,8 +24,10 @@ public class fishEnemy : MonoBehaviour
     private int eelHealth = 3;
     private bool eelDead = false;
     private AudioSource audioSource;
+    [SerializeField] private AudioClip[] eelSounds;
     private float beginningTime;
     private float totalLength;
+    private float randomTime;
     [SerializeField] private float amount;
     public bool backToStart = false;
     private bool movingToNextPosition = false;
@@ -42,6 +44,7 @@ public class fishEnemy : MonoBehaviour
     
     void Awake()
     {
+        randomTime = Random.Range(4f,9f);
         audioSource = this.GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player");
         cc = GetComponent<CapsuleCollider>();
@@ -110,6 +113,13 @@ public class fishEnemy : MonoBehaviour
         RotateTowards(destination);
         this.transform.position = Vector3.Slerp(transform.position, destination, patrolSpeed * Time.deltaTime);
         totalLength = Vector3.Distance(this.transform.position, destination);
+
+        randomTime -=  Time.deltaTime;
+        if (randomTime <= 0)
+        {
+            audioSource.PlayOneShot(eelSounds[2]);
+            randomTime = Random.Range(4f,9f);
+        }
         
         if (totalLength <= 10f)
         {
@@ -122,6 +132,7 @@ public class fishEnemy : MonoBehaviour
         {
             BGMManager.instance.SwitchBGM(4);
             BreathingManager.instance.SwitchBreathRate(2);
+            audioSource.PlayOneShot(eelSounds[3]);
             state = State.attacking;
         }
     }
@@ -211,6 +222,7 @@ public class fishEnemy : MonoBehaviour
         
         if((eelHealth == 0) && (!g1On && !g2On && !g3On) && (eelDead == false))
         {
+            audioSource.PlayOneShot(eelSounds[1]);
             BGMManager.instance.SwitchBGM(0);
             state = State.dead;
         }
@@ -257,6 +269,7 @@ public class fishEnemy : MonoBehaviour
         {
             state = State.killedPlayer;
             BreathingManager.instance.StopBreathe();
+            audioSource.PlayOneShot(eelSounds[0]);
             chaseSpeed = 0;
             patrolSpeed = 0;
             playerDiver.SetActive(false);

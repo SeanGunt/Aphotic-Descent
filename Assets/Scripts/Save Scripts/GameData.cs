@@ -19,6 +19,7 @@ public class GameData
     public bool kelpMazeEndTriggered;
     public bool labStartObjectiveTriggered;
     public bool invisibilityAcquired;
+    public bool inSub;
     public bool inLab;
     public bool inKelpMaze;
     public bool eelObjectiveTriggered;
@@ -40,7 +41,8 @@ public class GameData
         labStartObjectiveTriggered = false;
         eelObjectiveTriggered = false;
         inLab = false;
-        inKelpMaze = true;
+        inKelpMaze = false;
+        inSub = true;
         boxes = 4;
         objectiveId = 0;
     }
