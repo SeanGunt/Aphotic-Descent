@@ -10,6 +10,7 @@ public class OptionsMenuController : MonoBehaviour
     public Slider mouseSensitivitySlider;
     public Toggle screenShakeToggle;
     public Toggle headBobToggle;
+    public Toggle flashingLightsToggle;
 
     // Start is called before the first frame update
     void Start()
@@ -42,7 +43,16 @@ public class OptionsMenuController : MonoBehaviour
         {
             PlayerPrefs.SetInt("headBob", headBobToggle.isOn ? 1 : 0);
         }
-        
+
+        if (PlayerPrefs.HasKey("flashingLights"))
+        {
+            flashingLightsToggle.isOn = PlayerPrefs.GetInt("flashingLights") == 1;
+        }
+        else
+        {
+            PlayerPrefs.SetInt("flashingLights", flashingLightsToggle.isOn ? 1 : 0);
+        }
+
         initialized = true;
     }
 
@@ -54,7 +64,7 @@ public class OptionsMenuController : MonoBehaviour
 
         PlayerPrefs.SetFloat("Sensitivity", val);
         Debug.Log("Set sensitivity to " + val);
-        
+
     }
 
     public void SetScreenShake()
@@ -62,7 +72,7 @@ public class OptionsMenuController : MonoBehaviour
         bool condition = screenShakeToggle.isOn;
         int val = 1;
         if (condition == true) val = 1;
-        else if(condition == false) val = 0;
+        else if (condition == false) val = 0;
         if (!initialized) return;
         if (!Application.isPlaying) return;
 
@@ -75,11 +85,11 @@ public class OptionsMenuController : MonoBehaviour
     {
         bool condition2 = headBobToggle.isOn;
         int val2 = 1;
-        if(condition2 == true) 
+        if (condition2 == true)
         {
             val2 = 1;
         }
-        else if(condition2 == false) 
+        else if (condition2 == false)
         {
             val2 = 0;
         }
@@ -89,5 +99,25 @@ public class OptionsMenuController : MonoBehaviour
         PlayerPrefs.SetInt("headBob", val2);
         PlayerPrefs.Save();
         Debug.Log("Set headbob to " + val2);
+    }
+
+    public void SetFlashingLights()
+    {
+        bool condition3 = flashingLightsToggle.isOn;
+        int val3 = 1;
+        if (condition3 == true)
+        {
+            val3 = 1;
+        }
+        else if (condition3 == false)
+        {
+            val3 = 0;
+        }
+        if (!initialized) return;
+        if (!Application.isPlaying) return;
+
+        PlayerPrefs.SetInt("flashingLights", val3);
+        PlayerPrefs.Save();
+        Debug.Log("Set flashingLights to " + val3);
     }
 }
