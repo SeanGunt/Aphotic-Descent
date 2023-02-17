@@ -19,12 +19,10 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
     public int invisibilityCharges = 3;
     public int maxCharges = 3;
     public Text interactionText;
-    [SerializeField] public bool isInvisible;
+    [SerializeField] private bool isInvisible, invisibilityAcquired, canGoInvis;
     public bool isSafe;
-    [SerializeField] private Image invisibilityBar, invisibilityCharge;
-    [SerializeField] private Image fullInvisBar, fullInvisCharge;
+    [SerializeField] private Image fullInvisCharge;
     [SerializeField] private GameObject Player, PlayerMesh, invisibilityUI;
-    [SerializeField] private TextMeshProUGUI invisibilityChargesText;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip invisSound;
     public static event Action OnChargeUsed;
@@ -32,14 +30,20 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
 
     private void Start()
     {
-      if (GameDataHolder.invisibilityAcquired)
+      if (GameDataHolder.invisibilityAcquired == true)
       {
         invisibilityUI.SetActive(true);
-        invisibilityChargesText.text = ": " + invisibilityCharges.ToString();
+        invisibilityAcquired = true;
       }
       else
       {
         invisibilityUI.SetActive(false);
+        invisibilityAcquired = false;
+      }
+
+      if (invisibilityAcquired)
+      {
+        canGoInvis = true;
       }
     }
     void Awake()
@@ -47,8 +51,6 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
       isInvisible = false;
       isSafe = false;
       interactionText.text = "";
-      invisibilityBar.enabled = false;
-      fullInvisBar.enabled = false;
       Player = GameObject.FindWithTag("Player");
       playerInput = Player.GetComponent<PlayerInput>();
 
@@ -101,7 +103,7 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
             fullInvisCharge.enabled = false;
             isSafe = false;
             interactionText.text = $"You are no longer invisible! Charges: {invisibilityCharges}";
-            Invoke ("ClearUI", 4);
+            Invoke ("RefillInvis", 7);
           }
         }
         if (Player.GetComponent<PlayerHealthController>().isBleeding)
@@ -115,21 +117,21 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
       if (col.gameObject.tag == ("InvisPickup"))
       {
         CancelInvoke("ClearUI");
-        invisibilityCharges++;
+        //invisibilityCharges++;
         OnChargeUsed?.Invoke();
-        invisibilityChargesText.text = ": " + invisibilityCharges.ToString();
-        interactionText.text = $"You picked up a charge! Invis charges: {invisibilityCharges}";
+        //interactionText.text = $"You picked up a charge! Invis charges: {invisibilityCharges}";
         Debug.Log("InvisPicked Up");
-        Invoke ("ClearUI", 3);
+        //Invoke ("ClearUI", 3);
       }
     }
 
     private void GoInvis()
     {
-      if (invisibilityCharges > 0 && !isSafe)
+      if (canGoInvis && !isSafe)
           {
             CancelInvoke("ClearUI");
             isInvisible = true;
+            canGoInvis = false;
             audioSource.PlayOneShot(invisSound);
             fullInvisCharge.enabled = true;
             fullInvisCharge.fillAmount = 1;
@@ -137,28 +139,27 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
             invisParticle.gameObject.SetActive(true);
             invisParticle.Play();
             isSafe = true;
-            invisibilityCharges--;
+            //invisibilityCharges--;
             OnChargeUsed?.Invoke();
-            invisibilityChargesText.text = ": " + invisibilityCharges.ToString();
             interactionText.text = "You are invisible!";
           }
           else if (invisibilityCharges <= 0)
           {
             interactionText.text = "You have no charges!";
-            Invoke ("ClearUI", 3);
+            //Invoke ("ClearUI", 3);
           }
     }
 
     public void SetInvisUIActive()
     {
       invisibilityUI.SetActive(true);
-      invisibilityChargesText.text = ": " + invisibilityCharges.ToString();
+      canGoInvis = true;
     }
 
-    void ClearUI()
+    void RefillInvis()
     {
-      interactionText.text = "";
-      fullInvisBar.enabled = false;
-      invisibilityBar.enabled = false;
+      canGoInvis = true;
+      fullInvisCharge.enabled = true;
+      fullInvisCharge.fillAmount = 1;
     }
 }
