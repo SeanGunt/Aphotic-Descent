@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   private Vector3 velocity, moveDirection;
   [HideInInspector] public bool isGrounded, hasUpgradedSuit, headbobActive;
   [SerializeField] private bool isSwimming, canSwim, isTired, canUseHeadbob;
-  [SerializeField] public Image staminaBar, tiredBar, walkState, swimState;
+  [SerializeField] public Image staminaBar, tiredBar;
   [SerializeField] private Camera playerCamera;
   [SerializeField] private Animator animator;
   [HideInInspector] public bool inWater;
@@ -118,8 +118,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
           velocity.y = 0;
           moveSpeed = groundedSpeed;
           isSwimming = false;
-          walkState.gameObject.SetActive(true);
-          swimState.gameObject.SetActive(false);
           if (!canSwim || playerStamina < maxStamina && staminaDelay <= 0)
           {
             StaminaRecharge(playerStamina, maxStamina);
@@ -142,8 +140,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         {
           velocity.y = floatSpeed;
           isSwimming = true;
-          walkState.gameObject.SetActive(false);
-          swimState.gameObject.SetActive(true);
         }
 
         bool isDescendKeyHeld = playerInput.actions["Descend"].ReadValue<float>() > 0.1f;
@@ -217,8 +213,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         {
           canUseHeadbob = true;
           velocity.y = 0;
-          walkState.gameObject.SetActive(true);
-          swimState.gameObject.SetActive(false);
           if (!canSwim || playerStamina < maxStamina && staminaDelay <= 0)
           {
             StaminaRecharge(playerStamina, maxStamina);

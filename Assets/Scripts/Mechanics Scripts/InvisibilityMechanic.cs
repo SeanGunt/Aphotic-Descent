@@ -21,10 +21,9 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
     public Text interactionText;
     [SerializeField] public bool isInvisible;
     public bool isSafe;
-    [SerializeField] private Image invisibilityBar, invisibilityCharge;
-    [SerializeField] private Image fullInvisBar, fullInvisCharge;
+    [SerializeField] private Image invisibilityBar;
+    [SerializeField] private Image fullInvisCharge;
     [SerializeField] private GameObject Player, PlayerMesh, invisibilityUI;
-    [SerializeField] private TextMeshProUGUI invisibilityChargesText;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip invisSound;
     public static event Action OnChargeUsed;
@@ -35,7 +34,6 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
       if (GameDataHolder.invisibilityAcquired)
       {
         invisibilityUI.SetActive(true);
-        invisibilityChargesText.text = ": " + invisibilityCharges.ToString();
       }
       else
       {
@@ -48,7 +46,6 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
       isSafe = false;
       interactionText.text = "";
       invisibilityBar.enabled = false;
-      fullInvisBar.enabled = false;
       Player = GameObject.FindWithTag("Player");
       playerInput = Player.GetComponent<PlayerInput>();
 
@@ -115,10 +112,9 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
       if (col.gameObject.tag == ("InvisPickup"))
       {
         CancelInvoke("ClearUI");
-        invisibilityCharges++;
+        //invisibilityCharges++;
         OnChargeUsed?.Invoke();
-        invisibilityChargesText.text = ": " + invisibilityCharges.ToString();
-        interactionText.text = $"You picked up a charge! Invis charges: {invisibilityCharges}";
+        //interactionText.text = $"You picked up a charge! Invis charges: {invisibilityCharges}";
         Debug.Log("InvisPicked Up");
         Invoke ("ClearUI", 3);
       }
@@ -137,9 +133,8 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
             invisParticle.gameObject.SetActive(true);
             invisParticle.Play();
             isSafe = true;
-            invisibilityCharges--;
+            //invisibilityCharges--;
             OnChargeUsed?.Invoke();
-            invisibilityChargesText.text = ": " + invisibilityCharges.ToString();
             interactionText.text = "You are invisible!";
           }
           else if (invisibilityCharges <= 0)
@@ -152,13 +147,11 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
     public void SetInvisUIActive()
     {
       invisibilityUI.SetActive(true);
-      invisibilityChargesText.text = ": " + invisibilityCharges.ToString();
     }
 
     void ClearUI()
     {
       interactionText.text = "";
-      fullInvisBar.enabled = false;
       invisibilityBar.enabled = false;
     }
 }
