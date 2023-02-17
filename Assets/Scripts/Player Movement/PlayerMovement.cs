@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   private Vector3 velocity, moveDirection;
   [HideInInspector] public bool isGrounded, hasUpgradedSuit, headbobActive;
   [SerializeField] private bool isSwimming, canSwim, isTired, canUseHeadbob;
-  [SerializeField] public Image staminaBar, tiredBar;
+  [SerializeField] public Image staminaBar, tiredBar, upgradedUI;
   [SerializeField] private Camera playerCamera;
   [SerializeField] private Animator animator;
   [HideInInspector] public bool inWater;
@@ -68,6 +68,15 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       if(GameDataHolder.hasUpgradedSuit == true)
       {
         hasUpgradedSuit = true;
+        upgradedUI.enabled = true;
+      }
+      else if (GameDataHolder.invisibilityAcquired == true)
+      {
+        upgradedUI.enabled = true;
+      }
+      else
+      {
+        upgradedUI.enabled = false;
       }
         switch (state)
       {
