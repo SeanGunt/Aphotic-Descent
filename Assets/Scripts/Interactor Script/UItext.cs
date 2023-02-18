@@ -60,6 +60,10 @@ public class UItext : MonoBehaviour {
 		{
 			GuiOn = true;
 		}
+		else if (!inTrigger)
+		{
+			GuiOn = false;
+		}
 	}
 
 	void OnGUI()

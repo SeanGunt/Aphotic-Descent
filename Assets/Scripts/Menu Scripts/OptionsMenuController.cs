@@ -18,7 +18,6 @@ public class OptionsMenuController : MonoBehaviour
         if (PlayerPrefs.HasKey("Sensitivity"))
         {
             mouseSensitivitySlider.value = PlayerPrefs.GetFloat("Sensitivity");
-            Debug.Log("Loaded a sensitivity of " + mouseSensitivitySlider.value);
         }
         else
         {

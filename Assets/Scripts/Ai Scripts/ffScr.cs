@@ -50,12 +50,7 @@ public class ffScr : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         if(player != null)
         {
-            Debug.LogWarning("player found");
             pHC = player.GetComponent<PlayerHealthController>();
-        }
-        else
-        {
-            Debug.LogWarning("player not Found");
         }
 
         bleedRange = scentRange * rangeForBleedMultiplier;
