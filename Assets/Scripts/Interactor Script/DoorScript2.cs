@@ -57,6 +57,7 @@ public class DoorScript2 : MonoBehaviour
                         bCollider.enabled = false;
                         inTrigger = false;
                         uItext.GuiOn = false;
+                        uItext.inTrigger = false;
                         open = true;
                         close = false;
                     }

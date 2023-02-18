@@ -51,13 +51,8 @@ public class fishEnemy : MonoBehaviour
         beginningTime = Time.time;
         eFOV = this.GetComponent<enemyFieldOfView>();
         animator = GetComponentInChildren<Animator>();
-        if (eFOV != null)
-        {
-            Debug.Log("eFoV enabled");
-        }
         if(player != null)
         {
-            Debug.Log("player found");
             pHC = player.GetComponent<PlayerHealthController>();
             iM = player.GetComponent<InvisibilityMechanic>();
 

@@ -54,12 +54,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     if(PlayerPrefs.GetInt("headBob") == 1)
     {
       headbobActive = true;
-      Debug.Log(headbobActive + " headbob");
     }
     else
     {
       headbobActive = false;
-      Debug.Log(headbobActive + " headbob");
     }
   }
 
@@ -96,7 +94,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
           break;
       }
 
-      if(PlayerPrefs.GetInt("headBob") == 1)
+    if(PlayerPrefs.GetInt("headBob") == 1)
     {
       headbobActive = true;
       //Debug.Log(canUseHeadbob + " headbob");

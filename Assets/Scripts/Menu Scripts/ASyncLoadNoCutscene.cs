@@ -6,11 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class ASyncLoadNoCutscene : MonoBehaviour
 {
-     [Header ("Slider")]
    [SerializeField] private GameObject loadingScreen;
-   
-    [Header ("Slider")]
-   [SerializeField] private Slider loadingSlider;
 
    public void LoadLevelBtn(string levelToLoad)
    {
@@ -22,8 +18,6 @@ public class ASyncLoadNoCutscene : MonoBehaviour
         AsyncOperation loadOperation = SceneManager.LoadSceneAsync(levelToLoad);
         while (!loadOperation.isDone)
         {
-            float progressValue = Mathf.Clamp01(loadOperation.progress / 0.9f);
-            loadingSlider.value = progressValue;
             yield return null;
         }
     }
