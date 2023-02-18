@@ -10,6 +10,7 @@ public class GameData
     public int invisCharges;
     public int boxes;
     public int objectiveId;
+    public int numOfZooplanktonCollected;
     public bool knifeHasBeenPickedUp;
     public bool hasUpgradedSuit;
     public bool flashlightHasBeenPickedUp;
@@ -45,5 +46,6 @@ public class GameData
         inSub = true;
         boxes = 4;
         objectiveId = 0;
+        numOfZooplanktonCollected = 0;
     }
 }
