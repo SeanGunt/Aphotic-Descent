@@ -19,6 +19,7 @@ public class flashlightMechanic : MonoBehaviour
     [SerializeField]private RevealHiddenObjects rHO;
     [SerializeField]private SpawnHiddenObject sHO;
     [SerializeField]private float flashlightCooldown = 15.0f;
+    [SerializeField]private GameObject flashlightContainers;
     private float flCdResetTime;
     private BlacklightEvent blEvent;
     private bool flashlightDisable;
@@ -209,6 +210,7 @@ public class flashlightMechanic : MonoBehaviour
         if (GameDataHolder.flashlightHasBeenPickedUp == true)
         {
             flashlightUI.gameObject.SetActive(true);
+            flashlightContainers.gameObject.SetActive(true);
             if (flashlightBattery >= maxBattery && !flashlightEmpty)
             {
                 fullBatteryBar.gameObject.SetActive(true);
