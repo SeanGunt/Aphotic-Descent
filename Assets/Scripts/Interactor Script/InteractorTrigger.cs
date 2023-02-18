@@ -39,6 +39,7 @@ public class InteractorTrigger : MonoBehaviour
             if (playerInput.actions["Interact"].triggered)
             {
                 unityEvent.Invoke();
+                inTrigger = false;
             }
         }
     }

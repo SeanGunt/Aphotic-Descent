@@ -19,6 +19,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
     public static bool inLab;
     public static bool inKelpMaze;
     public static int objectiveId;
+    public static int numOfZooplanktonCollected;
 
     public void LoadData(GameData data)
     {
@@ -39,6 +40,8 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
 
         inLab = data.inLab;
         inKelpMaze = data.inKelpMaze;
+
+        numOfZooplanktonCollected = data.numOfZooplanktonCollected;
     }
 
     public void SaveData(GameData data)
@@ -60,5 +63,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         
         data.inLab = inLab;
         data.inKelpMaze = inKelpMaze;
+
+        data.numOfZooplanktonCollected = numOfZooplanktonCollected;
     }
 }
