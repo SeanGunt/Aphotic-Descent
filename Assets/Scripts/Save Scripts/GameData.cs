@@ -24,6 +24,8 @@ public class GameData
     public bool inLab;
     public bool inKelpMaze;
     public bool eelObjectiveTriggered;
+    public SerializableDictionary<string, bool> lilGuygsCollected;
+    public SerializableDictionary<string, bool> loreCollected;
 
     public GameData()
     {
@@ -47,5 +49,7 @@ public class GameData
         boxes = 4;
         objectiveId = 0;
         numOfZooplanktonCollected = 0;
+        lilGuygsCollected = new SerializableDictionary<string, bool>();
+        loreCollected = new SerializableDictionary<string, bool>();
     }
 }

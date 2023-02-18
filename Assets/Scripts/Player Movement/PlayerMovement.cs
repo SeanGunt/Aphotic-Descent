@@ -110,7 +110,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void MoveInWater()
     {
-      if (Physics.Raycast(transform.position, Vector3.down, groundDistance + 0.1f, ~ignoreMask))
+      RaycastHit hit;
+      if (Physics.SphereCast(transform.position, 1f , Vector3.down, out hit, groundDistance, ~ignoreMask))
       {
         isGrounded = true;
       }
@@ -119,10 +120,16 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         isGrounded = false;
       }
 
+      RaycastHit hit2;
+      if (Physics.SphereCast(transform.position, 0.25f , Vector3.down, out hit2, groundDistance, ~ignoreMask))
+      {
+        velocity.y = 0;
+      }
+
         if(isGrounded)
         {
           canUseHeadbob = true;
-          velocity.y = 0;
+          //velocity.y = 0;
           moveSpeed = groundedSpeed;
           isSwimming = false;
           if (!canSwim || playerStamina < maxStamina && staminaDelay <= 0)
@@ -132,6 +139,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
         else
         {
+          isSwimming = true;
           moveSpeed = airSpeed;
         }
       
@@ -146,7 +154,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         if (isAscendKeyHeld && canSwim && hasUpgradedSuit)
         {
           velocity.y = floatSpeed;
-          isSwimming = true;
+          //isSwimming = true;
         }
 
         bool isDescendKeyHeld = playerInput.actions["Descend"].ReadValue<float>() > 0.1f;
@@ -155,7 +163,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         if (isDescendKeyHeld && canSwim && !isGrounded && hasUpgradedSuit)
         {
           velocity.y = -floatSpeed * 2;
-          isSwimming = true;
+          //isSwimming = true;
         }
 
         playerStamina = Mathf.Clamp(playerStamina, 0f, maxStamina);
@@ -207,7 +215,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
       private void MoveOutOfWater()
     {
-      if (Physics.Raycast(transform.position, Vector3.down, groundDistance + 0.1f, ~ignoreMask))
+      RaycastHit hit;
+      if (Physics.SphereCast(transform.position, 1f , Vector3.down, out hit, groundDistance, ~ignoreMask))
       {
         isGrounded = true;
       }
@@ -216,10 +225,15 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         isGrounded = false;
       }
 
+      RaycastHit hit2;
+      if (Physics.SphereCast(transform.position, 0.25f , Vector3.down, out hit2, groundDistance, ~ignoreMask))
+      {
+        velocity.y = 0;
+      }
+
         if(isGrounded)
         {
           canUseHeadbob = true;
-          velocity.y = 0;
           if (!canSwim || playerStamina < maxStamina && staminaDelay <= 0)
           {
             StaminaRecharge(playerStamina, maxStamina);
