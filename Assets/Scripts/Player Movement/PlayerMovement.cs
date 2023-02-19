@@ -295,6 +295,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       if (isTired)
       {
         tiredCooldown -= Time.deltaTime;
+        tiredBar.enabled = true;
         tiredBar.fillAmount = tiredCooldown/2;
         if (tiredCooldown <= 0)
         {

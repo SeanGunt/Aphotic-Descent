@@ -9,9 +9,7 @@ public class MouseLook : MonoBehaviour
     [SerializeField] private Transform playerBody;
     [SerializeField] private GameObject playerController;
     private float xRotation = 0f;
-    //private PlayerInputActions playerInputActions;
     private PlayerInput playerInput;
-    //private InputAction look, escape;
 
     void Start()
     {
@@ -21,24 +19,8 @@ public class MouseLook : MonoBehaviour
 
     void Awake()
     {
-        //playerInputActions = new PlayerInputActions();
         playerInput = playerController.GetComponent<PlayerInput>();
     }
-
-    // private void OnEnable()
-    // {
-    //     look = playerInputActions.PlayerControls.Look;
-    //     look.Enable();
-
-    //     escape = playerInputActions.PlayerControls.Escape;
-    //     escape.Enable();
-    // }
-
-    // private void OnDisable()
-    // {
-    //     look.Disable();
-    //     escape.Disable();
-    // }
 
     void Update()
     {
