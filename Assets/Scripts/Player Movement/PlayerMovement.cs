@@ -234,7 +234,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         if(isGrounded)
         {
           canUseHeadbob = true;
-          if (!canSwim || playerStamina < maxStamina && staminaDelay <= 0)
+          if (!canSwim && playerStamina < maxStamina && staminaDelay <= 0)
           {
             StaminaRecharge(playerStamina, maxStamina);
           }

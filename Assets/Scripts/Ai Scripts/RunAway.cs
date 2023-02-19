@@ -118,7 +118,7 @@ public class RunAway : MonoBehaviour
 
         if (agent.pathStatus == NavMeshPathStatus.PathInvalid || agent.pathStatus == NavMeshPathStatus.PathPartial)
         {
-            state = State.patrol;
+            state = State.idle;
         }
 
         float distanceToDestination = Vector3.Distance(transform.position, agent.destination);

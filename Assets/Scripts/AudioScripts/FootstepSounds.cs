@@ -8,6 +8,7 @@ public class FootstepSounds : MonoBehaviour
     [SerializeField] private AudioClip[] sandSounds;
     [SerializeField] private AudioClip[] metalSounds;
     [SerializeField] private AudioClip[] rockSands;
+    [SerializeField] private LayerMask ignoreLayer;
     private LayerMask walkingLayer;
     private GameObject player;
     private PlayerMovement pm;
@@ -17,9 +18,14 @@ public class FootstepSounds : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         pm = player.GetComponent<PlayerMovement>();
     }
-    private void OnCollisionEnter(Collision collision)
+
+    private void Update()
     {
-        walkingLayer = collision.collider.gameObject.layer;
+        RaycastHit hit;
+        if (Physics.Raycast(this.transform.position, Vector3.down, out hit ,Mathf.Infinity, ~ignoreLayer))
+        {
+            walkingLayer = hit.collider.gameObject.layer;
+        }
     }
 
     public void PlayFootStepSounds()
