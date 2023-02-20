@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class psGunRotate : MonoBehaviour
 {
-    [SerializeField] private GameObject thePlayer;
+    [SerializeField] public GameObject thePlayer;
     [SerializeField] public GameObject psTarget;
     [SerializeField] private GameObject psGunHead;
     [SerializeField] private float gunRange;
     [SerializeField] private float gunDamage;
     [SerializeField] private LayerMask doNotIgnoreLayer;
-    public bool rotateToPlayer;
+    //public bool rotateToPlayer;
     public bool rotateToTarget;
     private Vector3 startPos;
     RaycastHit hit;
@@ -32,11 +32,15 @@ public class psGunRotate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         if(rotateToPlayer)
         {
             transform.LookAt(thePlayer.transform.position);
         }
-        else if(rotateToTarget)
+        else 
+        */
+        
+        if(rotateToTarget)
         {
             transform.LookAt(psTarget.transform.position);
         }
@@ -60,6 +64,11 @@ public class psGunRotate : MonoBehaviour
             {
                 pHC.ChangeHealth(-(pHC.maxHealth / gunDamage)); //essentially, 'what fraction of health (based on total maxHealth) will the gun remove from the player?'
                                                                 //maxHealth is 15.0 atm, lower number for damage means more health is taken away
+            }
+
+            if(hit.collider.gameObject.tag == "psBomb" || hit.collider.gameObject.tag == "psLamp")
+            {
+                hit.collider.gameObject.GetComponent<psShootObjects>().subtractHealth();
             }
         }
     }
