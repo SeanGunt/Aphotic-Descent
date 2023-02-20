@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class psShootObjects : MonoBehaviour
 {
-    [SerializeField] private int bombHealth;
-    [SerializeField] private int lampHealth;
-    [SerializeField] private GameObject[] lampGroup;
+    [SerializeField] private int bombHealth = 1;
+    [SerializeField] private int lampHealth = 3;
+    [SerializeField] public GameObject[] lampGroup;
+    [SerializeField] public bool lampIsOn;
+    [SerializeField] public bool bombActive = false;
     private int healthUsed;
 
     // Start is called before the first frame update
@@ -15,11 +17,14 @@ public class psShootObjects : MonoBehaviour
         if(this.gameObject.tag == "psBomb")
         {
             healthUsed = bombHealth;
+            bombActive = false;
         }
         else if(this.gameObject.tag == "psLamp")
         {
             healthUsed = lampHealth;
+            lampIsOn = false;
         }
+        Debug.Log(healthUsed);
     }
 
     public void subtractHealth()
@@ -34,18 +39,19 @@ public class psShootObjects : MonoBehaviour
                     {
                         lamp.SetActive(false);
                     }
+                    
+                    this.gameObject.SetActive(false);
                 }
-                this.gameObject.SetActive(false);
+                else if(this.gameObject.tag == "psLamp")
+                {
+                    lampIsOn = false;
+                }
             }
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    public void turnOnLamp()
     {
-        //if tag is lamp then if other is blacklight
-        if(this.gameObject.tag == "psLamp")
-        {
-            
-        }
+        lampIsOn = true;
     }
 }

@@ -11,11 +11,12 @@ public class psEnemyAI : MonoBehaviour
     [SerializeField] private Vector3 playerLocation;
     [SerializeField] private float moveTimer = 14.0f;
     [SerializeField] private float shootTimer = 2.0f;
-    [SerializeField] private float distBtwn;
+    [SerializeField] public float distBtwn;
     [SerializeField] private float gunRange;
+    [SerializeField] public int currentPoint = 0;
     public NavMeshAgent psAgent;
-    private bool unchosen = true;
-    private bool inShootRange = false;
+    private bool nextPoint = true;
+    [SerializeField] private bool inShootRange = false;
     private float moveTimerReset;
     private float shootTimerReset;
     private float resetSpeed;
@@ -27,6 +28,7 @@ public class psEnemyAI : MonoBehaviour
     void Start()
     {
         psAgent = GetComponent<NavMeshAgent>();
+        psAgent.destination = travelPoints[currentPoint].position;
 
         gunRotating = GetComponentInChildren<psGunRotate>();
         if(gunRotating != null)
@@ -44,11 +46,11 @@ public class psEnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        playerLocation = thePlayer.transform.position;
+        //playerLocation = thePlayer.transform.position;
 
-        distBtwn = Vector3.Distance(playerLocation, this.transform.position);
+        //distBtwn = Vector3.Distance(playerLocation, this.transform.position);
 
-        if(unchosen)
+        if(nextPoint)
         {
             moveToPoint();
         }
@@ -58,7 +60,7 @@ public class psEnemyAI : MonoBehaviour
             moveTimer -= Time.deltaTime;
             if(moveTimer <= 0 && !inShootRange)
             {
-                unchosen = true;
+                nextPoint = true;
                 moveTimer = moveTimerReset;
             }
         }
@@ -72,7 +74,7 @@ public class psEnemyAI : MonoBehaviour
         {
             psAgent.speed = resetSpeed;
             inShootRange = false;
-            gunRotating.rotateToPlayer = false;
+            gunRotating.rotateToTarget = false;
         }
 
         if(inShootRange)
@@ -92,8 +94,8 @@ public class psEnemyAI : MonoBehaviour
 
     void moveToPoint()
     {
-        unchosen = false;
-        psAgent.destination = travelPoints[Random.Range(0, travelPoints.Length)].position;
+        nextPoint = false;
+        psAgent.destination = travelPoints[currentPoint+1].position;
     }
 
     public void stopAndAim()
@@ -101,17 +103,10 @@ public class psEnemyAI : MonoBehaviour
         inShootRange = true;
         if(aimWhere == 0)
         {
-            gunRotating.rotateToTarget = false;
-            gunRotating.rotateToPlayer = true;
-        }
-        else if(aimWhere == 1)
-        {
-            gunRotating.rotateToPlayer = false;
             gunRotating.rotateToTarget = true;
         }
         else
         {
-            gunRotating.rotateToPlayer = false;
             gunRotating.rotateToTarget = false;
         }
     }
