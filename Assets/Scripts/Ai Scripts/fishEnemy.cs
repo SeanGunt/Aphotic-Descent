@@ -7,7 +7,10 @@ public class fishEnemy : MonoBehaviour
     public Transform[] patrolPositions;
     public float chaseSpeed = 2.0F;
     public float patrolSpeed = 2.0F;
-    [SerializeField]private GameObject playerDiver, player, playerHead, mainCam, jumpscareCam, deathObject;
+    public float chaseSpeed2 = 12.5f;
+    public float patrolSpeed2 = .8f;
+
+    [SerializeField]private GameObject playerDiver, player, playerHead, mainCam, jumpscareCam, deathObject, deathCube;
     [SerializeField]private Animator animator;
     PlayerHealthController pHC;
     InvisibilityMechanic iM;
@@ -18,10 +21,12 @@ public class fishEnemy : MonoBehaviour
     generatorScript gen1Scr;
     generatorScript gen2Scr;
     generatorScript gen3Scr;
+    generatorScript dethCubeScr;
     private bool g1On = true;
     private bool g2On = true;
     private bool g3On = true;
     private int eelHealth = 3;
+    [SerializeField] private int phase;
     private bool eelDead = false;
     private AudioSource audioSource;
     [SerializeField] private AudioClip[] eelSounds;
@@ -39,7 +44,7 @@ public class fishEnemy : MonoBehaviour
 
     private enum State
     {
-        attacking, patrolling, repositioning, dead, killedPlayer
+        attacking, patrolling, repositioning, dead, killedPlayer, lockingIn, stuck, idle, transitioning
     }
     
     void Awake()
@@ -51,6 +56,7 @@ public class fishEnemy : MonoBehaviour
         beginningTime = Time.time;
         eFOV = this.GetComponent<enemyFieldOfView>();
         animator = GetComponentInChildren<Animator>();
+        phase = 1;
         if(player != null)
         {
             pHC = player.GetComponent<PlayerHealthController>();
@@ -73,18 +79,42 @@ public class fishEnemy : MonoBehaviour
             case State.patrolling:
                 Patrolling();
                 RepositionCheck();
-                phase1();
+                if (phase == 1)
+                {
+                    Phase1();
+                }
+                else
+                {
+                    Phase2();
+                }
                 break;
             case State.attacking:
                 Attacking();
-                phase1();
+                if (phase == 1)
+                {
+                    Phase1();
+                }
+                else
+                {
+                    Phase2();
+                }
                 break;
             case State.repositioning:
                 Repositioning();
                 RepositionCheck();
-                phase1();
+                if (phase == 1)
+                {
+                    Phase1();
+                }
+                else
+                {
+                    Phase2();
+                }
                 break;
             case State.killedPlayer:
+                break;
+            case State.transitioning:
+                Invoke("TransitionPhase2", 2);
                 break;
             case State.dead:
                 Dead();
@@ -99,7 +129,6 @@ public class fishEnemy : MonoBehaviour
         {
             return;
         }
-
         if(!movingToNextPosition)
         {
             destination = patrolPositions[Random.Range(0,patrolPositions.Length)].position;
@@ -192,7 +221,7 @@ public class fishEnemy : MonoBehaviour
         this.transform.rotation = Quaternion.Slerp(this.transform.rotation, lookRotation, Time.deltaTime * 2f);
     }
 
-    void phase1()
+    void Phase1()
     {
         if(gen1Scr.isOn == false && g1On)
         {
@@ -217,11 +246,49 @@ public class fishEnemy : MonoBehaviour
         
         if((eelHealth == 0) && (!g1On && !g2On && !g3On) && (eelDead == false))
         {
-            audioSource.PlayOneShot(eelSounds[1]);
             BGMManager.instance.SwitchBGM(0);
-            state = State.dead;
+            animator.SetBool("isDying", true);
+            eFOV.enabled = false;
+            state = State.transitioning;
         }
     }
+
+    void Phase2()
+    {
+        deathCube.SetActive(true);
+    }
+
+    void TransitionPhase2()
+    {   
+        animator.SetBool("isReviving", true);
+        animator.SetBool("isDying", false);
+        BGMManager.instance.SwitchBGM(2);
+        Invoke("Transitioning", 2);
+    }
+
+    void Transitioning()
+    {
+        animator.SetBool("isBack", true);
+        animator.SetBool("IsReviving", false);
+        Invoke("Transitioned", 2);
+    }
+
+    void Transitioned()
+    {
+        animator.SetBool("isBack", false);
+        phase = 2;
+        chaseSpeed = chaseSpeed2;
+        patrolSpeed = patrolSpeed2;
+        state = State.patrolling;
+    }
+
+    // void Transition()
+    // {
+    //     phase = 2;
+    //     chaseSpeed = chaseSpeed2;
+    //     patrolSpeed = patrolSpeed2;
+    //     state = State.patrolling;
+    // }
 
     void RepositionCheck()
     {
