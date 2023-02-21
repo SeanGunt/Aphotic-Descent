@@ -200,6 +200,7 @@ GameObject:
   - component: {fileID: 804223777}
   - component: {fileID: 804223780}
   - component: {fileID: 804223781}
+  - component: {fileID: 3508711621307686180}
   m_Layer: 0
   m_Name: P_LilGuy1
   m_TagString: Untagged
@@ -257,6 +258,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e597613634a466748984f21fe5d3007b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 
+  collected: 0
 --- !u!114 &804223780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374,6 +377,26 @@ MonoBehaviour:
     width: 1920
     height: 1080
   customSkin: {fileID: 0}
+--- !u!95 &3508711621307686180
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2645250049364498876}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fa4e5e4863426154fbc32f6cfc494407, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3142917763071549498
 GameObject:
   m_ObjectHideFlags: 0

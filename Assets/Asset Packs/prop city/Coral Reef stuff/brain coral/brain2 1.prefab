@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5032447186271839713}
   - component: {fileID: 8248628147342977604}
   - component: {fileID: 6169356243668983438}
+  - component: {fileID: -2971723683016743998}
   m_Layer: 0
   m_Name: brain2 1
   m_TagString: Untagged
@@ -83,3 +84,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &-2971723683016743998
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5664693394188140379}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8195585139986665198, guid: ee832e25bee97504b863f62799002d69, type: 3}
