@@ -5,24 +5,34 @@ using UnityEngine.AI;
 
 public class psEnemyAI : MonoBehaviour
 {
-    [SerializeField] private Transform[] travelPoints;
-    [SerializeField] private GameObject thePlayer;
-    [SerializeField] private GameObject psGunAimer;
+     [SerializeField] private Transform[] travelPoints;
+    [SerializeField] public GameObject thePlayer;
     [SerializeField] private Vector3 playerLocation;
     [SerializeField] private float moveTimer = 14.0f;
     [SerializeField] private float shootTimer = 2.0f;
-    [SerializeField] public float distBtwn;
     [SerializeField] private float gunRange;
-    [SerializeField] public int currentPoint = 0;
-    public NavMeshAgent psAgent;
-    private bool nextPoint = true;
+    [SerializeField] private float aimRange;
+    [SerializeField] private GameObject psGunAimer;
+    [SerializeField] private GameObject psGunHead;
+    [SerializeField] private float gunDamage;
+    [SerializeField] private LayerMask doNotIgnoreLayer;
     [SerializeField] private bool inShootRange = false;
+    [SerializeField] public float distBtwn;
+    [SerializeField] public int currentPoint = 0;
+    [SerializeField] public int nPoint;
+    [SerializeField] public GameObject psTarget;
+    [SerializeField] public GameObject psRotationPoint;
+    private bool nextPoint = true;
     private float moveTimerReset;
     private float shootTimerReset;
     private float resetSpeed;
+    private Vector3 startPos;
+    public NavMeshAgent psAgent;
     public int aimWhere;
-    psGunRotate gunRotating;
+    public bool rotateToTarget;
     RaycastHit hit;
+    RaycastHit hit2;
+
 
     // Start is called before the first frame update
     void Start()
@@ -30,25 +40,23 @@ public class psEnemyAI : MonoBehaviour
         psAgent = GetComponent<NavMeshAgent>();
         psAgent.destination = travelPoints[currentPoint].position;
 
-        gunRotating = GetComponentInChildren<psGunRotate>();
-        if(gunRotating != null)
-        {
-            Debug.Log("gun found");
-        }
-
         moveTimerReset = moveTimer;
 
         shootTimerReset = shootTimer;
 
         resetSpeed = psAgent.speed;
+
+        startPos = this.transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //playerLocation = thePlayer.transform.position;
+        playerLocation = thePlayer.transform.position;
 
-        //distBtwn = Vector3.Distance(playerLocation, this.transform.position);
+        distBtwn = Vector3.Distance(playerLocation, this.transform.position);
+
+        nPoint = currentPoint+1;
 
         if(nextPoint)
         {
@@ -65,7 +73,7 @@ public class psEnemyAI : MonoBehaviour
             }
         }
 
-        if(distBtwn <= gunRange)
+        if(distBtwn <= aimRange)
         {
             psAgent.speed = 0;
             stopAndAim();
@@ -74,7 +82,7 @@ public class psEnemyAI : MonoBehaviour
         {
             psAgent.speed = resetSpeed;
             inShootRange = false;
-            gunRotating.rotateToTarget = false;
+            rotateToTarget = false;
         }
 
         if(inShootRange)
@@ -82,7 +90,7 @@ public class psEnemyAI : MonoBehaviour
             shootTimer -= Time.deltaTime;
             if(shootTimer <= 0)
             {
-                gunRotating.shoot();
+                shoot();
                 shootTimer = shootTimerReset;    
             }
         }
@@ -90,12 +98,30 @@ public class psEnemyAI : MonoBehaviour
         {
             shootTimer = shootTimerReset;
         }
+
+        if(rotateToTarget)
+        {
+            Vector3 targetDirection = psTarget.transform.position - transform.position;
+            psGunAimer.transform.LookAt(psTarget.transform.position);
+            tarRot(psTarget.transform);
+        }
+        else
+        {
+            psGunAimer.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        }
     }
 
     void moveToPoint()
     {
-        nextPoint = false;
-        psAgent.destination = travelPoints[currentPoint+1].position;
+        if(travelPoints[nPoint] != null)
+        {
+            psAgent.destination = travelPoints[nPoint].position;
+            nextPoint = false;
+        }
+        else
+        {
+            return;
+        }
     }
 
     public void stopAndAim()
@@ -103,11 +129,44 @@ public class psEnemyAI : MonoBehaviour
         inShootRange = true;
         if(aimWhere == 0)
         {
-            gunRotating.rotateToTarget = true;
+            psTarget = thePlayer;
+            rotateToTarget = true;
         }
         else
         {
-            gunRotating.rotateToTarget = false;
+            psTarget = null;
+            rotateToTarget = false;
+        }
+    }
+
+    public void tarRot(Transform target)
+    {
+        Vector3 restTarget = psTarget.transform.position;
+        restTarget.y = psRotationPoint.transform.position.y;
+        transform.LookAt(restTarget);
+    }
+
+    public void shoot()
+    {
+        //uses raycast
+        Vector3 centerRay = transform.TransformDirection(Vector3.forward) * gunRange;
+        Debug.DrawRay(psGunHead.transform.position, centerRay, Color.red);
+
+        if(Physics.Raycast(psGunHead.transform.position, centerRay, out hit2, gunRange, doNotIgnoreLayer))
+        {
+            Debug.Log(hit.collider.gameObject.name + " was hit");
+
+            if(hit.collider.gameObject == thePlayer)
+            {
+                //pHC.ChangeHealth(-(pHC.maxHealth / gunDamage)); //essentially, 'what fraction of health (based on total maxHealth) will the gun remove from the player?'
+                                                                  //maxHealth is 15.0 atm, lower number for damage means more health is taken away
+                Debug.Log("hit player");
+            }
+
+            if(hit.collider.gameObject.tag == "psBomb" || hit.collider.gameObject.tag == "psLamp")
+            {
+                //hit.collider.gameObject.GetComponent<psShootObjects>().subtractHealth();
+            }
         }
     }
 }

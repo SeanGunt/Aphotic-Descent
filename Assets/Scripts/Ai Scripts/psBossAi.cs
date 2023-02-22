@@ -15,7 +15,6 @@ public class psBossAi : MonoBehaviour
     private int currentPhase;
     private int lightsOn = 0;
     psEnemyAI eAi;
-    psGunRotate gRot;
 
     // Start is called before the first frame update
     void Start()
@@ -24,11 +23,6 @@ public class psBossAi : MonoBehaviour
         if(eAi != null)
         {
             Debug.Log("shrimp found");
-        }
-        gRot = GetComponentInChildren<psGunRotate>();
-        if(gRot != null)
-        {
-            Debug.Log("gun found");
         }
     }
 
@@ -49,7 +43,7 @@ public class psBossAi : MonoBehaviour
             if(lightsOn == 3)
             {
                 allLampsOn1 = true;
-                bombObject1.GetComponent<psShootObjects>().bombActive = true;
+                //bombObject1.GetComponent<psShootObjects>().bombActive = true;
                 lampCheck2 = true;
                 lightsOn = 0;
                 lampCheck1 = false;
@@ -62,7 +56,7 @@ public class psBossAi : MonoBehaviour
             if(lightsOn == 3)
             {
                 allLampsOn2 = true;
-                bombObject2.GetComponent<psShootObjects>().bombActive = true;
+                //bombObject2.GetComponent<psShootObjects>().bombActive = true;
                 lampCheck3 = true;
                 lightsOn = 0;
                 lampCheck2 = false;
@@ -74,7 +68,7 @@ public class psBossAi : MonoBehaviour
             lightsOn += 1;
             if(lightsOn == 3)
             {
-                bombObject3.GetComponent<psShootObjects>().bombActive = true;
+                //bombObject3.GetComponent<psShootObjects>().bombActive = true;
                 allLampsOn3 = true;
                 lampCheck3 = false;
             }
@@ -94,7 +88,7 @@ public class psBossAi : MonoBehaviour
                 else
                 {
                     eAi.distBtwn = Vector3.Distance(light1.transform.position, this.transform.position);
-                    gRot.psTarget = light1; //if any of the lamps are active, aim at them
+                    eAi.psTarget = light1; //if any of the lamps are active, aim at them
                 }
             }
         }
@@ -109,7 +103,7 @@ public class psBossAi : MonoBehaviour
                 else
                 {
                     eAi.distBtwn = Vector3.Distance(light2.transform.position, this.transform.position);
-                    gRot.psTarget = light2;
+                    eAi.psTarget = light2;
                 }
             }
         }
@@ -124,7 +118,7 @@ public class psBossAi : MonoBehaviour
                 else
                 {
                     eAi.distBtwn = Vector3.Distance(light3.transform.position, this.transform.position);
-                    gRot.psTarget = light3;
+                    eAi.psTarget = light3;
                 }
             }
         }
@@ -136,7 +130,7 @@ public class psBossAi : MonoBehaviour
         {
             eAi.distBtwn = Vector3.Distance(bombObject1.transform.position, this.transform.position);
 
-            gRot.psTarget = bombObject1;
+            eAi.psTarget = bombObject1;
             
             bombs1 = false;
         }
@@ -145,7 +139,7 @@ public class psBossAi : MonoBehaviour
         {
             eAi.distBtwn = Vector3.Distance(bombObject2.transform.position, this.transform.position);
 
-            gRot.psTarget = bombObject2;
+            eAi.psTarget = bombObject2;
 
             bombs2 = false;
         }
@@ -154,7 +148,7 @@ public class psBossAi : MonoBehaviour
         {
             eAi.distBtwn = Vector3.Distance(bombObject3.transform.position, this.transform.position);
 
-            gRot.psTarget = bombObject3;
+            eAi.psTarget = bombObject3;
 
             bombs3 = false;
         }
@@ -164,15 +158,15 @@ public class psBossAi : MonoBehaviour
     {
         if(lightsOn == 0)
         {
-            gRot.psTarget = gRot.thePlayer;
+            eAi.psTarget = eAi.thePlayer;
         }
         else if(lightsOn > 0 && lightsOn < 3)
         {
-            //gRot.psTarget = ; target closest active lamp
+            //eAi.psTarget = ; target closest 'on' lamp
         }
         else
         {
-            //gRot.psTarget = ; target closest active bomb
+            //eAi.psTarget = ; target closest 'activated' bomb
         }
     }
 }
