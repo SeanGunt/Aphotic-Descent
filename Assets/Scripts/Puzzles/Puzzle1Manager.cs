@@ -5,7 +5,7 @@ using UnityEngine;
 public class Puzzle1Manager : MonoBehaviour
 {
     public bool barnacleTrig1, barnacleTrig2, barnacleTrig3, barnacleTrig4, barnacleTrig5;
-    private DoorScript3 doorController;
+    private DoorScript2 doorController;
     private UItext textController;
 
     [SerializeField] private GameObject doorControl;
@@ -13,7 +13,7 @@ public class Puzzle1Manager : MonoBehaviour
     private void Start()
     {
         //doorController = doorHinge.GetComponent<DoorScript2>();
-        doorController = doorControl.GetComponent<DoorScript3>();
+        doorController = doorControl.GetComponent<DoorScript2>();
         textController = doorControl.GetComponent<UItext>();
     }
     
