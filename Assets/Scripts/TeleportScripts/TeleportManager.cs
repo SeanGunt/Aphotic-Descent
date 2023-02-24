@@ -42,4 +42,9 @@ public class TeleportManager : MonoBehaviour
         BGMManager.instance.SwitchBGM(2);
         fogCube.SetActive(false);
     }
+
+    public void TeleportToEelCave()
+    {
+        GameDataHolder.inLab = false;
+    }
 }

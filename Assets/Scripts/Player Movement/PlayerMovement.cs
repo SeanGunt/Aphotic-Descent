@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   private float moveSpeed, defaultYPos, timer;
   public float playerStamina, maxStamina, staminaDelay;
   [SerializeField] private LayerMask ignoreMask;
-  private Vector3 velocity, moveDirection;
+  private Vector3 velocity, moveDirection, movementVelocity;
   [HideInInspector] public bool isGrounded, hasUpgradedSuit, headbobActive;
   [SerializeField] private bool isSwimming, canSwim, isTired, canUseHeadbob;
   [SerializeField] public Image staminaBar, tiredBar, upgradedUI;
@@ -126,70 +126,67 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         velocity.y = 0;
       }
 
-        if(isGrounded)
+      if(isGrounded)
+      {
+        canUseHeadbob = true;
+        moveSpeed = groundedSpeed;
+        isSwimming = false;
+        if (!canSwim || playerStamina < maxStamina && staminaDelay <= 0)
         {
-          canUseHeadbob = true;
-          //velocity.y = 0;
-          moveSpeed = groundedSpeed;
-          isSwimming = false;
-          if (!canSwim || playerStamina < maxStamina && staminaDelay <= 0)
-          {
             StaminaRecharge(playerStamina, maxStamina);
-          }
         }
-        else
-        {
-          isSwimming = true;
-          moveSpeed = airSpeed;
-        }
+      }
+      else
+      {
+        isSwimming = true;
+        moveSpeed = airSpeed;
+      }
       
-        Vector2 input = playerInput.actions["Movement"].ReadValue<Vector2>();
-        Vector3 move = new Vector3(input.x, 0, input.y);
-        move = move.x * transform.right + move.z * transform.forward;
-        controller.Move(move * Time.deltaTime * moveSpeed);
+      Vector2 input = playerInput.actions["Movement"].ReadValue<Vector2>();
+      Vector3 move = new Vector3(input.x, 0, input.y);
+      move = move.x * transform.right + move.z * transform.forward;
+      controller.Move(move * Time.deltaTime * moveSpeed);
 
-        bool isAscendKeyHeld = playerInput.actions["Ascend"].ReadValue<float>() > 0.1f;
+      bool isAscendKeyHeld = playerInput.actions["Ascend"].ReadValue<float>() > 0.1f;
         
         //Float Up
-        if (isAscendKeyHeld && canSwim && hasUpgradedSuit)
-        {
-          velocity.y = floatSpeed;
-          //isSwimming = true;
-        }
+      if (isAscendKeyHeld && canSwim && hasUpgradedSuit)
+      {
+        velocity.y = floatSpeed;
+        //isSwimming = true;
+      }
 
-        bool isDescendKeyHeld = playerInput.actions["Descend"].ReadValue<float>() > 0.1f;
+      bool isDescendKeyHeld = playerInput.actions["Descend"].ReadValue<float>() > 0.1f;
         
         //Float Down
-        if (isDescendKeyHeld && canSwim && !isGrounded && hasUpgradedSuit)
-        {
-          velocity.y = -floatSpeed * 2;
-          //isSwimming = true;
-        }
+      if (isDescendKeyHeld && canSwim && !isGrounded && hasUpgradedSuit)
+      {
+        velocity.y = -floatSpeed * 2;
+        //isSwimming = true;
+      }
 
-        playerStamina = Mathf.Clamp(playerStamina, 0f, maxStamina);
+      playerStamina = Mathf.Clamp(playerStamina, 0f, maxStamina);
         //Initial Stamina Check
-        if (playerStamina >= maxStamina)
-        {
-          canSwim = true;
-          tiredBar.enabled = false;
-        }
-
-        
+      if (playerStamina >= maxStamina)
+      {
+        canSwim = true;
+        tiredBar.enabled = false;
+      }
         //Stamina Drain
-        if (isSwimming)
+      if (isSwimming)
+      {
+        canUseHeadbob = false;
+        playerStamina -= Time.deltaTime;
+        staminaBar.fillAmount = playerStamina/maxStamina;
+        if (playerStamina <= 0)
         {
-          canUseHeadbob = false;
-          playerStamina -= Time.deltaTime;
-          staminaBar.fillAmount = playerStamina/maxStamina;
-          if (playerStamina <= 0)
-          {
-            canSwim = false;
-            isSwimming = false;
-            isTired = true;
-            tiredBar.enabled = true;
-            tiredBar.fillAmount = 1;
-          }
+          canSwim = false;
+          isSwimming = false;
+          isTired = true;
+          tiredBar.enabled = true;
+          tiredBar.fillAmount = 1;
         }
+      }
 
         //HeadBobbingCall
         if(canUseHeadbob && headbobActive)
@@ -199,6 +196,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
           
         moveDirection = move;
         velocity.y += gravityInWater * Time.deltaTime;
+        velocity.y = Mathf.Clamp(velocity.y, -15f, 10f);
+        Debug.Log(velocity.y);
         controller.Move(velocity * Time.deltaTime);
 
         animator.SetFloat("walkHorizontal", move.x);
@@ -213,7 +212,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
     }
 
-      private void MoveOutOfWater()
+    private void MoveOutOfWater()
     {
       RaycastHit hit;
       if (Physics.SphereCast(transform.position, 1f , Vector3.down, out hit, groundDistance, ~ignoreMask))
@@ -231,14 +230,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         velocity.y = 0;
       }
 
-        if(isGrounded)
+      if(isGrounded)
+      {
+        canUseHeadbob = true;
+        if (!canSwim && playerStamina < maxStamina && staminaDelay <= 0)
         {
-          canUseHeadbob = true;
-          if (!canSwim && playerStamina < maxStamina && staminaDelay <= 0)
-          {
             StaminaRecharge(playerStamina, maxStamina);
-          }
         }
+      }
 
       moveSpeed = outOfWaterSpeed;
       canSwim = false;
@@ -253,7 +252,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
 
       moveDirection = move;
-      velocity.y += gravityOutOfWater * Time.deltaTime;
+      velocity.y += gravityInWater * Time.deltaTime;
+      velocity.y = Mathf.Clamp(velocity.y, -15f, 10f);
+      Debug.Log(velocity.y);
       controller.Move(velocity * Time.deltaTime);
       
       animator.SetFloat("walkHorizontal", move.x);

@@ -16,16 +16,18 @@ public class fishEnemy : MonoBehaviour
     InvisibilityMechanic iM;
     RaycastHit hit;
     [SerializeField]private LayerMask doNotIgnoreLayer, playerLayer;
-    [SerializeField] private GameObject gen1, gen2, gen3;
+    [SerializeField] private GameObject gen1, gen2, gen3, gen4;
     private CapsuleCollider cc;
     generatorScript gen1Scr;
     generatorScript gen2Scr;
     generatorScript gen3Scr;
+    generatorScript gen4Scr;
     generatorScript dethCubeScr;
     private bool g1On = true;
     private bool g2On = true;
     private bool g3On = true;
-    private int eelHealth = 3;
+    private bool g4On = true;
+    private int eelHealth = 4;
     [SerializeField] private int phase;
     private bool eelDead = false;
     private AudioSource audioSource;
@@ -65,6 +67,7 @@ public class fishEnemy : MonoBehaviour
             gen1Scr = gen1.GetComponent<generatorScript>();
             gen2Scr = gen2.GetComponent<generatorScript>();
             gen3Scr = gen3.GetComponent<generatorScript>();
+            gen4Scr = gen4.GetComponent<generatorScript>();
         }
 
         state = State.patrolling;
@@ -243,8 +246,15 @@ public class fishEnemy : MonoBehaviour
             eelHealth = eelHealth -1;
             g3On = false;
         }
+
+        if(gen4Scr.isOn == false && g4On)
+        {
+            Debug.Log("gen 4 off");
+            eelHealth = eelHealth -1;
+            g4On = false;
+        }
         
-        if((eelHealth == 0) && (!g1On && !g2On && !g3On) && (eelDead == false))
+        if((eelHealth == 0) && (!g1On && !g2On && !g3On && !g4On) && (eelDead == false))
         {
             BGMManager.instance.SwitchBGM(0);
             animator.SetBool("isDying", true);
@@ -269,7 +279,7 @@ public class fishEnemy : MonoBehaviour
     void Transitioning()
     {
         animator.SetBool("isBack", true);
-        animator.SetBool("IsReviving", false);
+        animator.SetBool("isReviving", false);
         Invoke("Transitioned", 2);
     }
 

@@ -34,6 +34,7 @@ public class generatorScript : MonoBehaviour
             if(genHealth <= 0)
             {
                 audioSource.PlayOneShot(explosionSound);
+                StartCoroutine("StopGenSounds");
                 electricity.SetActive(false);
                 Debug.Log("generator broke");
                 isOn = false;
@@ -44,5 +45,11 @@ public class generatorScript : MonoBehaviour
     private void SetOrigMaterial()
     {
         meshRenderer.sharedMaterials = originalMats;
+    }
+
+    private IEnumerator StopGenSounds()
+    {
+        yield return new WaitForSeconds(1.0f);
+        audioSource.Stop();
     }
 }
