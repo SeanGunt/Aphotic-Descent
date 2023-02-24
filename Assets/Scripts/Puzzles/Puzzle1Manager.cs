@@ -5,15 +5,16 @@ using UnityEngine;
 public class Puzzle1Manager : MonoBehaviour
 {
     public bool barnacleTrig1, barnacleTrig2, barnacleTrig3, barnacleTrig4, barnacleTrig5;
-    private DoorScript2 doorController;
+    private DoorScript3 doorController;
     private UItext textController;
 
-    [SerializeField] private GameObject doorHinge;
+    [SerializeField] private GameObject doorControl;
 
     private void Start()
     {
-        doorController = doorHinge.GetComponent<DoorScript2>();
-        textController = doorHinge.GetComponent<UItext>();
+        //doorController = doorHinge.GetComponent<DoorScript2>();
+        doorController = doorControl.GetComponent<DoorScript3>();
+        textController = doorControl.GetComponent<UItext>();
     }
     
     private void Update()
