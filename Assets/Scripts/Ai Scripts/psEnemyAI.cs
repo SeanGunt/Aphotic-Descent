@@ -5,8 +5,8 @@ using UnityEngine.AI;
 
 public class psEnemyAI : MonoBehaviour
 {
-     [SerializeField] private Transform[] travelPoints;
-    [SerializeField] public GameObject thePlayer;
+    [SerializeField] private Transform[] travelPoints;
+    public GameObject thePlayer;
     [SerializeField] private Vector3 playerLocation;
     [SerializeField] private float moveTimer = 14.0f;
     [SerializeField] private float shootTimer = 2.0f;
@@ -19,49 +19,61 @@ public class psEnemyAI : MonoBehaviour
     [SerializeField] private bool inShootRange = false;
     [SerializeField] public float distBtwn;
     [SerializeField] public int currentPoint = 0;
-    [SerializeField] public int nPoint;
-    [SerializeField] public GameObject psTarget;
+    public GameObject psTarget;
     [SerializeField] public GameObject psRotationPoint;
-    private bool nextPoint = true;
+    private bool destinationSet;
     private float moveTimerReset;
     private float shootTimerReset;
     private float resetSpeed;
     private Vector3 startPos;
-    public NavMeshAgent psAgent;
+    public NavMeshAgent agent;
     public int aimWhere;
     public bool rotateToTarget;
     RaycastHit hit;
     RaycastHit hit2;
+    private State state;
+    private enum State
+    {
+        moving, shooting
+    }
 
 
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        psAgent = GetComponent<NavMeshAgent>();
-        psAgent.destination = travelPoints[currentPoint].position;
+        thePlayer = GameObject.FindGameObjectWithTag("Player");
+        agent = GetComponent<NavMeshAgent>();
+        destinationSet = false;
+        state = State.moving;
 
-        moveTimerReset = moveTimer;
+
+        /*moveTimerReset = moveTimer;
 
         shootTimerReset = shootTimer;
 
         resetSpeed = psAgent.speed;
 
-        startPos = this.transform.position;
+        startPos = this.transform.position;*/
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        playerLocation = thePlayer.transform.position;
+
+        switch(state)
+        {
+            case State.moving:
+                Moving();
+            break;
+            case State.shooting:
+
+            break;
+        }
+        /*playerLocation = thePlayer.transform.position;
 
         distBtwn = Vector3.Distance(playerLocation, this.transform.position);
 
         nPoint = currentPoint+1;
-
-        if(nextPoint)
-        {
-            moveToPoint();
-        }
 
         if((!psAgent.pathPending && psAgent.remainingDistance < 0.5f))
         {
@@ -108,19 +120,23 @@ public class psEnemyAI : MonoBehaviour
         else
         {
             psGunAimer.transform.localRotation = Quaternion.Euler(0, 0, 0);
-        }
+        }*/
     }
 
-    void moveToPoint()
+    private void Moving()
     {
-        if(travelPoints[nPoint] != null)
+        
+        if (!destinationSet)
         {
-            psAgent.destination = travelPoints[nPoint].position;
-            nextPoint = false;
+            agent.SetDestination(travelPoints[currentPoint].position);
+            destinationSet = true;
         }
-        else
+
+        float distanceToPoint = Vector3.Distance(this.transform.position, travelPoints[currentPoint].position);
+        if (distanceToPoint <= 1f)
         {
-            return;
+            currentPoint++;
+            destinationSet = false;
         }
     }
 
@@ -139,12 +155,12 @@ public class psEnemyAI : MonoBehaviour
         }
     }
 
-    public void tarRot(Transform target)
+    /*public void tarRot(Transform target)
     {
         Vector3 restTarget = psTarget.transform.position;
         restTarget.y = psRotationPoint.transform.position.y;
         transform.LookAt(restTarget);
-    }
+    }*/
 
     public void shoot()
     {
