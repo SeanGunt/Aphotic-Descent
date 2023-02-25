@@ -197,7 +197,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         moveDirection = move;
         velocity.y += gravityInWater * Time.deltaTime;
         velocity.y = Mathf.Clamp(velocity.y, -15f, 10f);
-        Debug.Log(velocity.y);
         controller.Move(velocity * Time.deltaTime);
 
         animator.SetFloat("walkHorizontal", move.x);
@@ -254,7 +253,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       moveDirection = move;
       velocity.y += gravityInWater * Time.deltaTime;
       velocity.y = Mathf.Clamp(velocity.y, -15f, 10f);
-      Debug.Log(velocity.y);
       controller.Move(velocity * Time.deltaTime);
       
       animator.SetFloat("walkHorizontal", move.x);
