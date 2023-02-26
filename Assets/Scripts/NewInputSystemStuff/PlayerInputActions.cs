@@ -118,7 +118,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Escape"",
+                    ""name"": ""Quit"",
                     ""type"": ""Button"",
                     ""id"": ""1d98650e-7ca2-4eeb-b831-444189a4cd37"",
                     ""expectedControlType"": ""Button"",
@@ -399,7 +399,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard & Mouse"",
-                    ""action"": ""Escape"",
+                    ""action"": ""Quit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -476,7 +476,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_PlayerControls_Flashlight = m_PlayerControls.FindAction("Flashlight", throwIfNotFound: true);
         m_PlayerControls_Blacklight = m_PlayerControls.FindAction("Blacklight", throwIfNotFound: true);
         m_PlayerControls_Pause = m_PlayerControls.FindAction("Pause", throwIfNotFound: true);
-        m_PlayerControls_Escape = m_PlayerControls.FindAction("Escape", throwIfNotFound: true);
+        m_PlayerControls_Quit = m_PlayerControls.FindAction("Quit", throwIfNotFound: true);
         // MenuControls
         m_MenuControls = asset.FindActionMap("MenuControls", throwIfNotFound: true);
         m_MenuControls_Newaction = m_MenuControls.FindAction("New action", throwIfNotFound: true);
@@ -549,7 +549,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerControls_Flashlight;
     private readonly InputAction m_PlayerControls_Blacklight;
     private readonly InputAction m_PlayerControls_Pause;
-    private readonly InputAction m_PlayerControls_Escape;
+    private readonly InputAction m_PlayerControls_Quit;
     public struct PlayerControlsActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -564,7 +564,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @Flashlight => m_Wrapper.m_PlayerControls_Flashlight;
         public InputAction @Blacklight => m_Wrapper.m_PlayerControls_Blacklight;
         public InputAction @Pause => m_Wrapper.m_PlayerControls_Pause;
-        public InputAction @Escape => m_Wrapper.m_PlayerControls_Escape;
+        public InputAction @Quit => m_Wrapper.m_PlayerControls_Quit;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -604,9 +604,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Pause.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnPause;
-                @Escape.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnEscape;
-                @Escape.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnEscape;
-                @Escape.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnEscape;
+                @Quit.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnQuit;
+                @Quit.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnQuit;
+                @Quit.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnQuit;
             }
             m_Wrapper.m_PlayerControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -641,9 +641,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
-                @Escape.started += instance.OnEscape;
-                @Escape.performed += instance.OnEscape;
-                @Escape.canceled += instance.OnEscape;
+                @Quit.started += instance.OnQuit;
+                @Quit.performed += instance.OnQuit;
+                @Quit.canceled += instance.OnQuit;
             }
         }
     }
@@ -711,7 +711,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnFlashlight(InputAction.CallbackContext context);
         void OnBlacklight(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
-        void OnEscape(InputAction.CallbackContext context);
+        void OnQuit(InputAction.CallbackContext context);
     }
     public interface IMenuControlsActions
     {

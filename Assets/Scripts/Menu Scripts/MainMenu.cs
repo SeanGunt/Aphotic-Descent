@@ -23,7 +23,7 @@ public class MainMenu : MonoBehaviour
 
     private void OnEnable()
     {
-        escape = playerInputActions.PlayerControls.Escape;
+        escape = playerInputActions.PlayerControls.Quit;
         escape.Enable();
     }
 
