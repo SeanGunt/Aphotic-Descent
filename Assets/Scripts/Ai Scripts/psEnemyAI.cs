@@ -34,7 +34,7 @@ public class psEnemyAI : MonoBehaviour
     private State state;
     private enum State
     {
-        moving, shooting
+        moving, shooting, loop
     }
 
 
@@ -64,6 +64,9 @@ public class psEnemyAI : MonoBehaviour
         {
             case State.moving:
                 Moving();
+            break;
+            case State.loop:
+                Loop();
             break;
             case State.shooting:
 
@@ -125,19 +128,31 @@ public class psEnemyAI : MonoBehaviour
 
     private void Moving()
     {
-        
-        if (!destinationSet)
+        if (currentPoint == travelPoints.Length)
         {
+            state = State.loop;
+        }
+        else
+        {
+            if (!destinationSet)
+            {
             agent.SetDestination(travelPoints[currentPoint].position);
             destinationSet = true;
-        }
+            }
 
-        float distanceToPoint = Vector3.Distance(this.transform.position, travelPoints[currentPoint].position);
-        if (distanceToPoint <= 1f)
-        {
+            float distanceToPoint = Vector3.Distance(this.transform.position, travelPoints[currentPoint].position);
+            if (distanceToPoint <= 1f)
+            {
             currentPoint++;
             destinationSet = false;
+            }
         }
+    }
+
+    private void Loop()
+    {
+        currentPoint = 0;
+        state = State.moving;
     }
 
     public void stopAndAim()

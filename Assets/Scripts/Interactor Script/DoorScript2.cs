@@ -12,6 +12,7 @@ public class DoorScript2 : MonoBehaviour
     private BoxCollider bCollider;
     private UItext uItext;
     [SerializeField]private float rotX, rotY, rotZ;
+    [SerializeField] private float subtractDegreeToRotate;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip doorOpenSound;
     private GameObject Player;
@@ -67,7 +68,7 @@ public class DoorScript2 : MonoBehaviour
  
         if (open)
         {
-            var newRot = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(rotX, rotY - 90, rotZ), Time.deltaTime * 200);
+            var newRot = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(rotX, rotY - subtractDegreeToRotate, rotZ), Time.deltaTime * 200);
             transform.rotation = newRot;
         }
         else

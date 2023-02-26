@@ -76,7 +76,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       {
         upgradedUI.enabled = false;
       }
-        switch (state)
+      switch (state)
       {
         default:
           case State.settingPosition:
@@ -93,6 +93,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
               canSwim = false;
           break;
       }
+
 
     if(PlayerPrefs.GetInt("headBob") == 1)
     {
