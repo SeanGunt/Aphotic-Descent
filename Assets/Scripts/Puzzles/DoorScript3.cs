@@ -18,7 +18,6 @@ public class DoorScript3 : MonoBehaviour
         animator = GetComponent<Animator>();
         canOpen = true;
         state = State.idle;
-        animator.SetBool("isIdle", true);
     }
 
     void Update()

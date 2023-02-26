@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class AreaTeleporter : MonoBehaviour
 {
     private GameObject player;
-    [SerializeField] private Vector3[] positions;
+    [SerializeField] private Transform[] positions;
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -42,10 +42,15 @@ public class AreaTeleporter : MonoBehaviour
         {
             Teleport(5);
         }
+
+        if(Keyboard.current.digit7Key.isPressed)
+        {
+            Teleport(6);
+        }
     }
 
     private void Teleport(int arrayPosition)
     {
-        player.transform.localPosition = positions[arrayPosition];
+        player.transform.localPosition = positions[arrayPosition].position;
     }
 }
