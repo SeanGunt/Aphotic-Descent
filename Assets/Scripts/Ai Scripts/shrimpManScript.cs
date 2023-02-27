@@ -7,7 +7,7 @@ public class shrimpManScript : MonoBehaviour
     [SerializeField] public float agentSpeed;
     [SerializeField] private float detectionRange;
     [SerializeField] private float rangeForBleedMultiplier;
-    [SerializeField] private GameObject player, shrimpMesh;
+    [SerializeField] private GameObject player, shrimpMesh, playerDiver;
     [SerializeField] private Transform[] patrolPoints;
     [SerializeField] public float stunTime;
 
@@ -41,7 +41,7 @@ public class shrimpManScript : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         if(player != null)
         {
-            //pHC = player.GetComponent<PlayerHealthController>();
+            pHC = player.GetComponent<PlayerHealthController>();
         }
 
         bleedRange = detectionRange * rangeForBleedMultiplier;
@@ -63,14 +63,14 @@ public class shrimpManScript : MonoBehaviour
                 WasAttacking();
                 break;
         }
-        // if(pHC.isBleeding)
-        // {
-        //     rangeUsed = bleedRange;
-        // }
-        // else
-        // {
-        //     rangeUsed = detectionRange;
-        // }
+        if(pHC.isBleeding)
+        {
+            rangeUsed = bleedRange;
+        }
+        else
+        {
+            rangeUsed = detectionRange;
+        }
 
         if((!shrimpAgent.pathPending && shrimpAgent.remainingDistance < 0.5f) && !currentlyAttacking)
         {
@@ -92,10 +92,17 @@ public class shrimpManScript : MonoBehaviour
             unchosen = false;
         }
 
+        if (shrimpAgent.pathStatus == NavMeshPathStatus.PathInvalid || shrimpAgent.pathStatus == NavMeshPathStatus.PathPartial)
+        {
+            unchosen = false;
+        }
+
         shrimpAgent.destination = destination;
 
         if(playerDistance < rangeUsed*rangeUsed)
         {
+            shrimpMesh.transform.position = this.transform.position;
+            shrimpAgent.speed = agentSpeed;
             state = State.attacking;
         }
     }
@@ -125,11 +132,10 @@ public class shrimpManScript : MonoBehaviour
         {
             shrimpAgent.speed = 0;
             BreathingManager.instance.StopBreathe();
+            pHC.ChangeHealth(-pHC.maxHealth);
+            playerDiver.SetActive(false);
         }
-    }
 
-    private void OnTriggerStay(Collider other)
-    {
         if (other.gameObject.tag == "Mud")
         {
             shrimpAgent.speed = (agentSpeed*2.0f);
