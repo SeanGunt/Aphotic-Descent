@@ -28,14 +28,15 @@ public class TeleportManager : MonoBehaviour
         player.transform.localPosition = teleportPosition;
     }
 
-    public void TelportToKelpMaze()
+    public void TeleportToKelpMaze()
     {
         GameDataHolder.inSub = false;
         GameDataHolder.inKelpMaze = true;
+        GameDataHolder.inLab = false;
         BGMManager.instance.SwitchBGM(0);
     }
 
-    public void TelportToLab()
+    public void TelpeortToLab()
     {
         GameDataHolder.inLab = true;
         GameDataHolder.inKelpMaze = false;
@@ -45,6 +46,8 @@ public class TeleportManager : MonoBehaviour
 
     public void TeleportToEelCave()
     {
+        BGMManager.instance.SwitchBGM(2);
         GameDataHolder.inLab = false;
+        GameDataHolder.inKelpMaze = false;
     }
 }

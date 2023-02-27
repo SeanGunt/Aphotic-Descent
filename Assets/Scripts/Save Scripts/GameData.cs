@@ -20,6 +20,7 @@ public class GameData
     public bool kelpMazeEndTriggered;
     public bool labStartObjectiveTriggered;
     public bool invisibilityAcquired;
+    public bool ridgeObjectiveTriggered;
     public bool inSub;
     public bool inLab;
     public bool inKelpMaze;
@@ -43,6 +44,7 @@ public class GameData
         kelpMazeEndTriggered = false;
         labStartObjectiveTriggered = false;
         eelObjectiveTriggered = false;
+        ridgeObjectiveTriggered = false;
         inLab = false;
         inKelpMaze = false;
         inSub = true;

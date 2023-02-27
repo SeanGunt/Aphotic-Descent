@@ -41,7 +41,7 @@ public class Puzzle2v2 : MonoBehaviour
 
     private void OnTriggerExit(Collider col)
     {
-        if (col.gameObject.tag == "Player")
+        if (col.gameObject.tag == "Player" && col.gameObject.GetComponent<PlayerMovement>().hasUpgradedSuit == false)
         {
             doorController.open = true;
             audioSource.PlayOneShot(doorSounds[0]);

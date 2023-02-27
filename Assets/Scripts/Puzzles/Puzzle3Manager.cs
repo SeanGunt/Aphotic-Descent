@@ -6,21 +6,13 @@ public class Puzzle3Manager : MonoBehaviour
 {
     private DoorScript2 doorController;
     private UItext textController, buttonTextController;
-    [SerializeField]private GameObject doorHinge, backupSwitch, interactableParticle;
+    [SerializeField]private GameObject doorHinge, backupSwitch;
 
     private void Start()
     {
         doorController = doorHinge.GetComponent<DoorScript2>();
         textController = doorHinge.GetComponent<UItext>();
         buttonTextController = backupSwitch.GetComponent<UItext>();
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Player") 
-         {
-            interactableParticle.SetActive(true);
-         }
     }
 
     public void SetDoorOpenable()

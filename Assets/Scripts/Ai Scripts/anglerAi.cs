@@ -16,7 +16,7 @@ public class anglerAi : MonoBehaviour
     [SerializeField] private Transform[] patrolPoints;
 
     // Start is called before the first frame update
-    void OnAwake()
+    void Awake()
     {
         state = State.patrolling;
         anglerAgent = this.GetComponent<NavMeshAgent>();
@@ -34,9 +34,7 @@ public class anglerAi : MonoBehaviour
                 patrolling();
             break;
             case State.dead:
-                Debug.Log("angler dead");
-                anglerAgent.speed = 0;
-                anglerAgent.acceleration = 0;
+                Dead();
             break;
         }
     }
@@ -57,5 +55,12 @@ public class anglerAi : MonoBehaviour
             anglerAgent.destination = patrolPoints[Random.Range(0, patrolPoints.Length)].position;
             unchosen = false;
         }
+    }
+
+    private void Dead()
+    {
+        Debug.Log("angler dead");
+        anglerAgent.speed = 0;
+        anglerAgent.acceleration = 0;
     }
 }

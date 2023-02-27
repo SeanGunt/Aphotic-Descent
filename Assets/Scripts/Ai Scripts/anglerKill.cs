@@ -23,4 +23,12 @@ public class anglerKill : MonoBehaviour
             aAi.state = anglerAi.State.dead;
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Player")
+        {
+            turnOffAngler = true;
+        }
+    }
 }

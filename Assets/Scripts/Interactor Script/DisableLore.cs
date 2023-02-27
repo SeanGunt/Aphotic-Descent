@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using TMPro;
 
 public class DisableLore : MonoBehaviour
 {
@@ -12,6 +14,9 @@ public class DisableLore : MonoBehaviour
     private GameObject player;
     private Volume volume;
     private GameObject volumeObj;
+    [SerializeField] private GameObject basicTextObj;
+    [SerializeField] private string enylopediaText;
+    private Text addedLoreToEncyclopediaText;
 
     private void Awake()
     {
@@ -20,6 +25,7 @@ public class DisableLore : MonoBehaviour
         pauseControls = player.GetComponent<PauseControls>();
         volumeObj =  GameObject.FindGameObjectWithTag("PostProcMain");
         volume = volumeObj.GetComponent<Volume>();
+        addedLoreToEncyclopediaText = basicTextObj.GetComponent<Text>();
     }
 
     private void Update()
@@ -36,6 +42,8 @@ public class DisableLore : MonoBehaviour
                 LogPickup.logPickedUp = false;
                 Time.timeScale = 1f;
                 pauseControls.paused = false;
+                addedLoreToEncyclopediaText.text = enylopediaText;
+                basicTextObj.SetActive(true);
                 this.gameObject.SetActive(false);
             }
         }

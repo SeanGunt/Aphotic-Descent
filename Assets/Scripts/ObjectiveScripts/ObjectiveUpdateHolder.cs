@@ -51,6 +51,14 @@ public class ObjectiveUpdateHolder : MonoBehaviour
         GameDataHolder.eelObjectiveTriggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
     }
+
+    public void SixthObjective()
+    {
+        objectiveText.text = "Find The Exit To The Cave";
+        GameDataHolder.objectiveId = 6;
+        GameDataHolder.ridgeObjectiveTriggered = true;
+        StartCoroutine(FadeText(7f, objectiveText));
+    }
     public IEnumerator FadeText(float t, TextMeshProUGUI i)
     {
         i.color = new Color(i.color.r, i.color.g, i.color.b, 1);
