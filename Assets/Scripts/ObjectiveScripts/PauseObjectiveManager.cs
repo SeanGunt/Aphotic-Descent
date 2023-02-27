@@ -22,13 +22,20 @@ public class PauseObjectiveManager : MonoBehaviour
         {
             pauseObjectiveText.text = "Proceed To The Lab";
         }
+
         if (GameDataHolder.objectiveId == 4)
         {
             pauseObjectiveText.text = "Investigate The Lab";
         }
+
         if (GameDataHolder.objectiveId == 5)
         {
             pauseObjectiveText.text = "Defeat The Eel";
+        }
+        
+        if(GameDataHolder.objectiveId == 6)
+        {
+            pauseObjectiveText.text = "Find The Exit To The Cave";
         }
     }
 }

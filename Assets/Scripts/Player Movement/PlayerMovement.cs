@@ -68,14 +68,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         hasUpgradedSuit = true;
         upgradedUI.enabled = true;
       }
-      else if (GameDataHolder.invisibilityAcquired == true)
-      {
-        upgradedUI.enabled = true;
-      }
       else
       {
+        hasUpgradedSuit = false;
         upgradedUI.enabled = false;
       }
+
       switch (state)
       {
         default:
@@ -154,7 +152,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       if (isAscendKeyHeld && canSwim && hasUpgradedSuit)
       {
         velocity.y = floatSpeed;
-        //isSwimming = true;
+        isSwimming = true;
       }
 
       bool isDescendKeyHeld = playerInput.actions["Descend"].ReadValue<float>() > 0.1f;
@@ -163,7 +161,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       if (isDescendKeyHeld && canSwim && !isGrounded && hasUpgradedSuit)
       {
         velocity.y = -floatSpeed * 2;
-        //isSwimming = true;
+        isSwimming = true;
       }
 
       playerStamina = Mathf.Clamp(playerStamina, 0f, maxStamina);
@@ -238,6 +236,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             StaminaRecharge(playerStamina, maxStamina);
         }
       }
+      else
+      {
+        isSwimming = true;
+      }
 
       moveSpeed = outOfWaterSpeed;
       canSwim = false;
@@ -250,6 +252,21 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         {
           HandleHeadBob(walkBobAmount, walkBobSpeed);
         }
+
+      if (isSwimming)
+      {
+        canUseHeadbob = false;
+        playerStamina -= Time.deltaTime;
+        staminaBar.fillAmount = playerStamina/maxStamina;
+        if (playerStamina <= 0)
+        {
+          canSwim = false;
+          isSwimming = false;
+          isTired = true;
+          tiredBar.enabled = true;
+          tiredBar.fillAmount = 1;
+        }
+      }
 
       moveDirection = move;
       velocity.y += gravityInWater * Time.deltaTime;

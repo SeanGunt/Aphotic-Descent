@@ -1,12 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Zooplankton : MonoBehaviour, IDataPersistence
-{
+{   [SerializeField] private AudioClip pickupSound;
+    [SerializeField] private GameObject basicTextObj;
+    private Text basicText;
+    private string zooplanktonCollectedText = "Zooplankton Collected! Added to Inventory";
+    private AudioSource audioSource;
     [SerializeField] private string id;
     [SerializeField] private bool collected;
     [ContextMenu("Generate Guid for id")]
+
+    private void Awake()
+    {
+        audioSource = GetComponentInParent<AudioSource>();
+        basicText = basicTextObj.GetComponent<Text>();
+    }
     private void GenerateGuid()
     {
         id = System.Guid.NewGuid().ToString();
@@ -31,6 +42,9 @@ public class Zooplankton : MonoBehaviour, IDataPersistence
     }
     public void CollectPlankton()
     {
+        basicText.text = zooplanktonCollectedText;
+        basicTextObj.SetActive(true);
+        audioSource.PlayOneShot(pickupSound);
         GameDataHolder.numOfZooplanktonCollected++;
         collected = true;
         this.gameObject.SetActive(false);
