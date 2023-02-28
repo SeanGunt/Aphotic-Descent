@@ -248,7 +248,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       move = move.x * transform.right + move.z * transform.forward;
       controller.Move(move * Time.deltaTime * moveSpeed);
       
-      if(canUseHeadbob)
+      if(canUseHeadbob && headbobActive)
         {
           HandleHeadBob(walkBobAmount, walkBobSpeed);
         }
