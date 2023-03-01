@@ -10,6 +10,7 @@ public class SuitPickup : MonoBehaviour
     [SerializeField] private ClearUIText clearUIText;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip pickupSound;
+
     private void Start()
     {
         if (GameDataHolder.hasUpgradedSuit)
