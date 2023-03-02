@@ -13,14 +13,15 @@ public class Zooplankton : MonoBehaviour, IDataPersistence
     [SerializeField] private bool collected;
     [ContextMenu("Generate Guid for id")]
 
+    private void GenerateGuid()
+    {
+        id = System.Guid.NewGuid().ToString();
+    }
+
     private void Awake()
     {
         audioSource = GetComponentInParent<AudioSource>();
         basicText = basicTextObj.GetComponent<Text>();
-    }
-    private void GenerateGuid()
-    {
-        id = System.Guid.NewGuid().ToString();
     }
 
     public void LoadData(GameData data)
