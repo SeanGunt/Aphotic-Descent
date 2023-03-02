@@ -9,6 +9,7 @@ public class GivePlayerEverything : MonoBehaviour
     {
         if(Keyboard.current.upArrowKey.isPressed)
         {
+            GameDataHolder.doorKey = true;
             GameDataHolder.flashlightHasBeenPickedUp = true;
             GameDataHolder.knifeHasBeenPickedUp = true;
             GameDataHolder.invisibilityAcquired = true;
