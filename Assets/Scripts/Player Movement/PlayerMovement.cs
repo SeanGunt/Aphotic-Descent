@@ -110,7 +110,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private void MoveInWater()
     {
       RaycastHit hit;
-      if (Physics.SphereCast(transform.position, 1f , Vector3.down, out hit, groundDistance, ~ignoreMask))
+      if (Physics.SphereCast(transform.position, 1.0f , Vector3.down, out hit, groundDistance, ~ignoreMask))
       {
         isGrounded = true;
       }
@@ -137,7 +137,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       }
       else
       {
-        isSwimming = true;
+        //isSwimming = true;
         moveSpeed = airSpeed;
       }
       
@@ -146,7 +146,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       move = move.x * transform.right + move.z * transform.forward;
       controller.Move(move * Time.deltaTime * moveSpeed);
 
-      bool isAscendKeyHeld = playerInput.actions["Ascend"].ReadValue<float>() > 0.1f;
+      bool isAscendKeyHeld = playerInput.actions["Ascend"].ReadValue<float>() > 0.001f;
         
         //Float Up
       if (isAscendKeyHeld && canSwim && hasUpgradedSuit)
@@ -155,7 +155,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         isSwimming = true;
       }
 
-      bool isDescendKeyHeld = playerInput.actions["Descend"].ReadValue<float>() > 0.1f;
+      bool isDescendKeyHeld = playerInput.actions["Descend"].ReadValue<float>() > 0.001f;
         
         //Float Down
       if (isDescendKeyHeld && canSwim && !isGrounded && hasUpgradedSuit)
@@ -213,7 +213,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private void MoveOutOfWater()
     {
       RaycastHit hit;
-      if (Physics.SphereCast(transform.position, 1f , Vector3.down, out hit, groundDistance, ~ignoreMask))
+      if (Physics.SphereCast(transform.position, 1.0f , Vector3.down, out hit, groundDistance, ~ignoreMask))
       {
         isGrounded = true;
       }
@@ -230,6 +230,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
       if(isGrounded)
       {
+        isSwimming = false;
         canUseHeadbob = true;
         if (!canSwim && playerStamina < maxStamina && staminaDelay <= 0)
         {

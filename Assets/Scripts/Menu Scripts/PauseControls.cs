@@ -10,7 +10,7 @@ public class PauseControls : MonoBehaviour
 {
     public GameObject PauseMenu;
     private PlayerInput playerInput;
-    [SerializeField] private GameObject gameUI, objectiveText;
+    [SerializeField] private GameObject gameUI, objectiveText, basicTextObj;
     GameObject Player;
     public bool paused, otherMenuActive;
     public Volume volume;
@@ -32,6 +32,7 @@ public class PauseControls : MonoBehaviour
                 {
                     depthOfField.active = true;
                 }
+                basicTextObj.SetActive(false);
                 PauseMenu.SetActive(true);
                 gameUI.SetActive(false);
                 objectiveText.SetActive(false);
