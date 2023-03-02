@@ -4,84 +4,70 @@ using UnityEngine;
 
 public class glowingCoral : MonoBehaviour
 {
-    private bool isGlowing;
-    private GameObject theCoral;
-    private SkinnedMeshRenderer[] skinnedMeshRenderers;
-    private Material[] originalMaterials;
-    [SerializeField] private Material glowMaterial;
-    Shader glowShader;
-    private float fresnelPower = 3.0f;
-    [SerializeField] private ParticleSystem glowParticle;
-
-    // Start is called before the first frame update
+    private Material glowMaterial;
+    private float fresnelPower;
+    private GameObject player;
+    MeshRenderer meshRenderer;
+    private float distToPlayer;
+    
     void Awake()
     {
-      isGlowing = false;
-      theCoral = GameObject.FindWithTag("");
-
-      skinnedMeshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
-      originalMaterials = new Material[skinnedMeshRenderers.Length];
       
-        for (int i = 0; i < skinnedMeshRenderers.Length; i++)
-        {
-            originalMaterials[i] = skinnedMeshRenderers[i].material;
-        }
+      player = GameObject.FindGameObjectWithTag("Mud");
+
+      meshRenderer = GetComponent<MeshRenderer>();
+
+      glowMaterial = Instantiate(meshRenderer.sharedMaterial);
+      meshRenderer.material = glowMaterial;
+
+      fresnelPower = 30f;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
-    }
+        distToPlayer = Vector3.Distance(player.transform.position, this.transform.position);
 
-    void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.tag == "Player")
+        if(distToPlayer <= 10)
         {
-            goGlowy();
+            Debug.Log("distancing to player");
+            StartCoroutine(glowUp(10f));
+        }
+
+        if(distToPlayer > 10)
+        {
+            StartCoroutine(glowDown(10f));
         }
     }
 
-    void OnTriggerExit(Collider other)
+    private void OnDestroy()
     {
-        if(other.gameObject.tag == "Player")
+        if (glowMaterial != null)
         {
-            goUnGlowy();
+            Destroy(glowMaterial);
         }
     }
 
-    void RefillInvis()
+    private IEnumerator glowUp(float t)
     {
-        //canGoInvis = true;
-        //fullInvisCharge.enabled = true;
-        //fullInvisCharge.fillAmount = 1;
+        glowMaterial.SetFloat("_power", fresnelPower);
+        while (fresnelPower >= 1)
+        {
+            Debug.Log(fresnelPower + " is fresPower");
+            fresnelPower -= Time.deltaTime/t;
+
+            yield return null;
+        }
     }
 
-    void goGlowy()
+    private IEnumerator glowDown(float t)
     {
-        //invisibleTimer = Mathf.Clamp(invisibleTimer, 0f, timeInvisible);
-
-        for (int i = 0; i < skinnedMeshRenderers.Length; i++)
+        glowMaterial.SetFloat("_power", fresnelPower);
+        while (fresnelPower <= 30)
         {
-            skinnedMeshRenderers[i].material = glowMaterial;
-        }
-        //fresnelPower -= Time.deltaTime;
-        fresnelPower = 0f;
-        glowMaterial.SetFloat("_FresnelPower", fresnelPower);
-    }
+            Debug.Log(fresnelPower + " is fresPowerDown");
+            fresnelPower += Time.deltaTime/t;
 
-    void goUnGlowy()
-    {
-        for (int i = 0; i <skinnedMeshRenderers.Length; i++)
-        {
-            skinnedMeshRenderers[i].material = originalMaterials[i];
+            yield return null;
         }
-        fresnelPower = 3f;
-        glowMaterial.SetFloat("_FresnelPower", fresnelPower);
-        glowParticle.gameObject.SetActive(false);
-        glowParticle.Stop();
-        //isInvisible = false;
-        //fullInvisCharge.enabled = false;
-        Invoke ("RefillInvis", 7);
     }
 }
