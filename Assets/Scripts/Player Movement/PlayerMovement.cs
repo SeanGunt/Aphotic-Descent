@@ -21,6 +21,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   [SerializeField] private Camera playerCamera;
   [SerializeField] private Animator animator;
   [HideInInspector] public bool inWater;
+  [SerializeField] private GameObject freeFlyCamera, playerCam;
+  [SerializeField] private PlayerMovement thePlayer;
+  [SerializeField] private PlayerSettings playerSettings;
   private State state;
   enum State
   {
@@ -50,6 +53,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     defaultYPos = playerCamera.transform.localPosition.y;
     playerInput = GetComponent<PlayerInput>();
     controller = GetComponent<CharacterController>();
+    thePlayer = GetComponent<PlayerMovement>();
+    playerSettings = GetComponent<PlayerSettings>();
     
     if(PlayerPrefs.GetInt("headBob") == 1)
     {
@@ -59,6 +64,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     {
       headbobActive = false;
     }
+  }
+
+  private void OnEnable()
+  {
+    playerSettings.enabled = true;
   }
 
   private void Update()
@@ -105,6 +115,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     }
 
       staminaDelay -= Time.deltaTime;
+    if(Keyboard.current.backslashKey.isPressed)
+    {
+      playerInput.SwitchCurrentActionMap("FreeFlyCamControls");
+      freeFlyCamera.SetActive(true);
+      playerCam.SetActive(false);
+      thePlayer.enabled = false;
+      playerSettings.enabled = false;
+    }
   }
 
     private void MoveInWater()
