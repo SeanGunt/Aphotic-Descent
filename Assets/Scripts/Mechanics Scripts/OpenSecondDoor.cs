@@ -5,7 +5,6 @@ using UnityEngine;
 public class OpenSecondDoor : MonoBehaviour
 {
     [SerializeField] GameObject door;
-    [SerializeField] flashlightMechanic fmech;
     private bool opened;
     private AudioSource audioSource;
     [SerializeField] private AudioClip doorOpeningSound;
@@ -34,8 +33,6 @@ public class OpenSecondDoor : MonoBehaviour
     {
         if (GameDataHolder.secondDoorOpened == false)
         {
-            fmech.flashlightText.text = "Door Opened";
-            fmech.Invoke("ClearUI", 3);
             audioSource.PlayOneShot(doorOpeningSound);
             GameDataHolder.secondDoorOpened = true;
             DataPersistenceManager.instance.SaveGame();
