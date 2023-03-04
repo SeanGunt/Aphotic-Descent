@@ -1,65 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Animations.Rigging;
 
 public class psEnemyAI : MonoBehaviour
 {
     [SerializeField] private Transform[] travelPoints;
-    public GameObject thePlayer;
-    [SerializeField] private Vector3 playerLocation;
-    [SerializeField] private float moveTimer = 14.0f;
-    [SerializeField] private float shootTimer = 2.0f;
-    [SerializeField] private float gunRange;
-    [SerializeField] private float aimRange;
-    [SerializeField] private GameObject psGunAimer;
-    [SerializeField] private GameObject psGunHead;
-    [SerializeField] private float gunDamage;
-    [SerializeField] private LayerMask doNotIgnoreLayer;
-    [SerializeField] private bool inShootRange = false;
-    [SerializeField] public float distBtwn;
-    [SerializeField] public int currentPoint = 0;
-    public GameObject psTarget;
-    [SerializeField] public GameObject psRotationPoint;
+    [SerializeField] private MultiAimConstraint multiAimConstraint;
+    private GameObject player;
+    private int currentPoint;
+    private int[] indexArray;
     private bool destinationSet;
-    private float moveTimerReset;
-    private float shootTimerReset;
-    private float resetSpeed;
-    private Vector3 startPos;
-    public NavMeshAgent agent;
-    public int aimWhere;
-    public bool rotateToTarget;
-    RaycastHit hit;
-    RaycastHit hit2;
+    private bool targetSet;
+    private bool xRotSet;
+    private NavMeshAgent agent;
     private State state;
     private enum State
     {
-        moving, shooting, loop
+        moving, isPerching, perched, loop
     }
 
-
-    // Start is called before the first frame update
     private void Awake()
     {
-        thePlayer = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
         destinationSet = false;
         state = State.moving;
-
-
-        /*moveTimerReset = moveTimer;
-
-        shootTimerReset = shootTimer;
-
-        resetSpeed = psAgent.speed;
-
-        startPos = this.transform.position;*/
     }
 
-    // Update is called once per frame
     private void Update()
     {
-
         switch(state)
         {
             case State.moving:
@@ -68,62 +37,13 @@ public class psEnemyAI : MonoBehaviour
             case State.loop:
                 Loop();
             break;
-            case State.shooting:
-
+            case State.isPerching:
+                IsPerching();
+            break;
+            case State.perched:
+                Perched();
             break;
         }
-        /*playerLocation = thePlayer.transform.position;
-
-        distBtwn = Vector3.Distance(playerLocation, this.transform.position);
-
-        nPoint = currentPoint+1;
-
-        if((!psAgent.pathPending && psAgent.remainingDistance < 0.5f))
-        {
-            moveTimer -= Time.deltaTime;
-            if(moveTimer <= 0 && !inShootRange)
-            {
-                nextPoint = true;
-                moveTimer = moveTimerReset;
-            }
-        }
-
-        if(distBtwn <= aimRange)
-        {
-            psAgent.speed = 0;
-            stopAndAim();
-        }
-        else
-        {
-            psAgent.speed = resetSpeed;
-            inShootRange = false;
-            rotateToTarget = false;
-        }
-
-        if(inShootRange)
-        {
-            shootTimer -= Time.deltaTime;
-            if(shootTimer <= 0)
-            {
-                shoot();
-                shootTimer = shootTimerReset;    
-            }
-        }
-        else
-        {
-            shootTimer = shootTimerReset;
-        }
-
-        if(rotateToTarget)
-        {
-            Vector3 targetDirection = psTarget.transform.position - transform.position;
-            psGunAimer.transform.LookAt(psTarget.transform.position);
-            tarRot(psTarget.transform);
-        }
-        else
-        {
-            psGunAimer.transform.localRotation = Quaternion.Euler(0, 0, 0);
-        }*/
     }
 
     private void Moving()
@@ -136,16 +56,55 @@ public class psEnemyAI : MonoBehaviour
         {
             if (!destinationSet)
             {
-            agent.SetDestination(travelPoints[currentPoint].position);
-            destinationSet = true;
+                agent.SetDestination(travelPoints[currentPoint].position);
+                destinationSet = true;
             }
 
             float distanceToPoint = Vector3.Distance(this.transform.position, travelPoints[currentPoint].position);
             if (distanceToPoint <= 1f)
             {
-            currentPoint++;
-            destinationSet = false;
+                currentPoint++;
+                destinationSet = false;
             }
+        }
+
+        float distanceToPlayer = Vector3.Distance(this.transform.position, player.transform.position);
+        if (distanceToPlayer < 20f)
+        {
+            state = State.isPerching;
+        }
+    }
+
+    private void IsPerching()
+    {
+        destinationSet = false;
+        if (!destinationSet)
+        {
+            agent.SetDestination(travelPoints[4].position);
+            destinationSet = true;
+        }
+
+        float distanceToPerchPoint = Vector3.Distance(this.transform.position, travelPoints[4].position);
+        if(distanceToPerchPoint < 1f)
+        {
+            state = State.perched;
+        }
+    }
+
+    private void Perched()
+    {
+        if (!targetSet)
+        {
+            SwitchTarget(2,1);
+            targetSet = true;
+        }
+        RaycastHit perchInformation;
+        if (Physics.Raycast(this.transform.position, Vector3.down, out perchInformation, 10f))
+        {
+            float xRot = perchInformation.collider.gameObject.transform.eulerAngles.x;
+            Vector3 direction = player.transform.position - this.transform.position;
+            Vector3 rotation = Quaternion.LookRotation(direction).eulerAngles;
+            this.transform.eulerAngles = new Vector3(this.transform.eulerAngles.x - xRot, rotation.y, this.transform.eulerAngles.z);
         }
     }
 
@@ -155,49 +114,17 @@ public class psEnemyAI : MonoBehaviour
         state = State.moving;
     }
 
-    public void stopAndAim()
+    private void SwitchTarget(int index, float weight)
     {
-        inShootRange = true;
-        if(aimWhere == 0)
+        WeightedTransformArray arrayOfTransforms = multiAimConstraint.data.sourceObjects;
+        for(int i = 0; i < arrayOfTransforms.Count; i++)
         {
-            psTarget = thePlayer;
-            rotateToTarget = true;
+            arrayOfTransforms.SetWeight(i, 0f);
         }
-        else
-        {
-            psTarget = null;
-            rotateToTarget = false;
-        }
-    }
+        multiAimConstraint.data.sourceObjects = arrayOfTransforms;
 
-    /*public void tarRot(Transform target)
-    {
-        Vector3 restTarget = psTarget.transform.position;
-        restTarget.y = psRotationPoint.transform.position.y;
-        transform.LookAt(restTarget);
-    }*/
-
-    public void shoot()
-    {
-        //uses raycast
-        Vector3 centerRay = transform.TransformDirection(Vector3.forward) * gunRange;
-        Debug.DrawRay(psGunHead.transform.position, centerRay, Color.red);
-
-        if(Physics.Raycast(psGunHead.transform.position, centerRay, out hit2, gunRange, doNotIgnoreLayer))
-        {
-            Debug.Log(hit.collider.gameObject.name + " was hit");
-
-            if(hit.collider.gameObject == thePlayer)
-            {
-                //pHC.ChangeHealth(-(pHC.maxHealth / gunDamage)); //essentially, 'what fraction of health (based on total maxHealth) will the gun remove from the player?'
-                                                                  //maxHealth is 15.0 atm, lower number for damage means more health is taken away
-                Debug.Log("hit player");
-            }
-
-            if(hit.collider.gameObject.tag == "psBomb" || hit.collider.gameObject.tag == "psLamp")
-            {
-                //hit.collider.gameObject.GetComponent<psShootObjects>().subtractHealth();
-            }
-        }
+        WeightedTransformArray a = multiAimConstraint.data.sourceObjects;
+        a.SetWeight(index, weight);
+        multiAimConstraint.data.sourceObjects = a;
     }
 }
