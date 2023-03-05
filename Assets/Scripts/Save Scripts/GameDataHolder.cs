@@ -19,6 +19,10 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
     public static bool inSub;
     public static bool inLab;
     public static bool inKelpMaze;
+    public static bool inEelCave;
+    public static bool inPsShrimpCave;
+    public static bool inMudMarsh;
+    public static bool inAnglerTrench;
     public static int objectiveId;
     public static int numOfZooplanktonCollected;
 
@@ -40,6 +44,11 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         eelObjectiveTriggered = data.eelObjectiveTriggered;
         ridgeObjectiveTriggered = data.ridgeObjectiveTriggered;
 
+        
+        inAnglerTrench = data.inAnglerTrench;
+        inMudMarsh = data.inMudMarsh;
+        inPsShrimpCave = data.inPsShrimpCave;
+        inEelCave = data.inEelCave;
         inLab = data.inLab;
         inKelpMaze = data.inKelpMaze;
 
@@ -64,6 +73,10 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         data.eelObjectiveTriggered = eelObjectiveTriggered;
         data.ridgeObjectiveTriggered = ridgeObjectiveTriggered;
         
+        data.inAnglerTrench = inAnglerTrench;
+        data.inMudMarsh = inMudMarsh;
+        data.inPsShrimpCave = inPsShrimpCave;
+        data.inEelCave = inEelCave;
         data.inLab = inLab;
         data.inKelpMaze = inKelpMaze;
 

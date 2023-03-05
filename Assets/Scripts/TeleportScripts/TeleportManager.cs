@@ -33,6 +33,7 @@ public class TeleportManager : MonoBehaviour
         GameDataHolder.inSub = false;
         GameDataHolder.inKelpMaze = true;
         GameDataHolder.inLab = false;
+        GameDataHolder.inEelCave = false;
         BGMManager.instance.SwitchBGM(0);
     }
 
@@ -40,6 +41,7 @@ public class TeleportManager : MonoBehaviour
     {
         GameDataHolder.inLab = true;
         GameDataHolder.inKelpMaze = false;
+        GameDataHolder.inEelCave = false;
         BGMManager.instance.SwitchBGM(2);
     }
 
@@ -48,5 +50,6 @@ public class TeleportManager : MonoBehaviour
         BGMManager.instance.SwitchBGM(2);
         GameDataHolder.inLab = false;
         GameDataHolder.inKelpMaze = false;
+        GameDataHolder.inEelCave = true;
     }
 }

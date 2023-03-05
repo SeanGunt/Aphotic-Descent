@@ -24,6 +24,11 @@ public class GameData
     public bool inSub;
     public bool inLab;
     public bool inKelpMaze;
+    public bool inEelCave;
+    public bool inPsShrimpCave;
+    public bool inMudMarsh;
+    public bool inAnglerTrench;
+
     public bool eelObjectiveTriggered;
     public SerializableDictionary<string, bool> lilGuygsCollected;
     public SerializableDictionary<string, bool> loreCollected;
@@ -45,6 +50,10 @@ public class GameData
         labStartObjectiveTriggered = false;
         eelObjectiveTriggered = false;
         ridgeObjectiveTriggered = false;
+        inAnglerTrench = false;
+        inMudMarsh = false;
+        inPsShrimpCave = false;
+        inEelCave = false;
         inLab = false;
         inKelpMaze = false;
         inSub = true;
