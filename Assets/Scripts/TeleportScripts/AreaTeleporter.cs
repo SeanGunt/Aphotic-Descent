@@ -16,6 +16,7 @@ public class AreaTeleporter : MonoBehaviour
         if(Keyboard.current.digit1Key.isPressed)
         {
             Teleport(0);
+            GameDataHolder.inSub = false;
             GameDataHolder.inKelpMaze = true;
             GameDataHolder.inLab = false;
             GameDataHolder.inEelCave = false;
@@ -27,6 +28,7 @@ public class AreaTeleporter : MonoBehaviour
         if(Keyboard.current.digit2Key.isPressed)
         {
             Teleport(1);
+            GameDataHolder.inSub = false;
             GameDataHolder.inLab = true;
             GameDataHolder.inKelpMaze = false;
             GameDataHolder.inEelCave = false;
@@ -38,6 +40,7 @@ public class AreaTeleporter : MonoBehaviour
         if(Keyboard.current.digit3Key.isPressed)
         {
             Teleport(2);
+            GameDataHolder.inSub = false;
             GameDataHolder.inEelCave = true;
             GameDataHolder.inKelpMaze = false;
             GameDataHolder.inLab = false;
@@ -49,6 +52,7 @@ public class AreaTeleporter : MonoBehaviour
         if(Keyboard.current.digit4Key.isPressed)
         {
             Teleport(3);
+            GameDataHolder.inSub = false;
             GameDataHolder.inMudMarsh = true;
             GameDataHolder.inKelpMaze = false;
             GameDataHolder.inLab = false;
@@ -60,6 +64,7 @@ public class AreaTeleporter : MonoBehaviour
         if(Keyboard.current.digit5Key.isPressed)
         {
             Teleport(4);
+            GameDataHolder.inSub = false;
             GameDataHolder.inPsShrimpCave = true;
             GameDataHolder.inKelpMaze = false;
             GameDataHolder.inLab = false;
@@ -71,6 +76,7 @@ public class AreaTeleporter : MonoBehaviour
         if(Keyboard.current.digit6Key.isPressed)
         {
             Teleport(5);
+            GameDataHolder.inSub = false;
             GameDataHolder.inAnglerTrench = true;
             GameDataHolder.inKelpMaze = false;
             GameDataHolder.inLab = false;
