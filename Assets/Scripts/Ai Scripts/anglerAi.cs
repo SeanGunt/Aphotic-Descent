@@ -5,35 +5,54 @@ using UnityEngine.AI;
 
 public class anglerAi : MonoBehaviour
 {
+    [SerializeField] private Transform[] patrolPoints;
+    [SerializeField] private float anglerRange;
+    [SerializeField] private GameObject player;
     private int currentPoint = 0;
     public NavMeshAgent anglerAgent;
     private bool unchosen;
+    public bool isAlive = true;
+    private float distBtwn;
+    PlayerHealthController pHelCon;
+
+
     public State state;
     public enum State
     {
-        patrolling, dead
+        anglerPatrolling, anglerDead, anglerAttacking
     }
-    [SerializeField] private Transform[] patrolPoints;
 
     // Start is called before the first frame update
     void Awake()
     {
-        state = State.patrolling;
+        state = State.anglerPatrolling;
         anglerAgent = this.GetComponent<NavMeshAgent>();
 
         anglerAgent.destination = patrolPoints[currentPoint].position;
+
+        player = GameObject.FindGameObjectWithTag("Player");
+        pHelCon = player.GetComponent<PlayerHealthController>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        distBtwn = Vector3.Distance(player.transform.position, transform.position);
+        if(!isAlive)
+        {
+            state = State.anglerDead;
+        }
+
         switch (state)
         {
             default:
-            case State.patrolling:
+            case State.anglerPatrolling:
                 patrolling();
             break;
-            case State.dead:
+            case State.anglerAttacking:
+                attacking();
+            break;
+            case State.anglerDead:
                 Dead();
             break;
         }
@@ -42,25 +61,65 @@ public class anglerAi : MonoBehaviour
     void patrolling()
     {
         if(!anglerAgent.pathPending && anglerAgent.remainingDistance < 0.5f)
-        {
-            //Debug.Log("arrived at point");
-            
+        {            
             unchosen = true;
         }
         
         if(unchosen)
         {
-            //Debug.Log("next point");
-
             anglerAgent.destination = patrolPoints[Random.Range(0, patrolPoints.Length)].position;
             unchosen = false;
+        }
+
+        if(distBtwn <= anglerRange)
+        {
+            unchosen = false;
+            anglerAgent.ResetPath();
+            state = State.anglerAttacking;
         }
     }
 
     private void Dead()
     {
-        Debug.Log("angler dead");
+        //Debug.Log("angler dead");
+        unchosen = false;
+        anglerAgent.ResetPath();
         anglerAgent.speed = 0;
         anglerAgent.acceleration = 0;
+    }
+
+    private void attacking()
+    {
+        if(isAlive)
+        {
+            if(distBtwn <= anglerRange)
+            {
+                unchosen = false;
+                anglerAgent.destination = player.transform.position;
+            }
+            else
+            {
+                unchosen = true;
+                anglerAgent.ResetPath();
+                state = State.anglerPatrolling;
+            }
+        }
+    }
+
+    void OnColliderEnter(Collision other)
+    {
+        if(other.gameObject.tag == "Player")
+        {
+            Debug.Log("player jumpscare here?");
+            pHelCon.ChangeHealth(-15.0f);
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Knife")
+        {
+            Debug.Log("hit lure with knife?");
+        }
     }
 }

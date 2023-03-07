@@ -24,7 +24,7 @@ public class ShrimpPath : MonoBehaviour
         actualPosition = shrimp.transform.position;
         shrimp.transform.position = Vector3.MoveTowards(actualPosition, pathPoints[x].transform.position, speed * Time.deltaTime);
         float distance = Vector3.Distance(this.transform.position, pathPoints[x].transform.position);
-        Debug.Log(distance);
+        //Debug.Log(distance);
         
         if (isBlacklighted)
         {

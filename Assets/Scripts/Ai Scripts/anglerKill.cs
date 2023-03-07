@@ -20,7 +20,8 @@ public class anglerKill : MonoBehaviour
         if(turnOffAngler)
         {
             Debug.Log("turned off angler");
-            aAi.state = anglerAi.State.dead;
+            aAi.isAlive = false;
+            aAi.state = anglerAi.State.anglerDead;
         }
     }
 
