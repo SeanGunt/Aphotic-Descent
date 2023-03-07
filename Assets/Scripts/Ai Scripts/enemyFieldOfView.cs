@@ -22,6 +22,15 @@ public class enemyFieldOfView : MonoBehaviour
         StartCoroutine(FOVRoutine());
     }
 
+    private void OnEnable()
+    {
+        StartCoroutine(FOVRoutine());
+    }
+    private void OnDisable()
+    {
+        StopCoroutine(FOVRoutine());
+    }
+
     private IEnumerator FOVRoutine()
     {
         WaitForSeconds wait = new WaitForSeconds(0.2f);

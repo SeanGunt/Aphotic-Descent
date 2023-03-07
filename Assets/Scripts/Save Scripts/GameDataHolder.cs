@@ -51,6 +51,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         inEelCave = data.inEelCave;
         inLab = data.inLab;
         inKelpMaze = data.inKelpMaze;
+        inSub = data.inSub;
 
         numOfZooplanktonCollected = data.numOfZooplanktonCollected;
     }
@@ -79,6 +80,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         data.inEelCave = inEelCave;
         data.inLab = inLab;
         data.inKelpMaze = inKelpMaze;
+        data.inSub = inSub;
 
         data.numOfZooplanktonCollected = numOfZooplanktonCollected;
     }

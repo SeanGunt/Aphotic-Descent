@@ -30,7 +30,7 @@ public class ffScr : MonoBehaviour
     private State state;
     public enum State
     {
-        attacking, patrolling, wasAttacking
+        attacking, patrolling, wasAttacking, idle
     }
 
     
@@ -56,6 +56,17 @@ public class ffScr : MonoBehaviour
         bleedRange = scentRange * rangeForBleedMultiplier;
     }
 
+    void OnEnable()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        state = State.patrolling;
+    }
+
+    void OnDisable()
+    {
+        state = State.idle;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -71,6 +82,9 @@ public class ffScr : MonoBehaviour
             break;
             case State.wasAttacking:
                     wasAttacking();
+            break;
+            case State.idle:
+                    idle();
             break;
         }
 
@@ -132,6 +146,11 @@ public class ffScr : MonoBehaviour
             BreathingManager.instance.SwitchBreathRate(0);
             state = State.wasAttacking;
         }
+    }
+
+    void idle()
+    {
+        currentlyAttacking = false;
     }
 
     private void OnTriggerEnter(Collider other)

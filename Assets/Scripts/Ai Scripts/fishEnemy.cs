@@ -71,7 +71,17 @@ public class fishEnemy : MonoBehaviour
         }
 
         state = State.patrolling;
+    }
 
+    void OnEnable()
+    {
+        state = State.patrolling;
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
+
+    void OnDisable()
+    {
+        state = State.idle;
     }
 
     void Update()
@@ -118,6 +128,9 @@ public class fishEnemy : MonoBehaviour
                 break;
             case State.transitioning:
                 Invoke("TransitionPhase2", 2);
+                break;
+            case State.idle:
+                Idle();
                 break;
             case State.dead:
                 Dead();
@@ -299,6 +312,11 @@ public class fishEnemy : MonoBehaviour
     //     patrolSpeed = patrolSpeed2;
     //     state = State.patrolling;
     // }
+
+    void Idle()
+    {
+        movingToNextPosition = false;
+    }
 
     void RepositionCheck()
     {
