@@ -3,6 +3,8 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private GameObject subTutorial, kelpMaze, crabLab, eelCave, psShrimpCave, mudMarsh, anglerTrench;
+    [SerializeField] private Light mainLight;
+    private Color fogColor, lightColor;
     
     void Update()
     {
@@ -15,6 +17,8 @@ public class LevelManager : MonoBehaviour
             psShrimpCave.gameObject.SetActive(false);
             mudMarsh.gameObject.SetActive(false);
             anglerTrench.gameObject.SetActive(false);
+
+            ChangeLighting("#084A6C","#133F59", 0.03f, 0.15f);
         }
         else if(GameDataHolder.inKelpMaze)
         {
@@ -25,6 +29,8 @@ public class LevelManager : MonoBehaviour
             psShrimpCave.gameObject.SetActive(false);
             mudMarsh.gameObject.SetActive(false);
             anglerTrench.gameObject.SetActive(false);
+
+            ChangeLighting("#294163", "#428FB2", 0.03f, 0.8f);
         }
         else if(GameDataHolder.inLab)
         {
@@ -35,6 +41,8 @@ public class LevelManager : MonoBehaviour
             psShrimpCave.gameObject.SetActive(false);
             mudMarsh.gameObject.SetActive(false);
             anglerTrench.gameObject.SetActive(false);
+
+            ChangeLighting("#084A6C","#133F59", 0.03f, 0.15f);
         }
         else if(GameDataHolder.inEelCave)
         {
@@ -45,6 +53,7 @@ public class LevelManager : MonoBehaviour
             psShrimpCave.gameObject.SetActive(false);
             mudMarsh.gameObject.SetActive(false);
             anglerTrench.gameObject.SetActive(false);
+            ChangeLighting("#084A6C","#133F59", 0.02f, 0.15f);
         }
         else if(GameDataHolder.inPsShrimpCave)
         {
@@ -55,6 +64,8 @@ public class LevelManager : MonoBehaviour
             psShrimpCave.gameObject.SetActive(true);
             mudMarsh.gameObject.SetActive(false);
             anglerTrench.gameObject.SetActive(false);
+
+            ChangeLighting("#084A6C","#133F59", 0.03f, 0.15f);
         }
         else if(GameDataHolder.inMudMarsh)
         {
@@ -65,6 +76,8 @@ public class LevelManager : MonoBehaviour
             psShrimpCave.gameObject.SetActive(false);
             mudMarsh.gameObject.SetActive(true);
             anglerTrench.gameObject.SetActive(false);
+
+            ChangeLighting("#084A6C","#133F59", 0.03f, 0.15f);
         }
         else if(GameDataHolder.inAnglerTrench)
         {
@@ -75,6 +88,22 @@ public class LevelManager : MonoBehaviour
             psShrimpCave.gameObject.SetActive(false);
             mudMarsh.gameObject.SetActive(false);
             anglerTrench.gameObject.SetActive(true);
+
+            ChangeLighting("#084A6C","#133F59", 0.03f, 0.15f);
+        }
+    }
+
+    private void ChangeLighting(string a, string b, float density, float lighStrength)
+    {
+        mainLight.intensity = lighStrength;
+        if (ColorUtility.TryParseHtmlString(a, out lightColor))
+        {
+            mainLight.color = lightColor;
+        }
+        RenderSettings.fogDensity = density;
+        if (ColorUtility.TryParseHtmlString(b, out fogColor))
+        {
+            RenderSettings.fogColor = fogColor;
         }
     }
 }
