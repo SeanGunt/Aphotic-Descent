@@ -7,14 +7,15 @@ public class anglerAi : MonoBehaviour
 {
     [SerializeField] private Transform[] patrolPoints;
     [SerializeField] private float anglerRange;
-    [SerializeField] private GameObject player;
+    private GameObject player;
     private int currentPoint = 0;
     public NavMeshAgent anglerAgent;
     private bool unchosen;
     public bool isAlive = true;
+    public float anglerStunTime;
     private float distBtwn;
+    [HideInInspector] public float anglerSpeed;
     PlayerHealthController pHelCon;
-
 
     public State state;
     public enum State
@@ -32,6 +33,8 @@ public class anglerAi : MonoBehaviour
 
         player = GameObject.FindGameObjectWithTag("Player");
         pHelCon = player.GetComponent<PlayerHealthController>();
+        
+        anglerSpeed = anglerAgent.speed;
     }
 
     // Update is called once per frame
@@ -106,20 +109,32 @@ public class anglerAi : MonoBehaviour
         }
     }
 
+    /*
     void OnColliderEnter(Collision other)
     {
         if(other.gameObject.tag == "Player")
         {
             Debug.Log("player jumpscare here?");
-            pHelCon.ChangeHealth(-15.0f);
+            
         }
     }
+    */
 
     void OnTriggerEnter(Collider other)
     {
+        if(other.gameObject.tag == "Player")
+        {
+            Debug.Log("KILL PLAYER");
+            pHelCon.ChangeHealth(-15.0f);
+            pHelCon.TakeDamage();
+        }
+    }
+
+    void OnColliderEnter(Collision other)
+    {
         if(other.gameObject.tag == "Knife")
         {
-            Debug.Log("hit lure with knife?");
+            Debug.Log("knife hit :)");
         }
     }
 }

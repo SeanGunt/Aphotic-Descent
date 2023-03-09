@@ -10,7 +10,9 @@ public class EnemyKnockback : MonoBehaviour
     private State state;
 
     ffScr freakFishScript;
+    anglerAi angScr;
     private bool freakFishAttached = false;
+    private bool anglerFishAttached = false;
     private float stopTime;
     private float resetTime;
     private bool stopped = false;
@@ -23,6 +25,10 @@ public class EnemyKnockback : MonoBehaviour
     {
         cam = Camera.main;
         rb = this.GetComponent<Rigidbody>();
+        if(rb == null)
+        {
+            rb = this.GetComponentInParent<Rigidbody>();
+        }
         state = State.normal;
 
         if(this.gameObject.name == "naMeFinder")
@@ -32,9 +38,13 @@ public class EnemyKnockback : MonoBehaviour
             stopTime = freakFishScript.stunTime;
             resetTime = stopTime;
         }
-        else
+        
+        if(this.gameObject.name == "angLureTrigger")
         {
-            return;
+            anglerFishAttached = true;
+            angScr = GetComponentInParent<anglerAi>();
+            stopTime = angScr.anglerStunTime;
+            resetTime = stopTime;
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -51,6 +61,14 @@ public class EnemyKnockback : MonoBehaviour
                 freakFishScript.theAgent.speed = 0;
                 
                 Debug.Log("ff was hit");
+            }
+
+            if(anglerFishAttached && !stopped)
+            {
+                stopped = true;
+                angScr.anglerAgent.speed = 0;
+                
+                Debug.Log("angler was hit");
             }
         }
     }
@@ -90,13 +108,21 @@ public class EnemyKnockback : MonoBehaviour
         {
             stopTime -= Time.deltaTime;
 
-            if(stopTime <= 0)
-                {
-                    freakFishScript.theAgent.speed = freakFishScript.agentSpeed;
-                    stopTime = resetTime;
-                    Debug.Log("ff speed resetting");
-                    stopped = false;
-                }
+            if(stopTime <= 0 && freakFishAttached)
+            {
+                freakFishScript.theAgent.speed = freakFishScript.agentSpeed;
+                stopTime = resetTime;
+                Debug.Log("ff speed resetting");
+                stopped = false;
+            }
+            
+            if(stopTime <= 0 && anglerFishAttached)
+            {
+                angScr.anglerAgent.speed = angScr.anglerSpeed;
+                stopTime = resetTime;
+                Debug.Log("angler speed resetting");
+                stopped = false;
+            }
         }
     }
 }
