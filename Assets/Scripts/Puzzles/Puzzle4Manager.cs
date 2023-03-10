@@ -30,6 +30,6 @@ public class Puzzle4Manager : MonoBehaviour
         doorController.close = true;
         doorController.canOpen = true;
         textController.Text = "Code solved. E to interact";
-        computerTextController.Text = "Check the door.";
+        computerTextController.Text = "Eel chamber unlocked.";
     }
 }

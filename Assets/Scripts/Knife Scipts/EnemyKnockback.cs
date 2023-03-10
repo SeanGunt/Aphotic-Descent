@@ -59,7 +59,7 @@ public class EnemyKnockback : MonoBehaviour
             {
                 stopped = true;
                 freakFishScript.theAgent.speed = 0;
-                
+                freakFishScript.animator.SetBool("isStunned", true);
                 Debug.Log("ff was hit");
             }
 
@@ -114,6 +114,7 @@ public class EnemyKnockback : MonoBehaviour
                 stopTime = resetTime;
                 Debug.Log("ff speed resetting");
                 stopped = false;
+                freakFishScript.animator.SetBool("isStunned", false);
             }
             
             if(stopTime <= 0 && anglerFishAttached)
