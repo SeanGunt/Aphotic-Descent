@@ -35,7 +35,7 @@ public class BGMManager : MonoBehaviour
         }
         if (GameDataHolder.inLab)
         {
-            SwitchBGM(2);
+            SwitchBGM(5);
         }
     }
 

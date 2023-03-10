@@ -7,6 +7,8 @@ public class Puzzle3Manager : MonoBehaviour
     private DoorScript2 doorController;
     private UItext textController, buttonTextController;
     [SerializeField]private GameObject doorHinge, backupSwitch;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip doorCanOpenSound;
 
     private void Start()
     {
@@ -19,6 +21,7 @@ public class Puzzle3Manager : MonoBehaviour
     {
         doorController.close = true;
         doorController.canOpen = true;
+        audioSource.PlayOneShot(doorCanOpenSound);
         textController.Text = "The backup switch worked. Door can open.";
         buttonTextController.Text = "Storage room open.";
     }

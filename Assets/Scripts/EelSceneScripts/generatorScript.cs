@@ -11,7 +11,7 @@ public class generatorScript : MonoBehaviour
     private Material[] originalMats;
     [SerializeField] private Material[] hitMaterials;
     private AudioSource audioSource;
-    [SerializeField] private AudioClip hitSound;
+    [SerializeField] private AudioClip[] hitSounds;
     [SerializeField] private AudioClip explosionSound;
 
     private void Awake()
@@ -25,7 +25,8 @@ public class generatorScript : MonoBehaviour
     {
         if(other.gameObject.tag == "Knife" && isOn == true && (genHealth > 0))
         {
-            audioSource.PlayOneShot(hitSound);
+            int randomNoise = Random.Range(0,3);
+            audioSource.PlayOneShot(hitSounds[randomNoise]);
             Debug.Log("generatorHit");
             genHealth -= 1;
             meshRenderer.sharedMaterials = hitMaterials;

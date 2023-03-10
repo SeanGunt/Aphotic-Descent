@@ -7,11 +7,14 @@ public class FootstepSounds : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip[] sandSounds;
     [SerializeField] private AudioClip[] metalSounds;
-    [SerializeField] private AudioClip[] rockSands;
+    [SerializeField] private AudioClip[] rockSounds;
+    [SerializeField] private AudioClip[] mudSounds;
     [SerializeField] private LayerMask ignoreLayer;
     private LayerMask walkingLayer;
     private GameObject player;
     private PlayerMovement pm;
+    private bool canPlaySound = true;
+    private float soundTimer = 0.8f;
 
     private void Awake()
     {
@@ -26,28 +29,52 @@ public class FootstepSounds : MonoBehaviour
         {
             walkingLayer = hit.collider.gameObject.layer;
         }
+        soundTimer -= Time.deltaTime;
+        if (soundTimer <= 0)
+        {
+            canPlaySound = true;
+        }
+        else
+        {
+            canPlaySound = false;
+        }
     }
 
     public void PlayFootStepSounds()
     {
         if (pm.isGrounded)
         {
-            if (walkingLayer == 3)
-            {
-                int randomNoise = Random.Range(0, 3);
-                audioSource.PlayOneShot(sandSounds[randomNoise]);
-            }
-            if (walkingLayer == 18)
-            {
-                int randomNoise = Random.Range(0, 4);
-                audioSource.PlayOneShot(metalSounds[randomNoise]);
-            }
-
-            if (walkingLayer == 16)
+            if (walkingLayer == 3 && canPlaySound)
             {
                 int randomNoise = Random.Range(0,3);
-                audioSource.PlayOneShot(rockSands[randomNoise]);
+                audioSource.PlayOneShot(sandSounds[randomNoise]);
+                HandleTimer();
+            }
+            if (walkingLayer == 18 && canPlaySound)
+            {
+                int randomNoise = Random.Range(0,4);
+                audioSource.PlayOneShot(metalSounds[randomNoise]);
+                HandleTimer();
+            }
+
+            if (walkingLayer == 16 && canPlaySound)
+            {
+                int randomNoise = Random.Range(0,3);
+                audioSource.PlayOneShot(rockSounds[randomNoise]);
+                HandleTimer();
+            }
+
+            if (walkingLayer == 22 && canPlaySound)
+            {
+                int randomNoise = Random.Range(0,3);
+                audioSource.PlayOneShot(mudSounds[randomNoise]);
+                HandleTimer();
             }
         }
+    }
+
+    private void HandleTimer()
+    {
+        soundTimer = 0.8f;
     }
 }

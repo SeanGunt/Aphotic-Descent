@@ -42,12 +42,12 @@ public class TeleportManager : MonoBehaviour
         GameDataHolder.inLab = true;
         GameDataHolder.inKelpMaze = false;
         GameDataHolder.inEelCave = false;
-        BGMManager.instance.SwitchBGM(2);
+        BGMManager.instance.SwitchBGM(5);
     }
 
     public void TeleportToEelCave()
     {
-        BGMManager.instance.SwitchBGM(2);
+        BGMManager.instance.SwitchBGM(6);
         GameDataHolder.inLab = false;
         GameDataHolder.inKelpMaze = false;
         GameDataHolder.inEelCave = true;

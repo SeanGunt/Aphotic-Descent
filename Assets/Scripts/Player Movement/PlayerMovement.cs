@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   private float moveSpeed, defaultYPos, timer;
   public float playerStamina, maxStamina, staminaDelay;
   [SerializeField] private LayerMask ignoreMask;
-  private Vector3 velocity, moveDirection, movementVelocity;
+  private Vector3 velocity, moveDirection;
   [HideInInspector] public bool isGrounded, hasUpgradedSuit, headbobActive;
   [SerializeField] private bool isSwimming, canSwim, isTired, canUseHeadbob;
   [SerializeField] public Image staminaBar, tiredBar, upgradedUI;
@@ -103,16 +103,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
           break;
       }
 
-
     if(PlayerPrefs.GetInt("headBob") == 1)
     {
       headbobActive = true;
-      //Debug.Log(canUseHeadbob + " headbob");
     }
     else
     {
       headbobActive = false;
-      //Debug.Log(canUseHeadbob + " headbob");
     }
 
       staminaDelay -= Time.deltaTime;
@@ -206,6 +203,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
           tiredBar.fillAmount = 1;
         }
       }
+      else
+      {
+        HandleGroundedAnims(move);
+      }
 
         //HeadBobbingCall
         if(canUseHeadbob && headbobActive)
@@ -217,17 +218,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         velocity.y += gravityInWater * Time.deltaTime;
         velocity.y = Mathf.Clamp(velocity.y, -15f, 10f);
         controller.Move(velocity * Time.deltaTime);
-
-        animator.SetFloat("walkHorizontal", move.x);
-        animator.SetFloat("walkVertical", move.z);
-        if (move.x > -0.1 && move.x < 0.1 && move.z > -0.1 && move.z < 0.1)
-        {
-          animator.SetBool("notMoving", true);
-        }
-        else
-        {
-          animator.SetBool("notMoving", false);
-        }
     }
 
     private void MoveOutOfWater()
@@ -293,17 +283,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       velocity.y += gravityInWater * Time.deltaTime;
       velocity.y = Mathf.Clamp(velocity.y, -15f, 10f);
       controller.Move(velocity * Time.deltaTime);
-      
-      animator.SetFloat("walkHorizontal", move.x);
-      animator.SetFloat("walkVertical", move.z);
-      if (move.x > -0.1 && move.x < 0.1 && move.z > -0.1 && move.z < 0.1)
-        {
-          animator.SetBool("notMoving", true);
-        }
-        else
-        {
-          animator.SetBool("notMoving", false);
-        }
+      HandleGroundedAnims(move);
     }
 
     private void OnTriggerStay(Collider other)
@@ -362,6 +342,26 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
           playerCamera.transform.localPosition.z
         );
       }
+    }
+
+    private void HandleGroundedAnims(Vector3 move)
+    {
+        animator.SetBool("isSwimming", false);
+        animator.SetFloat("walkHorizontal", move.x);
+        animator.SetFloat("walkVertical", move.z);
+        if (move.x > -0.1 && move.x < 0.1 && move.z > -0.1 && move.z < 0.1)
+        {
+          animator.SetBool("notMoving", true);
+        }
+        else
+        {
+          animator.SetBool("notMoving", false);
+        }
+    }
+
+    private void HandleSwimmingAnims()
+    {
+      animator.SetBool("isSwimming", true);
     }
 
     public void BecomeTired()

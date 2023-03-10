@@ -15,6 +15,7 @@ public class DoorScript2 : MonoBehaviour
     [SerializeField] private float subtractDegreeToRotate;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip doorOpenSound;
+    private bool soundPlayed;
     private GameObject Player;
     private PlayerInput playerInput;
 
