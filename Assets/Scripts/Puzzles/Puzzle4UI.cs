@@ -12,8 +12,11 @@ public class Puzzle4UI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI codeInput, codeResult;
     [SerializeField] public bool codeSolved;
     public static bool computerActivated;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip incorrectCodeSound;
     void Start()
     {
+        buttonsInputed = 0;
         computerActivated = false;
         codeSolved = false;
         codeResult.text = "";
@@ -26,6 +29,7 @@ public class Puzzle4UI : MonoBehaviour
         codeInput.text = codeString.ToString();
         if (buttonsInputed >= 7)
         {
+            audioSource.PlayOneShot(incorrectCodeSound);
             codeString = "";
             buttonsInputed = 0;
         }

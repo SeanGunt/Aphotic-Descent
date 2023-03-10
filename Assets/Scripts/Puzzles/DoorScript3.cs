@@ -7,6 +7,8 @@ public class DoorScript3 : MonoBehaviour
     private UItext uItext;
     private State state;
     private Animator animator;
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip[] doorSFX;
     
     private enum State
     {
@@ -15,6 +17,7 @@ public class DoorScript3 : MonoBehaviour
 
     void Awake()
     {
+        audioSource = GetComponentInChildren<AudioSource>();
         animator = GetComponent<Animator>();
         canOpen = true;
         state = State.idle;
@@ -68,6 +71,7 @@ public class DoorScript3 : MonoBehaviour
             inTrigger = true;
             if (canOpen && close && inTrigger)
             {
+                audioSource.PlayOneShot(doorSFX[0]);
                 state = State.open;
                 open = true;
                 close = false;
@@ -81,6 +85,7 @@ public class DoorScript3 : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
+            audioSource.PlayOneShot(doorSFX[1]);
             inTrigger = false;
             if (canClose && open && !inTrigger)
             {

@@ -8,9 +8,12 @@ public class Zooplankton : MonoBehaviour, IDataPersistence
     [SerializeField] private GameObject basicTextObj;
     private Text basicText;
     private string zooplanktonCollectedText = "Zooplankton Collected! Added to Inventory";
-    private AudioSource audioSource;
+    [SerializeField] private AudioSource audioSource;
     [SerializeField] private string id;
     [SerializeField] private bool collected;
+    private AudioSource zooplanktonAudioSource;
+    [SerializeField] private AudioClip[] zooplanktonNoises;
+    private float zooplanktonNoiseTimer;
     [ContextMenu("Generate Guid for id")]
 
     private void GenerateGuid()
@@ -20,7 +23,9 @@ public class Zooplankton : MonoBehaviour, IDataPersistence
 
     private void Awake()
     {
-        audioSource = GetComponentInParent<AudioSource>();
+        zooplanktonNoiseTimer = Random.Range(2.0f, 5.0f);
+        zooplanktonAudioSource = GetComponent<AudioSource>();
+        zooplanktonAudioSource.PlayOneShot(zooplanktonNoises[0]);
         basicText = basicTextObj.GetComponent<Text>();
     }
 
@@ -30,6 +35,17 @@ public class Zooplankton : MonoBehaviour, IDataPersistence
         if(collected)
         {
             this.gameObject.SetActive(false);
+        }
+    }
+
+    private void Update()
+    {
+        zooplanktonNoiseTimer -= Time.deltaTime;
+        if (zooplanktonNoiseTimer <= 0)
+        {
+            int randomNoise = Random.Range(0,3);
+            zooplanktonAudioSource.PlayOneShot(zooplanktonNoises[randomNoise]);
+            zooplanktonNoiseTimer = Random.Range(2.0f, 5.0f);
         }
     }
 

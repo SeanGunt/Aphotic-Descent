@@ -9,7 +9,7 @@ public class RebindUI : MonoBehaviour
 {
     [SerializeField] private InputActionReference inputActionReference; //references input action asset
 
-    [SerializeField] private bool excludeMouse = true; //don't accidentally rebind to mouse
+    //[SerializeField] private bool excludeMouse = true; //don't accidentally rebind to mouse
     [Range(0,10)] [SerializeField] private int selectedBinding;
     [SerializeField] private InputBinding.DisplayStringOptions displayStringOptions;
 
