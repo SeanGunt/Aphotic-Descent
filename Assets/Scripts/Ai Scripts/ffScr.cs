@@ -20,7 +20,7 @@ public class ffScr : MonoBehaviour
     private bool unchosen = true;
     PlayerHealthController pHC;
     [HideInInspector] public bool currentlyAttacking = false;
-    [SerializeField] private Animator animator;
+    [SerializeField] public Animator animator;
     [SerializeField] private GameObject mainCam, jumpscareCam;
     [SerializeField] private GameObject playerDiver;
     private AudioSource audioSource;

@@ -20,6 +20,6 @@ public class Puzzle3Manager : MonoBehaviour
         doorController.close = true;
         doorController.canOpen = true;
         textController.Text = "The backup switch worked. Door can open.";
-        buttonTextController.Text = "Check the door.";
+        buttonTextController.Text = "Storage room open.";
     }
 }

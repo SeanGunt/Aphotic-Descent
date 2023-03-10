@@ -5,24 +5,24 @@ using UnityEngine;
 public class fishEnemy : MonoBehaviour
 {
     public Transform[] patrolPositions;
+    private int positionInPoints;
     public float chaseSpeed = 2.0F;
     public float patrolSpeed = 2.0F;
     public float chaseSpeed2 = 12.5f;
     public float patrolSpeed2 = .8f;
 
-    [SerializeField]private GameObject playerDiver, player, playerHead, mainCam, jumpscareCam, deathObject, deathCube;
+    [SerializeField]private GameObject playerDiver, player, playerHead, mainCam, jumpscareCam, deathObject, deathCube, barnacleHolder;
+    [SerializeField]private GameObject[] barnacles;
+    [SerializeField]private float currentScale, maxScale;
     [SerializeField]private Animator animator;
     PlayerHealthController pHC;
     InvisibilityMechanic iM;
-    RaycastHit hit;
-    [SerializeField]private LayerMask doNotIgnoreLayer, playerLayer;
     [SerializeField] private GameObject gen1, gen2, gen3, gen4;
     private CapsuleCollider cc;
     generatorScript gen1Scr;
     generatorScript gen2Scr;
     generatorScript gen3Scr;
     generatorScript gen4Scr;
-    generatorScript dethCubeScr;
     private bool g1On = true;
     private bool g2On = true;
     private bool g3On = true;
@@ -35,10 +35,9 @@ public class fishEnemy : MonoBehaviour
     private float beginningTime;
     private float totalLength;
     private float randomTime;
-    [SerializeField] private float amount;
     public bool backToStart = false;
     private bool movingToNextPosition = false;
-    [SerializeField]private bool unobstructed, repositioning;
+    [SerializeField]private bool isGrowing, playerHid;
     Vector3 destination;
     private State state;
     private enemyFieldOfView eFOV;
@@ -46,7 +45,7 @@ public class fishEnemy : MonoBehaviour
 
     private enum State
     {
-        attacking, patrolling, repositioning, dead, killedPlayer, lockingIn, stuck, idle, transitioning
+        attacking, patrolling, repositioning, dead, killedPlayer, lockingIn, idle, transitioning
     }
     
     void Awake()
@@ -59,6 +58,10 @@ public class fishEnemy : MonoBehaviour
         eFOV = this.GetComponent<enemyFieldOfView>();
         animator = GetComponentInChildren<Animator>();
         phase = 1;
+        currentScale = 1;
+        maxScale = 5;
+        positionInPoints = 0;
+        isGrowing = false;
         if(player != null)
         {
             pHC = player.GetComponent<PlayerHealthController>();
@@ -73,12 +76,6 @@ public class fishEnemy : MonoBehaviour
         state = State.patrolling;
     }
 
-    void OnEnable()
-    {
-        state = State.patrolling;
-        player = GameObject.FindGameObjectWithTag("Player");
-    }
-
     void OnDisable()
     {
         state = State.idle;
@@ -91,7 +88,7 @@ public class fishEnemy : MonoBehaviour
             default:
             case State.patrolling:
                 Patrolling();
-                RepositionCheck();
+                //RepositionCheck();
                 if (phase == 1)
                 {
                     Phase1();
@@ -112,22 +109,10 @@ public class fishEnemy : MonoBehaviour
                     Phase2();
                 }
                 break;
-            case State.repositioning:
-                Repositioning();
-                RepositionCheck();
-                if (phase == 1)
-                {
-                    Phase1();
-                }
-                else
-                {
-                    Phase2();
-                }
-                break;
             case State.killedPlayer:
                 break;
             case State.transitioning:
-                Invoke("TransitionPhase2", 2);
+                GrowBarnacles();
                 break;
             case State.idle:
                 Idle();
@@ -147,7 +132,12 @@ public class fishEnemy : MonoBehaviour
         }
         if(!movingToNextPosition)
         {
-            destination = patrolPositions[Random.Range(0,patrolPositions.Length)].position;
+            destination = patrolPositions[positionInPoints].position;
+            positionInPoints++;
+            if(positionInPoints == patrolPositions.Length)
+            {
+                positionInPoints = 0;
+            }
             movingToNextPosition = true;
         }
         RotateTowards(destination);
@@ -164,11 +154,9 @@ public class fishEnemy : MonoBehaviour
         if (totalLength <= 10f)
         {
             movingToNextPosition = false;
-            repositioning = false;
-            unobstructed = true;
         }
 
-        if (eFOV.canSeePlayer && !repositioning && !iM.isSafe)
+        if (eFOV.canSeePlayer && !iM.isSafe)
         {
             BGMManager.instance.SwitchBGM(4);
             BreathingManager.instance.SwitchBreathRate(2);
@@ -198,36 +186,6 @@ public class fishEnemy : MonoBehaviour
         animator.SetBool("isDead", true);
         chaseSpeed = 0;
         patrolSpeed = 0;
-    }
-
-    private void Repositioning()
-    {
-        if (patrolPositions.Length == 0)
-        {
-            return;
-        }
-
-        if(!movingToNextPosition)
-        {
-            destination = patrolPositions[Random.Range(0,patrolPositions.Length)].position;
-            movingToNextPosition = true;
-        }
-        if(repositioning)
-        {
-            destination = patrolPositions[Random.Range(0,patrolPositions.Length)].position;
-            movingToNextPosition = true;
-            repositioning = false;
-        }
-        RotateTowards(destination);
-        this.transform.position = Vector3.MoveTowards(transform.position, destination, chaseSpeed * Time.deltaTime);
-        totalLength = Vector3.Distance(this.transform.position, destination);
-        
-        if (totalLength <= 10f)
-        {
-            movingToNextPosition = false;
-            unobstructed = true;
-            state = State.patrolling;
-        }
     }
 
     private void RotateTowards(Vector3 target)
@@ -269,10 +227,11 @@ public class fishEnemy : MonoBehaviour
         
         if((eelHealth == 0) && (!g1On && !g2On && !g3On && !g4On) && (eelDead == false))
         {
-            BGMManager.instance.SwitchBGM(0);
+            Invoke("TransitionPhase2", 3);
             animator.SetBool("isDying", true);
             eFOV.enabled = false;
             state = State.transitioning;
+            audioSource.PlayOneShot(eelSounds[4]);
         }
     }
 
@@ -285,15 +244,16 @@ public class fishEnemy : MonoBehaviour
     {   
         animator.SetBool("isReviving", true);
         animator.SetBool("isDying", false);
-        BGMManager.instance.SwitchBGM(2);
-        Invoke("Transitioning", 2);
+        Invoke("Transitioning", 3);
+        barnacleHolder.SetActive(true);
     }
 
     void Transitioning()
     {
         animator.SetBool("isBack", true);
         animator.SetBool("isReviving", false);
-        Invoke("Transitioned", 2);
+        Invoke("Transitioned", 3);
+        isGrowing = true;
     }
 
     void Transitioned()
@@ -302,47 +262,13 @@ public class fishEnemy : MonoBehaviour
         phase = 2;
         chaseSpeed = chaseSpeed2;
         patrolSpeed = patrolSpeed2;
+        eFOV.enabled = true;
         state = State.patrolling;
     }
 
-    // void Transition()
-    // {
-    //     phase = 2;
-    //     chaseSpeed = chaseSpeed2;
-    //     patrolSpeed = patrolSpeed2;
-    //     state = State.patrolling;
-    // }
-
     void Idle()
     {
-        movingToNextPosition = false;
-    }
-
-    void RepositionCheck()
-    {
-        Vector3 centerRay = transform.TransformDirection(new Vector3( 0, 0, 1))* amount/4;
-        Vector3 rightRay = transform.TransformDirection(new Vector3( 1, 0, 1))* amount/5;
-        Vector3 leftRay = transform.TransformDirection(new Vector3(-1, 0, 1))* amount/5;
-
-        Debug.DrawRay(transform.position, rightRay, Color.red);
-        Debug.DrawRay(transform.position, centerRay, Color.red);
-        Debug.DrawRay(transform.position, leftRay, Color.red);
-
-        if((Physics.Raycast(transform.position,rightRay,out hit, amount, doNotIgnoreLayer) || 
-            Physics.Raycast(transform.position,leftRay, out hit, amount, doNotIgnoreLayer) ||
-            Physics.Raycast(transform.position,centerRay, out hit, amount/2, doNotIgnoreLayer)) == false)
-            {
-                unobstructed = true;               
-            }
-        else
-        {
-            if (unobstructed)
-            {
-                repositioning = true;
-                state = State.repositioning;
-                unobstructed = false;
-            }
-        }
+        
     }
 
     private void HandleTailWiggleSpeed()
@@ -351,7 +277,18 @@ public class fishEnemy : MonoBehaviour
         lastPosition = transform.position;
         animator.SetFloat("speed", velocity * 8);
     }
-    
+
+    private void GrowBarnacles()
+    {
+        foreach (GameObject barnacle in barnacles)
+        {
+            if(currentScale < maxScale && isGrowing)
+            {
+                currentScale += Time.deltaTime;
+                barnacle.transform.localScale = new Vector3(2, currentScale * 2, 2);
+            }
+        }
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -366,6 +303,7 @@ public class fishEnemy : MonoBehaviour
             mainCam.SetActive(false);
             jumpscareCam.SetActive(true);
             animator.SetTrigger("Jumpscare");
+            barnacleHolder.SetActive(false);
         }
     }
 }

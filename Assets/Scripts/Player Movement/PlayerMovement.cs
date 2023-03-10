@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   [SerializeField] private Camera playerCamera;
   [SerializeField] private Animator animator;
   [HideInInspector] public bool inWater;
-  [SerializeField] private GameObject freeFlyCamera, playerCam;
+  [SerializeField] private GameObject freeFlyCamera, playerCam, UICanvas;
   [SerializeField] private PlayerMovement thePlayer;
   [SerializeField] private PlayerSettings playerSettings;
   private State state;
@@ -69,6 +69,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   private void OnEnable()
   {
     playerSettings.enabled = true;
+    UICanvas.SetActive(true);
   }
 
   private void Update()
@@ -122,6 +123,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       playerCam.SetActive(false);
       thePlayer.enabled = false;
       playerSettings.enabled = false;
+      UICanvas.SetActive(false);
     }
   }
 
