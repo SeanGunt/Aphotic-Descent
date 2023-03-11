@@ -10,18 +10,19 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   private PlayerInput playerInput;
   [SerializeField] private float groundedSpeed, airSpeed, floatSpeed, outOfWaterSpeed, 
   groundDistance, gravityInWater, gravityOutOfWater, tiredCooldown,
-  walkBobSpeed, walkBobAmount, underwaterBobSpeed, underwaterBobAmount;
+  walkBobSpeed, walkBobAmount, underwaterBobSpeed, underwaterBobAmount, slopeLimit;
   private float moveSpeed, defaultYPos, timer;
   public float playerStamina, maxStamina, staminaDelay;
   [SerializeField] private LayerMask ignoreMask;
-  private Vector3 velocity, moveDirection;
+  [SerializeField] private Vector3 velocity, moveDirection;
   [HideInInspector] public bool isGrounded, hasUpgradedSuit, headbobActive;
+  private bool isVelocityBeingReset;
   [SerializeField] private bool isSwimming, canSwim, isTired, canUseHeadbob;
   [SerializeField] public Image staminaBar, tiredBar, upgradedUI;
   [SerializeField] private Camera playerCamera;
   [SerializeField] private Animator animator;
   [HideInInspector] public bool inWater;
-  [SerializeField] private GameObject freeFlyCamera, playerCam, UICanvas;
+  [SerializeField] private GameObject freeFlyCamera, playerCam, UICanvas, groundCheck;
   [SerializeField] private PlayerMovement thePlayer;
   [SerializeField] private PlayerSettings playerSettings;
   private State state;
@@ -127,17 +128,17 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private void MoveInWater()
     {
       RaycastHit hit;
-      if (Physics.SphereCast(transform.position, 1.0f , Vector3.down, out hit, groundDistance, ~ignoreMask))
+      if (Physics.Raycast(groundCheck.transform.position, Vector3.down, out hit, groundDistance, ~ignoreMask))
       {
         isGrounded = true;
+        Debug.Log(hit.collider.name);
       }
       else
       {
         isGrounded = false;
       }
 
-      RaycastHit hit2;
-      if (Physics.SphereCast(transform.position, 0.25f , Vector3.down, out hit2, groundDistance, ~ignoreMask))
+      if (controller.isGrounded)
       {
         velocity.y = 0;
       }
@@ -157,6 +158,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         //isSwimming = true;
         moveSpeed = airSpeed;
       }
+
+      Debug.Log(controller.collisionFlags);
       
       Vector2 input = playerInput.actions["Movement"].ReadValue<Vector2>();
       Vector3 move = new Vector3(input.x, 0, input.y);
@@ -223,17 +226,16 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private void MoveOutOfWater()
     {
       RaycastHit hit;
-      if (Physics.SphereCast(transform.position, 1.0f , Vector3.down, out hit, groundDistance, ~ignoreMask))
+      if (Physics.Raycast(groundCheck.transform.position, Vector3.down, out hit, groundDistance, ~ignoreMask))
       {
-        isGrounded = true;
+        isGrounded = true; 
       }
       else
       {
         isGrounded = false;
       }
 
-      RaycastHit hit2;
-      if (Physics.SphereCast(transform.position, 0.25f , Vector3.down, out hit2, groundDistance, ~ignoreMask))
+      if (controller.isGrounded)
       {
         velocity.y = 0;
       }
