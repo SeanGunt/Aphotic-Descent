@@ -14,6 +14,7 @@ public class ShrimpPath : MonoBehaviour
     private bool isBlacklighted;
 
     private float timeBlacklighted = 0.5f;
+    [SerializeField] private EatTheShrimp eatTheShrimp;
     void start()
     {
         x = 1;
@@ -50,5 +51,15 @@ public class ShrimpPath : MonoBehaviour
         isMoving = true;
         isBlacklighted = true;
     }
+    private void OnTriggerEnter(Collider other)
+    {
+         if (other.CompareTag ("Enemy"))
+        {
+          eatTheShrimp.MakeMove();
+          Debug.Log("Hewwo");
+        }
+        
+    
+    } 
 
 }
