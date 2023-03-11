@@ -6,6 +6,7 @@ public class EatTheShrimp : MonoBehaviour
 {
     public GameObject crab;
     public GameObject[] pathPoints;
+    [HideInInspector] public bool isMoving;
     public int numberOfPoints;
     public float speed;
     public GameObject yummyShrimp;
@@ -19,9 +20,16 @@ public class EatTheShrimp : MonoBehaviour
     }
 
    
+     private void Update()
+     {
+        if(isMoving)
+        {
+            hermitMove();
+        }
+     }
      void hermitMove()
      {
-          actualPosition = crab.transform.position;
+            actualPosition = crab.transform.position;
             crab.transform.position = Vector3.MoveTowards(actualPosition, pathPoints[x].transform.position, speed * Time.deltaTime);
 
         if(actualPosition == pathPoints[x].transform.position&& x != numberOfPoints -1) 
@@ -31,17 +39,11 @@ public class EatTheShrimp : MonoBehaviour
 
      }
       
-    private void OnTriggerEnter(Collider other)
-    {
-         if (other.CompareTag ("Enemy"))
-        {
-            GameObject.Destroy(yummyShrimp);
-            hermitMove();
-           
-        }
-        
     
-    } 
+    public void MakeMove()
+    {
+        isMoving = true;
     }
+}
 
 
