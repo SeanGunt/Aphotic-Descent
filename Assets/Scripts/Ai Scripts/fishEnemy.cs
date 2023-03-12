@@ -13,21 +13,25 @@ public class fishEnemy : MonoBehaviour
 
     [SerializeField]private GameObject playerDiver, player, playerHead, mainCam, jumpscareCam, deathObject, deathCube, barnacleHolder;
     [SerializeField]private GameObject[] barnacles;
-    [SerializeField]private float currentScale, maxScale;
+    [SerializeField]private float currentScale, maxScale, trackingCooldown, stunTime;
+    private float maxStunTime, maxTrackingCooldown;
     [SerializeField]private Animator animator;
     PlayerHealthController pHC;
     InvisibilityMechanic iM;
-    [SerializeField] private GameObject gen1, gen2, gen3, gen4;
+    [SerializeField] private GameObject gen1, gen2, gen3, gen4, bolt;
     private CapsuleCollider cc;
     generatorScript gen1Scr;
     generatorScript gen2Scr;
     generatorScript gen3Scr;
     generatorScript gen4Scr;
+    boltScript boltScr;
     private bool g1On = true;
     private bool g2On = true;
     private bool g3On = true;
     private bool g4On = true;
+    private bool boltOn;
     private int eelHealth = 4;
+    private int barnacleCount;
     [SerializeField] private int phase;
     private bool eelDead = false;
     private AudioSource audioSource;
@@ -45,7 +49,7 @@ public class fishEnemy : MonoBehaviour
 
     private enum State
     {
-        attacking, patrolling, repositioning, dead, killedPlayer, lockingIn, idle, transitioning
+        attacking, patrolling, repositioning, dead, killedPlayer, stunned, idle, transitioning
     }
     
     void Awake()
@@ -61,6 +65,9 @@ public class fishEnemy : MonoBehaviour
         currentScale = 1;
         maxScale = 5;
         positionInPoints = 0;
+        maxTrackingCooldown = trackingCooldown;
+        maxStunTime = stunTime;
+        barnacleCount = 0;
         isGrowing = false;
         if(player != null)
         {
@@ -71,6 +78,8 @@ public class fishEnemy : MonoBehaviour
             gen2Scr = gen2.GetComponent<generatorScript>();
             gen3Scr = gen3.GetComponent<generatorScript>();
             gen4Scr = gen4.GetComponent<generatorScript>();
+            boltScr = bolt.GetComponent<boltScript>();
+            boltScr.isOn = false;
         }
 
         state = State.patrolling;
@@ -88,7 +97,6 @@ public class fishEnemy : MonoBehaviour
             default:
             case State.patrolling:
                 Patrolling();
-                //RepositionCheck();
                 if (phase == 1)
                 {
                     Phase1();
@@ -113,6 +121,9 @@ public class fishEnemy : MonoBehaviour
                 break;
             case State.transitioning:
                 GrowBarnacles();
+                break;
+            case State.stunned:
+                StunnedEel();
                 break;
             case State.idle:
                 Idle();
@@ -156,12 +167,23 @@ public class fishEnemy : MonoBehaviour
             movingToNextPosition = false;
         }
 
-        if (eFOV.canSeePlayer && !iM.isSafe)
+        if (eFOV.canSeePlayer && !iM.isSafe && !playerHid)
         {
             BGMManager.instance.SwitchBGM(4);
             BreathingManager.instance.SwitchBreathRate(2);
             audioSource.PlayOneShot(eelSounds[3]);
             state = State.attacking;
+        }
+        
+        trackingCooldown = Mathf.Clamp(trackingCooldown, 0, maxTrackingCooldown);
+        if (playerHid)
+        {
+            trackingCooldown -= Time.deltaTime;
+            if (trackingCooldown <= 0)
+            {
+                trackingCooldown = maxTrackingCooldown;
+                playerHid = false;
+            }
         }
     }
 
@@ -174,6 +196,7 @@ public class fishEnemy : MonoBehaviour
             BreathingManager.instance.SwitchBreathRate(0);
             state = State.patrolling;
             BGMManager.instance.SwitchBGM(3);
+            playerHid = true;
         }
     }
 
@@ -235,11 +258,6 @@ public class fishEnemy : MonoBehaviour
         }
     }
 
-    void Phase2()
-    {
-        deathCube.SetActive(true);
-    }
-
     void TransitionPhase2()
     {   
         animator.SetBool("isReviving", true);
@@ -260,10 +278,45 @@ public class fishEnemy : MonoBehaviour
     {
         animator.SetBool("isBack", false);
         phase = 2;
+        eelHealth = 2;
+        boltOn = true;
+        boltScr.isOn = true;
         chaseSpeed = chaseSpeed2;
         patrolSpeed = patrolSpeed2;
+        playerHid = true;
         eFOV.enabled = true;
         state = State.patrolling;
+    }
+
+    void Phase2()
+    {
+        deathCube.SetActive(true);
+        if(state == State.stunned)
+        {
+            if(boltScr.isOn == false && boltOn)
+            {
+                Debug.Log("bolt temporarily disabled");
+                eelHealth = eelHealth -1;
+                boltOn = false;
+            }
+        }
+    }
+
+    void StunnedEel()
+    {
+        stunTime = Mathf.Clamp(stunTime,0,maxStunTime);
+        stunTime -= Time.deltaTime;
+        if(stunTime <= 0 && eelHealth > 0)
+        {
+            foreach(GameObject barnacle in barnacles)
+            {
+                barnacle.SetActive(true);
+            }
+            boltScr.isOn = true;
+            boltOn = true;
+            playerHid = true;
+            state = State.patrolling;
+        }
     }
 
     void Idle()
@@ -287,6 +340,22 @@ public class fishEnemy : MonoBehaviour
                 currentScale += Time.deltaTime;
                 barnacle.transform.localScale = new Vector3(2, currentScale * 2, 2);
             }
+        }
+    }
+
+    public void StunTheEel()
+    {
+        barnacleCount++;
+        if(barnacleCount >= barnacles.Length)
+        {
+            state = State.stunned;
+            isGrowing = true;
+            barnacleCount = 0;
+            Invoke("GrowBarnacles",maxStunTime);
+        }
+        else
+        {
+            return;
         }
     }
 
