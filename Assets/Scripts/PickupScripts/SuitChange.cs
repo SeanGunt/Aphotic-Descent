@@ -8,6 +8,8 @@ public class SuitChange : MonoBehaviour
 
     [SerializeField] SkinnedMeshRenderer normalSuit;
     [SerializeField] Mesh eelSuit;
+    private Material eelMat;
+
 
     void Update()
     {
@@ -20,5 +22,6 @@ public class SuitChange : MonoBehaviour
     public void ChangeMesh()
     {
         normalSuit.sharedMesh = eelSuit;
+        normalSuit.sharedMaterial = eelMat;
     }
 }
