@@ -70,7 +70,11 @@ public class ffScr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        playerDistance = (player.transform.position-this.transform.position).sqrMagnitude;    
+        if (player != null)
+        {
+            playerDistance = (player.transform.position - this.transform.position).sqrMagnitude;
+        }
+        
         switch (state)
         {
             default:

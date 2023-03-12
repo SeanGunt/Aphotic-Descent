@@ -67,7 +67,7 @@ public class BGMManager : MonoBehaviour
         audioSource.Play();
     }
 
-    private void StopMusic()
+    public void StopMusic()
     {
         audioSource.Stop();
     }
