@@ -28,6 +28,7 @@ public class GameData
     public bool inPsShrimpCave;
     public bool inMudMarsh;
     public bool inAnglerTrench;
+    public bool bathysphereCutscenePlayed;
 
     public bool eelObjectiveTriggered;
     public SerializableDictionary<string, bool> lilGuygsCollected;
@@ -62,5 +63,6 @@ public class GameData
         numOfZooplanktonCollected = 0;
         lilGuygsCollected = new SerializableDictionary<string, bool>();
         loreCollected = new SerializableDictionary<string, bool>();
+        bathysphereCutscenePlayed = false;
     }
 }

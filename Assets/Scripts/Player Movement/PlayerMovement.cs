@@ -11,8 +11,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   [SerializeField] private float groundedSpeed, airSpeed, floatSpeed, outOfWaterSpeed, 
   groundDistance, gravityInWater, gravityOutOfWater, tiredCooldown,
   walkBobSpeed, walkBobAmount, underwaterBobSpeed, underwaterBobAmount, slopeLimit;
-  private float moveSpeed, defaultYPos, timer;
-  public float playerStamina, maxStamina, staminaDelay;
+  private float defaultYPos, timer;
+  public float playerStamina, maxStamina, staminaDelay, moveSpeed;
   [SerializeField] private LayerMask ignoreMask;
   [SerializeField] private Vector3 velocity, moveDirection;
   [HideInInspector] public bool isGrounded, hasUpgradedSuit, headbobActive;
@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   [SerializeField] public Image staminaBar, tiredBar, upgradedUI;
   [SerializeField] private Camera playerCamera;
   [SerializeField] private Animator animator;
-  [HideInInspector] public bool inWater;
+  [HideInInspector] public bool inWater, inCutscene;
   [SerializeField] private GameObject freeFlyCamera, playerCam, UICanvas, groundCheck;
   [SerializeField] private PlayerMovement thePlayer;
   [SerializeField] private PlayerSettings playerSettings;
@@ -95,7 +95,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
           break;
 
           case State.inWater:
-              MoveInWater();
+            if (!inCutscene)
+                {
+                    MoveInWater();
+                }
           break;
 
           case State.outOfWater:

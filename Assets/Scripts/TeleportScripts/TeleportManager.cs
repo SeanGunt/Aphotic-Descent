@@ -8,11 +8,15 @@ public class TeleportManager : MonoBehaviour
     public UnityEvent unityEvent;
     private GameObject player, fogCube;
     [SerializeField] private Vector3 teleportPosition;
+    private PlayerMovement playerMovement;
+    private GameObject mainCamera;
 
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         fogCube = GameObject.FindGameObjectWithTag("FogCube");
+        playerMovement = player.GetComponent<PlayerMovement>();
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -34,7 +38,9 @@ public class TeleportManager : MonoBehaviour
         GameDataHolder.inKelpMaze = true;
         GameDataHolder.inLab = false;
         GameDataHolder.inEelCave = false;
-        BGMManager.instance.SwitchBGM(0);
+        playerMovement.inCutscene = true;
+        mainCamera.SetActive(false);
+        BGMManager.instance.StopMusic();
     }
 
     public void TelpeortToLab()

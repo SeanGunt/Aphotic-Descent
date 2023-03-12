@@ -25,6 +25,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
     public static bool inAnglerTrench;
     public static int objectiveId;
     public static int numOfZooplanktonCollected;
+    public static bool bathysphereCutscenePlayed;
 
     public void LoadData(GameData data)
     {
@@ -52,6 +53,8 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         inLab = data.inLab;
         inKelpMaze = data.inKelpMaze;
         inSub = data.inSub;
+
+        bathysphereCutscenePlayed = data.bathysphereCutscenePlayed;
 
         numOfZooplanktonCollected = data.numOfZooplanktonCollected;
     }
@@ -81,6 +84,8 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         data.inLab = inLab;
         data.inKelpMaze = inKelpMaze;
         data.inSub = inSub;
+
+        data.bathysphereCutscenePlayed = bathysphereCutscenePlayed;
 
         data.numOfZooplanktonCollected = numOfZooplanktonCollected;
     }
