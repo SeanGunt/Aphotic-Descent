@@ -29,6 +29,7 @@ public class GameData
     public bool inMudMarsh;
     public bool inAnglerTrench;
     public bool bathysphereCutscenePlayed;
+    public bool eelIsDead;
 
     public bool eelObjectiveTriggered;
     public SerializableDictionary<string, bool> lilGuygsCollected;
@@ -58,6 +59,7 @@ public class GameData
         inLab = false;
         inKelpMaze = false;
         inSub = true;
+        eelIsDead = false;
         boxes = 4;
         objectiveId = 0;
         numOfZooplanktonCollected = 0;

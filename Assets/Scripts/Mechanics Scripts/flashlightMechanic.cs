@@ -61,6 +61,14 @@ public class flashlightMechanic : MonoBehaviour
                 break;
             }
         }
+        if (GameDataHolder.inEelCave)
+        {
+            range = 50;
+        }
+        else
+        {
+            range = 10;
+        }
     }
 
     private void HandleFlashlightOn()

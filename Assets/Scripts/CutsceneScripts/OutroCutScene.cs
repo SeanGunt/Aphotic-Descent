@@ -23,13 +23,13 @@ public class OutroCutScene : MonoBehaviour
         if (videoLength < 0)
         {
             Time.timeScale = 1f;
-            SceneManager.LoadScene("WinScreen");
+            SceneManager.LoadScene("VerticalSlice");
         }
 
         if((Keyboard.current.anyKey.isPressed || Mouse.current.leftButton.isPressed || Mouse.current.rightButton.isPressed) && videoLength < 58f)
         {
             Time.timeScale = 1f;
-            SceneManager.LoadScene("WinScreen");
+            SceneManager.LoadScene("VerticalSlice");
         }
     }
 }
