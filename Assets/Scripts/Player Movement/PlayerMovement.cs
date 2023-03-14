@@ -6,17 +6,18 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
-  private CharacterController controller;
+  private Rigidbody rigidBody;
   private PlayerInput playerInput;
   [SerializeField] private float groundedSpeed, airSpeed, floatSpeed, outOfWaterSpeed, 
-  groundDistance, gravityInWater, gravityOutOfWater, tiredCooldown,
-  walkBobSpeed, walkBobAmount, underwaterBobSpeed, underwaterBobAmount, slopeLimit;
+  groundDistance, gravityInWater, gravityOutOfWater, tiredCooldown, maxForce,
+  walkBobSpeed, walkBobAmount, underwaterBobSpeed, underwaterBobAmount;
   private float defaultYPos, timer;
   public float playerStamina, maxStamina, staminaDelay, moveSpeed;
   [SerializeField] private LayerMask ignoreMask;
-  [SerializeField] private Vector3 velocity, moveDirection;
-  [HideInInspector] public bool isGrounded, hasUpgradedSuit, headbobActive;
-  private bool isVelocityBeingReset;
+  [SerializeField] private Vector3 currentVelocity, targetVelocity,
+  velocityChange;
+  private Vector2 move;
+  [HideInInspector] public bool isGrounded, hasUpgradedSuit, headbobActive, isAscendKeyHeld, isDescendKeyHeld, useExternalGravity;
   [SerializeField] private bool isSwimming, canSwim, isTired, canUseHeadbob;
   [SerializeField] public Image staminaBar, tiredBar, upgradedUI;
   [SerializeField] private Camera playerCamera;
@@ -50,10 +51,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     state = State.settingPosition;
     isTired = false;
     tiredBar.enabled = false;
+    rigidBody = GetComponent<Rigidbody>();
     playerCamera = GetComponentInChildren<Camera>();
     defaultYPos = playerCamera.transform.localPosition.y;
     playerInput = GetComponent<PlayerInput>();
-    controller = GetComponent<CharacterController>();
     thePlayer = GetComponent<PlayerMovement>();
     playerSettings = GetComponent<PlayerSettings>();
     
@@ -93,17 +94,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
               DataPersistenceManager.instance.LoadGame();
               StartCoroutine(SetPlayerState(0.15f));
           break;
-
           case State.inWater:
-            if (!inCutscene)
-                {
-                    MoveInWater();
-                }
+              InWater();
           break;
-
           case State.outOfWater:
-              MoveOutOfWater();
-              canSwim = false;
+              OutOfWater();
           break;
       }
 
@@ -116,7 +111,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       headbobActive = false;
     }
 
-      staminaDelay -= Time.deltaTime;
+    staminaDelay -= Time.deltaTime;
     if(Keyboard.current.backslashKey.isPressed)
     {
       playerInput.SwitchCurrentActionMap("FreeFlyCamControls");
@@ -128,23 +123,55 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     }
   }
 
-    private void MoveInWater()
+  private void FixedUpdate()
+  {
+    switch(state)
     {
-      RaycastHit hit;
-      if (Physics.Raycast(groundCheck.transform.position, Vector3.down, out hit, groundDistance, ~ignoreMask))
-      {
-        isGrounded = true;
-        Debug.Log(hit.collider.name);
-      }
-      else
-      {
-        isGrounded = false;
-      }
+      case State.inWater:
+        if (!inCutscene)
+        {
+          RigidbodyInWater();
+        }
+      break;
+      case State.outOfWater:
+        RigidbodyOutOfWater();
+        canSwim = false;
+      break;
+    }
+  }
 
-      if (controller.isGrounded)
+
+    private void RigidbodyInWater()
+    {
+      HandleMove(gravityInWater);
+
+      //float up
+      if (isAscendKeyHeld && canSwim && hasUpgradedSuit)
       {
-        velocity.y = 0;
+        rigidBody.velocity = new Vector3(rigidBody.velocity.x, floatSpeed, rigidBody.velocity.z);
+        isSwimming = true;
       }
+        
+      //Float Down
+      if (isDescendKeyHeld && canSwim && !isGrounded && hasUpgradedSuit)
+      {
+        rigidBody.velocity = new Vector3(rigidBody.velocity.x, -floatSpeed * 2, rigidBody.velocity.z);
+        isSwimming = true;
+      }
+    }
+
+    private void RigidbodyOutOfWater()
+    {
+      HandleMove(gravityOutOfWater);
+    }
+
+    private void InWater()
+    {
+      move = playerInput.actions["Movement"].ReadValue<Vector2>();
+      isAscendKeyHeld = playerInput.actions["Ascend"].ReadValue<float>() > 0.01f;
+      isDescendKeyHeld = playerInput.actions["Descend"].ReadValue<float>() > 0.01f;
+      HandleGroundCheck();
+      HandleGroundedAnims(move);
 
       if(isGrounded)
       {
@@ -161,32 +188,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         //isSwimming = true;
         moveSpeed = airSpeed;
       }
-
-      Debug.Log(controller.collisionFlags);
-      
-      Vector2 input = playerInput.actions["Movement"].ReadValue<Vector2>();
-      Vector3 move = new Vector3(input.x, 0, input.y);
-      move = move.x * transform.right + move.z * transform.forward;
-      controller.Move(move * Time.deltaTime * moveSpeed);
-
-      bool isAscendKeyHeld = playerInput.actions["Ascend"].ReadValue<float>() > 0.001f;
-        
-        //Float Up
-      if (isAscendKeyHeld && canSwim && hasUpgradedSuit)
-      {
-        velocity.y = floatSpeed;
-        isSwimming = true;
-      }
-
-      bool isDescendKeyHeld = playerInput.actions["Descend"].ReadValue<float>() > 0.001f;
-        
-        //Float Down
-      if (isDescendKeyHeld && canSwim && !isGrounded && hasUpgradedSuit)
-      {
-        velocity.y = -floatSpeed * 2;
-        isSwimming = true;
-      }
-
       playerStamina = Mathf.Clamp(playerStamina, 0f, maxStamina);
         //Initial Stamina Check
       if (playerStamina >= maxStamina)
@@ -209,39 +210,19 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
           tiredBar.fillAmount = 1;
         }
       }
-      else
-      {
-        HandleGroundedAnims(move);
-      }
-
+  
         //HeadBobbingCall
         if(canUseHeadbob && headbobActive)
         {
           HandleHeadBob(underwaterBobAmount, underwaterBobSpeed);
         }
-          
-        moveDirection = move;
-        velocity.y += gravityInWater * Time.deltaTime;
-        velocity.y = Mathf.Clamp(velocity.y, -15f, 10f);
-        controller.Move(velocity * Time.deltaTime);
     }
 
-    private void MoveOutOfWater()
+    private void OutOfWater()
     {
-      RaycastHit hit;
-      if (Physics.Raycast(groundCheck.transform.position, Vector3.down, out hit, groundDistance, ~ignoreMask))
-      {
-        isGrounded = true; 
-      }
-      else
-      {
-        isGrounded = false;
-      }
-
-      if (controller.isGrounded)
-      {
-        velocity.y = 0;
-      }
+      move = playerInput.actions["Movement"].ReadValue<Vector2>();
+      HandleGroundCheck();
+      HandleGroundedAnims(move);
 
       if(isGrounded)
       {
@@ -252,17 +233,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             StaminaRecharge(playerStamina, maxStamina);
         }
       }
-      else
-      {
-        isSwimming = true;
-      }
 
       moveSpeed = outOfWaterSpeed;
-      canSwim = false;
-      Vector2 input = playerInput.actions["Movement"].ReadValue<Vector2>();
-      Vector3 move = new Vector3(input.x, 0, input.y);
-      move = move.x * transform.right + move.z * transform.forward;
-      controller.Move(move * Time.deltaTime * moveSpeed);
+      // canSwim = false;
       
       if(canUseHeadbob && headbobActive)
         {
@@ -282,14 +255,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
           tiredBar.enabled = true;
           tiredBar.fillAmount = 1;
         }
-      }
-
-      moveDirection = move;
-      velocity.y += gravityInWater * Time.deltaTime;
-      velocity.y = Mathf.Clamp(velocity.y, -15f, 10f);
-      controller.Move(velocity * Time.deltaTime);
-      HandleGroundedAnims(move);
     }
+  }
 
     private void OnTriggerStay(Collider other)
     {
@@ -335,10 +302,27 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       }
     }
 
+    private void HandleMove(float gravity)
+    {
+      Physics.gravity = new Vector3(0, gravity, 0);
+      currentVelocity = rigidBody.velocity;
+      targetVelocity = new Vector3(move.x, 0f, move.y);
+      targetVelocity *= moveSpeed;
+      targetVelocity = transform.TransformDirection(targetVelocity);
+
+      velocityChange = (targetVelocity - currentVelocity);
+      velocityChange = new Vector3(velocityChange.x, 0f, velocityChange.z);
+
+      Vector3.ClampMagnitude(velocityChange, maxForce);
+      rigidBody.AddForce(velocityChange, ForceMode.VelocityChange);
+    }
+
     private void HandleHeadBob(float amount, float speed)
     {
       if (!isGrounded) return;
-      if(Mathf.Abs(moveDirection.x) > 0.1f || Mathf.Abs(moveDirection.z) > 0.1f)
+      Vector3 headbobVector = targetVelocity.normalized;
+      if(Mathf.Abs(headbobVector.x) > 0.1f || Mathf.Abs(headbobVector.z) > 0.1f
+      || Mathf.Abs(headbobVector.x) < -0.1f || Mathf.Abs(headbobVector.z) < -0.1f)
       {
         timer += Time.deltaTime * speed;
         playerCamera.transform.localPosition = new Vector3(
@@ -353,8 +337,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     {
         animator.SetBool("isSwimming", false);
         animator.SetFloat("walkHorizontal", move.x);
-        animator.SetFloat("walkVertical", move.z);
-        if (move.x > -0.1 && move.x < 0.1 && move.z > -0.1 && move.z < 0.1)
+        animator.SetFloat("walkVertical", move.y);
+        if (move.x > -0.1 && move.x < 0.1 && move.y > -0.1 && move.y < 0.1)
         {
           animator.SetBool("notMoving", true);
         }
@@ -362,6 +346,19 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         {
           animator.SetBool("notMoving", false);
         }
+    }
+
+    private void HandleGroundCheck()
+    {
+      RaycastHit hit;
+      if (Physics.Raycast(groundCheck.transform.position, Vector3.down, out hit, groundDistance, ~ignoreMask))
+      {
+        isGrounded = true;
+      }
+      else
+      {
+        isGrounded = false;
+      }
     }
 
     private void HandleSwimmingAnims()
