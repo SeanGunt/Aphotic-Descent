@@ -122,16 +122,6 @@ public class anglerAi : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Player")
-        {
-            Debug.Log("KILL PLAYER");
-            pHelCon.ChangeHealth(-15.0f);
-            pHelCon.TakeDamage();
-        }
-    }
-
-    void OnColliderEnter(Collision other)
-    {
         if(other.gameObject.tag == "Knife")
         {
             Debug.Log("knife hit :)");
