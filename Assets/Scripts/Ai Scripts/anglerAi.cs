@@ -119,7 +119,7 @@ public class anglerAi : MonoBehaviour
         }
     }
     */
-
+    /*
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Player")
@@ -137,4 +137,5 @@ public class anglerAi : MonoBehaviour
             Debug.Log("knife hit :)");
         }
     }
+    */
 }
