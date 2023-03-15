@@ -8,16 +8,18 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
   private Rigidbody rigidBody;
   private PlayerInput playerInput;
+  private CapsuleCollider capsuleCollider;
   [SerializeField] private float groundedSpeed, airSpeed, floatSpeed, outOfWaterSpeed, 
-  groundDistance, gravityInWater, gravityOutOfWater, tiredCooldown, maxForce,
-  walkBobSpeed, walkBobAmount, underwaterBobSpeed, underwaterBobAmount;
-  private float defaultYPos, timer;
+  groundDistance, gravityInWater, gravityOutOfWater, tiredCooldown,
+  walkBobSpeed, walkBobAmount, underwaterBobSpeed, underwaterBobAmount, rbDrag, speedMultipler;
+  private Vector3 moveDirection;
+  private float defaultYPos, timer, horizontalMovement, verticalMovement;
   public float playerStamina, maxStamina, staminaDelay, moveSpeed;
+  [SerializeField] private PhysicMaterial noFriction, normalFriction;
   [SerializeField] private LayerMask ignoreMask;
-  [SerializeField] private Vector3 currentVelocity, targetVelocity,
-  velocityChange;
   private Vector2 move;
-  [HideInInspector] public bool isGrounded, hasUpgradedSuit, headbobActive, isAscendKeyHeld, isDescendKeyHeld, useExternalGravity;
+  [SerializeField] private Vector3 playerInputVector = Vector3.zero;
+  [HideInInspector] public bool isGrounded, hasUpgradedSuit, headbobActive, isAscendKeyHeld, isDescendKeyHeld;
   [SerializeField] private bool isSwimming, canSwim, isTired, canUseHeadbob;
   [SerializeField] public Image staminaBar, tiredBar, upgradedUI;
   [SerializeField] private Camera playerCamera;
@@ -52,6 +54,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     isTired = false;
     tiredBar.enabled = false;
     rigidBody = GetComponent<Rigidbody>();
+    capsuleCollider = GetComponent<CapsuleCollider>();
     playerCamera = GetComponentInChildren<Camera>();
     defaultYPos = playerCamera.transform.localPosition.y;
     playerInput = GetComponent<PlayerInput>();
@@ -86,7 +89,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         hasUpgradedSuit = false;
         upgradedUI.enabled = false;
       }
-
+      HandleDrag();
       switch (state)
       {
         default:
@@ -170,11 +173,15 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       move = playerInput.actions["Movement"].ReadValue<Vector2>();
       isAscendKeyHeld = playerInput.actions["Ascend"].ReadValue<float>() > 0.01f;
       isDescendKeyHeld = playerInput.actions["Descend"].ReadValue<float>() > 0.01f;
+      moveDirection = transform.forward * move.y + transform.right * move.x;
       HandleGroundCheck();
       HandleGroundedAnims(move);
 
       if(isGrounded)
       {
+        capsuleCollider.material = normalFriction;
+        rbDrag = 6f;
+        speedMultipler = 8f;
         canUseHeadbob = true;
         moveSpeed = groundedSpeed;
         isSwimming = false;
@@ -187,6 +194,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       {
         //isSwimming = true;
         moveSpeed = airSpeed;
+        capsuleCollider.material = noFriction;
+        speedMultipler = 1f;
+        rbDrag = 1f;
       }
       playerStamina = Mathf.Clamp(playerStamina, 0f, maxStamina);
         //Initial Stamina Check
@@ -221,11 +231,15 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private void OutOfWater()
     {
       move = playerInput.actions["Movement"].ReadValue<Vector2>();
+      moveDirection = transform.forward * move.y + transform.right * move.x;
       HandleGroundCheck();
       HandleGroundedAnims(move);
 
       if(isGrounded)
       {
+        capsuleCollider.material = normalFriction;
+        rbDrag = 6f;
+        speedMultipler = 8f;
         isSwimming = false;
         canUseHeadbob = true;
         if (!canSwim && playerStamina < maxStamina && staminaDelay <= 0)
@@ -233,9 +247,15 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             StaminaRecharge(playerStamina, maxStamina);
         }
       }
+      else
+      {
+        rbDrag = 1f;
+        speedMultipler = 1f;
+        capsuleCollider.material = noFriction;
+      }
 
       moveSpeed = outOfWaterSpeed;
-      // canSwim = false;
+      canSwim = false;
       
       if(canUseHeadbob && headbobActive)
         {
@@ -302,27 +322,21 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       }
     }
 
+    private void HandleDrag()
+    {
+      rigidBody.drag = rbDrag;
+    }
+
     private void HandleMove(float gravity)
     {
-      Physics.gravity = new Vector3(0, gravity, 0);
-      currentVelocity = rigidBody.velocity;
-      targetVelocity = new Vector3(move.x, 0f, move.y);
-      targetVelocity *= moveSpeed;
-      targetVelocity = transform.TransformDirection(targetVelocity);
-
-      velocityChange = (targetVelocity - currentVelocity);
-      velocityChange = new Vector3(velocityChange.x, 0f, velocityChange.z);
-
-      Vector3.ClampMagnitude(velocityChange, maxForce);
-      rigidBody.AddForce(velocityChange, ForceMode.VelocityChange);
+      rigidBody.AddForce(moveDirection.normalized * moveSpeed * speedMultipler, ForceMode.Acceleration);
     }
 
     private void HandleHeadBob(float amount, float speed)
     {
       if (!isGrounded) return;
-      Vector3 headbobVector = targetVelocity.normalized;
-      if(Mathf.Abs(headbobVector.x) > 0.1f || Mathf.Abs(headbobVector.z) > 0.1f
-      || Mathf.Abs(headbobVector.x) < -0.1f || Mathf.Abs(headbobVector.z) < -0.1f)
+      if(Mathf.Abs(move.x) > 0.1f || Mathf.Abs(move.y) > 0.1f
+      || Mathf.Abs(move.x) < -0.1f || Mathf.Abs(move.y) < -0.1f)
       {
         timer += Time.deltaTime * speed;
         playerCamera.transform.localPosition = new Vector3(
