@@ -34,7 +34,7 @@ public class blacklightKnockback : MonoBehaviour
         {
             anglerFishAttached = true;
             angScr = GetComponentInParent<anglerAi>();
-            stopTime = angScr.anglerStunTime;
+            //stopTime = angScr.anglerStunTime;
             resetTime = stopTime;
         }
     }
@@ -58,7 +58,7 @@ public class blacklightKnockback : MonoBehaviour
 
     private void Normal()
     {
-        rb.isKinematic = true;
+//        rb.isKinematic = true;
     }
 
     private void BeingKnockedBack()

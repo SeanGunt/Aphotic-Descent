@@ -43,7 +43,7 @@ public class EnemyKnockback : MonoBehaviour
         {
             anglerFishAttached = true;
             angScr = GetComponentInParent<anglerAi>();
-            stopTime = angScr.anglerStunTime;
+           // stopTime = angScr.anglerStunTime;
             resetTime = stopTime;
         }
     }
