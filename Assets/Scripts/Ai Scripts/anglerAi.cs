@@ -5,6 +5,10 @@ using UnityEngine.AI;
 
 public class anglerAi : MonoBehaviour
 {
+    //
+    // HEY the trigger this is connected to is located on the diver lure portion of the angler
+    //
+
     [SerializeField] private Transform[] patrolPoints;
     [SerializeField] private float anglerRange;
     private GameObject player;
@@ -15,7 +19,8 @@ public class anglerAi : MonoBehaviour
     public float anglerStunTime;
     private float distBtwn;
     [HideInInspector] public float anglerSpeed;
-    PlayerHealthController pHelCon;
+    [HideInInspector] public PlayerHealthController pHelCon;
+    blacklightKnockback blKb;
 
     public State state;
     public enum State
@@ -41,7 +46,8 @@ public class anglerAi : MonoBehaviour
     void Update()
     {
         distBtwn = Vector3.Distance(player.transform.position, transform.position);
-        if(!isAlive)
+        
+        if(isAlive == false)
         {
             state = State.anglerDead;
         }
@@ -108,24 +114,22 @@ public class anglerAi : MonoBehaviour
             }
         }
     }
-
-    /*
-    void OnColliderEnter(Collision other)
-    {
-        if(other.gameObject.tag == "Player")
-        {
-            Debug.Log("player jumpscare here?");
-            
-        }
-    }
-    */
-    /*
+    
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Knife")
-        {
-            Debug.Log("knife hit :)");
+        if(isAlive)
+        {    
+            if(other.gameObject.tag == "Knife")
+            {
+                Debug.Log("from diver trigger: knife hit");
+                blKb.knockbackForce = blKb.knockbackForce * 3;
+                blKb.knockingBack();
+            }
+            
+            if(other.gameObject.tag == "Player")
+            {
+                Debug.Log("from diver trigger: ayyoo wassup");
+            }
         }
     }
-    */
 }
