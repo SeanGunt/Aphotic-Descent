@@ -43,6 +43,13 @@ public class TeleportManager : MonoBehaviour
         BGMManager.instance.StopMusic();
     }
 
+    public void TeleportToRidge()
+    {
+        GameDataHolder.inLab = false;
+        GameDataHolder.inKelpMaze = true;
+        BGMManager.instance.SwitchBGMFade(0);
+    }
+
     public void TelpeortToLab()
     {
         GameDataHolder.inLab = true;

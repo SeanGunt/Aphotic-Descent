@@ -25,9 +25,10 @@ public class FootstepSounds : MonoBehaviour
     private void Update()
     {
         RaycastHit hit;
-        if (Physics.Raycast(this.transform.position, Vector3.down, out hit ,Mathf.Infinity, ~ignoreLayer))
+        if (Physics.Raycast(this.transform.position + Vector3.up, Vector3.down, out hit , 1.25f, ~ignoreLayer))
         {
             walkingLayer = hit.collider.gameObject.layer;
+            Debug.Log(walkingLayer.value);
         }
         soundTimer -= Time.deltaTime;
         if (soundTimer <= 0)
