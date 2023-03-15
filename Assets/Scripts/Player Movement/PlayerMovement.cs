@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -9,10 +10,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   private Rigidbody rigidBody;
   private PlayerInput playerInput;
   private CapsuleCollider capsuleCollider;
+  private RaycastHit slopeHit;
   [SerializeField] private float groundedSpeed, airSpeed, floatSpeed, outOfWaterSpeed, 
   groundDistance, gravityInWater, gravityOutOfWater, tiredCooldown,
   walkBobSpeed, walkBobAmount, underwaterBobSpeed, underwaterBobAmount, rbDrag, speedMultipler;
-  private Vector3 moveDirection;
+  private Vector3 moveDirection, slopeMoveDirection;
   private float defaultYPos, timer, horizontalMovement, verticalMovement;
   public float playerStamina, maxStamina, staminaDelay, moveSpeed;
   [SerializeField] private PhysicMaterial noFriction, normalFriction;
@@ -20,7 +22,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   private Vector2 move;
   [SerializeField] private Vector3 playerInputVector = Vector3.zero;
   [HideInInspector] public bool isGrounded, hasUpgradedSuit, headbobActive, isAscendKeyHeld, isDescendKeyHeld;
-  [SerializeField] private bool isSwimming, canSwim, isTired, canUseHeadbob;
+  [SerializeField] private bool isSwimming, canSwim, isTired, canUseHeadbob, isMoving;
   [SerializeField] public Image staminaBar, tiredBar, upgradedUI;
   [SerializeField] private Camera playerCamera;
   [SerializeField] private Animator animator;
@@ -28,6 +30,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   [SerializeField] private GameObject freeFlyCamera, playerCam, UICanvas, groundCheck;
   [SerializeField] private PlayerMovement thePlayer;
   [SerializeField] private PlayerSettings playerSettings;
+  [Header("Step Variables")]
+  [SerializeField] private GameObject stepRayUpper;
+  [SerializeField] private GameObject stepRayLower;
+  [SerializeField] private float stepHeight = 0.3f;
+  [SerializeField] private float stepSmooth = 0.1f;
+  [SerializeField] private float lowerRayLength = 0.5f;
+  [SerializeField] private float upperRayLength = 0.6f;
   private State state;
   enum State
   {
@@ -60,6 +69,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     playerInput = GetComponent<PlayerInput>();
     thePlayer = GetComponent<PlayerMovement>();
     playerSettings = GetComponent<PlayerSettings>();
+    //stepRayUpper.transform.position = new Vector3(stepRayUpper.transform.position.x, stepHeight, stepRayUpper.transform.position.z);
     
     if(PlayerPrefs.GetInt("headBob") == 1)
     {
@@ -89,6 +99,17 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         hasUpgradedSuit = false;
         upgradedUI.enabled = false;
       }
+
+      if (Mathf.Abs(move.x) > 0.1f || Mathf.Abs(move.y) > 0.1f
+      || Mathf.Abs(move.x) < -0.1f || Mathf.Abs(move.y) < -0.1f)
+      {
+        isMoving = true;
+      }
+      else
+      {
+        isMoving = false;
+      }
+      HandleSlopeMovement();
       HandleDrag();
       switch (state)
       {
@@ -327,11 +348,57 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       rigidBody.drag = rbDrag;
     }
 
-    private void HandleMove(float gravity)
+    private bool OnSlope()
     {
-      rigidBody.AddForce(moveDirection.normalized * moveSpeed * speedMultipler, ForceMode.Acceleration);
+      if(Physics.Raycast(transform.position, Vector3.down, out slopeHit, groundDistance, ~ignoreMask))
+      {
+        if (slopeHit.normal != Vector3.up)
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      return false;
     }
 
+    private void HandleSlopeMovement()
+    {
+      slopeMoveDirection = Vector3.ProjectOnPlane(moveDirection, slopeHit.normal);
+    }
+
+    private void HandleMove(float gravity)
+    {
+      StepClimb();
+      Physics.gravity = new Vector3(0f, gravity, 0f);
+      if (!OnSlope())
+      {
+        rigidBody.AddForce(moveDirection.normalized * moveSpeed * speedMultipler, ForceMode.Acceleration);
+      }
+      else
+      {
+        rigidBody.AddForce(slopeMoveDirection.normalized * moveSpeed * speedMultipler, ForceMode.Acceleration);
+      }
+
+    }
+
+    private void StepClimb()
+    {
+      if (!isMoving) return;
+      RaycastHit hitLower;
+      if (Physics.Raycast(stepRayLower.transform.position, this.transform.forward, out hitLower, lowerRayLength, ~ignoreMask))
+      {
+        RaycastHit hitUpper;
+        if (!Physics.Raycast(stepRayUpper.transform.position, this.transform.forward, out hitUpper, upperRayLength, ~ignoreMask))
+        {
+          rigidBody.velocity -= new Vector3(0f, -stepSmooth * Time.fixedDeltaTime, 0f);
+        }
+      }
+    }
+
+    
     private void HandleHeadBob(float amount, float speed)
     {
       if (!isGrounded) return;
