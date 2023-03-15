@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class blacklightKnockback : MonoBehaviour
 {
+    //this is made for the angler fish and its ai, so be aware if you want to stick it on something else
     private Camera cam;
     private Rigidbody rb;
-    [SerializeField] private float knockbackForce;
+    [SerializeField] public float knockbackForce;
+    private float resetKb;
     private State state;
-
-    ffScr freakFishScript;
     anglerAi angScr;
     private bool anglerFishAttached = false;
     private float stopTime;
@@ -23,42 +23,64 @@ public class blacklightKnockback : MonoBehaviour
     private void Awake()
     {
         cam = Camera.main;
-        rb = this.GetComponent<Rigidbody>();
-        if(rb == null)
-        {
-            rb = this.GetComponentInParent<Rigidbody>();
-        }
+        rb = this.GetComponentInParent<Rigidbody>();
+        resetKb = knockbackForce;
+        
         state = State.normal;
         
         if(this.gameObject.name == "angLureTrigger")
         {
             anglerFishAttached = true;
             angScr = GetComponentInParent<anglerAi>();
-            //stopTime = angScr.anglerStunTime;
+            stopTime = angScr.anglerStunTime;
             resetTime = stopTime;
         }
     }
 
+    /*
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Knife")
+        {
+            if(angScr.isAlive)
+            {
+                rb.AddForce(cam.transform.forward * knockbackForce, ForceMode.Impulse);
+                state = State.beingKnockedBack;
+                StartCoroutine("ResetKnockBack", 0.5f);
+
+                if(anglerFishAttached && !stopped)
+                {
+                    stopped = true;
+                    angScr.anglerAgent.speed = 0;
+                    
+                    Debug.Log("angler was hit");
+                }
+            }
+        }
+    }
+    */
+
     public void knockingBack()
     {
-       
-        rb.AddForce(cam.transform.forward * knockbackForce, ForceMode.Impulse);
-        state = State.beingKnockedBack;
-        StartCoroutine("ResetKnockBack", 0.5f);
+       if(angScr.isAlive)
+       {
+            rb.AddForce(cam.transform.forward * knockbackForce, ForceMode.Impulse);
+            state = State.beingKnockedBack;
+            StartCoroutine("ResetKnockBack", 0.5f);
 
-        if(anglerFishAttached && !stopped)
-        {
-            stopped = true;
-            angScr.anglerAgent.speed = 0;
-            
-            Debug.Log("angler was hit");
-        }
-        
+            if(anglerFishAttached && !stopped)
+            {
+                stopped = true;
+                angScr.anglerAgent.speed = 0;
+                
+                Debug.Log("angler was hit");
+            }
+       }
     }
 
     private void Normal()
     {
-//        rb.isKinematic = true;
+        rb.isKinematic = true;
     }
 
     private void BeingKnockedBack()
@@ -70,6 +92,7 @@ public class blacklightKnockback : MonoBehaviour
     {
         yield return new WaitForSeconds(knockbackDuration);
         state = State.normal;
+        knockbackForce = resetKb;
     }
 
     private void Update()

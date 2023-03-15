@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class anglerTriggerScr : MonoBehaviour
 {
+    anglerAi angScr;
     // Start is called before the first frame update
     void Start()
     {
-        
+        angScr = GetComponentInParent<anglerAi>();
     }
 
     // Update is called once per frame
@@ -20,9 +21,9 @@ public class anglerTriggerScr : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
-            Debug.Log("KILL PLAYER");
-            //pHelCon.ChangeHealth(-15.0f);
-            //pHelCon.TakeDamage();
+            Debug.Log("from angler trigger: KILL PLAYER");
+            angScr.pHelCon.ChangeHealth(-15.0f);
+            angScr.pHelCon.TakeDamage();
         }
     }
 }
