@@ -12,6 +12,7 @@ public class BathysphereCutscene : MonoBehaviour
     [SerializeField] private GameObject mainCamera;
     [SerializeField] private Image fadeToBlackImage;
     private MeshRenderer[] bathysphereRenderers;
+    [SerializeField] private SkinnedMeshRenderer mantaRenderer;
 
     private void Awake()
     {
@@ -40,6 +41,7 @@ public class BathysphereCutscene : MonoBehaviour
         {
             bathysphereRenderer.enabled = false;
         }
+        mantaRenderer.enabled = false;
         mainCamera.SetActive(true);
         BGMManager.instance.SwitchBGM(0);
 

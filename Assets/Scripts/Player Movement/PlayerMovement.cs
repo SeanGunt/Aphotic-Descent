@@ -33,7 +33,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   [Header("Step Variables")]
   [SerializeField] private GameObject stepRayUpper;
   [SerializeField] private GameObject stepRayLower;
-  [SerializeField] private float stepHeight = 0.3f;
   [SerializeField] private float stepSmooth = 0.1f;
   [SerializeField] private float lowerRayLength = 0.5f;
   [SerializeField] private float upperRayLength = 0.6f;
@@ -173,6 +172,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       if (isAscendKeyHeld && canSwim && hasUpgradedSuit)
       {
         rigidBody.velocity = new Vector3(rigidBody.velocity.x, floatSpeed, rigidBody.velocity.z);
+        HandleSwimmingAnims();
         isSwimming = true;
       }
         
@@ -196,10 +196,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       isDescendKeyHeld = playerInput.actions["Descend"].ReadValue<float>() > 0.01f;
       moveDirection = transform.forward * move.y + transform.right * move.x;
       HandleGroundCheck();
-      HandleGroundedAnims(move);
 
       if(isGrounded)
       {
+        HandleGroundedAnims(move);
         capsuleCollider.material = normalFriction;
         rbDrag = 6f;
         speedMultipler = 8f;
@@ -213,7 +213,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       }
       else
       {
-        //isSwimming = true;
         moveSpeed = airSpeed;
         capsuleCollider.material = noFriction;
         speedMultipler = 1f;
