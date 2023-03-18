@@ -17,7 +17,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   private Vector3 moveDirection, slopeMoveDirection;
   private float defaultYPos, timer, horizontalMovement, verticalMovement;
   public float playerStamina, maxStamina, staminaDelay, moveSpeed;
-  [SerializeField] private PhysicMaterial noFriction, normalFriction;
   [SerializeField] private LayerMask ignoreMask;
   private Vector2 move;
   [SerializeField] private Vector3 playerInputVector = Vector3.zero;
@@ -200,8 +199,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       if(isGrounded)
       {
         HandleGroundedAnims(move);
-        capsuleCollider.material = normalFriction;
-        rbDrag = 6f;
+        rigidBody.useGravity = false;
+        rbDrag = 8f;
         speedMultipler = 8f;
         canUseHeadbob = true;
         moveSpeed = groundedSpeed;
@@ -213,8 +212,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       }
       else
       {
+        rigidBody.useGravity = true;
         moveSpeed = airSpeed;
-        capsuleCollider.material = noFriction;
         speedMultipler = 1f;
         rbDrag = 1f;
       }
@@ -257,8 +256,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
       if(isGrounded)
       {
-        capsuleCollider.material = normalFriction;
-        rbDrag = 6f;
+        rigidBody.useGravity = false;
+        rbDrag = 8f;
         speedMultipler = 8f;
         isSwimming = false;
         canUseHeadbob = true;
@@ -269,9 +268,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       }
       else
       {
+        rigidBody.useGravity = true;
         rbDrag = 1f;
         speedMultipler = 1f;
-        capsuleCollider.material = noFriction;
       }
 
       moveSpeed = outOfWaterSpeed;
@@ -385,6 +384,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void StepClimb()
     {
+      Debug.DrawRay(stepRayLower.transform.position, this.transform.forward, Color.red);
+      Debug.DrawRay(stepRayUpper.transform.position, this.transform.forward, Color.red);
+      Debug.DrawRay(stepRayLower.transform.position, this.transform.forward + new Vector3(0,0,0.5f), Color.red);
+      Debug.DrawRay(stepRayUpper.transform.position, this.transform.forward + new Vector3(0,0,0.5f), Color.red);
+      Debug.DrawRay(stepRayLower.transform.position, this.transform.forward + new Vector3(0,0,-0.5f), Color.red);
+      Debug.DrawRay(stepRayUpper.transform.position, this.transform.forward + new Vector3(0,0,-0.5f), Color.red);
       if (!isMoving) return;
       RaycastHit hitLower;
       if (Physics.Raycast(stepRayLower.transform.position, this.transform.forward, out hitLower, lowerRayLength, ~ignoreMask))
@@ -393,6 +398,29 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         if (!Physics.Raycast(stepRayUpper.transform.position, this.transform.forward, out hitUpper, upperRayLength, ~ignoreMask))
         {
           rigidBody.velocity -= new Vector3(0f, -stepSmooth * Time.fixedDeltaTime, 0f);
+          return;
+        }
+      }
+
+      RaycastHit hitLowerleft;
+      if (Physics.Raycast(stepRayLower.transform.position, this.transform.forward + new Vector3(0,0,0.5f), out hitLowerleft, lowerRayLength, ~ignoreMask))
+      {
+        RaycastHit hitUpper;
+        if (!Physics.Raycast(stepRayUpper.transform.position, this.transform.forward + new Vector3(0,0,0.5f), out hitUpper, upperRayLength, ~ignoreMask))
+        {
+          rigidBody.velocity -= new Vector3(0f, -stepSmooth * Time.fixedDeltaTime, 0f);
+          return;
+        }
+      }
+
+      RaycastHit hitLowerright;
+      if (Physics.Raycast(stepRayLower.transform.position, this.transform.forward + new Vector3(0,0,-0.5f), out hitLowerright, lowerRayLength, ~ignoreMask))
+      {
+        RaycastHit hitUpper;
+        if (!Physics.Raycast(stepRayUpper.transform.position, this.transform.forward + new Vector3(0,0,-0.5f), out hitUpper, upperRayLength, ~ignoreMask))
+        {
+          rigidBody.velocity -= new Vector3(0f, -stepSmooth * Time.fixedDeltaTime, 0f);
+          return;
         }
       }
     }
@@ -430,8 +458,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void HandleGroundCheck()
     {
-      RaycastHit hit;
-      if (Physics.Raycast(groundCheck.transform.position, Vector3.down, out hit, groundDistance, ~ignoreMask))
+      if (Physics.CheckSphere(groundCheck.transform.position, groundDistance, ~ignoreMask))
       {
         isGrounded = true;
       }
