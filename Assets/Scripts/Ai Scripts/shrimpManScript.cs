@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -15,8 +16,10 @@ public class shrimpManScript : MonoBehaviour
     private float rangeUsed;
     private float baseAttackTime = 2.0f;
     Vector3 destination;
+    [SerializeField]private Transform underMudPosition;
     private float playerDistance;
     private bool unchosen = true;
+    private bool canGoUnderMud, transitioning;
     PlayerHealthController pHC;
     [HideInInspector] public bool currentlyAttacking = false;
     
@@ -35,6 +38,7 @@ public class shrimpManScript : MonoBehaviour
         shrimpAgent.autoBraking = false;
         shrimpAgent.acceleration = 250;
         shrimpAgent.angularSpeed = 250;
+        canGoUnderMud = true;
 
         state = State.patrolling;
 
@@ -47,6 +51,10 @@ public class shrimpManScript : MonoBehaviour
         bleedRange = detectionRange * rangeForBleedMultiplier;
     }
 
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
     void Update()
     {
         playerDistance = (player.transform.position - this.transform.position).sqrMagnitude;
@@ -99,6 +107,8 @@ public class shrimpManScript : MonoBehaviour
 
         shrimpAgent.destination = destination;
 
+        canGoUnderMud = true;
+
         if(playerDistance < rangeUsed*rangeUsed)
         {
             shrimpMesh.transform.position = this.transform.position;
@@ -112,6 +122,7 @@ public class shrimpManScript : MonoBehaviour
         shrimpAgent.destination = player.transform.position;
         currentlyAttacking = true;
         baseAttackTime -= Time.deltaTime;
+        canGoUnderMud = false;
 
         if(playerDistance > rangeUsed*rangeUsed && baseAttackTime <= 0f)
         {
@@ -136,11 +147,13 @@ public class shrimpManScript : MonoBehaviour
             playerDiver.SetActive(false);
         }
 
-        if (other.gameObject.tag == "Mud")
+        if (other.gameObject.tag == "Mud" && canGoUnderMud)
         {
             shrimpAgent.speed = (agentSpeed*2.0f);
-            shrimpMesh.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - 10, this.transform.position.z);
-            Debug.Log("Entered Mud");
+            StopAllCoroutines();
+            StartCoroutine(TransitionDaShrimp(this.transform.position, underMudPosition.transform.position));
+            transitioning = true;
+            Debug.Log("Mud entered.");
         }
     }
 
@@ -149,11 +162,27 @@ public class shrimpManScript : MonoBehaviour
         if (other.gameObject.tag == "Mud")
         {
             shrimpAgent.speed = agentSpeed;
-            shrimpMesh.transform.position = this.transform.position;
-            Debug.Log("Exited Mud");
+            StopAllCoroutines();
+            StartCoroutine(TransitionDaShrimp(underMudPosition.transform.position, this.transform.position));
+            Debug.Log("Mud exited.");
         }
     }
 
+    private IEnumerator TransitionDaShrimp(Vector3 start, Vector3 end)
+    {
+        float timeElapsed = 0;
+        
+        while (timeElapsed < 2)
+        {
+            float t = timeElapsed/2;
+            shrimpMesh.transform.position = Vector3.Lerp(start, end, t);
+            timeElapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+        transform.position = end;
+    }
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
