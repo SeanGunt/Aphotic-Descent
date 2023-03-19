@@ -11,6 +11,7 @@ public class shrimpManScript : MonoBehaviour
     [SerializeField] private GameObject player, shrimpMesh, playerDiver;
     [SerializeField] private Transform[] patrolPoints;
     [SerializeField] public float stunTime;
+    private Animator animator;
 
     private float bleedRange;
     private float rangeUsed;
@@ -19,7 +20,7 @@ public class shrimpManScript : MonoBehaviour
     [SerializeField]private Transform underMudPosition;
     private float playerDistance;
     private bool unchosen = true;
-    private bool canGoUnderMud, transitioning;
+    private bool canGoUnderMud, transitioning, patrolling, goingDown, goingUp;
     PlayerHealthController pHC;
     [HideInInspector] public bool currentlyAttacking = false;
     
@@ -27,7 +28,7 @@ public class shrimpManScript : MonoBehaviour
 
     public enum State
     {
-        attacking, patrolling, wasAttacking
+        attacking, patrolling, wasAttacking, transitioningIn, transitioningOut 
     }
 
     void Awake()
@@ -39,6 +40,8 @@ public class shrimpManScript : MonoBehaviour
         shrimpAgent.acceleration = 250;
         shrimpAgent.angularSpeed = 250;
         canGoUnderMud = true;
+        animator = GetComponentInChildren<Animator>();
+        animator.SetInteger("ShrimpyState",0);
 
         state = State.patrolling;
 
@@ -70,7 +73,14 @@ public class shrimpManScript : MonoBehaviour
             case State.wasAttacking:
                 WasAttacking();
                 break;
+            case State.transitioningIn:
+                Transitioning();
+                break;
+            case State.transitioningOut:
+                Transitioning();
+                break;
         }
+        Debug.Log(state);
         if(pHC.isBleeding)
         {
             rangeUsed = bleedRange;
@@ -89,6 +99,7 @@ public class shrimpManScript : MonoBehaviour
 
     void Patrolling()
     {
+        patrolling = true;
         if(patrolPoints.Length == 0)
         {
             return;
@@ -114,6 +125,8 @@ public class shrimpManScript : MonoBehaviour
             shrimpMesh.transform.position = this.transform.position;
             shrimpAgent.speed = agentSpeed;
             state = State.attacking;
+            animator.SetInteger("ShrimpyState", 0);
+            patrolling = false;
         }
     }
 
@@ -149,10 +162,12 @@ public class shrimpManScript : MonoBehaviour
 
         if (other.gameObject.tag == "Mud" && canGoUnderMud)
         {
-            shrimpAgent.speed = (agentSpeed*2.0f);
-            StopAllCoroutines();
-            StartCoroutine(TransitionDaShrimp(this.transform.position, underMudPosition.transform.position));
+            shrimpAgent.speed = (agentSpeed*1.5f);
             transitioning = true;
+            state = State.transitioningIn;
+            goingDown = true;
+            CancelInvoke("TransitionAnim");
+            Invoke("TransitionAnim", .001f);
             Debug.Log("Mud entered.");
         }
     }
@@ -162,27 +177,93 @@ public class shrimpManScript : MonoBehaviour
         if (other.gameObject.tag == "Mud")
         {
             shrimpAgent.speed = agentSpeed;
-            StopAllCoroutines();
-            StartCoroutine(TransitionDaShrimp(underMudPosition.transform.position, this.transform.position));
+            transitioning = true;
+            state = State.transitioningOut;
+            goingUp = true;
+            CancelInvoke("TransitionAnim");
+            Invoke("TransitionAnim", .001f);
             Debug.Log("Mud exited.");
         }
     }
 
-    private IEnumerator TransitionDaShrimp(Vector3 start, Vector3 end)
-    {
-        float timeElapsed = 0;
-        
-        while (timeElapsed < 2)
-        {
-            float t = timeElapsed/2;
-            shrimpMesh.transform.position = Vector3.Lerp(start, end, t);
-            timeElapsed += Time.deltaTime;
+    // private IEnumerator TransitionDaShrimp(Vector3 start, Vector3 end)
+    // {
+    //     float timeElapsed = 0;
+    //     if (transitioning)
+    //     {
+    //         while (timeElapsed < 1)
+    //         {
+    //             float t = timeElapsed/2;
+    //             shrimpMesh.transform.position = Vector3.Lerp(start, end, t);
+    //             timeElapsed += Time.deltaTime;
 
-            yield return null;
+    //             yield return null;
+    //         }
+    //         transitioning = false;
+    //     }
+    //     transform.position = end;
+    //     Debug.Log("Finished transitioning.");
+    // }
+
+    private void Transitioning()
+    {
+        if (patrolling)
+        {
+            Patrolling();
+        }
+        if (currentlyAttacking)
+        {
+            Attacking();
+        }
+        float timeElapsed = 0;
+        if (transitioning)
+        {
+            if (timeElapsed < 2f)
+            {
+                float t = timeElapsed/2;
+                timeElapsed += Time.deltaTime;
+            }
+            
+            if (timeElapsed == 2f)
+            {
+                transitioning = false;
+            }
+        }
+        if(!transitioning && patrolling)
+        {
+            state = State.patrolling;
+            animator.SetInteger("ShrimpyState", 0);
+        }
+        if(!transitioning && currentlyAttacking)
+        {
+            state = State.attacking;
+            animator.SetInteger("ShrimpyState", 0);
+        }
+        if(playerDistance < rangeUsed*rangeUsed)
+        {
+            shrimpMesh.transform.position = this.transform.position;
+            shrimpAgent.speed = agentSpeed;
+            state = State.attacking;
+            animator.SetInteger("ShrimpyState", 0);
+            patrolling = false;
+        }
+    }
+
+    private void TransitionAnim()
+    {
+        if (goingDown)
+        {
+            animator.SetInteger("ShrimpyState",1);
+            goingDown = false;
         }
 
-        transform.position = end;
+        if (goingUp)
+        {
+            animator.SetInteger("ShrimpyState",2);
+            goingUp = false;
+        }
     }
+
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
