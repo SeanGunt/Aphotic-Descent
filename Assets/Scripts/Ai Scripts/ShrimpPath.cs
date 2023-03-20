@@ -12,7 +12,7 @@ public class ShrimpPath : MonoBehaviour
     private int x;
     private bool isMoving;
     private bool isBlacklighted;
-
+    private float distance;
     private float timeBlacklighted = 0.5f;
     [SerializeField] private EatTheShrimp eatTheShrimp;
     void start()
@@ -23,13 +23,16 @@ public class ShrimpPath : MonoBehaviour
     void Update()
     {
         actualPosition = shrimp.transform.position;
-        shrimp.transform.position = Vector3.MoveTowards(actualPosition, pathPoints[x].transform.position, speed * Time.deltaTime);
-        float distance = Vector3.Distance(this.transform.position, pathPoints[x].transform.position);
-        //Debug.Log(distance);
+        if(isMoving)
+        {
+            shrimp.transform.position = Vector3.MoveTowards(actualPosition, pathPoints[x].transform.position, speed * Time.deltaTime);
+            distance = Vector3.Distance(this.transform.position, pathPoints[x].transform.position);
+        }
         
         if (isBlacklighted)
         {
             timeBlacklighted -= Time.deltaTime;
+            RotateTowards(pathPoints[x].transform.position);
         } 
         if (timeBlacklighted <= 0f)
         {
@@ -60,6 +63,13 @@ public class ShrimpPath : MonoBehaviour
         }
         
     
-    } 
+    }
+
+    private void RotateTowards(Vector3 target)
+    {
+        Vector3 direction = (target - this.transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, direction.y, direction.z));
+        this.transform.rotation = Quaternion.Slerp(this.transform.rotation, lookRotation, Time.deltaTime * 2f);
+    }
 
 }

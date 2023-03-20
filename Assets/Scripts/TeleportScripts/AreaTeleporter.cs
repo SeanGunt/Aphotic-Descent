@@ -84,12 +84,6 @@ public class AreaTeleporter : MonoBehaviour
             GameDataHolder.inMudMarsh = false;
             GameDataHolder.inPsShrimpCave = false;
         }
-
-        // if(Keyboard.current.digit7Key.isPressed)
-        // {
-        //     Teleport(6);
-        //     GameDataHolder.inAnglerTrench = true;
-        // }
     }
 
     private void Teleport(int arrayPosition)
