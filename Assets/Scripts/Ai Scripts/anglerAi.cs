@@ -7,7 +7,7 @@ public class anglerAi : MonoBehaviour
 {
     //
     // HEY the trigger this is connected to is located on the diver lure portion of the angler
-    //
+    // AnglerTotal->Bone.010->...Bone.020
 
     [SerializeField] private Transform[] patrolPoints;
     [SerializeField] private float anglerRange;
@@ -96,22 +96,29 @@ public class anglerAi : MonoBehaviour
 
     void patrolling()
     {
-        if(!anglerAgent.pathPending && anglerAgent.remainingDistance < 0.5f)
-        {            
-            unchosen = true;
-        }
-        
-        if(unchosen)
+        if(isAlive)
         {
-            anglerAgent.destination = patrolPoints[Random.Range(0, patrolPoints.Length)].position;
-            unchosen = false;
-        }
+            if(!anglerAgent.pathPending && anglerAgent.remainingDistance < 0.5f)
+            {            
+                unchosen = true;
+            }
+            
+            if(unchosen)
+            {
+                anglerAgent.destination = patrolPoints[Random.Range(0, patrolPoints.Length)].position;
+                unchosen = false;
+            }
 
-        if(distBtwn <= anglerRange)
+            if(eFovScr1.canSeePlayer || eFovScr2.canSeePlayer)
+            {
+                unchosen = false;
+                anglerAgent.ResetPath();
+                state = State.anglerAttacking;
+            }
+        }
+        else
         {
-            unchosen = false;
-            anglerAgent.ResetPath();
-            state = State.anglerAttacking;
+            state = State.anglerDead;
         }
     }
 
@@ -122,6 +129,7 @@ public class anglerAi : MonoBehaviour
         anglerAgent.ResetPath();
         anglerAgent.speed = 0;
         anglerAgent.acceleration = 0;
+        isAlive = false;
     }
 
     private void attacking()
@@ -133,12 +141,16 @@ public class anglerAi : MonoBehaviour
                 unchosen = false;
                 anglerAgent.destination = player.transform.position;
             }
-            else
+            else if(eFovScr1.canSeePlayer == false || eFovScr2.canSeePlayer == false)
             {
                 unchosen = true;
                 anglerAgent.ResetPath();
                 state = State.anglerPatrolling;
             }
+        }
+        else
+        {
+            state = State.anglerDead;
         }
     }
     
@@ -158,6 +170,10 @@ public class anglerAi : MonoBehaviour
             {
                 Debug.Log("from diver trigger: ayyoo wassup");
             }
+        }
+        else
+        {
+            state = State.anglerDead;
         }
     }
 }
