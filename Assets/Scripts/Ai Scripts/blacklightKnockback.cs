@@ -7,7 +7,7 @@ public class blacklightKnockback : MonoBehaviour
     //this is made for the angler fish and its ai, so be aware if you want to stick it on something else
     private Camera cam;
     private Rigidbody rb;
-    [SerializeField] public float knockbackForce;
+    [HideInInspector] public float knockbackForce;
     private float resetKb;
     private State state;
     anglerAi angScr;
@@ -36,29 +36,6 @@ public class blacklightKnockback : MonoBehaviour
             resetTime = stopTime;
         }
     }
-
-    /*
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Knife")
-        {
-            if(angScr.isAlive)
-            {
-                rb.AddForce(cam.transform.forward * knockbackForce, ForceMode.Impulse);
-                state = State.beingKnockedBack;
-                StartCoroutine("ResetKnockBack", 0.5f);
-
-                if(anglerFishAttached && !stopped)
-                {
-                    stopped = true;
-                    angScr.anglerAgent.speed = 0;
-                    
-                    Debug.Log("angler was hit");
-                }
-            }
-        }
-    }
-    */
 
     public void knockingBack()
     {
@@ -101,12 +78,10 @@ public class blacklightKnockback : MonoBehaviour
         {
             default:
             case State.normal:
-                Debug.Log("angler debug 1");
                 Normal();
             break;
 
             case State.beingKnockedBack:
-                Debug.Log("angler debug 2");
                 BeingKnockedBack();
             break;
 

@@ -11,6 +11,11 @@ public class anglerAi : MonoBehaviour
 
     [SerializeField] private Transform[] patrolPoints;
     [SerializeField] private float anglerRange;
+    [SerializeField] private float anglerRangeMultiplier; //how much will angler's vision be multiplied by?
+    [SerializeField] private float kbBlacklightForce;
+    [SerializeField] private float kbKnifeForceMultiplier; //how hard will angler be knocked back by knife?
+    private float resetForce;
+    private float resetAnglerRange;
     private GameObject player;
     private int currentPoint = 0;
     public NavMeshAgent anglerAgent;
@@ -21,6 +26,7 @@ public class anglerAi : MonoBehaviour
     [HideInInspector] public float anglerSpeed;
     [HideInInspector] public PlayerHealthController pHelCon;
     blacklightKnockback blKb;
+    enemyFieldOfView eFovScr1, eFovScr2; //the other is on the diver trigger
 
     public State state;
     public enum State
@@ -28,7 +34,7 @@ public class anglerAi : MonoBehaviour
         anglerPatrolling, anglerDead, anglerAttacking
     }
 
-    // Start is called before the first frame update
+    // Awake is called when the object the script is attached to becomes enabled
     void Awake()
     {
         state = State.anglerPatrolling;
@@ -38,8 +44,20 @@ public class anglerAi : MonoBehaviour
 
         player = GameObject.FindGameObjectWithTag("Player");
         pHelCon = player.GetComponent<PlayerHealthController>();
+        blKb = GetComponentInChildren<blacklightKnockback>();
+        eFovScr1 = GetComponent<enemyFieldOfView>();
+        eFovScr2 = GameObject.Find("angLureTrigger").GetComponent<enemyFieldOfView>();
         
         anglerSpeed = anglerAgent.speed;
+        resetAnglerRange = anglerRange;
+
+        blKb.knockbackForce = kbBlacklightForce;
+        resetForce = kbBlacklightForce;
+        eFovScr1.playerRef = player;
+        eFovScr2.playerRef = player;
+        eFovScr1.radius = anglerRange;
+
+        Debug.Log(eFovScr2.gameObject.name + " is where efov2 is located");
     }
 
     // Update is called once per frame
@@ -50,6 +68,15 @@ public class anglerAi : MonoBehaviour
         if(isAlive == false)
         {
             state = State.anglerDead;
+        }
+
+        if(player.transform.position.y > this.gameObject.transform.position.y)
+        {
+            eFovScr1.radius = resetAnglerRange * anglerRangeMultiplier;
+        }
+        else
+        {
+            eFovScr1.radius = resetAnglerRange;
         }
 
         switch (state)
@@ -101,7 +128,7 @@ public class anglerAi : MonoBehaviour
     {
         if(isAlive)
         {
-            if(distBtwn <= anglerRange)
+            if(eFovScr1.canSeePlayer || eFovScr2.canSeePlayer)
             {
                 unchosen = false;
                 anglerAgent.destination = player.transform.position;
@@ -121,9 +148,10 @@ public class anglerAi : MonoBehaviour
         {    
             if(other.gameObject.tag == "Knife")
             {
-                Debug.Log("from diver trigger: knife hit");
-                blKb.knockbackForce = blKb.knockbackForce * 3;
+                //Debug.Log("from diver trigger: knife hit");
+                blKb.knockbackForce = blKb.knockbackForce * kbKnifeForceMultiplier;
                 blKb.knockingBack();
+                blKb.knockbackForce = resetForce;
             }
             
             if(other.gameObject.tag == "Player")
