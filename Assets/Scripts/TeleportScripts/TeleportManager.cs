@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class TeleportManager : MonoBehaviour
 {
-    public UnityEvent unityEvent;
     private GameObject player, fogCube;
     [SerializeField] private Vector3 teleportPosition;
     private PlayerMovement playerMovement;
     private GameObject mainCamera;
+    [SerializeField] private Image fadeToBlackImage;
+    [SerializeField] private int teleportNumber;
 
     private void Awake()
     {
@@ -19,20 +21,35 @@ public class TeleportManager : MonoBehaviour
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void BasicTeleport()
     {
-        if (other.gameObject.tag == "Player")
+        StartCoroutine(Fade(1f));
+    }
+
+    private void CheckLocation()
+    {
+        if(teleportNumber == 1)
         {
-            unityEvent.Invoke();
+            TeleportToKelpMaze();
+        }
+
+        if(teleportNumber == 2)
+        {
+            TelpeortToLab();
+        }
+
+        if(teleportNumber == 3)
+        {
+            TeleportToRidge();
+        }
+
+        if (teleportNumber == 4)
+        {
+            TeleportToEelCave();
         }
     }
 
-    public void BasicTeleport()
-    {
-        player.transform.localPosition = teleportPosition;
-    }
-
-    public void TeleportToKelpMaze()
+    private void TeleportToKelpMaze()
     {
         GameDataHolder.inSub = false;
         GameDataHolder.inKelpMaze = true;
@@ -43,26 +60,42 @@ public class TeleportManager : MonoBehaviour
         BGMManager.instance.StopMusic();
     }
 
-    public void TeleportToRidge()
+    private void TeleportToRidge()
     {
         GameDataHolder.inLab = false;
         GameDataHolder.inKelpMaze = true;
         BGMManager.instance.SwitchBGMFade(0);
     }
 
-    public void TelpeortToLab()
+    private void TelpeortToLab()
     {
         GameDataHolder.inLab = true;
         GameDataHolder.inKelpMaze = false;
-        GameDataHolder.inEelCave = false;
         BGMManager.instance.SwitchBGMFade(6);
     }
 
-    public void TeleportToEelCave()
+    private void TeleportToEelCave()
     {
-        BGMManager.instance.SwitchBGM(6);
-        GameDataHolder.inLab = false;
-        GameDataHolder.inKelpMaze = false;
         GameDataHolder.inEelCave = true;
+        GameDataHolder.inKelpMaze = false;
+        BGMManager.instance.SwitchBGM(6);
+    }
+
+    public IEnumerator Fade(float t)
+    {
+        fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, 0.0f);
+        while(fadeToBlackImage.color.a < 1.0f)
+        {
+            fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, fadeToBlackImage.color.a + Time.deltaTime / t);
+            yield return null;
+        }
+        player.transform.localPosition = teleportPosition;
+        yield return new WaitForSeconds(0.05f);
+        CheckLocation();
+        while(fadeToBlackImage.color.a >= 0.0f)
+        {
+            fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, fadeToBlackImage.color.a - Time.deltaTime / t);
+            yield return null;
+        }
     }
 }

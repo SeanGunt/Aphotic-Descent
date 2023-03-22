@@ -11,6 +11,7 @@ public class LogPickup : MonoBehaviour
     public static bool logPickedUp;
     private Volume volume;
     private GameObject volumeObj;
+    [SerializeField] private GameObject objectiveText;
 
     private void Awake()
     {
@@ -28,6 +29,7 @@ public class LogPickup : MonoBehaviour
         }
         pauseControls.paused = true;
         logPickedUp = true;
+        objectiveText.SetActive(false);
         Time.timeScale = 0;
     }
 }
