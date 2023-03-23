@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4810031635134946175}
   - component: {fileID: 8462107418259821786}
   - component: {fileID: 5947995708295733264}
+  - component: {fileID: 6991721464844382310}
   m_Layer: 0
   m_Name: Aphotic_Freight_1_OPEN_UV
   m_TagString: Untagged
@@ -84,3 +85,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6991721464844382310
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5299464510500520389}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3787144391514394711, guid: 8bdaccd09115def458d2cda42fff66bb, type: 3}
