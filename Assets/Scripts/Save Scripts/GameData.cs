@@ -30,7 +30,6 @@ public class GameData
     public bool inAnglerTrench;
     public bool bathysphereCutscenePlayed;
     public bool eelIsDead;
-
     public bool eelObjectiveTriggered;
     public SerializableDictionary<string, bool> lilGuygsCollected;
     public SerializableDictionary<string, bool> loreCollected;

@@ -9,8 +9,8 @@ public class FrankDeath : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            SceneManager.LoadScene("FinalCutScene");
             DataPersistenceManager.instance.SaveGame();
+            SceneManager.LoadScene("FinalCutScene");
         }
     }
 }

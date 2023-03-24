@@ -19,6 +19,13 @@ public class generatorScript : MonoBehaviour
         meshRenderer = GetComponent<MeshRenderer>();
         originalMats = meshRenderer.sharedMaterials;
         audioSource = GetComponent<AudioSource>();
+        
+        if(GameDataHolder.eelIsDead)
+        {
+            electricity.SetActive(false);
+            genHealth = 0;
+            audioSource.Stop();
+        }
     }
 
     void OnTriggerEnter(Collider other)
