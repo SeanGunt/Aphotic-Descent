@@ -143,7 +143,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       playerSettings.enabled = false;
       UICanvas.SetActive(false);
     }
-    Debug.Log(state);
   }
 
   private void FixedUpdate()

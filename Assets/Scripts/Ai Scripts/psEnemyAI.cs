@@ -5,19 +5,19 @@ using UnityEngine.Animations.Rigging;
 public class psEnemyAI : MonoBehaviour
 {
     [SerializeField] private Transform[] travelPoints;
-    [SerializeField] private Transform[] perchedPositions;
+    [SerializeField] public Transform[] perchedPositions;
     [SerializeField] private MultiAimConstraint multiAimConstraint;
     private GameObject player;
     private int currentPoint;
     [SerializeField] private GameObject[] blackLightTargets;
     private Transform selectedTarget;
     private GameObject closestTarget;
-    private Transform closestPoint;
+    [HideInInspector] public Transform closestPoint;
     private bool destinationSet;
     [HideInInspector] public bool isMoving;
     private NavMeshAgent agent;
-    private State state;
-    private enum State
+    public State state;
+    public enum State
     {
         moving, isPerching, perched, loop
     }
@@ -27,7 +27,7 @@ public class psEnemyAI : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
         destinationSet = false;
-        state = State.moving;
+        state = State.perched;
     }
 
     private void Update()
@@ -94,6 +94,7 @@ public class psEnemyAI : MonoBehaviour
     {
         isMoving = false;
         destinationSet = false;
+        if(selectedTarget == null) return;
         Vector3 direction = selectedTarget.transform.position - this.transform.position;
         Vector3 rotation = Quaternion.LookRotation(direction).eulerAngles;
         this.transform.eulerAngles = new Vector3(this.transform.eulerAngles.x, rotation.y, this.transform.eulerAngles.z);

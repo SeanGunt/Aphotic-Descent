@@ -39,7 +39,6 @@ public class MouseLook : MonoBehaviour
         if (playerInput.actions["Quit"].triggered)
         {
             Application.Quit();
-            Debug.Log("Quit");
         }
        
     }

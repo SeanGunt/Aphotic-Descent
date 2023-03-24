@@ -78,7 +78,6 @@ public class PlayerHealthController : MonoBehaviour
         if(playerHealth >= 0)
         {
             int randomHitSound = Random.Range(0,2);
-            Debug.Log(randomHitSound);
             audioSource.PlayOneShot(hitSound);
             canRegen = false;
             UpdateHealth();
