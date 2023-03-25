@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 public class SonarPulse : MonoBehaviour
 {
     [SerializeField]private Transform pulseTransform;
-    [SerializeField]private GameObject sPing;
     private SpriteRenderer pulseSpriteRenderer;
     private Color pulseColor;
 
@@ -18,8 +17,8 @@ public class SonarPulse : MonoBehaviour
 
     private void Awake()
     {
-        rangeMax = 500f;
-        fadeRange = 100f;
+        rangeMax = 6f;
+        fadeRange = 1.5f;
         collidersHit = new List<Collider>();
         pulseSpriteRenderer = pulseTransform.GetComponent<SpriteRenderer>();
 
@@ -27,7 +26,7 @@ public class SonarPulse : MonoBehaviour
 
     private void Update()
     {
-        float rangeSpeed = 150f;
+        float rangeSpeed = .25f;
         range += rangeSpeed * Time.deltaTime;
         if(range > rangeMax)
         {
@@ -36,25 +35,17 @@ public class SonarPulse : MonoBehaviour
         }
         
         pulseTransform.localScale = new Vector3(range, range);
-        Collider[] hitCollidersArray = Physics.OverlapSphere(pulseTransform.position, range);
+        Collider[] hitCollidersArray = Physics.OverlapSphere(pulseTransform.position, range * 100);
         foreach (Collider colliderHit in hitCollidersArray)
         {
-            if (colliderHit != null)
+            if (colliderHit != null && colliderHit.gameObject.GetComponent<SonarPingManager>())
             {
                 if (!collidersHit.Contains(colliderHit))
                 {
                     collidersHit.Add(colliderHit);
-                    Instantiate(sPing, colliderHit.transform.position, Quaternion.identity);
-                    SonarPings sonarPing = sPing.GetComponent<SonarPings>();
-                    if (colliderHit.gameObject.GetComponent<LoreSaver>() != null)
-                    {
-                        sonarPing.SetColor(new Color(0, 0, .85f));
-                    }
-                    if (colliderHit.gameObject.layer == 10)
-                    {
-                        sonarPing.SetColor(new Color(.85f, 0, 0));
-                    }
-                    sonarPing.SetDisappearTimer(rangeMax/rangeSpeed);
+                    SonarPingManager sPManager = colliderHit.GetComponent<SonarPingManager>();
+                    sPManager.InstantiatePings();
+                    sPManager.SetPingTimer(rangeMax/rangeSpeed);
                 }
             }
         }
