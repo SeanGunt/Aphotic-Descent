@@ -3,14 +3,14 @@ using UnityEngine.UI;
 
 public class SonarPings : MonoBehaviour
 {
-    private Image ping;
+    private SpriteRenderer ping;
     private float disappearTimer;
     private float disappearTimerMax;
     private Color color;
 
     private void Awake()
     {
-        ping = this.GetComponent<Image>();
+        ping = this.GetComponent<SpriteRenderer>();
         disappearTimerMax = 1f;
         disappearTimer = 0f;
         color = new Color(1, 1, 1, 1);
@@ -25,7 +25,8 @@ public class SonarPings : MonoBehaviour
 
         if (disappearTimer >= disappearTimerMax) 
         {
-            Destroy(gameObject);
+            this.gameObject.SetActive(false);
+            disappearTimer = 0f;
         }
     }
 
