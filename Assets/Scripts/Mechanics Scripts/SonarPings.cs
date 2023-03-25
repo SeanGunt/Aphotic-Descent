@@ -7,6 +7,8 @@ public class SonarPings : MonoBehaviour
     private float disappearTimer;
     private float disappearTimerMax;
     private Color color;
+    [SerializeField]private Camera sonarCam;
+    private bool disappearStarted;
 
     private void Awake()
     {
@@ -18,16 +20,25 @@ public class SonarPings : MonoBehaviour
 
     private void Update()
     {
-        disappearTimer += Time.deltaTime;
+        if (disappearStarted)
+        {
+            disappearTimer += Time.deltaTime;
 
-        color.a = Mathf.Lerp(disappearTimerMax, 0f, disappearTimer/disappearTimerMax);
-        ping.color = color;
+            color.a = Mathf.Lerp(disappearTimerMax, 0f, disappearTimer/disappearTimerMax);
+            ping.color = color;
+        }
 
         if (disappearTimer >= disappearTimerMax) 
         {
             this.gameObject.SetActive(false);
             disappearTimer = 0f;
+            disappearStarted = false;
         }
+    }
+
+    private void LateUpdate()
+    {
+        transform.LookAt(sonarCam.transform);
     }
 
     public void SetColor(Color color)
@@ -39,5 +50,6 @@ public class SonarPings : MonoBehaviour
     {
         this.disappearTimerMax = disappearTimerMax;
         disappearTimer = 0f;
+        disappearStarted = true;
     }
 }
