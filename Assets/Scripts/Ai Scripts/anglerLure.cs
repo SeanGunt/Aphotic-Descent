@@ -8,11 +8,16 @@ public class anglerLure : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        angScript = GameObject.Find("AnglerPhishe").GetComponent<anglerAi>();
     }
 
     void OnTriggerEnter(Collider other)
     {
-        //angScript
+        if(other.gameObject.tag == "Player" || other.gameObject.tag == "Knife")
+        {
+            Debug.Log("jingle jangle");
+            angScript.anglerAgent.destination = this.transform.position;
+            angScript.isInvestigating = true;
+        }
     }
 }

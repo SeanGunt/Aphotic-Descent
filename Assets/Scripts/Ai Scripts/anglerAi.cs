@@ -14,15 +14,18 @@ public class anglerAi : MonoBehaviour
     [SerializeField] private float anglerRangeMultiplier; //how much will angler's vision be multiplied by?
     [SerializeField] private float kbBlacklightForce;
     [SerializeField] private float kbKnifeForceMultiplier; //how hard will angler be knocked back by knife?
+    public NavMeshAgent anglerAgent;
     private float resetForce;
     private float resetAnglerRange;
     private GameObject player;
     private int currentPoint = 0;
-    public NavMeshAgent anglerAgent;
     private bool unchosen;
     public bool isAlive = true;
+    public bool isInvestigating = false;
     public float anglerStunTime;
     private float distBtwn;
+    public float investTimer;
+    private float resetInvestTimer;
     private Animation animaTor;
     [HideInInspector] public float anglerSpeed;
     [HideInInspector] public PlayerHealthController pHelCon;
@@ -66,7 +69,7 @@ public class anglerAi : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //distBtwn = Vector3.Distance(player.transform.position, transform.position);
+        distBtwn = Vector3.Distance(player.transform.position, transform.position);
         
         if(isAlive == false)
         {
@@ -82,6 +85,11 @@ public class anglerAi : MonoBehaviour
             eFovScr1.radius = resetAnglerRange;
         }
 
+        if(isInvestigating)
+        {
+            state = State.anglerInvestigate;
+        }
+
         switch (state)
         {
             default:
@@ -95,7 +103,7 @@ public class anglerAi : MonoBehaviour
                 Dead();
             break;
             case State.anglerInvestigate:
-
+                investigate();
             break;
         }
     }
@@ -118,7 +126,6 @@ public class anglerAi : MonoBehaviour
             if(eFovScr1.canSeePlayer || eFovScr2.canSeePlayer)
             {
                 unchosen = false;
-                anglerAgent.ResetPath();
                 state = State.anglerAttacking;
             }
         }
@@ -162,7 +169,26 @@ public class anglerAi : MonoBehaviour
 
     void investigate()
     {
+        unchosen = false;
         
+        if(!anglerAgent.pathPending && anglerAgent.remainingDistance < 0.5f)
+        {
+            //play that animation
+            animaTor.Play("lureLooking");
+            investTimer -= Time.deltaTime;
+            if(eFovScr1.canSeePlayer || eFovScr2.canSeePlayer)
+            {
+                animaTor.Stop("lureLooking");
+                state = State.anglerAttacking;
+                investTimer = resetInvestTimer;
+            }
+            else if(investTimer <= 0 && animaTor.isPlaying)
+            {
+                //stop animation
+                animaTor.Stop("lureLooking");
+                investTimer = resetInvestTimer;
+            }
+        }
     }
     
     void OnTriggerEnter(Collider other)
