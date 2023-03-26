@@ -5,15 +5,16 @@ using UnityEngine;
 public class PistolShrimpTrigger : MonoBehaviour
 {
     [SerializeField] private int perchedPositionIndex;
+    private bool canEnter = true;
     [SerializeField] private psEnemyAI ps;
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player" && canEnter)
         {
             ChangePosition(perchedPositionIndex);
             ps.SetSelectedTarget(other.gameObject.transform);
             ps.SwitchTarget(0,1);
-            Destroy(this.gameObject);
+            canEnter = false;
         }
     }
 

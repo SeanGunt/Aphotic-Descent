@@ -14,12 +14,12 @@ public class psEnemyAI : MonoBehaviour
     private GameObject closestTarget;
     [HideInInspector] public Transform closestPoint;
     private bool destinationSet;
-    [HideInInspector] public bool isMoving;
+    [HideInInspector] public bool isMoving, inPhase1, inPhase2;
     private NavMeshAgent agent;
-    public State state;
+    [HideInInspector] public State state;
     public enum State
     {
-        moving, isPerching, perched, loop
+        moving, isPerching, perched, loop, idle
     }
 
     private void Awake()
@@ -27,13 +27,17 @@ public class psEnemyAI : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
         destinationSet = false;
-        state = State.perched;
+        state = State.idle;
+        inPhase1 = true;
+        inPhase2 = false;
     }
 
     private void Update()
     {
         switch(state)
         {
+            case State.idle:
+            break;
             case State.moving:
                 Moving();
             break;
@@ -47,6 +51,8 @@ public class psEnemyAI : MonoBehaviour
                 Perched();
             break;
         }
+
+        Debug.Log(state);
     }
 
     private void Moving()
@@ -92,6 +98,8 @@ public class psEnemyAI : MonoBehaviour
 
     private void Perched()
     {
+        inPhase1 = false;
+        inPhase2 = true;
         isMoving = false;
         destinationSet = false;
         if(selectedTarget == null) return;

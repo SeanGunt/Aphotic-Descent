@@ -59,6 +59,22 @@ public class ObjectiveUpdateHolder : MonoBehaviour
         GameDataHolder.ridgeObjectiveTriggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
     }
+
+    public void SeventhObjective()
+    {
+        objectiveText.text = "Descend Into The Cave";
+        GameDataHolder.objectiveId = 7;
+        GameDataHolder.hermitCaveObjectiveTriggered = true;
+        StartCoroutine(FadeText(7f, objectiveText));
+    }
+
+    public void EighthObjective()
+    {
+        objectiveText.text = "Reach The Cage Before It Closes";
+        GameDataHolder.objectiveId = 8;
+        GameDataHolder.pistolShrimpObjectiveTriggered = true;
+        StartCoroutine(FadeText(7f, objectiveText));
+    }
     public IEnumerator FadeText(float t, TextMeshProUGUI i)
     {
         i.color = new Color(i.color.r, i.color.g, i.color.b, 1);
