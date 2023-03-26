@@ -5,20 +5,23 @@ using UnityEngine.InputSystem;
 
 public class SonarPulse : MonoBehaviour
 {
+    [SerializeField]private Transform pfSonarPing;
     [SerializeField]private Transform pulseTransform;
     private SpriteRenderer pulseSpriteRenderer;
+    [SerializeField]private LayerMask pingLayers;
     private Color pulseColor;
 
-    private float range, rangeMax, rangeSpeed, fadeRange, pingDelay;
+    private float range, rangeMax, rangeSpeed, fadeRange, pingDelay, sphereRangeSpeed, sphereRange;
 
     private List<Collider> collidersHit;
 
     private void Awake()
     {
-        rangeMax = 15f;
+        rangeMax = 11.5f;
         fadeRange = 1.5f;
-        rangeSpeed = 1.5f;
-        pingDelay = 1f;
+        rangeSpeed = 2f;
+        sphereRangeSpeed = 4.51f;
+        pingDelay = 2.5f;
         collidersHit = new List<Collider>();
         pulseSpriteRenderer = pulseTransform.GetComponent<SpriteRenderer>();
     }
@@ -26,13 +29,14 @@ public class SonarPulse : MonoBehaviour
     private void Update()
     {
         range += rangeSpeed * Time.deltaTime;
+        sphereRange += sphereRangeSpeed * Time.deltaTime;
         if(range > rangeMax)
         {
             range = 0f;
+            sphereRange = 0f;
             collidersHit.Clear();
         }
         
-        pulseTransform.localScale = new Vector3(range, range);
         StartCoroutine(PingColliders());
         if (range > rangeMax - fadeRange)
         {
@@ -48,28 +52,37 @@ public class SonarPulse : MonoBehaviour
 
     IEnumerator PingColliders()
     {
-        Collider[] hitCollidersArray = Physics.OverlapSphere(pulseTransform.position, range);
+        pulseTransform.localScale = new Vector3(range, range);
+        Collider[] hitCollidersArray = Physics.OverlapSphere(pulseTransform.position, sphereRange, pingLayers, QueryTriggerInteraction.Collide);
         foreach (Collider colliderHit in hitCollidersArray)
         {
-            if (colliderHit != null && colliderHit.gameObject.GetComponent<SonarPingManager>())
+            if (colliderHit != null && (colliderHit.gameObject.layer == 10 || colliderHit.gameObject.layer == 24))
             {
                 if (!collidersHit.Contains(colliderHit))
                 {
                     collidersHit.Add(colliderHit);
-                    SonarPingManager sPManager = colliderHit.GetComponent<SonarPingManager>();
-                    sPManager.InstantiatePings();
+                    //SonarPingManager sPManager = colliderHit.GetComponent<SonarPingManager>();
+                    //sPManager.InstantiatePings();
+                    Transform radarPingTransform = Instantiate(pfSonarPing, colliderHit.transform.position ,Quaternion.Euler(-90, 0, 0));
+                    SonarPings sonarPing = radarPingTransform.GetComponent<SonarPings>();
                     if (colliderHit.gameObject.layer == 24)
                     {
-                        sPManager.ColorManager(1);
+                        sonarPing.type = 1;
                     }
                     if (colliderHit.gameObject.layer == 10)
                     {
-                        sPManager.ColorManager(2);
+                        sonarPing.type = 2;
                     }
-                    sPManager.SetPingTimer(rangeMax/rangeSpeed);
+                    //sonarPing.SetDisappearTimer(rangeMax/rangeSpeed);
                 }
             }
             yield return new WaitForSeconds(pingDelay);
         }
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(pulseTransform.position, sphereRange);
     }
 }

@@ -9,17 +9,13 @@ public class SonarPingManager : MonoBehaviour
 
     public void InstantiatePings()
     {
-        if (!instantiated)
-        {
             ping.gameObject.SetActive(true);
-            instantiated = true;
-        }
     }
 
     public void SetPingTimer(float time)
     {
-        managedPing.SetDisappearTimer(time);
-        Invoke("ResetBools", time);
+        //managedPing.SetDisappearTimer(time);
+        
     }
 
     public void ColorManager(int colorCase)
@@ -32,10 +28,5 @@ public class SonarPingManager : MonoBehaviour
         {
             managedPing.SetColor(new Color(1, 0, 0, 1));
         }
-    }
-
-    private void ResetBools()
-    {
-        instantiated = false;
     }
 }
