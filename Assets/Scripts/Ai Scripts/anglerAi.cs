@@ -174,19 +174,28 @@ public class anglerAi : MonoBehaviour
         if(!anglerAgent.pathPending && anglerAgent.remainingDistance < 0.5f)
         {
             //play that animation
-            animaTor.Play("lureLooking");
+            //animaTor.Play("lureLooking");
+            Debug.Log("angler is at lure module");
             investTimer -= Time.deltaTime;
             if(eFovScr1.canSeePlayer || eFovScr2.canSeePlayer)
             {
-                animaTor.Stop("lureLooking");
+                //animaTor.Stop("lureLooking");
+                Debug.Log("angler found player");
+                isInvestigating = false;
                 state = State.anglerAttacking;
                 investTimer = resetInvestTimer;
             }
-            else if(investTimer <= 0 && animaTor.isPlaying)
+            else if(investTimer <= 0)
             {
+                //else if(investTimer <= 0 && animaTor.isPlaying)
+                //TODO: replace the else if when we get the animation
+                
                 //stop animation
-                animaTor.Stop("lureLooking");
+                //animaTor.Stop("lureLooking");
+                Debug.Log("angler didnt find anything");
                 investTimer = resetInvestTimer;
+                isInvestigating = false;
+                state = State.anglerPatrolling;
             }
         }
     }

@@ -6,7 +6,7 @@ public class anglerLure : MonoBehaviour
 {
     anglerAi angScript;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         angScript = GameObject.Find("AnglerPhishe").GetComponent<anglerAi>();
     }
