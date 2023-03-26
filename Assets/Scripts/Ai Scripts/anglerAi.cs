@@ -23,6 +23,7 @@ public class anglerAi : MonoBehaviour
     public bool isAlive = true;
     public float anglerStunTime;
     private float distBtwn;
+    private Animation animaTor;
     [HideInInspector] public float anglerSpeed;
     [HideInInspector] public PlayerHealthController pHelCon;
     blacklightKnockback blKb;
@@ -31,7 +32,7 @@ public class anglerAi : MonoBehaviour
     public State state;
     public enum State
     {
-        anglerPatrolling, anglerDead, anglerAttacking
+        anglerPatrolling, anglerDead, anglerAttacking, anglerInvestigate
     }
 
     // Awake is called when the object the script is attached to becomes enabled
@@ -47,6 +48,8 @@ public class anglerAi : MonoBehaviour
         blKb = GetComponentInChildren<blacklightKnockback>();
         eFovScr1 = GetComponent<enemyFieldOfView>();
         eFovScr2 = GameObject.Find("angLureTrigger").GetComponent<enemyFieldOfView>();
+
+        animaTor = this.GetComponent<Animation>();
         
         anglerSpeed = anglerAgent.speed;
         resetAnglerRange = anglerRange;
@@ -63,7 +66,7 @@ public class anglerAi : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        distBtwn = Vector3.Distance(player.transform.position, transform.position);
+        //distBtwn = Vector3.Distance(player.transform.position, transform.position);
         
         if(isAlive == false)
         {
@@ -90,6 +93,9 @@ public class anglerAi : MonoBehaviour
             break;
             case State.anglerDead:
                 Dead();
+            break;
+            case State.anglerInvestigate:
+
             break;
         }
     }
@@ -152,6 +158,11 @@ public class anglerAi : MonoBehaviour
         {
             state = State.anglerDead;
         }
+    }
+
+    void investigate()
+    {
+        
     }
     
     void OnTriggerEnter(Collider other)
