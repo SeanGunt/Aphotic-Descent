@@ -16,6 +16,8 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
     public static bool labStartObjectiveTriggered;
     public static bool eelObjectiveTriggered;
     public static bool ridgeObjectiveTriggered;
+    public static bool hermitCaveObjectiveTriggered;
+    public static bool pistolShrimpObjectiveTriggered;
     public static bool inSub;
     public static bool inLab;
     public static bool inKelpMaze;
@@ -45,6 +47,8 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         labStartObjectiveTriggered = data.labStartObjectiveTriggered;
         eelObjectiveTriggered = data.eelObjectiveTriggered;
         ridgeObjectiveTriggered = data.ridgeObjectiveTriggered;
+        hermitCaveObjectiveTriggered = data.hermitCaveObjectiveTriggered;
+        pistolShrimpObjectiveTriggered = data.pistolShrimpObjectiveTriggered;
 
         
         inAnglerTrench = data.inAnglerTrench;
@@ -79,6 +83,8 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         data.labStartObjectiveTriggered = labStartObjectiveTriggered;
         data.eelObjectiveTriggered = eelObjectiveTriggered;
         data.ridgeObjectiveTriggered = ridgeObjectiveTriggered;
+        data.hermitCaveObjectiveTriggered = hermitCaveObjectiveTriggered;
+        data.pistolShrimpObjectiveTriggered = pistolShrimpObjectiveTriggered;
         
         data.inAnglerTrench = inAnglerTrench;
         data.inMudMarsh = inMudMarsh;

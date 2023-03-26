@@ -37,5 +37,13 @@ public class PauseObjectiveManager : MonoBehaviour
         {
             pauseObjectiveText.text = "Find The Exit To The Cave";
         }
+        if(GameDataHolder.objectiveId == 7)
+        {
+            pauseObjectiveText.text = "Descend Into The Cave";
+        }
+        if(GameDataHolder.objectiveId == 8)
+        {
+            pauseObjectiveText.text = "Reach The Cave Before It Closes";
+        }
     }
 }

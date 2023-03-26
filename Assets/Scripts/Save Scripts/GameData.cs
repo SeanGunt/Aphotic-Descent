@@ -21,6 +21,8 @@ public class GameData
     public bool labStartObjectiveTriggered;
     public bool invisibilityAcquired;
     public bool ridgeObjectiveTriggered;
+    public bool hermitCaveObjectiveTriggered;
+    public bool pistolShrimpObjectiveTriggered;
     public bool inSub;
     public bool inLab;
     public bool inKelpMaze;
@@ -51,6 +53,8 @@ public class GameData
         labStartObjectiveTriggered = false;
         eelObjectiveTriggered = false;
         ridgeObjectiveTriggered = false;
+        hermitCaveObjectiveTriggered = false;
+        pistolShrimpObjectiveTriggered = false;
         inAnglerTrench = false;
         inMudMarsh = false;
         inPsShrimpCave = false;
