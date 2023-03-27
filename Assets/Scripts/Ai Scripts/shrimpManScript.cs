@@ -11,8 +11,8 @@ public class shrimpManScript : MonoBehaviour
     [SerializeField] private GameObject player, shrimpMesh, playerDiver;
     [SerializeField] private Transform[] patrolPoints;
     [SerializeField] public float stunTime;
+    [SerializeField] private GameObject mainCam, jumpscareCam;
     private Animator animator;
-
     private float bleedRange;
     private float rangeUsed;
     private float baseAttackTime = 2.0f;
@@ -22,8 +22,8 @@ public class shrimpManScript : MonoBehaviour
     private bool unchosen = true;
     private bool canGoUnderMud, transitioning, patrolling, goingDown, goingUp;
     PlayerHealthController pHC;
+    private InvisibilityMechanic invisibilityMechanic;
     [HideInInspector] public bool currentlyAttacking = false;
-    
     private State state;
 
     public enum State
@@ -49,6 +49,7 @@ public class shrimpManScript : MonoBehaviour
         if(player != null)
         {
             pHC = player.GetComponent<PlayerHealthController>();
+            invisibilityMechanic = player.GetComponent<InvisibilityMechanic>();
         }
 
         bleedRange = detectionRange * rangeForBleedMultiplier;
@@ -120,13 +121,14 @@ public class shrimpManScript : MonoBehaviour
 
         canGoUnderMud = true;
 
-        if(playerDistance < rangeUsed*rangeUsed)
+        if(playerDistance < rangeUsed*rangeUsed && !invisibilityMechanic.isSafe)
         {
             shrimpMesh.transform.position = this.transform.position;
             shrimpAgent.speed = agentSpeed;
-            state = State.attacking;
             animator.SetInteger("ShrimpyState", 0);
             patrolling = false;
+            BreathingManager.instance.SwitchBreathRate(2);
+            state = State.attacking;
         }
     }
 
@@ -134,13 +136,18 @@ public class shrimpManScript : MonoBehaviour
     {
         shrimpAgent.destination = player.transform.position;
         currentlyAttacking = true;
-        baseAttackTime -= Time.deltaTime;
         canGoUnderMud = false;
 
-        if(playerDistance > rangeUsed*rangeUsed && baseAttackTime <= 0f)
+        if(invisibilityMechanic.isSafe)
         {
-            baseAttackTime = 2.0f;
+            state = State.patrolling;
+            BreathingManager.instance.SwitchBreathRate(0);
+        }
+
+        if(playerDistance > rangeUsed*rangeUsed)
+        {
             state = State.wasAttacking;
+            BreathingManager.instance.SwitchBreathRate(0);
         }
     }
 
@@ -152,12 +159,14 @@ public class shrimpManScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player" && !invisibilityMechanic.isSafe)
         {
             shrimpAgent.speed = 0;
             BreathingManager.instance.StopBreathe();
-            pHC.ChangeHealth(-pHC.maxHealth);
             playerDiver.SetActive(false);
+            mainCam.SetActive(false);
+            jumpscareCam.SetActive(true);
+            animator.SetTrigger("Jumpscare");
         }
 
         if (other.gameObject.tag == "Mud" && canGoUnderMud)
@@ -185,25 +194,6 @@ public class shrimpManScript : MonoBehaviour
             Debug.Log("Mud exited.");
         }
     }
-
-    // private IEnumerator TransitionDaShrimp(Vector3 start, Vector3 end)
-    // {
-    //     float timeElapsed = 0;
-    //     if (transitioning)
-    //     {
-    //         while (timeElapsed < 1)
-    //         {
-    //             float t = timeElapsed/2;
-    //             shrimpMesh.transform.position = Vector3.Lerp(start, end, t);
-    //             timeElapsed += Time.deltaTime;
-
-    //             yield return null;
-    //         }
-    //         transitioning = false;
-    //     }
-    //     transform.position = end;
-    //     Debug.Log("Finished transitioning.");
-    // }
 
     private void Transitioning()
     {
