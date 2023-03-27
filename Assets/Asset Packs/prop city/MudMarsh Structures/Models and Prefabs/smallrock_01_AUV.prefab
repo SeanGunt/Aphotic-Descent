@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1711728370924954691}
   - component: {fileID: 2336977292019870694}
   - component: {fileID: 543364623125929772}
+  - component: {fileID: 3948022254935538221}
   m_Layer: 0
   m_Name: smallrock_01_AUV
   m_TagString: Untagged
@@ -83,3 +84,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &3948022254935538221
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056622544437444345}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4545423930167495100, guid: 1a195a04260739c44881cb395c2283a7, type: 3}
