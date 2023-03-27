@@ -10,6 +10,7 @@ public class GameData
     public int invisCharges;
     public int boxes;
     public int objectiveId;
+    public int biolampsAlive;
     public int numOfZooplanktonCollected;
     public bool knifeHasBeenPickedUp;
     public bool hasUpgradedSuit;
@@ -33,6 +34,8 @@ public class GameData
     public bool bathysphereCutscenePlayed;
     public bool eelIsDead;
     public bool eelObjectiveTriggered;
+    public bool biolampsObjectivetriggered;
+    public bool marshObjectiveTriggered;
     public SerializableDictionary<string, bool> lilGuygsCollected;
     public SerializableDictionary<string, bool> loreCollected;
 
@@ -55,6 +58,8 @@ public class GameData
         ridgeObjectiveTriggered = false;
         hermitCaveObjectiveTriggered = false;
         pistolShrimpObjectiveTriggered = false;
+        biolampsObjectivetriggered = false;
+        marshObjectiveTriggered = false;
         inAnglerTrench = false;
         inMudMarsh = false;
         inPsShrimpCave = false;
@@ -66,6 +71,7 @@ public class GameData
         boxes = 4;
         objectiveId = 0;
         numOfZooplanktonCollected = 0;
+        biolampsAlive = 3;
         lilGuygsCollected = new SerializableDictionary<string, bool>();
         loreCollected = new SerializableDictionary<string, bool>();
         bathysphereCutscenePlayed = false;

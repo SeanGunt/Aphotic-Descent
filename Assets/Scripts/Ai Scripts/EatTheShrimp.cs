@@ -14,23 +14,22 @@ public class EatTheShrimp : MonoBehaviour
     private Vector3 actualPosition;
      private int x;
      
-      void start()
+    void start()
     {
         x = 1;
     }
 
-   
-     private void Update()
-     {
+    private void Update()
+    {
         if(isMoving)
         {
             hermitMove();
         }
-     }
+    }
      void hermitMove()
      {
-            actualPosition = crab.transform.position;
-            crab.transform.position = Vector3.MoveTowards(actualPosition, pathPoints[x].transform.position, speed * Time.deltaTime);
+        actualPosition = crab.transform.position;
+        crab.transform.position = Vector3.MoveTowards(actualPosition, pathPoints[x].transform.position, speed * Time.deltaTime);
 
         if(actualPosition == pathPoints[x].transform.position&& x != numberOfPoints -1) 
         {
@@ -39,7 +38,6 @@ public class EatTheShrimp : MonoBehaviour
 
      }
       
-    
     public void MakeMove()
     {
         isMoving = true;

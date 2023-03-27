@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8773889597729517783}
   - component: {fileID: 8773889597729517780}
   - component: {fileID: 8773889597729517781}
-  - component: {fileID: 8773889597729517782}
+  - component: {fileID: -3088879328496405399}
   m_Layer: 0
   m_Name: InvisPickupHolder
   m_TagString: InvisPickup
@@ -66,7 +66,7 @@ MonoBehaviour:
   amplitude: 0.2
   frequency: 2
   initialPos: {x: 0, y: 0, z: 0}
---- !u!114 &8773889597729517782
+--- !u!114 &-3088879328496405399
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -75,12 +75,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8773889597729517768}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ea294695a0a9d143906bf6bed3de160, type: 3}
+  m_Script: {fileID: 11500000, guid: 56da3b329ddace547876cbb86f931ea6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isInactive: 0
-  Myself: {fileID: 8773889597729517768}
-  pickupParticle: {fileID: 520565994151434595, guid: 5ee6ad69d5723e94b9a9769691bf7853, type: 3}
+  pickupSound: {fileID: 0}
+  tutText: {fileID: 0}
+  tutTextObj: {fileID: 0}
+  clearUIText: {fileID: 0}
 --- !u!1001 &8773889596390127530
 PrefabInstance:
   m_ObjectHideFlags: 0

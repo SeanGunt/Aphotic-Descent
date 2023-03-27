@@ -7,6 +7,14 @@ public class FrankySighting : MonoBehaviour
     [SerializeField] private GameObject frankySighted;
     [SerializeField] private Animator frankyBreach;
 
+    private void Awake()
+    {
+        if(GameDataHolder.eelIsDead)
+        {
+            this.gameObject.SetActive(false);
+        }
+    }
+
     private void Start()
     {
         frankyBreach = GetComponent<Animator>();

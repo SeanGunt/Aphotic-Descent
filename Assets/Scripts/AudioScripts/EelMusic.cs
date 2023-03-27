@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class EelMusic : MonoBehaviour
 {
-    [SerializeField] private BGMManager bGMManager;
-    [SerializeField] private int musicIndex;
-
+    [SerializeField] private int index;
     public void PlayEelIdleMusic()
     {
-        bGMManager.SwitchBGMFade(musicIndex);
+        BGMManager.instance.SwitchBGMFade(index);
         Destroy(this.gameObject);
     }
 

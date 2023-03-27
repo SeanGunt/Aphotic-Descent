@@ -15,10 +15,14 @@ public class PistolShrimpShooting : MonoBehaviour
     [SerializeField] private Transform gunBoneTransform;
     [SerializeField] private LayerMask ignoreLayers;
     [SerializeField] private psEnemyAI pistolShrimpAi;
+    [SerializeField] private GameObject bullet;
+    private bool shotPlayed;
+    private AudioSource audioSource;
     private bool canUseLaser;
 
     private void Awake()
     {
+        audioSource = this.GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerHealthController = player.GetComponent<PlayerHealthController>();
         lineRenderer = this.GetComponent<LineRenderer>();
@@ -55,12 +59,19 @@ public class PistolShrimpShooting : MonoBehaviour
             {
                 pShrimpBlacklightEvent = hit.collider.GetComponent<PShrimpBlacklightEvent>();
                 blacklightObjectBeingDestroyed = true;
-                if(blacklightObjectBeingDestroyed)
+                if(blacklightObjectBeingDestroyed && pShrimpBlacklightEvent.markedForDeletion)
                 {
+                    Debug.Log(shotPlayed);
                     destroyTimer -= Time.deltaTime;
+                    if(!shotPlayed)
+                    {
+                        audioSource.Play();
+                        shotPlayed = true;
+                    }
                 }
                 if (destroyTimer <= 0)
                 {
+                    shotPlayed = false;
                     pShrimpBlacklightEvent.Delete();
                     destroyTimer = timeToDestroy;
                 }
@@ -73,20 +84,37 @@ public class PistolShrimpShooting : MonoBehaviour
 
             if(hit.collider.GetComponent<PlayerHealthController>() != null)
             {
+                if (!shotPlayed)
+                {
+                    audioSource.Play();
+                    shotPlayed = true;
+                }
                 playerBeingAttacked = true;
             }
-            else
+            else 
             {
-                playerBeingAttacked = false;
-                attackPlayerTimer =  timeToAttackPlayer;
+                if(!blacklightObjectBeingDestroyed)
+                {
+                    audioSource.Stop();
+                    shotPlayed = false;
+                    playerBeingAttacked = false;
+                    attackPlayerTimer = timeToAttackPlayer;
+                }
             }
+        }
+
+
+        if (canUseLaser)
+        {
+            HandleAttackingPlayer();
         }
         else
         {
+            audioSource.Stop();
+            shotPlayed = false;
             playerBeingAttacked = false;
+            attackPlayerTimer = timeToAttackPlayer;
         }
-
-        HandleAttackingPlayer();
     }
 
     private void HandleAttackingPlayer()
@@ -97,8 +125,8 @@ public class PistolShrimpShooting : MonoBehaviour
 
             if(attackPlayerTimer <= 0)
             {
-                playerHealthController.ChangeHealth(-10f);
-                playerHealthController.TakeDamage();
+                Instantiate(bullet, hit.point, Quaternion.identity);
+                shotPlayed = false;
                 attackPlayerTimer = timeToAttackPlayer;
             }
         }

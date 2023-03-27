@@ -37,6 +37,18 @@ public class BGMManager : MonoBehaviour
         {
             SwitchBGM(5);
         }
+        if(GameDataHolder.inPsShrimpCave)
+        {
+            SwitchBGM(7);
+        }
+        if(GameDataHolder.inMudMarsh)
+        {
+            SwitchBGM(7);
+        }
+        if(GameDataHolder.inAnglerTrench)
+        {
+            SwitchBGM(9);
+        }
     }
 
     public void SwitchBGM(int clipNumber)

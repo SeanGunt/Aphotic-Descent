@@ -51,8 +51,6 @@ public class psEnemyAI : MonoBehaviour
                 Perched();
             break;
         }
-
-        Debug.Log(state);
     }
 
     private void Moving()

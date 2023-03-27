@@ -6,9 +6,15 @@ public class ObjectiveUpdateHolder : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI objectiveText;
     [SerializeField] private GameObject objectiveObj;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip objectiveSound;
 
     private void Awake()
     {
+        if(GameDataHolder.eelIsDead && !GameDataHolder.hermitCaveObjectiveTriggered)
+        {
+            Invoke("SeventhObjective", 2f);
+        }
         objectiveText.color = new Color(objectiveText.color.r, objectiveText.color.g, objectiveText.color.b, 0);
         objectiveObj.SetActive(true);
     }
@@ -62,7 +68,9 @@ public class ObjectiveUpdateHolder : MonoBehaviour
 
     public void SeventhObjective()
     {
-        objectiveText.text = "Descend Into The Cave";
+        BGMManager.instance.SwitchBGMFade(7);
+        audioSource.PlayOneShot(objectiveSound);
+        objectiveText.text = "Descend Deeper Into The Cave";
         GameDataHolder.objectiveId = 7;
         GameDataHolder.hermitCaveObjectiveTriggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
@@ -75,8 +83,25 @@ public class ObjectiveUpdateHolder : MonoBehaviour
         GameDataHolder.pistolShrimpObjectiveTriggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
     }
+
+    public void NinthObjective()
+    {
+        objectiveText.text = "Find A Way To Destroy The Biolamps";
+        GameDataHolder.objectiveId = 9;
+        GameDataHolder.biolampsObjectivetriggered = true;
+        StartCoroutine(FadeText(7f, objectiveText));
+    }
+
+    public void TenthObjective()
+    {
+        objectiveText.text = "Find Your Way Out Of The Marsh";
+        GameDataHolder.objectiveId = 10;
+        GameDataHolder.marshObjectiveTriggered = true;
+        StartCoroutine(FadeText(7f, objectiveText));
+    }
     public IEnumerator FadeText(float t, TextMeshProUGUI i)
     {
+        objectiveObj.SetActive(true);
         i.color = new Color(i.color.r, i.color.g, i.color.b, 1);
         while (i.color.a > 0.0f)
         {

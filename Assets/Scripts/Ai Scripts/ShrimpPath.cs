@@ -56,7 +56,7 @@ public class ShrimpPath : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-         if (other.CompareTag ("Enemy"))
+         if (other.CompareTag("Enemy"))
         {
           eatTheShrimp.MakeMove();
           Debug.Log("Hewwo");

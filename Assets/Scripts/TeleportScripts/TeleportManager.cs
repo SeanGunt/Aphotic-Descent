@@ -12,9 +12,11 @@ public class TeleportManager : MonoBehaviour
     private GameObject mainCamera;
     [SerializeField] private Image fadeToBlackImage;
     [SerializeField] private int teleportNumber;
+    private bool activated;
 
     private void Awake()
     {
+        activated = false;
         player = GameObject.FindGameObjectWithTag("Player");
         fogCube = GameObject.FindGameObjectWithTag("FogCube");
         playerMovement = player.GetComponent<PlayerMovement>();
@@ -23,7 +25,11 @@ public class TeleportManager : MonoBehaviour
 
     public void BasicTeleport()
     {
-        StartCoroutine(Fade(1f));
+        if (!activated)
+        {
+            StartCoroutine(Fade(1f));
+            activated = true;
+        }
     }
 
     private void CheckLocation()
@@ -46,6 +52,15 @@ public class TeleportManager : MonoBehaviour
         if (teleportNumber == 4)
         {
             TeleportToEelCave();
+        }
+
+        if (teleportNumber == 5)
+        {
+            TeleportToMudMarsh();
+        }
+        if(teleportNumber == 6)
+        {
+            TeleportToTrench();
         }
     }
 
@@ -81,6 +96,20 @@ public class TeleportManager : MonoBehaviour
         BGMManager.instance.SwitchBGM(6);
     }
 
+    private void TeleportToMudMarsh()
+    {
+        GameDataHolder.inPsShrimpCave = false;
+        GameDataHolder.inMudMarsh = true;
+        BGMManager.instance.SwitchBGMFade(7);
+    }
+
+    private void TeleportToTrench()
+    {
+        GameDataHolder.inMudMarsh = false;
+        GameDataHolder.inAnglerTrench = true;
+        BGMManager.instance.SwitchBGMFade(9);
+    }
+
     public IEnumerator Fade(float t)
     {
         fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, 0.0f);
@@ -90,7 +119,7 @@ public class TeleportManager : MonoBehaviour
             yield return null;
         }
         player.transform.localPosition = teleportPosition;
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(0.3f);
         CheckLocation();
         while(fadeToBlackImage.color.a >= 0.0f)
         {

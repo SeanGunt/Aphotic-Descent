@@ -10,9 +10,14 @@ public class InvisSuitActivation : MonoBehaviour
     [SerializeField] private TextMeshProUGUI tutText;
     public GameObject tutTextObj;
     [SerializeField] private ClearUIText clearUIText;
-    private void Awake()
+    private void Start()
     {
         audioSource = GetComponentInParent<AudioSource>();
+        if (GameDataHolder.invisibilityAcquired)
+        {
+            this.gameObject.SetActive(false);
+            Debug.Log("Your mom");
+        }
     }
     void DestroyMyself()
     {
