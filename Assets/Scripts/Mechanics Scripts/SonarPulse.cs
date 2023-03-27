@@ -19,8 +19,8 @@ public class SonarPulse : MonoBehaviour
     {
         rangeMax = 11.5f;
         fadeRange = 1.5f;
-        rangeSpeed = 2f;
-        sphereRangeSpeed = 4.51f;
+        rangeSpeed = 3f;
+        sphereRangeSpeed = 6.765f;
         pingDelay = 2.5f;
         collidersHit = new List<Collider>();
         pulseSpriteRenderer = pulseTransform.GetComponent<SpriteRenderer>();

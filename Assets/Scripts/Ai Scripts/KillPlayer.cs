@@ -5,7 +5,7 @@ using UnityEngine;
 public class KillPlayer : MonoBehaviour
 {
     private GameObject player;
-    [SerializeField] private PlayerHealthController pHC;
+    private PlayerHealthController pHC;
     
     private void Awake()
     {
@@ -15,7 +15,7 @@ public class KillPlayer : MonoBehaviour
     
     public void EndPlayer()
     {
-        pHC.ChangeHealth(-15.0f);
+        pHC.ChangeHealth(-16.0f);
         pHC.TakeDamage();
         Debug.Log("Hit Player");
     }
