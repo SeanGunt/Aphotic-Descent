@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9203784353194963705}
   - component: {fileID: 5194254069395684700}
   - component: {fileID: 8066305131507091862}
+  - component: {fileID: 7888190466898847743}
   m_Layer: 0
   m_Name: OGArch
   m_TagString: Untagged
@@ -83,3 +84,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7888190466898847743
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8426720576030877763}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4068373912626513877, guid: df9915bbc0210524a97f765e0fdfb93b, type: 3}

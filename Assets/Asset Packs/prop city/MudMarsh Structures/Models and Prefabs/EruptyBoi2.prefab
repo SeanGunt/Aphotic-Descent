@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5615781771207200887}
   - component: {fileID: 8809208345583181778}
   - component: {fileID: 6747640293882112792}
+  - component: {fileID: 8454849029907016730}
   m_Layer: 0
   m_Name: EruptyBoi2
   m_TagString: Untagged
@@ -84,6 +85,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8454849029907016730
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5090355557787437773}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7211630271668401689, guid: 4dde6ad7542f33e4fb8dfe7ba8eb4ae3, type: 3}
 --- !u!1 &6305805146953691180
 GameObject:
   m_ObjectHideFlags: 0

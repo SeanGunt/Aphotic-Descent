@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8170090729307871698}
   - component: {fileID: 5102056859009062519}
   - component: {fileID: 7001640462880891581}
+  - component: {fileID: 1490316157502024171}
   m_Layer: 0
   m_Name: medrock_01_AUV
   m_TagString: Untagged
@@ -83,3 +84,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &1490316157502024171
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8802899650637710184}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 794277596103946609, guid: 902cb13b5a6c96848a5cf64a5be70e07, type: 3}

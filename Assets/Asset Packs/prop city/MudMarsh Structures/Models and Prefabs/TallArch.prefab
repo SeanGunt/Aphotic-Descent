@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6544463378769435273}
   - component: {fileID: 7889533941040141612}
   - component: {fileID: 5375527846402138598}
+  - component: {fileID: 1700374248601923775}
   m_Layer: 0
   m_Name: TallArch
   m_TagString: Untagged
@@ -83,3 +84,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &1700374248601923775
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5879812600181194803}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3369316746193770658, guid: c3d891b0d48c80c41b274ee6ec431f5b, type: 3}

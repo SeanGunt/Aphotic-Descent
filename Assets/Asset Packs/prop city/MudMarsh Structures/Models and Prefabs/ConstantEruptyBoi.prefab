@@ -4899,10 +4899,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: vent_05_AUV
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1114281393650232680, guid: 1b138170a83524044b5f01c3af70154b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1b138170a83524044b5f01c3af70154b, type: 3}
 --- !u!4 &1552254499699076079 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5824947413878672763, guid: 1b138170a83524044b5f01c3af70154b, type: 3}
   m_PrefabInstance: {fileID: 4998126911394752148}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2216166372115804501 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6601589184734025665, guid: 1b138170a83524044b5f01c3af70154b, type: 3}
+  m_PrefabInstance: {fileID: 4998126911394752148}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &708823818037415664
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2216166372115804501}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6957872503098618910, guid: 55aa703b51af0fe49bd3256ea29bfa37, type: 3}

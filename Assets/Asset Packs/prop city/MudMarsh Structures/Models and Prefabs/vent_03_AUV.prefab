@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3534607758630116499}
   - component: {fileID: 478129858819642166}
   - component: {fileID: 2397709246585317372}
+  - component: {fileID: 5396053521465006300}
   m_Layer: 0
   m_Name: vent_03_AUV
   m_TagString: Untagged
@@ -83,3 +84,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5396053521465006300
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4199223657870689833}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3656445275714737388, guid: ae687768a4a4ddf41b09e4db89467042, type: 3}
