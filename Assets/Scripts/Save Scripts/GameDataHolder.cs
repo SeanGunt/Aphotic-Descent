@@ -18,6 +18,8 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
     public static bool ridgeObjectiveTriggered;
     public static bool hermitCaveObjectiveTriggered;
     public static bool pistolShrimpObjectiveTriggered;
+    public static bool biolampsObjectivetriggered;
+    public static bool marshObjectiveTriggered;
     public static bool inSub;
     public static bool inLab;
     public static bool inKelpMaze;
@@ -28,6 +30,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
     public static bool eelIsDead;
     public static int objectiveId;
     public static int numOfZooplanktonCollected;
+    public static int biolampsAlive;
     public static bool bathysphereCutscenePlayed;
 
     public void LoadData(GameData data)
@@ -49,8 +52,9 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         ridgeObjectiveTriggered = data.ridgeObjectiveTriggered;
         hermitCaveObjectiveTriggered = data.hermitCaveObjectiveTriggered;
         pistolShrimpObjectiveTriggered = data.pistolShrimpObjectiveTriggered;
+        biolampsObjectivetriggered = data.biolampsObjectivetriggered;
+        marshObjectiveTriggered = data.marshObjectiveTriggered;
 
-        
         inAnglerTrench = data.inAnglerTrench;
         inMudMarsh = data.inMudMarsh;
         inPsShrimpCave = data.inPsShrimpCave;
@@ -64,6 +68,8 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         bathysphereCutscenePlayed = data.bathysphereCutscenePlayed;
 
         numOfZooplanktonCollected = data.numOfZooplanktonCollected;
+
+        biolampsAlive = data.biolampsAlive;
     }
 
     public void SaveData(GameData data)
@@ -85,7 +91,9 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         data.ridgeObjectiveTriggered = ridgeObjectiveTriggered;
         data.hermitCaveObjectiveTriggered = hermitCaveObjectiveTriggered;
         data.pistolShrimpObjectiveTriggered = pistolShrimpObjectiveTriggered;
-        
+        data.biolampsObjectivetriggered = biolampsObjectivetriggered;
+        data.marshObjectiveTriggered = marshObjectiveTriggered;
+
         data.inAnglerTrench = inAnglerTrench;
         data.inMudMarsh = inMudMarsh;
         data.inPsShrimpCave = inPsShrimpCave;
@@ -99,5 +107,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         data.bathysphereCutscenePlayed = bathysphereCutscenePlayed;
 
         data.numOfZooplanktonCollected = numOfZooplanktonCollected;
+
+        data.biolampsAlive = biolampsAlive;
     }
 }

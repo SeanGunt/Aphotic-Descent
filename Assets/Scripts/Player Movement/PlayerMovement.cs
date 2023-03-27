@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   [SerializeField] private LayerMask ignoreMask;
   private Vector2 move;
   [SerializeField] private Vector3 playerInputVector = Vector3.zero;
-  [HideInInspector] public bool isGrounded, hasUpgradedSuit, headbobActive, isAscendKeyHeld, isDescendKeyHeld;
+  [HideInInspector] public bool isGrounded, hasUpgradedSuit, headbobActive, isAscendKeyHeld, isDescendKeyHeld, inPissCage;
   [SerializeField] private bool isSwimming, canSwim, isTired, canUseHeadbob, isMoving;
   [SerializeField] public Image staminaBar, tiredBar, upgradedUI;
   [SerializeField] private Camera playerCamera;

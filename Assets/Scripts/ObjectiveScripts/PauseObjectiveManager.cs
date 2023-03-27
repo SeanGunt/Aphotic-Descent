@@ -32,7 +32,6 @@ public class PauseObjectiveManager : MonoBehaviour
         {
             pauseObjectiveText.text = "Defeat The Eel";
         }
-        
         if(GameDataHolder.objectiveId == 6)
         {
             pauseObjectiveText.text = "Find The Exit To The Cave";
@@ -43,7 +42,15 @@ public class PauseObjectiveManager : MonoBehaviour
         }
         if(GameDataHolder.objectiveId == 8)
         {
-            pauseObjectiveText.text = "Reach The Cave Before It Closes";
+            pauseObjectiveText.text = "Reach The Cage Before It Closes";
+        }
+        if(GameDataHolder.objectiveId == 9)
+        {
+            pauseObjectiveText.text = "Find A Way To Destroy The Biolamps";
+        }
+        if(GameDataHolder.objectiveId == 10)
+        {
+            pauseObjectiveText.text = "Find Your Way Out Of The Marsh";
         }
     }
 }
