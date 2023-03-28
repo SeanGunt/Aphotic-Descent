@@ -8,6 +8,7 @@ public class GameData
     public Vector3 flashlightPosition;
     public Quaternion playerRotation;
     public int invisCharges;
+    public int subParts;
     public int boxes;
     public int objectiveId;
     public int biolampsAlive;
@@ -72,6 +73,7 @@ public class GameData
         objectiveId = 0;
         numOfZooplanktonCollected = 0;
         biolampsAlive = 3;
+        subParts = 0;
         lilGuygsCollected = new SerializableDictionary<string, bool>();
         loreCollected = new SerializableDictionary<string, bool>();
         bathysphereCutscenePlayed = false;

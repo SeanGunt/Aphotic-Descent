@@ -9,6 +9,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
     public static bool flashlightHasBeenPickedUp;
     public static bool invisibilityAcquired;
     public static int boxes;
+    public static int subParts;
     public static bool doorKey;
     public static bool secondDoorOpened;
     public static bool kelpMazeObjectiveTriggerd;
@@ -44,6 +45,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         doorKey = data.doorKey;
         secondDoorOpened = data.secondDoorOpened;
         objectiveId = data.objectiveId;
+        subParts = data.subParts;
 
         kelpMazeObjectiveTriggerd = data.kelpMazeObjectiveTriggerd;
         kelpMazeEndTriggered = data.kelpMazeEndTriggered;
@@ -80,6 +82,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         data.hasUpgradedSuit = hasUpgradedSuit;
 
         data.boxes = boxes;
+        data.subParts = subParts;
         data.doorKey = doorKey;
         data.secondDoorOpened = secondDoorOpened;
         data.objectiveId = objectiveId;
