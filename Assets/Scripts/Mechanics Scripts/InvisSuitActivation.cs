@@ -16,7 +16,6 @@ public class InvisSuitActivation : MonoBehaviour
         if (GameDataHolder.invisibilityAcquired)
         {
             this.gameObject.SetActive(false);
-            Debug.Log("Your mom");
         }
     }
     void DestroyMyself()

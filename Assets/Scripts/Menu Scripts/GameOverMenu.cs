@@ -49,7 +49,6 @@ public class GameOverMenu : MonoBehaviour
     {
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(gameOverFirstButton);
-        Debug.Log("OpenGameOverCalled");
     }
 
     public void MainMenu()
@@ -64,7 +63,6 @@ public class GameOverMenu : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Player.GetComponent<PlayerHealthController>().ResetHealth();
         Time.timeScale = 1;
-        Debug.Log("ResetHealthCalled");
     }
 
     public void QuitGame()

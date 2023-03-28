@@ -62,8 +62,6 @@ public class anglerAi : MonoBehaviour
         eFovScr1.playerRef = player;
         eFovScr2.playerRef = player;
         eFovScr1.radius = anglerRange;
-
-        Debug.Log(eFovScr2.gameObject.name + " is where efov2 is located");
     }
 
     // Update is called once per frame

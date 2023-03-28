@@ -5,8 +5,6 @@ using UnityEngine.UI;
 public class SonarPings : MonoBehaviour
 {
     private SpriteRenderer pingRenderer;
-    private float disappearTimer;
-    private float disappearTimerMax;
     private Color color, pingColor;
     private bool colorSet;
     public int type;
@@ -14,8 +12,6 @@ public class SonarPings : MonoBehaviour
     private void Awake()
     {
         pingRenderer = this.GetComponent<SpriteRenderer>();
-        disappearTimerMax = 1f;
-        disappearTimer = 0f;
         StartCoroutine(PingFade(2.75f));
         colorSet = false;
     }
@@ -38,13 +34,6 @@ public class SonarPings : MonoBehaviour
     {
         pingColor = color;
     }
-
-    // public void SetDisappearTimer(float disappearTimerMax)
-    // {
-    //     this.disappearTimerMax = disappearTimerMax;
-    //     disappearTimer = 0f;
-    //     disappearStarted = true;
-    // }
 
     IEnumerator PingFade(float t)
     {
