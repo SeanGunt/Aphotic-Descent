@@ -13,10 +13,14 @@ public class BathysphereCutscene : MonoBehaviour
     [SerializeField] private Image fadeToBlackImage;
     private MeshRenderer[] bathysphereRenderers;
     [SerializeField] private SkinnedMeshRenderer mantaRenderer;
+    [SerializeField] private AudioClip bathosphereAudio;
+    private AudioSource audioSource;
 
     private void Awake()
     {
         bathysphereRenderers = GetComponentsInChildren<MeshRenderer>();
+        audioSource = GetComponent<AudioSource>();
+        audioSource.PlayOneShot(bathosphereAudio);
     }
 
     public void EndBathysphere()

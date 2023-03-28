@@ -99,6 +99,14 @@ public class ObjectiveUpdateHolder : MonoBehaviour
         GameDataHolder.marshObjectiveTriggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
     }
+
+    public void EleventhObjective()
+    {
+        objectiveText.text = "Find A Way To Fix The Submarine";
+        GameDataHolder.objectiveId = 11;
+        GameDataHolder.trenchObjectiveTriggered = true;
+        StartCoroutine(FadeText(7f, objectiveText));
+    }
     public IEnumerator FadeText(float t, TextMeshProUGUI i)
     {
         objectiveObj.SetActive(true);

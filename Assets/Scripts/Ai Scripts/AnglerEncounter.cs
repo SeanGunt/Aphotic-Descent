@@ -23,10 +23,10 @@ public class AnglerEncounter : MonoBehaviour
         }
         else if (GameDataHolder.subParts == 3)
         {
-            actualText.text = "All sub parts found! Try and fix the sub with them.";
-            clearUIText.Invoke("ClearUI", 5f);
+            actualText.text = "All sub parts found";
+            clearUIText.Invoke("ClearUI", 3f);
             audioSource.PlayOneShot(pickupSound);
-            Invoke("EndEncounterCheck", 5.5f);
+            Invoke("EndEncounterCheck", 3f);
         }
         
     }

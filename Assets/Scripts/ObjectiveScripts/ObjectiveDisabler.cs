@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ObjectiveDisabler : MonoBehaviour
 {
-    [SerializeField] private GameObject checkpoint2, checkpoint3, checkpoint4, checkpoint5, checkpoint6, checkpoint8;
+    [SerializeField] private GameObject checkpoint2, checkpoint3, checkpoint4, checkpoint5, checkpoint6, checkpoint8,
+    checkpoint10, checkpoint11;
 
     private void Start()
     {
@@ -14,6 +15,8 @@ public class ObjectiveDisabler : MonoBehaviour
         CheckObjectivesTriggered(checkpoint5, GameDataHolder.eelObjectiveTriggered);
         CheckObjectivesTriggered(checkpoint6, GameDataHolder.ridgeObjectiveTriggered);
         CheckObjectivesTriggered(checkpoint8, GameDataHolder.pistolShrimpObjectiveTriggered);
+        CheckObjectivesTriggered(checkpoint10, GameDataHolder.marshObjectiveTriggered);
+        CheckObjectivesTriggered(checkpoint11, GameDataHolder.trenchObjectiveTriggered);
     }
     private void CheckObjectivesTriggered(GameObject checkpoint, bool triggered)
     {
