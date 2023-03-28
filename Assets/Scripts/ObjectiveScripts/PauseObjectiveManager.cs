@@ -52,5 +52,9 @@ public class PauseObjectiveManager : MonoBehaviour
         {
             pauseObjectiveText.text = "Find Your Way Out Of The Marsh";
         }
+        if(GameDataHolder.objectiveId == 11)
+        {
+            pauseObjectiveText.text = "Find A Way To Fix The Submarine";
+        }
     }
 }

@@ -37,6 +37,7 @@ public class GameData
     public bool eelObjectiveTriggered;
     public bool biolampsObjectivetriggered;
     public bool marshObjectiveTriggered;
+    public bool trenchObjectiveTriggered;
     public SerializableDictionary<string, bool> lilGuygsCollected;
     public SerializableDictionary<string, bool> loreCollected;
 
@@ -61,6 +62,7 @@ public class GameData
         pistolShrimpObjectiveTriggered = false;
         biolampsObjectivetriggered = false;
         marshObjectiveTriggered = false;
+        trenchObjectiveTriggered = false;
         inAnglerTrench = false;
         inMudMarsh = false;
         inPsShrimpCave = false;
