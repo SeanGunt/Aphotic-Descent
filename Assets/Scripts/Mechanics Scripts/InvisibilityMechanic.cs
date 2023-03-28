@@ -19,8 +19,8 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
     public int invisibilityCharges = 3;
     public int maxCharges = 3;
     public Text interactionText;
-    [SerializeField] private bool isInvisible, invisibilityAcquired, canGoInvis;
-    public bool isSafe;
+    [SerializeField] private bool invisibilityAcquired, canGoInvis;
+    [HideInInspector] public bool isSafe, isInvisible;
     [SerializeField] private Image fullInvisCharge;
     [SerializeField] private GameObject Player, PlayerMesh, invisibilityUI;
     [SerializeField] private AudioSource audioSource;

@@ -15,7 +15,6 @@ public class shrimpManScript : MonoBehaviour
     private Animator animator;
     private float bleedRange;
     private float rangeUsed;
-    private float baseAttackTime = 2.0f;
     Vector3 destination;
     [SerializeField]private Transform underMudPosition;
     private float playerDistance;
@@ -81,7 +80,6 @@ public class shrimpManScript : MonoBehaviour
                 Transitioning();
                 break;
         }
-        Debug.Log(state);
         if(pHC.isBleeding)
         {
             rangeUsed = bleedRange;
@@ -177,7 +175,6 @@ public class shrimpManScript : MonoBehaviour
             goingDown = true;
             CancelInvoke("TransitionAnim");
             Invoke("TransitionAnim", .001f);
-            Debug.Log("Mud entered.");
         }
     }
 
@@ -191,7 +188,6 @@ public class shrimpManScript : MonoBehaviour
             goingUp = true;
             CancelInvoke("TransitionAnim");
             Invoke("TransitionAnim", .001f);
-            Debug.Log("Mud exited.");
         }
     }
 
