@@ -10,11 +10,14 @@ public class ShrimpManChamberLook : MonoBehaviour
     [SerializeField] private Animator ShrimpManChamberAnimator;
     //[SerializeField] private GameObject StareAim;
     [SerializeField] private MultiAimConstraint multiAimConstraint;
+    [SerializeField] private AudioClip scaryStinger;
+    [SerializeField] private AudioSource audioSource;
 
 
     private void Start()
     {
         //StareAim.SetActive(false);
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -24,6 +27,8 @@ public class ShrimpManChamberLook : MonoBehaviour
             SetWeight(0, 1);
             BoxCollider bc = GetComponent<BoxCollider>();
             ShrimpManChamberAnimator.SetBool("ManLook", true);
+            audioSource.PlayOneShot(scaryStinger);
+            //Still need to make this a one time event
             //StareAim.SetActive(true);
             //bc.enabled = false;
             Debug.Log("I see you...");
