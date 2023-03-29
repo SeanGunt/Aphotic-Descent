@@ -16,6 +16,8 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
     private float fresnelPower = 3.0f;
     public float timeInvisible = 5.0f;
     public float invisibleTimer;
+    private float invisibleCooldown, maxInvisCooldown;
+    [SerializeField]private bool coolingDown;
     public int invisibilityCharges = 3;
     public int maxCharges = 3;
     public Text interactionText;
@@ -53,6 +55,8 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
       interactionText.text = "";
       Player = GameObject.FindWithTag("Player");
       playerInput = Player.GetComponent<PlayerInput>();
+      invisibleCooldown = 0f;
+      maxInvisCooldown = 7f;
 
       skinnedMeshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
       originalMaterials = new Material[skinnedMeshRenderers.Length];
@@ -100,12 +104,27 @@ public class InvisibilityMechanic : MonoBehaviour, IDataPersistence
             invisParticle.gameObject.SetActive(false);
             invisParticle.Stop();
             isInvisible = false;
-            fullInvisCharge.enabled = false;
             isSafe = false;
             interactionText.text = $"You are no longer invisible! Charges: {invisibilityCharges}";
-            Invoke ("RefillInvis", 7);
+            coolingDown = true;
+            //Invoke ("RefillInvis", 7);
           }
         }
+        
+
+        invisibleCooldown = Mathf.Clamp(invisibleCooldown, 0, maxInvisCooldown);
+        if(coolingDown)
+        {
+          invisibleCooldown += Time.deltaTime;
+          fullInvisCharge.fillAmount = invisibleCooldown/maxInvisCooldown;
+          if (invisibleCooldown >= maxInvisCooldown)
+          {
+            invisibleCooldown = 0;
+            RefillInvis();
+            coolingDown = false;
+          }
+        }
+
         if (Player.GetComponent<PlayerHealthController>().isBleeding)
         {
           isSafe = false;

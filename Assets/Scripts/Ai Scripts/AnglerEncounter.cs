@@ -24,9 +24,8 @@ public class AnglerEncounter : MonoBehaviour
         else if (GameDataHolder.subParts == 3)
         {
             actualText.text = "All sub parts found";
-            clearUIText.Invoke("ClearUI", 3f);
             audioSource.PlayOneShot(pickupSound);
-            Invoke("EndEncounterCheck", 3f);
+            Invoke("EndEncounterCheck", 3.15f);
         }
         
     }
@@ -37,10 +36,12 @@ public class AnglerEncounter : MonoBehaviour
         {
             actualText.text = "But there's no sub to fix. There's no way out of this.";
             clearUIText.Invoke("ClearUI", 5f);
-            Invoke("EndEncounter", 5.1f);
+            Invoke("EndEncounter", 5.15f);
+            Debug.Log("EncounterEndReached");
         }
         else
         {
+            Debug.Log("Not enough parts yet.");
             return;
         }
     }

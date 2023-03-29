@@ -53,11 +53,11 @@ public class AreaTeleporter : MonoBehaviour
         {
             Teleport(3);
             GameDataHolder.inSub = false;
-            GameDataHolder.inMudMarsh = true;
+            GameDataHolder.inPsShrimpCave = true;
             GameDataHolder.inKelpMaze = false;
             GameDataHolder.inLab = false;
             GameDataHolder.inEelCave = false;
-            GameDataHolder.inPsShrimpCave = false;
+            GameDataHolder.inMudMarsh = false;
             GameDataHolder.inAnglerTrench = false;
         }
 
@@ -65,11 +65,11 @@ public class AreaTeleporter : MonoBehaviour
         {
             Teleport(4);
             GameDataHolder.inSub = false;
-            GameDataHolder.inPsShrimpCave = true;
+            GameDataHolder.inMudMarsh = true;
             GameDataHolder.inKelpMaze = false;
             GameDataHolder.inLab = false;
             GameDataHolder.inEelCave = false;
-            GameDataHolder.inMudMarsh = false;
+            GameDataHolder.inPsShrimpCave = false;
             GameDataHolder.inAnglerTrench = false;
         }
 
