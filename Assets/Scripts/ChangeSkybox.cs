@@ -6,7 +6,6 @@ public class ChangeSkybox : MonoBehaviour
 {
     public Material skyMaterial1;
     public Material skyMaterial2;
-    public GameObject MudHeart, Trench;
 
    
     void Update()
