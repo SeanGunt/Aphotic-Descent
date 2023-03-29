@@ -6,10 +6,13 @@ public class ImposterBehindCorner : MonoBehaviour
 {
     [SerializeField] private GameObject CrabLabImposter;
     [SerializeField] private Animator imposterAnimator;
+    [SerializeField] private AudioClip scaryStinger;
+    [SerializeField] private AudioSource audioSource;
 
     private void Start()
     {
         imposterAnimator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -17,6 +20,7 @@ public class ImposterBehindCorner : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             imposterAnimator.SetBool("isSeen", true);
+            audioSource.PlayOneShot(scaryStinger);
             Destroy(this.gameObject, 1.5f);
         }
     }

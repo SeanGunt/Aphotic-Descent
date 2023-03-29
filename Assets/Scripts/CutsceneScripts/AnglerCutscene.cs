@@ -4,24 +4,23 @@ using UnityEngine;
 
 public class AnglerCutscene : MonoBehaviour
 {
-
-    [SerializeField] private Material anglerSkin;
-    [SerializeField] private Renderer anglerObject;
-    [SerializeField] private BoxCollider lightUpCollider;
-
+    [SerializeField] private Animator anglerCutscene;
+    [SerializeField] private AudioClip anglerRoar;
+    [SerializeField] private AudioSource audioSource;
     private void Start()
     {
-        lightUpCollider = GetComponent<BoxCollider>();
-        anglerSkin = anglerObject.GetComponent<Renderer>().material;
-        anglerSkin.DisableKeyword("_EMISSION");
+        anglerCutscene = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
+        anglerCutscene.SetBool("activatedAngler", false);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
-            anglerSkin.EnableKeyword("_EMISSION");
-            Debug.Log("Light up!");
+            anglerCutscene.SetBool("activatedAngler", true);
+            audioSource.PlayOneShot(anglerRoar);
+            Destroy(this.gameObject, 6.5f);
         }
     }
 }
