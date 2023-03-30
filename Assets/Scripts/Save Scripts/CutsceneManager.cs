@@ -11,7 +11,7 @@ public class CutsceneManager : MonoBehaviour
     {
         if (GameDataHolder.bathysphereCutscenePlayed)
         {
-            Destroy(cutsceneObjects[0]);
+            cutsceneObjects[0].SetActive(false);
         }
     }
 }
