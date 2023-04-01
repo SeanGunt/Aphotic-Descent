@@ -6,6 +6,8 @@ public class flashlightMechanic : MonoBehaviour
 {
     [SerializeField] GameObject FlashlightLight;
     [SerializeField] GameObject BlacklightLight;
+    [SerializeField] private ParticleSystem womboParticle;
+    private bool particlePlayed;
     [HideInInspector] public static RaycastHit hit;
     private PlayerInput playerInput;
     [SerializeField]private Image blacklightBar, flashlightUI, emptyLight, onLight, blLight;
@@ -83,6 +85,7 @@ public class flashlightMechanic : MonoBehaviour
         emptyLight.gameObject.SetActive(false);
         onLight.gameObject.SetActive(true);
         blLight.gameObject.SetActive(false);
+        particlePlayed = false;
 
         bool isBlacklightKeyHeld = playerInput.actions["Blacklight"].ReadValue<float>() > 0.1f;
         if (isBlacklightKeyHeld)
@@ -104,6 +107,11 @@ public class flashlightMechanic : MonoBehaviour
     {
         blLight.gameObject.SetActive(true);
         onLight.gameObject.SetActive(false);
+        if (!particlePlayed)
+        {
+            womboParticle.Play();
+            particlePlayed = true;
+        }
         BlacklightReveal();
         blacklightBar.fillAmount -= blacklightDischargeTime * Time.deltaTime;
         if(blacklightBar.fillAmount == 0)

@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class TeleportManager : MonoBehaviour
 {
     private GameObject player, fogCube;
+    private UItext uItext;
     [SerializeField] private Vector3 teleportPosition;
     private PlayerMovement playerMovement;
     private GameObject mainCamera;
@@ -21,19 +22,32 @@ public class TeleportManager : MonoBehaviour
         fogCube = GameObject.FindGameObjectWithTag("FogCube");
         playerMovement = player.GetComponent<PlayerMovement>();
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        uItext = this.GetComponent<UItext>();
     }
 
     public void BasicTeleport()
     {
         if (!activated)
         {
+            uItext.enabled = false;
             StartCoroutine(Fade(1f));
+            activated = true;
+        }
+    }
+
+    public void LabTeleport()
+    {
+        if (!activated)
+        {
+            uItext.enabled = false;
+            StartCoroutine(FFFade(1f));
             activated = true;
         }
     }
 
     private void CheckLocation()
     {
+        uItext.enabled = true;
         if(teleportNumber == 1)
         {
             TeleportToKelpMaze();
@@ -118,6 +132,37 @@ public class TeleportManager : MonoBehaviour
             fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, fadeToBlackImage.color.a + Time.deltaTime / t);
             yield return null;
         }
+        player.transform.localPosition = teleportPosition;
+        yield return new WaitForSeconds(0.3f);
+        CheckLocation();
+        while(fadeToBlackImage.color.a >= 0.0f)
+        {
+            fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, fadeToBlackImage.color.a - Time.deltaTime / t);
+            yield return null;
+        }
+    }
+
+    public IEnumerator FFFade(float t)
+    {
+        fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, 0.0f);
+        while(fadeToBlackImage.color.a < 1.0f)
+        {
+            fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, fadeToBlackImage.color.a + Time.deltaTime / t);
+            yield return null;
+        }
+        FFCutscene.instance.StartCutscene();
+        while(fadeToBlackImage.color.a >= 0.0f)
+        {
+            fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, fadeToBlackImage.color.a - Time.deltaTime / t);
+            yield return null;
+        }
+        yield return new WaitForSeconds(6f);
+        while(fadeToBlackImage.color.a < 1.0f)
+        {
+            fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, fadeToBlackImage.color.a + Time.deltaTime / t);
+            yield return null;
+        }
+        FFCutscene.instance.EndCutscene();
         player.transform.localPosition = teleportPosition;
         yield return new WaitForSeconds(0.3f);
         CheckLocation();
