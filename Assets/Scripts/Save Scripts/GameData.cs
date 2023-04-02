@@ -40,6 +40,7 @@ public class GameData
     public bool trenchObjectiveTriggered;
     public SerializableDictionary<string, bool> lilGuygsCollected;
     public SerializableDictionary<string, bool> loreCollected;
+    public SerializableDictionary<string, bool> puzzleCompleted;
 
     public GameData()
     {
@@ -78,6 +79,7 @@ public class GameData
         subParts = 0;
         lilGuygsCollected = new SerializableDictionary<string, bool>();
         loreCollected = new SerializableDictionary<string, bool>();
+        puzzleCompleted = new SerializableDictionary<string, bool>();
         bathysphereCutscenePlayed = false;
     }
 }
