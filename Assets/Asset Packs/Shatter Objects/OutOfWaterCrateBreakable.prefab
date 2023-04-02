@@ -158,7 +158,7 @@ Transform:
   m_GameObject: {fileID: 191155917457703075}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -58.199635, y: -22.21438, z: -78.53447}
-  m_LocalScale: {x: 1.8505497, y: 1.8505497, z: 1.8505497}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3637459337640062935}
@@ -222,9 +222,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 464519050592609105}
   outOfWaterSounds:
-  - {fileID: 8300000, guid: 3d14f1766d9437d438d98a0396142181, type: 3}
-  - {fileID: 8300000, guid: 31956f9cd75c43b4ab1a4c59baf6ed8d, type: 3}
-  - {fileID: 8300000, guid: c34b4b37323d4c843b83fff66e55de8f, type: 3}
+  - {fileID: 8300000, guid: 3705bc4933484af40807a20c529c43f5, type: 3}
+  - {fileID: 8300000, guid: bbfe615290e856b459e30dc8fc5491d3, type: 3}
+  - {fileID: 8300000, guid: 0a82af3e226742948bc01dfe5c2e2311, type: 3}
 --- !u!82 &464519050592609105
 AudioSource:
   m_ObjectHideFlags: 0
@@ -237,7 +237,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.4519229
   m_Pitch: 1
   Loop: 0
   Mute: 0
