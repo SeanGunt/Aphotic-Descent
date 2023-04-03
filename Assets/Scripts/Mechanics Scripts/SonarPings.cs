@@ -18,15 +18,24 @@ public class SonarPings : MonoBehaviour
 
     private void Update()
     {
-        if (type == 1 && !colorSet)
+        if (!colorSet)
         {
-            SetColor(new Color(0f, 0f, 1f, 1f));
-            colorSet = true;
-        }
-        else if (type == 2 && !colorSet)
-        {
-            SetColor(new Color(1f, 0f, 0f, 1f));
-            colorSet = true;
+            switch (type)
+            {
+                case 1:
+                    SetColor(new Color(.43f, 1f, 1f, 1f));
+                    colorSet = true;
+                    break;
+                case 2:
+                    SetColor(new Color(1f, 0f, 0f, 1f));
+                    colorSet = true;
+                    break;
+                case 3:
+                    SetColor(new Color(1f, 1f, 0f, 1f));
+                    colorSet = true;
+                    break;
+            }
+
         }
     }
 
