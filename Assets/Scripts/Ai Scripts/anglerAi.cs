@@ -14,6 +14,9 @@ public class anglerAi : MonoBehaviour
     [SerializeField] private float anglerRangeMultiplier; //how much will angler's vision be multiplied by?
     [SerializeField] private float kbBlacklightForce;
     [SerializeField] private float kbKnifeForceMultiplier; //how hard will angler be knocked back by knife?
+    [SerializeField] private float attackCountDown;
+    [SerializeField] private float aoeDamageAmount; //how much will the player's health be subtracted by?
+    private float resetCountDown;
     public NavMeshAgent anglerAgent;
     private float resetForce;
     private float resetAnglerRange;
@@ -26,11 +29,13 @@ public class anglerAi : MonoBehaviour
     private float distBtwn;
     public float investTimer;
     private float resetInvestTimer;
+    private bool aoeAttackActivated = false;
     private Animation animaTor;
     [HideInInspector] public float anglerSpeed;
     [HideInInspector] public PlayerHealthController pHelCon;
     blacklightKnockback blKb;
     enemyFieldOfView eFovScr1, eFovScr2; //the other is on the diver trigger
+
 
     public State state;
     public enum State
@@ -56,6 +61,8 @@ public class anglerAi : MonoBehaviour
         
         anglerSpeed = anglerAgent.speed;
         resetAnglerRange = anglerRange;
+
+        resetCountDown = attackCountDown;
 
         blKb.knockbackForce = kbBlacklightForce;
         resetForce = kbBlacklightForce;
@@ -218,6 +225,24 @@ public class anglerAi : MonoBehaviour
         else
         {
             state = State.anglerDead;
+        }
+    }
+
+    void attackPlayer()
+    {
+        if(aoeAttackActivated)
+        {
+            attackCountDown -= Time.deltaTime;
+            if(attackCountDown <= 0)
+            {
+                pHelCon.ChangeHealth((aoeDamageAmount)*-1.0f);
+                pHelCon.TakeDamage();
+                attackCountDown = resetCountDown;
+            }
+        }
+        else
+        {
+            attackCountDown = resetCountDown;
         }
     }
 }
