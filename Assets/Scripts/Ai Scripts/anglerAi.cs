@@ -7,7 +7,7 @@ public class anglerAi : MonoBehaviour
 {
     //
     // HEY the trigger this is connected to is located on the diver lure portion of the angler
-    // AnglerTotal->Bone.010->...Bone.020
+    // AnglerTotal->Armature->Bone.010->...Bone.020
 
     [SerializeField] private Transform[] patrolPoints;
     [SerializeField] private float anglerRange;
@@ -16,7 +16,9 @@ public class anglerAi : MonoBehaviour
     [SerializeField] private float kbKnifeForceMultiplier; //how hard will angler be knocked back by knife?
     [SerializeField] private float attackCountDown;
     [SerializeField] private float aoeDamageAmount; //how much will the player's health be subtracted by?
+    public float anglerAttackRange;
     private float resetCountDown;
+    private GameObject lightObjectPoint;
     public NavMeshAgent anglerAgent;
     private float resetForce;
     private float resetAnglerRange;
@@ -43,7 +45,6 @@ public class anglerAi : MonoBehaviour
         anglerPatrolling, anglerDead, anglerAttacking, anglerInvestigate
     }
 
-    // Awake is called when the object the script is attached to becomes enabled
     void Awake()
     {
         state = State.anglerPatrolling;
@@ -62,6 +63,7 @@ public class anglerAi : MonoBehaviour
         anglerSpeed = anglerAgent.speed;
         resetAnglerRange = anglerRange;
 
+        lightObjectPoint = GameObject.Find("anglerLightObjectPoint");
         resetCountDown = attackCountDown;
 
         blKb.knockbackForce = kbBlacklightForce;
@@ -71,7 +73,6 @@ public class anglerAi : MonoBehaviour
         eFovScr1.radius = anglerRange;
     }
 
-    // Update is called once per frame
     void Update()
     {
         distBtwn = Vector3.Distance(player.transform.position, transform.position);
@@ -142,7 +143,6 @@ public class anglerAi : MonoBehaviour
 
     private void Dead()
     {
-        //Debug.Log("angler dead");
         unchosen = false;
         anglerAgent.ResetPath();
         anglerAgent.speed = 0;
@@ -158,10 +158,17 @@ public class anglerAi : MonoBehaviour
             {
                 unchosen = false;
                 anglerAgent.destination = player.transform.position;
+
+                if(distBtwn <= anglerAttackRange)
+                {
+                    aoeAttackActivated = true;
+                    attackPlayer();
+                }
             }
             else if(eFovScr1.canSeePlayer == false || eFovScr2.canSeePlayer == false)
             {
                 unchosen = true;
+                aoeAttackActivated = false;
                 anglerAgent.ResetPath();
                 state = State.anglerPatrolling;
             }
@@ -178,26 +185,15 @@ public class anglerAi : MonoBehaviour
         
         if(!anglerAgent.pathPending && anglerAgent.remainingDistance < 0.5f)
         {
-            //play that animation
-            //animaTor.Play("lureLooking");
-            Debug.Log("angler is at lure module");
             investTimer -= Time.deltaTime;
             if(eFovScr1.canSeePlayer || eFovScr2.canSeePlayer)
             {
-                //animaTor.Stop("lureLooking");
-                Debug.Log("angler found player");
                 isInvestigating = false;
                 state = State.anglerAttacking;
                 investTimer = resetInvestTimer;
             }
             else if(investTimer <= 0)
             {
-                //else if(investTimer <= 0 && animaTor.isPlaying)
-                //TODO: replace the else if when we get the animation
-                
-                //stop animation
-                //animaTor.Stop("lureLooking");
-                Debug.Log("angler didnt find anything");
                 investTimer = resetInvestTimer;
                 isInvestigating = false;
                 state = State.anglerPatrolling;
@@ -211,15 +207,9 @@ public class anglerAi : MonoBehaviour
         {    
             if(other.gameObject.tag == "Knife")
             {
-                //Debug.Log("from diver trigger: knife hit");
                 blKb.knockbackForce = blKb.knockbackForce * kbKnifeForceMultiplier;
                 blKb.knockingBack();
                 blKb.knockbackForce = resetForce;
-            }
-            
-            if(other.gameObject.tag == "Player")
-            {
-                Debug.Log("from diver trigger: ayyoo wassup");
             }
         }
         else
