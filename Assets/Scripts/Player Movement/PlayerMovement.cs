@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   [SerializeField] private Vector3 playerInputVector = Vector3.zero;
   [HideInInspector] public bool isGrounded, hasUpgradedSuit, headbobActive, isAscendKeyHeld, isDescendKeyHeld, inPissCage;
   [SerializeField] private bool isSwimming, canSwim, isTired, canUseHeadbob, isMoving;
-  [SerializeField] public Image staminaBar, tiredBar, upgradedUI;
+  [SerializeField] public Image staminaBar, tiredBar, upgradedUI, upgradedSonarCover;
   [SerializeField] private Camera playerCamera;
   [SerializeField] private Animator animator;
   [HideInInspector] public bool inWater, inCutscene;
@@ -91,11 +91,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       {
         hasUpgradedSuit = true;
         upgradedUI.enabled = true;
+        upgradedSonarCover.enabled = true;
       }
       else
       {
         hasUpgradedSuit = false;
         upgradedUI.enabled = false;
+        upgradedSonarCover.enabled = false;
       }
 
       if (Mathf.Abs(move.x) > 0.1f || Mathf.Abs(move.y) > 0.1f
