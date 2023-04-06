@@ -74,6 +74,12 @@ public class Menus : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(rebindingClosedButton);
     }
 
+    public void MenuShift(GameObject newButton)
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(newButton);
+    }
+
     public void ExitGame()
     {
         Application.Quit();
