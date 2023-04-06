@@ -17,7 +17,7 @@ public class TitleScreen : MonoBehaviour
     }
     void Update()
     {
-        if ((Keyboard.current.anyKey.isPressed || Mouse.current.leftButton.isPressed || Mouse.current.rightButton.isPressed) && titleScreenEvent != null)
+        if ((Keyboard.current.anyKey.isPressed || Mouse.current.leftButton.isPressed || Mouse.current.rightButton.isPressed || Gamepad.current.aButton.isPressed) && titleScreenEvent != null)
         {
             titleScreenEvent.Invoke();
         }

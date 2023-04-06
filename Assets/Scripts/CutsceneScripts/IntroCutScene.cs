@@ -30,7 +30,7 @@ public class IntroCutScene : MonoBehaviour
             aSyncLoader.LoadLevelBtn("VerticalSlice");
         }
 
-        if(Keyboard.current.anyKey.isPressed || Mouse.current.leftButton.isPressed || Mouse.current.rightButton.isPressed)
+        if(Keyboard.current.anyKey.isPressed || Mouse.current.leftButton.isPressed || Mouse.current.rightButton.isPressed || Gamepad.current.aButton.isPressed)
         {
             Time.timeScale = 1f;
             //SceneManager.LoadScene("VerticalSlice");
