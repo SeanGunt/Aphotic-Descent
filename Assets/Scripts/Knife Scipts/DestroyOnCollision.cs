@@ -31,5 +31,13 @@ public class DestroyOnCollision : MonoBehaviour
       Instantiate(shatteredBox, other.gameObject.transform.position, other.gameObject.transform.localRotation);
       GameDataHolder.boxes -= 1;
     }
+
+    if (other.gameObject.tag == "Rope")
+    {
+      Rigidbody ropeRB = other.GetComponentInParent<Rigidbody>();
+      ropeRB.useGravity = true;
+      ropeRB.isKinematic = false;
+      Destroy(other.gameObject);
+    }
   }
 }

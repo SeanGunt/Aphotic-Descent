@@ -10,7 +10,7 @@ public class PShrimpBlacklightEvent : MonoBehaviour
     [SerializeField] private Material lilGuyMaterial;
     [SerializeField] private Light glowLight;
     [SerializeField] private MeshRenderer lilGuyRenderer;
-    [HideInInspector] public bool markedForDeletion;
+    [HideInInspector] public bool markedForDeletion, canBeBlacklighted;
     private GameObject player;
 
     private void Awake()
@@ -19,7 +19,7 @@ public class PShrimpBlacklightEvent : MonoBehaviour
     }
     public void MarkForDeletion()
     {
-        if(pistolShrimpAI.inPhase2)
+        if(pistolShrimpAI.inPhase2 && canBeBlacklighted)
         {
             markedForDeletion = true;
             pistolShrimpAI.SetSelectedTarget(this.transform);

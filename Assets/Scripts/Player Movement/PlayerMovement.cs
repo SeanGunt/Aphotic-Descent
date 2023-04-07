@@ -104,7 +104,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       || Mathf.Abs(move.x) < -0.1f || Mathf.Abs(move.y) < -0.1f)
       {
         isMoving = true;
-        Debug.Log(move);
       }
       else
       {

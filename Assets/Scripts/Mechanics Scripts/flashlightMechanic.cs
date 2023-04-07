@@ -18,7 +18,8 @@ public class flashlightMechanic : MonoBehaviour
     private BlacklightEvent blEvent;
     public float range = 10f, blacklightChargeTime, blacklightDischargeTime;
     public Camera mainCam;
-    public LayerMask layer;
+    public LayerMask layer, eelLayer;
+    private LayerMask layerToUse;
     public AudioSource audioSource;
     public AudioClip flashlightOutOfWaterSound;
     public AudioClip flashlightInWaterSound;
@@ -153,34 +154,17 @@ public class flashlightMechanic : MonoBehaviour
     {
         BlacklightLight.gameObject.SetActive(true);
         FlashlightLight.gameObject.SetActive(false);
-        if(Physics.SphereCast(mainCam.transform.position, 1f, mainCam.transform.forward, out hit, range, layer) || Physics.Raycast(mainCam.transform.position, mainCam.transform.forward, out hit, range, layer))
+        if (GameDataHolder.inEelCave)
+        {
+            layerToUse = eelLayer;
+        }
+        else
+        {
+            layerToUse = layer;
+        }
+        if(Physics.SphereCast(mainCam.transform.position, 0.85f, mainCam.transform.forward, out hit, range, layerToUse) || Physics.Raycast(mainCam.transform.position, mainCam.transform.forward, out hit, range, layerToUse))
         { 
-            if (hit.collider.GetComponent<HiddenObjectsInteraction>() != false)
-            {
-                hI = hit.collider.GetComponent<HiddenObjectsInteraction>();
-                if (hI.objSpawned == false)
-                {
-                    hI.objRevealed = true;
-                }
-            }
-
-            if (hit.collider.GetComponent<RevealHiddenObjects>() != false)
-            {
-                rHO = hit.collider.GetComponent<RevealHiddenObjects>();
-                if (rHO.objSpawned == false)
-                {
-                    rHO.objRevealed = true;
-                }
-            }
-
-            if (hit.collider.GetComponent<SpawnHiddenObject>() != false)
-            {
-                sHO = hit.collider.GetComponent<SpawnHiddenObject>();
-                if (sHO.objSpawned == false)
-                {
-                    sHO.objRevealed = true;
-                }
-            }
+            Debug.Log(hit.collider.name);
             if (hit.collider.GetComponent<BlacklightEvent>() != false)
             {
                 blEvent = hit.collider.GetComponent<BlacklightEvent>();
