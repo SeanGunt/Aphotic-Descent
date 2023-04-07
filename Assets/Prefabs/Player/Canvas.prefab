@@ -222,7 +222,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2105566952376727490}
   m_Father: {fileID: 6715385927766605202}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2334,7 +2335,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2105566952376727489}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 777.2, y: 207.1, z: 0}
+  m_LocalPosition: {x: 30.32396, y: -152.9, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2343,7 +2344,7 @@ Transform:
   - {fileID: 2105566952872622018}
   - {fileID: 2105566951760617387}
   - {fileID: 6588099300782890390}
-  m_Father: {fileID: 4351173801302449957}
+  m_Father: {fileID: 935726968134701451}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2105566952576105317
@@ -4009,8 +4010,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2105566952376727490}
+  m_Children: []
   m_Father: {fileID: 6715385927766605202}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5863,18 +5863,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PauseMenu: {fileID: 6531610095592331897}
-  LevelSelect: {fileID: 8400564328344286286}
   SettingsMenu: {fileID: 2105566952376727489}
   RebindingMenu: {fileID: 0}
   volume: {fileID: 0}
   gameUI: {fileID: 0}
-  levelSelectFirstButton: {fileID: 8142487830888034365}
-  levelSelectClosedButton: {fileID: 2138963274070408611}
   settingsFirstButton: {fileID: 0}
   settingsClosedButton: {fileID: 2105566952225929228}
   objectiveTextObj: {fileID: 0}
   rebindingFirstButton: {fileID: 0}
   rebindingClosedButton: {fileID: 0}
+  overlay1: {fileID: 0}
+  overlay2: {fileID: 0}
+  overlay3: {fileID: 0}
+  overlay4: {fileID: 0}
+  overlay5: {fileID: 0}
+  overlay6: {fileID: 0}
 --- !u!114 &2135085233211290416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5891,6 +5894,7 @@ MonoBehaviour:
   mouseSensitivitySlider: {fileID: 4768113068467328982}
   screenShakeToggle: {fileID: 0}
   headBobToggle: {fileID: 0}
+  flashingLightsToggle: {fileID: 0}
 --- !u!1 &5720544198917705839
 GameObject:
   m_ObjectHideFlags: 0

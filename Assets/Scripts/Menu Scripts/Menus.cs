@@ -9,12 +9,11 @@ public class Menus : MonoBehaviour
 {
     private GameObject Player;
     public GameObject PauseMenu;
-    public GameObject LevelSelect;
     public GameObject SettingsMenu;
     public GameObject RebindingMenu;
     private PlayerInput playerInput;
     public Volume volume;
-    [SerializeField] private GameObject gameUI, levelSelectFirstButton, levelSelectClosedButton, settingsFirstButton, settingsClosedButton, objectiveTextObj, rebindingFirstButton, rebindingClosedButton;
+    [SerializeField] private GameObject gameUI, settingsFirstButton, settingsClosedButton, objectiveTextObj, rebindingFirstButton, rebindingClosedButton, overlay1, overlay2, overlay3, overlay4, overlay5, overlay6;
     
 
     private void Awake()
@@ -62,6 +61,7 @@ public class Menus : MonoBehaviour
     {
         SettingsMenu.SetActive(false);
         RebindingMenu.SetActive(true);
+        Player.GetComponent<PauseControls>().otherMenuActive = true;
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(rebindingFirstButton);
     }
@@ -70,14 +70,35 @@ public class Menus : MonoBehaviour
     {
         SettingsMenu.SetActive(true);
         RebindingMenu.SetActive(false);
+        Player.GetComponent<PauseControls>().otherMenuActive = false;
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(rebindingClosedButton);
     }
 
     public void MenuShift(GameObject newButton)
     {
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(newButton);
+        if (!newButton.activeInHierarchy)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(newButton);
+            Debug.Log("This ran");
+        }
+        else
+        {
+            Debug.Log("This did not run");
+            return;
+        }
+        
+    }
+
+    public void ResetMenus()
+    {
+        overlay1.SetActive(true);
+        overlay2.SetActive(false);
+        overlay3.SetActive(false);
+        overlay4.SetActive(false);
+        overlay5.SetActive(false);
+        overlay6.SetActive(false);
     }
 
     public void ExitGame()
