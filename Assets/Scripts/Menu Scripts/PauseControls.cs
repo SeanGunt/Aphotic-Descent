@@ -2,15 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
 public class PauseControls : MonoBehaviour
 {
-    public GameObject PauseMenu;
+    public GameObject PauseMenu, pauseButton;
     private PlayerInput playerInput;
     [SerializeField] private GameObject gameUI, objectiveText, basicTextObj;
+    [SerializeField] private Menus menuController;
     GameObject Player;
     public bool paused, otherMenuActive;
     public Volume volume;
@@ -34,6 +36,7 @@ public class PauseControls : MonoBehaviour
                 }
                 basicTextObj.SetActive(false);
                 PauseMenu.SetActive(true);
+                EventSystem.current.SetSelectedGameObject(pauseButton);
                 gameUI.SetActive(false);
                 objectiveText.SetActive(false);
                 paused = true;
@@ -50,7 +53,7 @@ public class PauseControls : MonoBehaviour
                 {
                     depthOfField.active = false;
                 }
-                PauseMenu.SetActive(false);
+                EventSystem.current.SetSelectedGameObject(null);
                 gameUI.SetActive(true);
                 objectiveText.SetActive(true);
                 paused = false;
