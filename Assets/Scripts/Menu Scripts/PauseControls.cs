@@ -34,6 +34,7 @@ public class PauseControls : MonoBehaviour
                 {
                     depthOfField.active = true;
                 }
+                BGMManager.instance.Pause();
                 basicTextObj.SetActive(false);
                 PauseMenu.SetActive(true);
                 EventSystem.current.SetSelectedGameObject(pauseButton);
@@ -53,6 +54,7 @@ public class PauseControls : MonoBehaviour
                 {
                     depthOfField.active = false;
                 }
+                BGMManager.instance.EndPause();
                 EventSystem.current.SetSelectedGameObject(null);
                 gameUI.SetActive(true);
                 objectiveText.SetActive(true);

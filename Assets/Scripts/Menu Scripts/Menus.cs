@@ -47,6 +47,7 @@ public class Menus : MonoBehaviour
         {
             depthOfField.active = false;
         }
+        BGMManager.instance.EndPause();
         PauseMenu.SetActive(false);
         gameUI.SetActive(true);
         objectiveTextObj.SetActive(true);

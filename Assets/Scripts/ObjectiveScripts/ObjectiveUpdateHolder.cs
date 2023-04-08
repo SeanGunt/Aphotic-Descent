@@ -52,7 +52,7 @@ public class ObjectiveUpdateHolder : MonoBehaviour
 
     public void FifthObjective()
     {
-        objectiveText.text = "Defeat The Eel";
+        objectiveText.text = "Defeat Frankeelstein By Destroying All Generators";
         GameDataHolder.objectiveId = 5;
         GameDataHolder.eelObjectiveTriggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
