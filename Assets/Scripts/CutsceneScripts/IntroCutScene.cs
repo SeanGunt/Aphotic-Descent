@@ -30,11 +30,16 @@ public class IntroCutScene : MonoBehaviour
             aSyncLoader.LoadLevelBtn("VerticalSlice");
         }
 
-        if(Keyboard.current.anyKey.isPressed || Mouse.current.leftButton.isPressed || Mouse.current.rightButton.isPressed || Gamepad.current.aButton.isPressed)
+        if(Keyboard.current.anyKey.isPressed || Mouse.current.leftButton.isPressed || Mouse.current.rightButton.isPressed)
         {
             Time.timeScale = 1f;
             //SceneManager.LoadScene("VerticalSlice");
              aSyncLoader.LoadLevelBtn("VerticalSlice");
+        }
+        else if (Gamepad.current != null && (Gamepad.current.aButton.isPressed || Gamepad.current.startButton.isPressed))
+        {
+            Time.timeScale = 1f;
+            aSyncLoader.LoadLevelBtn("VerticalSlice");
         }
     }
 }
