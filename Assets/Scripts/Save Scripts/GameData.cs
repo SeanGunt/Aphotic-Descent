@@ -38,6 +38,13 @@ public class GameData
     public bool biolampsObjectivetriggered;
     public bool marshObjectiveTriggered;
     public bool trenchObjectiveTriggered;
+    public bool freakfishFound;
+    public bool zooplanktonFound;
+    public bool eelFound;
+    public bool hermitcrabFound;
+    public bool pistolshrimpFound;
+    public bool shrimpmanFound;
+    public bool anglerFound;
     public SerializableDictionary<string, bool> lilGuygsCollected;
     public SerializableDictionary<string, bool> loreCollected;
     public SerializableDictionary<string, bool> puzzleCompleted;
@@ -72,6 +79,14 @@ public class GameData
         inKelpMaze = false;
         inSub = true;
         eelIsDead = false;
+        bathysphereCutscenePlayed = false;
+        freakfishFound = false;
+        zooplanktonFound = false;
+        eelFound = false;
+        hermitcrabFound = false;
+        pistolshrimpFound= false;
+        shrimpmanFound = false;
+        anglerFound= false;
         boxes = 4;
         objectiveId = 0;
         numOfZooplanktonCollected = 0;
@@ -80,6 +95,5 @@ public class GameData
         lilGuygsCollected = new SerializableDictionary<string, bool>();
         loreCollected = new SerializableDictionary<string, bool>();
         puzzleCompleted = new SerializableDictionary<string, bool>();
-        bathysphereCutscenePlayed = false;
     }
 }

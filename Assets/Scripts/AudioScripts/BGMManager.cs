@@ -60,7 +60,21 @@ public class BGMManager : MonoBehaviour
     public void SwitchBGMFade(int clipNumber)
     {
         StartCoroutine("Fade", clipNumber);
-    }   
+    }  
+
+    public void Pause()
+    {
+        audioMixer.SetFloat("Cutoff freq", 470f);
+        audioMixer.SetFloat("Resonance", 1.3f);
+        audioMixer.SetFloat("BGM", -10f);
+    }
+
+    public void EndPause()
+    {
+        audioMixer.SetFloat("Cutoff freq", 22000f);
+        audioMixer.SetFloat("Resonance", 1.0f);
+        audioMixer.SetFloat("BGM", 0f);
+    }
 
     public IEnumerator Fade(int clipNumber)
     {

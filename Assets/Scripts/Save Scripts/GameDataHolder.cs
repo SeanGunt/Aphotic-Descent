@@ -30,6 +30,13 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
     public static bool inMudMarsh;
     public static bool inAnglerTrench;
     public static bool eelIsDead;
+    public static bool freakfishFound;
+    public static bool zooplanktonFound;
+    public static bool eelFound;
+    public static bool hermitcrabFound;
+    public static bool pistolshrimpFound;
+    public static bool shrimpmanFound;
+    public static bool anglerFound;
     public static int objectiveId;
     public static int numOfZooplanktonCollected;
     public static int biolampsAlive;
@@ -74,6 +81,14 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         numOfZooplanktonCollected = data.numOfZooplanktonCollected;
 
         biolampsAlive = data.biolampsAlive;
+
+        freakfishFound = data.freakfishFound;
+        zooplanktonFound = data.zooplanktonFound;
+        eelFound = data.eelFound;
+        hermitcrabFound = data.hermitcrabFound;
+        pistolshrimpFound = data.pistolshrimpFound;
+        shrimpmanFound = data.shrimpmanFound;
+        anglerFound = data.anglerFound;
     }
 
     public void SaveData(GameData data)
@@ -115,5 +130,13 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         data.numOfZooplanktonCollected = numOfZooplanktonCollected;
 
         data.biolampsAlive = biolampsAlive;
+
+        data.freakfishFound = freakfishFound;
+        data.zooplanktonFound = zooplanktonFound;
+        data.eelFound = eelFound;
+        data.hermitcrabFound = hermitcrabFound;
+        data.pistolshrimpFound = pistolshrimpFound;
+        data.shrimpmanFound = shrimpmanFound;
+        data.anglerFound = anglerFound;
     }
 }
