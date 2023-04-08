@@ -31,5 +31,10 @@ public class OutroCutScene : MonoBehaviour
             Time.timeScale = 1f;
             SceneManager.LoadScene("VerticalSlice");
         }
+        else if (Gamepad.current != null && (Gamepad.current.aButton.isPressed || Gamepad.current.startButton.isPressed))
+        {
+            Time.timeScale = 1f;
+            SceneManager.LoadScene("VerticalSlice");
+        }
     }
 }
