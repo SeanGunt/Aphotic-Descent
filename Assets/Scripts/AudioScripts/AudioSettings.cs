@@ -7,11 +7,9 @@ public class AudioSettings : MonoBehaviour
     private static readonly string BGMPref = "BGM Pref";
     private static readonly string SFXPref = "SFX Pref";
     private static readonly string MasPref = "Mas Pref";
-    private static readonly string ambiencePref = "Ambience Pref";
-    private float bgmFloat, sfxFloat, masFloat, ambienceFloat;
+    private float bgmFloat, sfxFloat, masFloat;
     public AudioSource bgmAudio;
     public AudioSource[] sfxAudio;
-    public AudioSource[] ambience;
 
     void Awake()
     {
@@ -23,7 +21,6 @@ public class AudioSettings : MonoBehaviour
         bgmFloat = PlayerPrefs.GetFloat(BGMPref);
         sfxFloat = PlayerPrefs.GetFloat(SFXPref);
         masFloat = PlayerPrefs.GetFloat(MasPref);
-        ambienceFloat = PlayerPrefs.GetFloat(ambiencePref);
 
         bgmAudio.volume = bgmFloat;
 

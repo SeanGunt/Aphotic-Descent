@@ -29,6 +29,6 @@ public class TitleScreen : MonoBehaviour
 
     void Ping()
     {
-        Debug.Log("Ping");
+        
     }
 }
