@@ -20,6 +20,9 @@ public class BGMManager : MonoBehaviour
         }
         instance = this;
         audioMixer.SetFloat("BGM", mixerBGMVolume);
+        audioMixer.SetFloat("Cutoff freq", 22000f);
+        audioMixer.SetFloat("Resonance", 1.0f);
+        audioMixer.SetFloat("BGM", 0f);
         audioSource = this.GetComponent<AudioSource>();
     }
 
