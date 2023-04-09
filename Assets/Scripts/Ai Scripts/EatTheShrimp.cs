@@ -6,22 +6,15 @@ using UnityEngine.Animations.Rigging;
 
 public class EatTheShrimp : MonoBehaviour
 {
-    public GameObject crab;
     public GameObject[] pathPoints;
     [HideInInspector] public bool isMoving;
-    public int numberOfPoints;
     public float speed;
-    public GameObject yummyShrimp;
-    public GameObject shrimpCollider;
-    private Vector3 actualPosition;
-    private int x;
     NavMeshAgent hermitAgent;
 
     RigBuilder hermitRig;
 
     void Awake()
     {
-        x = 0;
 
         hermitAgent = this.gameObject.GetComponent<NavMeshAgent>();
         hermitAgent.speed = speed;
@@ -39,17 +32,7 @@ public class EatTheShrimp : MonoBehaviour
     }
      void hermitMove()
      {
-        /*
-        actualPosition = crab.transform.position;
-        crab.transform.position = Vector3.MoveTowards(actualPosition, pathPoints[x].transform.position, speed * Time.deltaTime);
-        if(actualPosition == pathPoints[x].transform.position&& x != numberOfPoints -1) 
-        {
-            x++;
-        }
-        */
-
         hermitAgent.destination = pathPoints[0].transform.position;
-        Debug.Log("hermit start moving");
      }
       
     public void MakeMove()

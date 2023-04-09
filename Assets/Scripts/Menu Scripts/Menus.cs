@@ -82,11 +82,9 @@ public class Menus : MonoBehaviour
         {
             EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(newButton);
-            Debug.Log("This ran");
         }
         else
         {
-            Debug.Log("This did not run");
             return;
         }
         

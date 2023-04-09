@@ -9,13 +9,11 @@ public class AudioManager : MonoBehaviour
     private static readonly string BGMPref = "BGM Pref";
     private static readonly string SFXPref = "SFX Pref";
     private static readonly string MasPref = "Mas Pref";
-    private static readonly string AmbiencePref = "Ambience Pref";
     private int firstPlayInt;
-    public Slider bgmSlider, sfxSlider, masSlider, ambienceSlider; 
-    private float bgmFloat, sfxFloat, masFloat, ambienceFloat;
+    public Slider bgmSlider, sfxSlider, masSlider;
+    private float bgmFloat, sfxFloat, masFloat;
     public AudioSource bgmAudio;
     public AudioSource[] sfxAudio;
-    public AudioSource[] ambience;
 
    // public AudioListener masAudio;
 
@@ -28,17 +26,14 @@ public class AudioManager : MonoBehaviour
             bgmFloat = .50f;
             sfxFloat = .50f;
             masFloat = .50f;
-            ambienceFloat = .50f;
 
             bgmSlider.value = bgmFloat;
             sfxSlider.value = sfxFloat;
             masSlider.value = masFloat;
-            ambienceSlider.value = ambienceFloat;
 
             PlayerPrefs.SetFloat(BGMPref, bgmFloat);
             PlayerPrefs.SetFloat(SFXPref, sfxFloat);
             PlayerPrefs.SetFloat(MasPref, masFloat);
-            PlayerPrefs.SetFloat(AmbiencePref, ambienceFloat);
             PlayerPrefs.SetInt(Firstplay, -1);
         }
         else
@@ -49,8 +44,6 @@ public class AudioManager : MonoBehaviour
             sfxSlider.value = sfxFloat;
             masFloat = PlayerPrefs.GetFloat(MasPref);
             masSlider.value = masFloat;
-            ambienceFloat = PlayerPrefs.GetFloat(AmbiencePref);
-            ambienceSlider.value = ambienceFloat;
         }
     }
 
@@ -59,7 +52,6 @@ public class AudioManager : MonoBehaviour
         PlayerPrefs.SetFloat(BGMPref, bgmSlider.value);
         PlayerPrefs.SetFloat(SFXPref, sfxSlider.value);
         PlayerPrefs.SetFloat(MasPref, masSlider.value);
-        PlayerPrefs.SetFloat(AmbiencePref, ambienceSlider.value);
         PlayerPrefs.Save();
     }
 

@@ -164,7 +164,6 @@ public class flashlightMechanic : MonoBehaviour
         }
         if(Physics.SphereCast(mainCam.transform.position, 0.85f, mainCam.transform.forward, out hit, range, layerToUse) || Physics.Raycast(mainCam.transform.position, mainCam.transform.forward, out hit, range, layerToUse))
         { 
-            Debug.Log(hit.collider.name);
             if (hit.collider.GetComponent<BlacklightEvent>() != false)
             {
                 blEvent = hit.collider.GetComponent<BlacklightEvent>();
