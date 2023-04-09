@@ -114,6 +114,7 @@ public class TeleportManager : MonoBehaviour
     {
         GameDataHolder.inPsShrimpCave = false;
         GameDataHolder.inMudMarsh = true;
+        GameDataHolder.pistolshrimpFound = true;
         BGMManager.instance.SwitchBGMFade(7);
     }
 
@@ -121,6 +122,7 @@ public class TeleportManager : MonoBehaviour
     {
         GameDataHolder.inMudMarsh = false;
         GameDataHolder.inAnglerTrench = true;
+        GameDataHolder.shrimpmanFound = true;
         BGMManager.instance.SwitchBGMFade(9);
     }
 

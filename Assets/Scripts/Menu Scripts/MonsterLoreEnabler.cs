@@ -25,29 +25,9 @@ public class MonsterLoreEnabler : MonoBehaviour
             GameDataHolder.zooplanktonFound = true;
         }
 
-        if (index == 3)
-        {
-            GameDataHolder.eelFound = true;
-        }
-
         if (index == 4)
         {
             GameDataHolder.hermitcrabFound = true;
-        }
-
-        if (index == 5)
-        {
-            GameDataHolder.pistolshrimpFound = true;
-        }
-
-        if (index == 6)
-        {
-            GameDataHolder.shrimpmanFound = true;
-        }
-
-        if (index == 7)
-        {
-            GameDataHolder.anglerFound = true;
         }
     }
 }

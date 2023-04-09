@@ -27,6 +27,7 @@ public class boltScript : MonoBehaviour
             {
                 audioSource.PlayOneShot(explosionSound);
                 GameDataHolder.eelIsDead = true;
+                GameDataHolder.eelFound = true;
                 isOn = false;
             }
         }
