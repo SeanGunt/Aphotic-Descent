@@ -235,4 +235,10 @@ public class anglerAi : MonoBehaviour
             attackCountDown = resetCountDown;
         }
     }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, 14);
+    }
 }
