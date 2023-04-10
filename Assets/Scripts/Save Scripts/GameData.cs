@@ -33,6 +33,7 @@ public class GameData
     public bool inMudMarsh;
     public bool inAnglerTrench;
     public bool bathysphereCutscenePlayed;
+    public bool hintCamPlayed;
     public bool eelIsDead;
     public bool eelObjectiveTriggered;
     public bool biolampsObjectivetriggered;
@@ -80,6 +81,7 @@ public class GameData
         inSub = true;
         eelIsDead = false;
         bathysphereCutscenePlayed = false;
+        hintCamPlayed = false;
         freakfishFound = false;
         zooplanktonFound = false;
         eelFound = false;

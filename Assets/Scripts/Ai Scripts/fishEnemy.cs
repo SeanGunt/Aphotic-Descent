@@ -18,7 +18,7 @@ public class fishEnemy : MonoBehaviour
     [SerializeField]private Animator animator;
     PlayerHealthController pHC;
     InvisibilityMechanic iM;
-    [SerializeField] private GameObject gen1, gen2, gen3, gen4, bolt;
+    [SerializeField] private GameObject gen1, gen2, gen3, gen4, bolt, boltSpark;
     private CapsuleCollider cc;
     generatorScript gen1Scr;
     generatorScript gen2Scr;
@@ -201,6 +201,7 @@ public class fishEnemy : MonoBehaviour
             BGMManager.instance.SwitchBGM(4);
             BreathingManager.instance.SwitchBreathRate(2);
             audioSource.PlayOneShot(eelSounds[3]);
+            Invoke("StartAttacking", 5);
             state = State.lockingOn;
         }
         
@@ -231,13 +232,19 @@ public class fishEnemy : MonoBehaviour
 
     private void LockingOn()
     {
+        if (!eFOV.canSeePlayer || iM.isSafe)
+        {
+            BreathingManager.instance.SwitchBreathRate(0);
+            BGMManager.instance.SwitchBGM(4);
+            playerHid = true;
+            CancelInvoke("StartAttacking");
+            state = State.patrolling;
+        }
         RotateTowards(playerHead.transform.position);
-        Invoke("StartAttacking", 5);
     }
 
     private void Dead()
     {
-        deathObject.SetActive(true);
         cc.enabled = false;
         eFOV.enabled = false;
         eelDead = true;
@@ -317,6 +324,7 @@ public class fishEnemy : MonoBehaviour
         eelHealth = 1;
         boltOn = true;
         boltScr.isOn = true;
+        boltSpark.SetActive(true);
         chaseSpeed = chaseSpeed2;
         patrolSpeed = patrolSpeed2;
         playerHid = true;
@@ -362,11 +370,13 @@ public class fishEnemy : MonoBehaviour
             stunTime = 15;
             playerHid = true;
             eelCollider.enabled = true;
+            animator.SetBool("isStunned", false);
             state = State.patrolling;
         }
         else if(eelHealth == 0)
         {
             state = State.dead;
+            deathObject.SetActive(true);
             eFOV.enabled = false;
             animator.SetBool("isDead", true);
         }
@@ -406,10 +416,11 @@ public class fishEnemy : MonoBehaviour
         barnacleCount--;
         if(barnacleCount <= 0)
         {
-            state = State.stunned;
+            animator.SetBool("isStunned", true);
             isGrowing = true;
             Invoke("GrowBarnacles",maxStunTime);
             CancelInvoke("StartAttacking");
+            state = State.stunned;
         }
         else
         {
@@ -431,6 +442,7 @@ public class fishEnemy : MonoBehaviour
             jumpscareCam.SetActive(true);
             animator.SetTrigger("Jumpscare");
             barnacleHolder.SetActive(false);
+            boltSpark.SetActive(false);
         }
     }
 }
