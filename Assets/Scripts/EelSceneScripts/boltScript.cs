@@ -6,6 +6,7 @@ public class boltScript : MonoBehaviour
 {
     public bool isOn = true;
     [SerializeField] private int boltHealth;
+    [SerializeField] private GameObject electricity;
     private AudioSource audioSource;
     [SerializeField] private AudioClip[] hitSounds;
     [SerializeField] private AudioClip explosionSound;
@@ -13,6 +14,12 @@ public class boltScript : MonoBehaviour
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        if(GameDataHolder.eelIsDead)
+        {
+            electricity.SetActive(false);
+            boltHealth = 0;
+            audioSource.Stop();
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -26,6 +33,8 @@ public class boltScript : MonoBehaviour
             if(boltHealth <= 0)
             {
                 audioSource.PlayOneShot(explosionSound);
+                electricity.SetActive(false);
+                audioSource.Stop();
                 GameDataHolder.eelIsDead = true;
                 GameDataHolder.eelFound = true;
                 isOn = false;
