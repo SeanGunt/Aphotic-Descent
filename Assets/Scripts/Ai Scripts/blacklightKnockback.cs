@@ -41,7 +41,7 @@ public class blacklightKnockback : MonoBehaviour
     {
        if(angScr.isAlive)
        {
-            rb.AddForce(cam.transform.forward * knockbackForce, ForceMode.Impulse);
+            //rb.AddForce(cam.transform.forward * knockbackForce, ForceMode.Impulse);
             state = State.beingKnockedBack;
             StartCoroutine("ResetKnockBack", 0.5f);
 
@@ -90,6 +90,7 @@ public class blacklightKnockback : MonoBehaviour
         if(stopped)
         {
             stopTime -= Time.deltaTime;
+            angScr.isStunned = true;
 
             if(stopTime <= 0 && anglerFishAttached)
             {
@@ -97,6 +98,7 @@ public class blacklightKnockback : MonoBehaviour
                 stopTime = resetTime;
                 Debug.Log("angler speed resetting");
                 stopped = false;
+                angScr.isStunned = false;
             }
         }
     }

@@ -16,6 +16,7 @@ public class anglerAi : MonoBehaviour
     [SerializeField] private float kbKnifeForceMultiplier; //how hard will angler be knocked back by knife?
     [SerializeField] private float attackCountDown;
     [SerializeField] private float aoeDamageAmount; //how much will the player's health be subtracted by?
+    [SerializeField] private GameObject aoeObject;
     public float anglerAttackRange;
     private float resetCountDown;
     private GameObject lightObjectPoint;
@@ -35,6 +36,7 @@ public class anglerAi : MonoBehaviour
     private Animation animaTor;
     [HideInInspector] public float anglerSpeed;
     [HideInInspector] public PlayerHealthController pHelCon;
+    [HideInInspector] public bool isStunned = false;
     blacklightKnockback blKb;
     enemyFieldOfView eFovScr1, eFovScr2; //the other is on the diver trigger
 
@@ -200,7 +202,9 @@ public class anglerAi : MonoBehaviour
             }
         }
     }
-    
+
+    /*
+    //for when the player hits the lure diver with a knife, a far riskier play than that of the blacklight
     void OnTriggerEnter(Collider other)
     {
         if(isAlive)
@@ -217,14 +221,16 @@ public class anglerAi : MonoBehaviour
             state = State.anglerDead;
         }
     }
+    */
 
     void attackPlayer()
     {
-        if(aoeAttackActivated)
+        if(aoeAttackActivated && (isStunned == false))
         {
             attackCountDown -= Time.deltaTime;
             if(attackCountDown <= 0)
             {
+                aoeObject.SetActive(true);
                 pHelCon.ChangeHealth((aoeDamageAmount)*-1.0f);
                 pHelCon.TakeDamage();
                 attackCountDown = resetCountDown;
@@ -233,12 +239,13 @@ public class anglerAi : MonoBehaviour
         else
         {
             attackCountDown = resetCountDown;
+            aoeObject.SetActive(false);
         }
     }
 
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, 14);
+        Gizmos.DrawWireSphere(transform.position, anglerAttackRange);
     }
 }
