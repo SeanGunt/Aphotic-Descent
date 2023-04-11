@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   private Vector2 move;
   [SerializeField] private Vector3 playerInputVector = Vector3.zero;
   [HideInInspector] public bool isGrounded, hasUpgradedSuit, headbobActive, isAscendKeyHeld, isDescendKeyHeld, inPissCage;
-  [SerializeField] private bool isSwimming, canSwim, isTired, canUseHeadbob, isMoving;
+  [SerializeField] private bool isSwimming, canSwim, isTired, canUseHeadbob, isMoving, uiUpgraded;
   [SerializeField] public Image staminaBar, tiredBar, upgradedUI, upgradedSonarCover;
   [SerializeField] private Camera playerCamera;
   [SerializeField] private Animator animator;
@@ -87,19 +87,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
   private void Update()
   {
-      if(GameDataHolder.hasUpgradedSuit == true)
-      {
-        hasUpgradedSuit = true;
-        upgradedUI.enabled = true;
-        upgradedSonarCover.enabled = true;
-      }
-      else
-      {
-        hasUpgradedSuit = false;
-        upgradedUI.enabled = false;
-        upgradedSonarCover.enabled = false;
-      }
-
       if (Mathf.Abs(move.x) > 0.1f || Mathf.Abs(move.y) > 0.1f
       || Mathf.Abs(move.x) < -0.1f || Mathf.Abs(move.y) < -0.1f)
       {
@@ -162,6 +149,19 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         canSwim = false;
       break;
     }
+    if(GameDataHolder.hasUpgradedSuit == true && !uiUpgraded)
+      {
+        hasUpgradedSuit = true;
+        upgradedUI.enabled = true;
+        upgradedSonarCover.enabled = true;
+        uiUpgraded = true;
+      }
+      else if (GameDataHolder.hasUpgradedSuit == false && !uiUpgraded)
+      {
+        hasUpgradedSuit = false;
+        upgradedUI.enabled = false;
+        upgradedSonarCover.enabled = false;
+      }
   }
 
 
