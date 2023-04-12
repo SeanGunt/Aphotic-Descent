@@ -35,6 +35,13 @@ public class ShrimpManChamberLook : MonoBehaviour
             }
             Debug.Log("I see you...");
         }
+        else if (other.gameObject.layer == 10)
+        {
+            SetWeight(1, 1);
+            BoxCollider bc = GetComponent<BoxCollider>();
+            ShrimpManChamberAnimator.SetBool("ShrimpLook", true);
+            Debug.Log("Hello hubby");
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -45,12 +52,25 @@ public class ShrimpManChamberLook : MonoBehaviour
             SetWeight(0, 0);
             Debug.Log("Goodbye Diver");
         }
+        else if (other.gameObject.layer == 10)
+        {
+            ShrimpManChamberAnimator.SetBool("ShrimpLook", true);
+            SetWeight(0, 0);
+            Debug.Log("Goodbye hubby");
+        }
     }
 
     private void SetWeight(int index, float weight)
     {
         WeightedTransformArray arrayOfTransforms = multiAimConstraint.data.sourceObjects;
-        arrayOfTransforms.SetWeight(index, weight);
+        for(int i = 0; i < arrayOfTransforms.Count; i++)
+        {
+            arrayOfTransforms.SetWeight(i, 0f);
+        }
         multiAimConstraint.data.sourceObjects = arrayOfTransforms;
+
+        WeightedTransformArray a = multiAimConstraint.data.sourceObjects;
+        a.SetWeight(index, weight);
+        multiAimConstraint.data.sourceObjects = a;
     }
 }

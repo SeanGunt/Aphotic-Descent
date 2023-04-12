@@ -45,6 +45,16 @@ public class TeleportManager : MonoBehaviour
         }
     }
 
+    public void RidgeTeleport()
+    {
+        if(!activated)
+        {
+            uItext.enabled = false;
+            StartCoroutine(SMLFade(1f));
+            activated = true;
+        }
+    }
+
     private void CheckLocation()
     {
         uItext.enabled = true;
@@ -165,6 +175,43 @@ public class TeleportManager : MonoBehaviour
             yield return null;
         }
         FFCutscene.instance.EndCutscene();
+        player.transform.localPosition = teleportPosition;
+        yield return new WaitForSeconds(0.3f);
+        CheckLocation();
+        while(fadeToBlackImage.color.a >= 0.0f)
+        {
+            fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, fadeToBlackImage.color.a - Time.deltaTime / t);
+            yield return null;
+        }
+    }
+
+    public IEnumerator SMLFade(float t)
+    {
+        fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, 0.0f);
+        while(fadeToBlackImage.color.a < 1.0f)
+        {
+            fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, fadeToBlackImage.color.a + Time.deltaTime / t);
+            yield return null;
+        }
+        SMLCutscene.instance.StartCutscene();
+        while(fadeToBlackImage.color.a >= 0.0f)
+        {
+            fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, fadeToBlackImage.color.a - Time.deltaTime / t);
+            yield return null;
+        }
+        yield return new WaitForSeconds(4f);
+        SMLCutscene.instance.PlaySound(1);
+        while(fadeToBlackImage.color.a < 1.0f)
+        {
+            fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, fadeToBlackImage.color.a + Time.deltaTime / t);
+            yield return null;
+        }
+        yield return new WaitForSeconds(2.3f);
+        SMLCutscene.instance.PlaySound(2);
+        yield return new WaitForSeconds(0.2f);
+        SMLCutscene.instance.PlaySound(3);
+        yield return new WaitForSeconds(1.1f);
+        SMLCutscene.instance.EndCutscene();
         player.transform.localPosition = teleportPosition;
         yield return new WaitForSeconds(0.3f);
         CheckLocation();
