@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   groundDistance, gravityInWater, gravityOutOfWater, tiredCooldown,
   walkBobSpeed, walkBobAmount, underwaterBobSpeed, underwaterBobAmount, rbDrag, speedMultipler;
   private Vector3 moveDirection, slopeMoveDirection;
-  private float defaultYPos, timer, horizontalMovement, verticalMovement;
+  private float defaultYPos, timer, horizontalMovement, verticalMovement, staminaRegenSpeed;
   public float playerStamina, maxStamina, staminaDelay, moveSpeed;
   [SerializeField] private LayerMask ignoreMask;
   private Vector2 move;
@@ -311,7 +311,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       }
       if (empty <= max && !isTired)
       {
-        empty += Time.deltaTime * 2;
+        staminaRegenSpeed = 2 + (0.1f * GameDataHolder.numOfZooplanktonCollected);
+        empty += (Time.deltaTime * staminaRegenSpeed);
         playerStamina = empty;
         staminaBar.fillAmount = playerStamina/maxStamina;
       }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class FrankAudio : MonoBehaviour
 {
     private AudioSource audioSource;
+    [SerializeField] private AudioSource playerAudioSource;
     [SerializeField] private AudioClip lungeSound, deathSound, biteSound, playerScream;
     
     private void Awake()
@@ -29,6 +30,6 @@ public class FrankAudio : MonoBehaviour
 
     public void PlayScream()
     {
-        audioSource.PlayOneShot(playerScream);
+        playerAudioSource.PlayOneShot(playerScream);
     }
 }

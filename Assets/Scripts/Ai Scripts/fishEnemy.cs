@@ -294,6 +294,7 @@ public class fishEnemy : MonoBehaviour
         if((eelHealth == 0) && (!g1On && !g2On && !g3On && !g4On) && (eelDead == false))
         {
             Invoke("TransitionPhase2", 3);
+            BGMManager.instance.SwitchBGMFade(12);
             animator.SetBool("isDying", true);
             eFOV.enabled = false;
             state = State.transitioning;
@@ -319,6 +320,7 @@ public class fishEnemy : MonoBehaviour
 
     void Transitioned()
     {
+        BGMManager.instance.SwitchBGMFade(13);
         animator.SetBool("isBack", false);
         phase = 2;
         eelHealth = 1;
@@ -371,6 +373,8 @@ public class fishEnemy : MonoBehaviour
             playerHid = true;
             eelCollider.enabled = true;
             animator.SetBool("isStunned", false);
+            BGMManager.instance.SwitchBGMFade(13);
+            BreathingManager.instance.SwitchBreathRate(0);
             state = State.patrolling;
         }
         else if(eelHealth == 0)

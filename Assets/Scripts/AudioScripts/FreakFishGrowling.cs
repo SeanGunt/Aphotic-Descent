@@ -5,6 +5,7 @@ using UnityEngine;
 public class FreakFishGrowling : MonoBehaviour
 {
     private AudioSource audioSource;
+    [SerializeField] private AudioSource playerAudioSource;
     [SerializeField] private AudioClip[] growlingSounds;
     [SerializeField] private AudioClip playerScream;
     private float randomNoiseTimer;
@@ -35,6 +36,6 @@ public class FreakFishGrowling : MonoBehaviour
 
     public void PlayScream()
     {
-        audioSource.PlayOneShot(playerScream);
+        playerAudioSource.PlayOneShot(playerScream);
     }
 }
