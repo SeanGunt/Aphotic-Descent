@@ -13,7 +13,7 @@ public class ObjectiveUpdateHolder : MonoBehaviour
     {
         if(GameDataHolder.eelIsDead && !GameDataHolder.hermitCaveObjectiveTriggered)
         {
-            Invoke("SeventhObjective", 2f);
+            Invoke("EighthObjective", 2f);
         }
         objectiveText.color = new Color(objectiveText.color.r, objectiveText.color.g, objectiveText.color.b, 0);
         objectiveObj.SetActive(true);
@@ -52,7 +52,7 @@ public class ObjectiveUpdateHolder : MonoBehaviour
 
     public void FifthObjective()
     {
-        objectiveText.text = "Defeat Frankeelstein By Destroying All Generators";
+        objectiveText.text = "Neutralize The Eel";
         GameDataHolder.objectiveId = 5;
         GameDataHolder.eelObjectiveTriggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
@@ -60,50 +60,58 @@ public class ObjectiveUpdateHolder : MonoBehaviour
 
     public void SixthObjective()
     {
-        objectiveText.text = "Find The Exit To The Cave";
+        objectiveText.text = "End Its Suffering";
         GameDataHolder.objectiveId = 6;
-        GameDataHolder.ridgeObjectiveTriggered = true;
+        GameDataHolder.eelObjective2Triggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
     }
 
     public void SeventhObjective()
     {
-        BGMManager.instance.SwitchBGMFade(7);
-        audioSource.PlayOneShot(objectiveSound);
-        objectiveText.text = "Descend Deeper Into The Cave";
+        objectiveText.text = "Find The Exit To The Cave";
         GameDataHolder.objectiveId = 7;
-        GameDataHolder.hermitCaveObjectiveTriggered = true;
+        GameDataHolder.ridgeObjectiveTriggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
     }
 
     public void EighthObjective()
     {
-        objectiveText.text = "Reach The Cage Before It Closes";
+        BGMManager.instance.SwitchBGMFade(7);
+        audioSource.PlayOneShot(objectiveSound);
+        objectiveText.text = "Descend Deeper Into The Cave";
         GameDataHolder.objectiveId = 8;
-        GameDataHolder.pistolShrimpObjectiveTriggered = true;
+        GameDataHolder.hermitCaveObjectiveTriggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
     }
 
     public void NinthObjective()
     {
-        objectiveText.text = "Find A Way To Destroy The Biolamps";
+        objectiveText.text = "Reach The Cage Before It Closes";
         GameDataHolder.objectiveId = 9;
-        GameDataHolder.biolampsObjectivetriggered = true;
+        GameDataHolder.pistolShrimpObjectiveTriggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
     }
 
     public void TenthObjective()
     {
-        objectiveText.text = "Find Your Way Out Of The Marsh";
+        objectiveText.text = "Find A Way To Destroy The Biolamps";
         GameDataHolder.objectiveId = 10;
-        GameDataHolder.marshObjectiveTriggered = true;
+        GameDataHolder.biolampsObjectivetriggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
     }
 
     public void EleventhObjective()
     {
-        objectiveText.text = "Find A Way To Fix The Submarine";
+        objectiveText.text = "Find Your Way Out Of The Marsh";
         GameDataHolder.objectiveId = 11;
+        GameDataHolder.marshObjectiveTriggered = true;
+        StartCoroutine(FadeText(7f, objectiveText));
+    }
+
+    public void TwelfthObjective()
+    {
+        objectiveText.text = "Find A Way To Fix The Submarine";
+        GameDataHolder.objectiveId = 12;
         GameDataHolder.trenchObjectiveTriggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
     }

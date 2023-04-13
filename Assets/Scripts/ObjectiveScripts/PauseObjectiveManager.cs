@@ -30,29 +30,33 @@ public class PauseObjectiveManager : MonoBehaviour
 
         if (GameDataHolder.objectiveId == 5)
         {
-            pauseObjectiveText.text = "Defeat The Eel";
+            pauseObjectiveText.text = "Neutralize The Eel";
         }
         if(GameDataHolder.objectiveId == 6)
         {
-            pauseObjectiveText.text = "Find The Exit To The Cave";
+            pauseObjectiveText.text = "End Its Suffering";
         }
         if(GameDataHolder.objectiveId == 7)
         {
-            pauseObjectiveText.text = "Descend Into The Cave";
+            pauseObjectiveText.text = "Find The Exit To The Cave";
         }
         if(GameDataHolder.objectiveId == 8)
         {
-            pauseObjectiveText.text = "Reach The Cage Before It Closes";
+            pauseObjectiveText.text = "Descend Into The Cave";
         }
         if(GameDataHolder.objectiveId == 9)
         {
-            pauseObjectiveText.text = "Find A Way To Destroy The Biolamps";
+            pauseObjectiveText.text = "Reach The Cage Before It Closes";
         }
         if(GameDataHolder.objectiveId == 10)
         {
-            pauseObjectiveText.text = "Find Your Way Out Of The Marsh";
+            pauseObjectiveText.text = "Find A Way To Destroy The Biolamps";
         }
         if(GameDataHolder.objectiveId == 11)
+        {
+            pauseObjectiveText.text = "Find Your Way Out Of The Marsh";
+        }
+        if(GameDataHolder.objectiveId == 12)
         {
             pauseObjectiveText.text = "Find A Way To Fix The Submarine";
         }

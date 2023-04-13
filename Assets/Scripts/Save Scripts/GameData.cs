@@ -36,6 +36,7 @@ public class GameData
     public bool hintCamPlayed;
     public bool eelIsDead;
     public bool eelObjectiveTriggered;
+    public bool eelObjective2Triggered;
     public bool biolampsObjectivetriggered;
     public bool marshObjectiveTriggered;
     public bool trenchObjectiveTriggered;
@@ -66,6 +67,7 @@ public class GameData
         kelpMazeEndTriggered = false;
         labStartObjectiveTriggered = false;
         eelObjectiveTriggered = false;
+        eelObjective2Triggered = false;
         ridgeObjectiveTriggered = false;
         hermitCaveObjectiveTriggered = false;
         pistolShrimpObjectiveTriggered = false;
