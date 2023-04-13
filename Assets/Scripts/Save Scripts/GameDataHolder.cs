@@ -16,6 +16,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
     public static bool kelpMazeEndTriggered;
     public static bool labStartObjectiveTriggered;
     public static bool eelObjectiveTriggered;
+    public static bool eelObjective2Triggered;
     public static bool ridgeObjectiveTriggered;
     public static bool hermitCaveObjectiveTriggered;
     public static bool pistolShrimpObjectiveTriggered;
@@ -60,6 +61,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         kelpMazeEndTriggered = data.kelpMazeEndTriggered;
         labStartObjectiveTriggered = data.labStartObjectiveTriggered;
         eelObjectiveTriggered = data.eelObjectiveTriggered;
+        eelObjective2Triggered = data.eelObjective2Triggered;
         ridgeObjectiveTriggered = data.ridgeObjectiveTriggered;
         hermitCaveObjectiveTriggered = data.hermitCaveObjectiveTriggered;
         pistolShrimpObjectiveTriggered = data.pistolShrimpObjectiveTriggered;
@@ -110,6 +112,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         data.kelpMazeEndTriggered = kelpMazeEndTriggered;
         data.labStartObjectiveTriggered = labStartObjectiveTriggered;
         data.eelObjectiveTriggered = eelObjectiveTriggered;
+        data.eelObjective2Triggered = eelObjective2Triggered;
         data.ridgeObjectiveTriggered = ridgeObjectiveTriggered;
         data.hermitCaveObjectiveTriggered = hermitCaveObjectiveTriggered;
         data.pistolShrimpObjectiveTriggered = pistolShrimpObjectiveTriggered;

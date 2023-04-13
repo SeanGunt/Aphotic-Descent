@@ -45,6 +45,7 @@ public class fishEnemy : MonoBehaviour
     Vector3 destination;
     private State state;
     private enemyFieldOfView eFOV;
+    [SerializeField]private ObjectiveUpdateHolder objectiveUpdater;
     Vector3 lastPosition;
 
     private enum State
@@ -183,7 +184,7 @@ public class fishEnemy : MonoBehaviour
             randomTime = Random.Range(4f,9f);
         }
         
-        if (totalLength <= 10f)
+        if (totalLength <= 5f)
         {
             movingToNextPosition = false;
         }
@@ -198,7 +199,7 @@ public class fishEnemy : MonoBehaviour
 
         if (eFOV.canSeePlayer && !iM.isSafe && !playerHid && phase == 2)
         {
-            BGMManager.instance.SwitchBGM(4);
+            //BGMManager.instance.SwitchBGM(4);
             BreathingManager.instance.SwitchBreathRate(2);
             audioSource.PlayOneShot(eelSounds[3]);
             Invoke("StartAttacking", 5);
@@ -225,7 +226,10 @@ public class fishEnemy : MonoBehaviour
         {
             BreathingManager.instance.SwitchBreathRate(0);
             state = State.patrolling;
-            BGMManager.instance.SwitchBGM(3);
+            if (phase != 2)
+            {
+                BGMManager.instance.SwitchBGM(3);
+            }
             playerHid = true;
         }
     }
@@ -235,7 +239,10 @@ public class fishEnemy : MonoBehaviour
         if (!eFOV.canSeePlayer || iM.isSafe)
         {
             BreathingManager.instance.SwitchBreathRate(0);
-            BGMManager.instance.SwitchBGM(4);
+            if (phase != 2)
+            {
+                BGMManager.instance.SwitchBGM(4);
+            }
             playerHid = true;
             CancelInvoke("StartAttacking");
             state = State.patrolling;
@@ -323,6 +330,7 @@ public class fishEnemy : MonoBehaviour
         BGMManager.instance.SwitchBGMFade(13);
         animator.SetBool("isBack", false);
         phase = 2;
+        objectiveUpdater.SixthObjective();
         eelHealth = 1;
         boltOn = true;
         boltScr.isOn = true;
