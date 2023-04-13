@@ -21,7 +21,12 @@ public class ImposterBehindCorner : MonoBehaviour
         {
             imposterAnimator.SetBool("isSeen", true);
             audioSource.PlayOneShot(scaryStinger);
-            Destroy(this.gameObject, 1.5f);
+            Invoke("SetInactive", 1.5f);
         }
+    }
+
+    private void SetInactive()
+    {
+        this.gameObject.SetActive(false);
     }
 }
