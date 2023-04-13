@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5584112067988574784}
   - component: {fileID: 8849885263877463525}
   - component: {fileID: 6716534503897147695}
+  - component: {fileID: 101290321011963860}
   m_Layer: 0
   m_Name: skull_coral_autoUV (4)
   m_TagString: Untagged
@@ -83,3 +84,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &101290321011963860
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5058968429275252986}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8211372540250625004, guid: 8e51fe81930ef4e45a50c88762ae6657, type: 3}
