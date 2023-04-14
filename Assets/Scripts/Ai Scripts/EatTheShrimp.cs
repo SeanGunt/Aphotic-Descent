@@ -12,6 +12,7 @@ public class EatTheShrimp : MonoBehaviour
     NavMeshAgent hermitAgent;
 
     RigBuilder hermitRig;
+    [SerializeField] private Animator HermitCrab;
 
     void Awake()
     {
@@ -21,12 +22,14 @@ public class EatTheShrimp : MonoBehaviour
 
         hermitRig = this.gameObject.GetComponent<RigBuilder>();
         hermitRig.enabled = !hermitRig.enabled;
+        
     }
 
     private void Update()
     {
         if(isMoving)
         {
+            HermitCrab.SetBool("isMoving", true);
             hermitMove();
         }
     }
