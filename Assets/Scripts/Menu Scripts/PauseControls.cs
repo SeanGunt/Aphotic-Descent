@@ -16,11 +16,13 @@ public class PauseControls : MonoBehaviour
     GameObject Player;
     public bool paused, otherMenuActive;
     public Volume volume;
+    [SerializeField] Animator pauseAnim;
 
     void Awake()
     {
         Player = GameObject.FindWithTag("Player");
         playerInput = Player.GetComponent<PlayerInput>();
+        pauseAnim = Player.GetComponent<Animator>();
     }
     
     void Update()
@@ -36,6 +38,7 @@ public class PauseControls : MonoBehaviour
                 }
                 BGMManager.instance.Pause();
                 basicTextObj.SetActive(false);
+                StartCoroutine(PauseAnimations());
                 PauseMenu.SetActive(true);
                 EventSystem.current.SetSelectedGameObject(pauseButton);
                 gameUI.SetActive(false);
@@ -69,5 +72,11 @@ public class PauseControls : MonoBehaviour
                 }
             }
         }
+    }
+
+    IEnumerator PauseAnimations()
+    {
+        pauseAnim.SetBool("pauseArm", true);
+        yield return new WaitForSeconds(0.5f);
     }
 }
