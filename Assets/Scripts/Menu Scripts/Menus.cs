@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 public class Menus : MonoBehaviour
 {
     private GameObject Player;
+    [SerializeField] private PauseControls playerPauseControls;
     public GameObject PauseMenu;
     public GameObject SettingsMenu;
     public GameObject RebindingMenu;
@@ -26,7 +27,7 @@ public class Menus : MonoBehaviour
     {
         PauseMenu.SetActive(false);
         SettingsMenu.SetActive(true);
-        Player.GetComponent<PauseControls>().otherMenuActive = true;
+        playerPauseControls.otherMenuActive = true;
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(settingsFirstButton);
     }
@@ -52,7 +53,7 @@ public class Menus : MonoBehaviour
         gameUI.SetActive(true);
         objectiveTextObj.SetActive(true);
         playerInput.currentActionMap.Enable();
-        Player.GetComponent<PauseControls>().paused = false;
+        playerPauseControls.paused = false;
         Time.timeScale = 1;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -62,7 +63,7 @@ public class Menus : MonoBehaviour
     {
         SettingsMenu.SetActive(false);
         RebindingMenu.SetActive(true);
-        Player.GetComponent<PauseControls>().otherMenuActive = true;
+        playerPauseControls.otherMenuActive = true;
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(rebindingFirstButton);
     }
@@ -71,7 +72,7 @@ public class Menus : MonoBehaviour
     {
         SettingsMenu.SetActive(true);
         RebindingMenu.SetActive(false);
-        Player.GetComponent<PauseControls>().otherMenuActive = false;
+        playerPauseControls.otherMenuActive = false;
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(rebindingClosedButton);
     }
