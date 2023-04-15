@@ -10,7 +10,7 @@ public class PlayerSettings : MonoBehaviour
         if (PlayerPrefs.HasKey("Sensitivity") && mainCamera.activeInHierarchy)
         {
             MouseLook ml = Camera.main.GetComponent<MouseLook>();
-            ml.mouseSensitivity = PlayerPrefs.GetFloat("Sensitivity")*15;
+            ml.mouseSensitivity = PlayerPrefs.GetFloat("Sensitivity")*5;
         }
     }
 }

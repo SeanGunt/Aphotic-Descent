@@ -12,7 +12,6 @@ public class PauseControls : MonoBehaviour
     public GameObject PauseMenu, pauseButton;
     private PlayerInput playerInput;
     [SerializeField] private GameObject gameUI, objectiveText, basicTextObj;
-    [SerializeField] private Menus menuController;
     GameObject Player;
     public bool paused, otherMenuActive;
     public Volume volume;
@@ -22,7 +21,6 @@ public class PauseControls : MonoBehaviour
     {
         Player = GameObject.FindWithTag("Player");
         playerInput = Player.GetComponent<PlayerInput>();
-        pauseAnim = Player.GetComponent<Animator>();
     }
     
     void Update()
@@ -31,46 +29,56 @@ public class PauseControls : MonoBehaviour
         {
             if (playerInput.actions["Pause"].triggered && !paused && !LogPickup.logPickedUp && !Puzzle4UI.computerActivated)
             {
-                DepthOfField depthOfField;
-                if (volume.profile.TryGet<DepthOfField>(out depthOfField))
-                {
-                    depthOfField.active = true;
-                }
-                BGMManager.instance.Pause();
-                basicTextObj.SetActive(false);
-                StartCoroutine(PauseAnimations());
-                PauseMenu.SetActive(true);
-                EventSystem.current.SetSelectedGameObject(pauseButton);
-                gameUI.SetActive(false);
-                objectiveText.SetActive(false);
-                paused = true;
-                playerInput.currentActionMap.Disable();
-                playerInput.actions["Pause"].Enable();
-                Time.timeScale = 0;
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
+                //pauseAnim.SetBool("pauseArm", true);
+                Invoke("PauseTheGame", .75f);
             }
             else if ((playerInput.actions["Pause"].triggered) && paused && !LogPickup.logPickedUp && !Puzzle4UI.computerActivated)
             {
-                DepthOfField depthOfField;
-                if (volume.profile.TryGet<DepthOfField>(out depthOfField))
-                {
-                    depthOfField.active = false;
-                }
-                BGMManager.instance.EndPause();
-                EventSystem.current.SetSelectedGameObject(null);
-                gameUI.SetActive(true);
-                objectiveText.SetActive(true);
-                paused = false;
-                playerInput.currentActionMap.Enable();
-                Time.timeScale = 1;
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-                if (paused == false)
-                {
-                    PauseMenu.SetActive(false);
-                }
+                UnpauseTheGame();
             }
+        }
+    }
+
+    private void PauseTheGame()
+    {
+        DepthOfField depthOfField;
+        if (volume.profile.TryGet<DepthOfField>(out depthOfField))
+        {
+            depthOfField.active = true;
+        }
+        BGMManager.instance.Pause();
+        basicTextObj.SetActive(false);
+        PauseMenu.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(pauseButton);
+        gameUI.SetActive(false);
+        objectiveText.SetActive(false);
+        paused = true;
+        playerInput.currentActionMap.Disable();
+        playerInput.actions["Pause"].Enable();
+        Time.timeScale = 0;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    private void UnpauseTheGame()
+    {
+        DepthOfField depthOfField;
+        if (volume.profile.TryGet<DepthOfField>(out depthOfField))
+        {
+            depthOfField.active = false;
+        }
+        BGMManager.instance.EndPause();
+        EventSystem.current.SetSelectedGameObject(null);
+        gameUI.SetActive(true);
+        objectiveText.SetActive(true);
+        paused = false;
+        playerInput.currentActionMap.Enable();
+        Time.timeScale = 1;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        if (paused == false)
+        {
+            PauseMenu.SetActive(false);
         }
     }
 
