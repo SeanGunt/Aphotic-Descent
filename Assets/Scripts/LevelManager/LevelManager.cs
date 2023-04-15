@@ -89,7 +89,7 @@ public class LevelManager : MonoBehaviour
             mudMarsh.gameObject.SetActive(false);
             anglerTrench.gameObject.SetActive(true);
 
-            ChangeLighting("#084A6C","#404C6F", 0.04f, 0.05f);
+            ChangeLighting("#084A6C","#181E30", 0.04f, 0.05f);
         }
     }
 

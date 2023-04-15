@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2793731170974764763}
   - component: {fileID: 1254965151521309054}
   - component: {fileID: 3931219635566605748}
+  - component: {fileID: 7561749009317988549}
   m_Layer: 0
   m_Name: Aphotic_Platform_2_ready
   m_TagString: Untagged
@@ -84,3 +85,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7561749009317988549
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3282705343831037025}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5302568919011541938, guid: 06b662d656e69d94f8046bff1245bdcd, type: 3}
