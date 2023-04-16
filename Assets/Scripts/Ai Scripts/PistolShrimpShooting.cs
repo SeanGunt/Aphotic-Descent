@@ -47,6 +47,12 @@ public class PistolShrimpShooting : MonoBehaviour
             canUseLaser = true;
         }
 
+        if(MudMarshCutscene.instance.inMarshCutscene)
+        {
+            lineRenderer.enabled = false;
+            canUseLaser = false;
+        }
+
         Vector3 forwardVector = gunBoneTransform.rotation * Vector3.up;
         if(Physics.Raycast(this.transform.position, forwardVector, out hit, 300f, ~ignoreLayers) && canUseLaser)
         {

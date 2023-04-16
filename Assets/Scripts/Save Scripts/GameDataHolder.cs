@@ -43,6 +43,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
     public static int biolampsAlive;
     public static bool bathysphereCutscenePlayed;
     public static bool hintCamPlayed;
+    public static bool zooplanktonCutscenePlayed;
 
     public void LoadData(GameData data)
     {
@@ -81,6 +82,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
 
         bathysphereCutscenePlayed = data.bathysphereCutscenePlayed;
         hintCamPlayed = data.hintCamPlayed;
+        zooplanktonCutscenePlayed = data.zooplanktonCutscenePlayed;
 
         numOfZooplanktonCollected = data.numOfZooplanktonCollected;
 
@@ -132,6 +134,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
 
         data.bathysphereCutscenePlayed = bathysphereCutscenePlayed;
         data.hintCamPlayed = hintCamPlayed;
+        data.zooplanktonCutscenePlayed = zooplanktonCutscenePlayed;
 
         data.numOfZooplanktonCollected = numOfZooplanktonCollected;
 

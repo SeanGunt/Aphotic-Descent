@@ -55,6 +55,16 @@ public class TeleportManager : MonoBehaviour
         }
     }
 
+    public void MarshTeleport()
+    {
+        if(!activated)
+        {
+            uItext.enabled = false;
+            StartCoroutine(MarshFade(1f));
+            activated = true;
+        }
+    }
+
     private void CheckLocation()
     {
         uItext.enabled = true;
@@ -220,5 +230,37 @@ public class TeleportManager : MonoBehaviour
             fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, fadeToBlackImage.color.a - Time.deltaTime / t);
             yield return null;
         }
+    }
+
+    public IEnumerator MarshFade(float t)
+    {
+        fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, 0.0f);
+        while(fadeToBlackImage.color.a < 1.0f)
+        {
+            fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, fadeToBlackImage.color.a + Time.deltaTime / t);
+            yield return null;
+        }
+        MudMarshCutscene.instance.StartCutscene();
+        while(fadeToBlackImage.color.a >= 0.0f)
+        {
+            fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, fadeToBlackImage.color.a - Time.deltaTime / t);
+            yield return null;
+        }
+        yield return new WaitForSeconds(4f);
+        while(fadeToBlackImage.color.a < 1.0f)
+        {
+            fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, fadeToBlackImage.color.a + Time.deltaTime / t);
+            yield return null;
+        }
+        player.transform.position = teleportPosition;
+        yield return new WaitForSeconds(0.3f);
+        CheckLocation();
+        MudMarshCutscene.instance.EndCutscene();
+        while(fadeToBlackImage.color.a >= 0.0f)
+        {
+            fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, fadeToBlackImage.color.a - Time.deltaTime / t);
+            yield return null;
+        }
+        
     }
 }
