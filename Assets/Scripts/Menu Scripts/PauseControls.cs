@@ -29,7 +29,7 @@ public class PauseControls : MonoBehaviour
         {
             if (playerInput.actions["Pause"].triggered && !paused && !LogPickup.logPickedUp && !Puzzle4UI.computerActivated)
             {
-                //pauseAnim.SetBool("pauseArm", true);
+                pauseAnim.SetBool("pauseArm", true);
                 Invoke("PauseTheGame", .75f);
             }
             else if ((playerInput.actions["Pause"].triggered) && paused && !LogPickup.logPickedUp && !Puzzle4UI.computerActivated)
@@ -60,7 +60,7 @@ public class PauseControls : MonoBehaviour
         Cursor.visible = true;
     }
 
-    private void UnpauseTheGame()
+    public void UnpauseTheGame()
     {
         DepthOfField depthOfField;
         if (volume.profile.TryGet<DepthOfField>(out depthOfField))
@@ -80,6 +80,7 @@ public class PauseControls : MonoBehaviour
         {
             PauseMenu.SetActive(false);
         }
+        pauseAnim.SetBool("pauseArm", false);
     }
 
     IEnumerator PauseAnimations()
