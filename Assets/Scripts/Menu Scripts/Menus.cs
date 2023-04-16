@@ -57,6 +57,7 @@ public class Menus : MonoBehaviour
         Time.timeScale = 1;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        playerPauseControls.UnpauseTheGame();
     }
 
     public void OpenRemappingMenu()

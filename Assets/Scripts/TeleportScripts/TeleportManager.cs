@@ -261,6 +261,6 @@ public class TeleportManager : MonoBehaviour
             fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, fadeToBlackImage.color.a - Time.deltaTime / t);
             yield return null;
         }
-        
+        NonPoolingBoulders.enabledBoulders = false;
     }
 }
