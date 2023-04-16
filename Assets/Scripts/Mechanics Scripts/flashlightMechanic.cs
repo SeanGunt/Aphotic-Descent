@@ -7,7 +7,7 @@ public class flashlightMechanic : MonoBehaviour
     [SerializeField] GameObject FlashlightLight;
     [SerializeField] GameObject BlacklightLight;
     [SerializeField] private ParticleSystem womboParticle;
-    private bool particlePlayed;
+    private bool particlePlayed, chargeSoundPlayed;
     [HideInInspector] public static RaycastHit hit;
     private PlayerInput playerInput;
     [SerializeField]private Image blacklightBar, flashlightUI, emptyLight, onLight, blLight;
@@ -20,9 +20,10 @@ public class flashlightMechanic : MonoBehaviour
     public Camera mainCam;
     public LayerMask layer, eelLayer;
     private LayerMask layerToUse;
-    public AudioSource audioSource;
+    public AudioSource audioSource, flashlightAudioSource;
     public AudioClip flashlightOutOfWaterSound;
     public AudioClip flashlightInWaterSound;
+    [SerializeField] private AudioClip[] blacklightSounds;
     public AudioClip blacklightOnSound;
     private GameObject player;
     private PlayerMovement PMS;
@@ -92,9 +93,22 @@ public class flashlightMechanic : MonoBehaviour
         if (isBlacklightKeyHeld)
         {
             blacklightBar.fillAmount += blacklightChargeTime * Time.deltaTime;
+            if (!chargeSoundPlayed)
+            {
+                float timeToPlay = blacklightBar.fillAmount * 2;
+                flashlightAudioSource.time = timeToPlay;
+                flashlightAudioSource.clip = blacklightSounds[0];
+                flashlightAudioSource.Play();
+            }
+            chargeSoundPlayed = true;
         }
         else
         {
+            chargeSoundPlayed = false;
+            if (blacklightBar.fillAmount >= 0.01)
+            {
+                flashlightAudioSource.Stop();
+            }
             blacklightBar.fillAmount -= blacklightChargeTime * Time.deltaTime;
         }
 
@@ -106,11 +120,13 @@ public class flashlightMechanic : MonoBehaviour
 
     private void HandleBlacklightOn()
     {
+        chargeSoundPlayed = false;
         blLight.gameObject.SetActive(true);
         onLight.gameObject.SetActive(false);
         if (!particlePlayed)
         {
             womboParticle.Play();
+            flashlightAudioSource.PlayOneShot(blacklightSounds[1]);
             particlePlayed = true;
         }
         BlacklightReveal();
