@@ -36,6 +36,7 @@ public class fishEnemy : MonoBehaviour
     private bool eelDead = false;
     private AudioSource audioSource;
     [SerializeField] private AudioClip[] eelSounds;
+    [SerializeField] private AudioClip eelStinger;
     private float beginningTime;
     private float totalLength;
     private float randomTime;
@@ -452,6 +453,7 @@ public class fishEnemy : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
+            audioSource.PlayOneShot(eelStinger);
             state = State.killedPlayer;
             BreathingManager.instance.StopBreathe();
             audioSource.PlayOneShot(eelSounds[0]);

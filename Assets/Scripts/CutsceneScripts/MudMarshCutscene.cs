@@ -37,5 +37,6 @@ public class MudMarshCutscene : MonoBehaviour
     {
         caveCollapseCamera.SetActive(false);
         zooplanktonCutscene.SetActive(true);
+        BGMManager.instance.SwitchBGMFade(15);
     }
 }

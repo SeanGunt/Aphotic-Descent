@@ -5,6 +5,7 @@ using UnityEngine;
 public class DestroyOnCollision : MonoBehaviour
 {   
   public AudioClip[] kelpDestructionNoises;
+  public AudioClip ropeCutSound;
   public AudioSource audioSource;
   public GameObject shatteredBox;
   public GameObject shatteredBoxInWater;
@@ -34,10 +35,11 @@ public class DestroyOnCollision : MonoBehaviour
 
     if (other.gameObject.tag == "Rope")
     {
+      audioSource.PlayOneShot(ropeCutSound);
       Rigidbody ropeRB = other.GetComponentInParent<Rigidbody>();
       ropeRB.useGravity = true;
       ropeRB.isKinematic = false;
-      Destroy(other.gameObject);
+      other.gameObject.SetActive(false);
     }
   }
 }

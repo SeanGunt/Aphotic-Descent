@@ -7,15 +7,17 @@ public class SuitChange : MonoBehaviour
 {
 
     [SerializeField] SkinnedMeshRenderer normalSuit;
+    private bool meshChanged = false;
     [SerializeField] Mesh eelSuit;
     [SerializeField] private Material[] eelMat;
 
 
     void Update()
     {
-        if (GameDataHolder.hasUpgradedSuit)
+        if (GameDataHolder.hasUpgradedSuit && !meshChanged)
         {
             ChangeMesh();
+            meshChanged = true;
         }
     }
 

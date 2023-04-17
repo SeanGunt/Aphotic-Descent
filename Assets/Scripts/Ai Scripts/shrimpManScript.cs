@@ -5,6 +5,8 @@ using UnityEngine.AI;
 public class shrimpManScript : MonoBehaviour
 {
     public NavMeshAgent shrimpAgent;
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip shrimpManStinger;
     [SerializeField] public float agentSpeed;
     [SerializeField] private float detectionRange;
     [SerializeField] private float rangeForBleedMultiplier;
@@ -32,6 +34,7 @@ public class shrimpManScript : MonoBehaviour
 
     void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         shrimpAgent = GetComponent<NavMeshAgent>();
         shrimpAgent.speed = agentSpeed;
         shrimpAgent.updateRotation = true;
@@ -119,7 +122,7 @@ public class shrimpManScript : MonoBehaviour
 
         canGoUnderMud = true;
 
-        if(playerDistance < rangeUsed*rangeUsed && !invisibilityMechanic.isSafe)
+        if(playerDistance < rangeUsed*rangeUsed && !invisibilityMechanic.isInvisible)
         {
             shrimpMesh.transform.position = this.transform.position;
             shrimpAgent.speed = agentSpeed;
@@ -136,7 +139,7 @@ public class shrimpManScript : MonoBehaviour
         currentlyAttacking = true;
         canGoUnderMud = false;
 
-        if(invisibilityMechanic.isSafe)
+        if(invisibilityMechanic.isInvisible)
         {
             state = State.patrolling;
             BreathingManager.instance.SwitchBreathRate(0);
@@ -159,6 +162,7 @@ public class shrimpManScript : MonoBehaviour
     {
         if (other.gameObject.tag == "Player" && !invisibilityMechanic.isSafe)
         {
+            audioSource.PlayOneShot(shrimpManStinger);
             shrimpAgent.speed = 0;
             BreathingManager.instance.StopBreathe();
             playerDiver.SetActive(false);
