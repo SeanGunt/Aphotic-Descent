@@ -16,10 +16,9 @@ public class anglerAi : MonoBehaviour
     [SerializeField] private float kbKnifeForceMultiplier; //how hard will angler be knocked back by knife?
     [SerializeField] private float attackCountDown;
     [SerializeField] private float aoeDamageAmount; //how much will the player's health be subtracted by?
-    [SerializeField] private GameObject aoeObject;
+    [SerializeField] private GameObject lightObjectPoint;
     public float anglerAttackRange;
     private float resetCountDown;
-    private GameObject lightObjectPoint;
     public NavMeshAgent anglerAgent;
     private float resetForce;
     private float resetAnglerRange;
@@ -65,8 +64,9 @@ public class anglerAi : MonoBehaviour
         anglerSpeed = anglerAgent.speed;
         resetAnglerRange = anglerRange;
 
-        lightObjectPoint = GameObject.Find("anglerLightObjectPoint");
+        //lightObjectPoint = GameObject.Find("anglerLightObjectPoint");
         resetCountDown = attackCountDown;
+        lightObjectPoint.SetActive(false);
 
         blKb.knockbackForce = kbBlacklightForce;
         resetForce = kbBlacklightForce;
@@ -77,7 +77,7 @@ public class anglerAi : MonoBehaviour
 
     void Update()
     {
-        distBtwn = Vector3.Distance(player.transform.position, transform.position);
+        distBtwn = Vector3.Distance(player.transform.position, lightObjectPoint.transform.position);
         
         if(isAlive == false)
         {
@@ -173,6 +173,8 @@ public class anglerAi : MonoBehaviour
                 aoeAttackActivated = false;
                 anglerAgent.ResetPath();
                 state = State.anglerPatrolling;
+                lightObjectPoint.SetActive(false);
+                
             }
         }
         else
@@ -203,34 +205,14 @@ public class anglerAi : MonoBehaviour
         }
     }
 
-    /*
-    //for when the player hits the lure diver with a knife, a far riskier play than that of the blacklight
-    void OnTriggerEnter(Collider other)
-    {
-        if(isAlive)
-        {    
-            if(other.gameObject.tag == "Knife")
-            {
-                blKb.knockbackForce = blKb.knockbackForce * kbKnifeForceMultiplier;
-                blKb.knockingBack();
-                blKb.knockbackForce = resetForce;
-            }
-        }
-        else
-        {
-            state = State.anglerDead;
-        }
-    }
-    */
-
     void attackPlayer()
     {
         if(aoeAttackActivated && (isStunned == false))
         {
+            lightObjectPoint.SetActive(true);
             attackCountDown -= Time.deltaTime;
             if(attackCountDown <= 0)
             {
-                aoeObject.SetActive(true);
                 pHelCon.ChangeHealth((aoeDamageAmount)*-1.0f);
                 pHelCon.TakeDamage();
                 attackCountDown = resetCountDown;
@@ -239,13 +221,13 @@ public class anglerAi : MonoBehaviour
         else
         {
             attackCountDown = resetCountDown;
-            aoeObject.SetActive(false);
+            lightObjectPoint.SetActive(false);
         }
     }
 
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, anglerAttackRange);
+        Gizmos.DrawWireSphere(lightObjectPoint.transform.position, anglerAttackRange);
     }
 }
