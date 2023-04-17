@@ -8,6 +8,8 @@ public class ZooplanktonCutscene : MonoBehaviour
     private PlayerMovement playerMovement;
     private GameObject player;
     [SerializeField] private GameObject playerVisual;
+    [SerializeField] private InvisSuitActivation invisSuitActivation;
+    private InvisibilityMechanic invisibilityMechanic;
     [SerializeField] private GameObject mainCamera;
     [SerializeField] private GameObject zooplanktonCamera;
     [SerializeField] private GameObject hud;
@@ -19,6 +21,7 @@ public class ZooplanktonCutscene : MonoBehaviour
     {
         renderersToDisable = GetComponentsInChildren<SkinnedMeshRenderer>();
         player = GameObject.FindGameObjectWithTag("Player");
+        invisibilityMechanic = player.GetComponent<InvisibilityMechanic>();
         playerMovement = player.GetComponent<PlayerMovement>();
     }
     public void EndCutscene()
@@ -47,7 +50,9 @@ public class ZooplanktonCutscene : MonoBehaviour
             fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, fadeToBlackImage.color.a - Time.deltaTime / t);
             yield return null;
         }
+        BGMManager.instance.SwitchBGMFade(14);
         GameDataHolder.zooplanktonCutscenePlayed = true;
+        invisSuitActivation.UpgradeSuit(invisibilityMechanic);
         playerMovement.enabled = true;
         zooplanktonCutscene.SetActive(false);
     }

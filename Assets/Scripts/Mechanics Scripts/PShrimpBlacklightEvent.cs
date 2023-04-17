@@ -10,11 +10,16 @@ public class PShrimpBlacklightEvent : MonoBehaviour
     [SerializeField] private Material lilGuyMaterial;
     [SerializeField] private Light glowLight;
     [SerializeField] private MeshRenderer lilGuyRenderer;
+    private MeshRenderer lampRenderer;
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip lampBreaking;
     [HideInInspector] public bool markedForDeletion, canBeBlacklighted;
     private GameObject player;
 
     private void Awake()
     {
+        audioSource = this.GetComponent<AudioSource>();
+        lampRenderer = GetComponent<MeshRenderer>();
         player = GameObject.FindGameObjectWithTag("Player");
     }
     public void MarkForDeletion()
@@ -35,10 +40,11 @@ public class PShrimpBlacklightEvent : MonoBehaviour
     public void Delete()
     {
         GameDataHolder.biolampsAlive -= 1;
+        audioSource.PlayOneShot(lampBreaking);
         lilGuyRenderer.material = lilGuyMaterial;
         glowLight.color = new Color(0.6641f, 1f, 0.9769f, 1f);
         pistolShrimpAI.SetSelectedTarget(player.transform);
         pistolShrimpAI.SwitchTarget(0,1);
-        Destroy(this.gameObject);
+        lampRenderer.enabled = false;
     }
 }
