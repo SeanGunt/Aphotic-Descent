@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1557691117445193263}
   - component: {fileID: 2463992656755495306}
   - component: {fileID: 420289478570403136}
+  - component: {fileID: 5433135517028719664}
   m_Layer: 0
   m_Name: VFbroke2
   m_TagString: Untagged
@@ -87,3 +88,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5433135517028719664
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2221918926934787221}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4732937762076777578, guid: c5088903e59cd284399d8888ca626b94, type: 3}
