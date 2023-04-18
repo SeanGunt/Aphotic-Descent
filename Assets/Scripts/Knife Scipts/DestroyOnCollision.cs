@@ -41,5 +41,10 @@ public class DestroyOnCollision : MonoBehaviour
       ropeRB.isKinematic = false;
       other.gameObject.SetActive(false);
     }
+
+    if (other.gameObject.tag == "Bones")
+    {
+      Destroy(other.gameObject);
+    }
   }
 }
