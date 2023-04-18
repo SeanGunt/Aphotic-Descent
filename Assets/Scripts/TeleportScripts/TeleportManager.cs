@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TeleportManager : MonoBehaviour
 {
@@ -61,6 +62,16 @@ public class TeleportManager : MonoBehaviour
         {
             uItext.enabled = false;
             StartCoroutine(MarshFade(1f));
+            activated = true;
+        }
+    }
+
+    public void TrenchTeleport()
+    {
+        if(!activated)
+        {
+            uItext.enabled = false;
+            StartCoroutine(TrenchFade(1f));
             activated = true;
         }
     }
@@ -262,5 +273,22 @@ public class TeleportManager : MonoBehaviour
             yield return null;
         }
         NonPoolingBoulders.enabledBoulders = false;
+    }
+
+    public IEnumerator TrenchFade(float t)
+    {
+        fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, 0.0f);
+        while(fadeToBlackImage.color.a < 1.0f)
+        {
+            fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, fadeToBlackImage.color.a + Time.deltaTime / t);
+            yield return null;
+        }
+        player.transform.position = teleportPosition;
+        yield return new WaitForSeconds(0.1f);
+        CheckLocation();
+        yield return new WaitForSeconds(0.1f);
+        DataPersistenceManager.instance.SaveGame();
+        yield return new WaitForSeconds(0.3f);
+        SceneManager.LoadScene("ShrimpLove");
     }
 }

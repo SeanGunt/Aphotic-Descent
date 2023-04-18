@@ -9,7 +9,7 @@ public class AnglerEncounter : MonoBehaviour
     [SerializeField]private ClearUIText clearUIText;
     [SerializeField]private AudioSource audioSource;
     [SerializeField]private AudioClip pickupSound;
-
+    
     public void IncreaseSubParts()
     {
         GameDataHolder.subParts++;
@@ -48,6 +48,7 @@ public class AnglerEncounter : MonoBehaviour
 
     private void EndEncounter()
     {
-        SceneManager.LoadScene(4);
+        SceneManager.LoadScene(6);
+        
     }
 }

@@ -185,7 +185,7 @@ public class fishEnemy : MonoBehaviour
             randomTime = Random.Range(4f,9f);
         }
         
-        if (totalLength <= 5f)
+        if (totalLength <= 7.5f)
         {
             movingToNextPosition = false;
         }
