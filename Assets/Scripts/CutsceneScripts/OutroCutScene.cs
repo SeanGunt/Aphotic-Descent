@@ -8,13 +8,14 @@ using UnityEngine.SceneManagement;
 public class OutroCutScene : MonoBehaviour
 {
     private VideoPlayer videoPlayer;
-    float videoLength = 62f;
+    [SerializeField]private ASyncLoader sceneLoader;
+    double videoLength = 62f;
     bool hasStarted;
 
     private void Awake()
     {
         videoPlayer = GetComponent<VideoPlayer>();
-        videoLength = 62f;
+        videoLength = videoPlayer.length;
     }
 
     private void Update()
@@ -23,18 +24,21 @@ public class OutroCutScene : MonoBehaviour
         if (videoLength < 0)
         {
             Time.timeScale = 1f;
-            SceneManager.LoadScene("VerticalSlice");
+            //SceneManager.LoadScene("VerticalSlice");
+            sceneLoader.LoadLevelBtn("VerticalSlice");
         }
 
         if((Keyboard.current.anyKey.isPressed || Mouse.current.leftButton.isPressed || Mouse.current.rightButton.isPressed) && videoLength < 58f)
         {
             Time.timeScale = 1f;
-            SceneManager.LoadScene("VerticalSlice");
+            //SceneManager.LoadScene("VerticalSlice");
+            sceneLoader.LoadLevelBtn("VerticalSlice");
         }
         else if (Gamepad.current != null && (Gamepad.current.aButton.isPressed || Gamepad.current.startButton.isPressed))
         {
             Time.timeScale = 1f;
-            SceneManager.LoadScene("VerticalSlice");
+            //SceneManager.LoadScene("VerticalSlice");
+            sceneLoader.LoadLevelBtn("VerticalSlice");
         }
     }
 }
