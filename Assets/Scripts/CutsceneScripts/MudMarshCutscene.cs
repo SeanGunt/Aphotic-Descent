@@ -13,6 +13,9 @@ public class MudMarshCutscene : MonoBehaviour
     [SerializeField] private GameObject hud;
     [SerializeField] private GameObject cutsceneObj;
     [SerializeField] private GameObject zooplanktonCutscene;
+    private flashlightMechanic flashlightmechanic;
+    private WeaponController weaponController;
+    [SerializeField] private GameObject flashlightLight;
     [HideInInspector] public bool inMarshCutscene;
 
     private void Awake()
@@ -20,6 +23,8 @@ public class MudMarshCutscene : MonoBehaviour
         instance = this;
         player = GameObject.FindGameObjectWithTag("Player");
         playerMovement = player.GetComponent<PlayerMovement>();
+        flashlightmechanic = player.GetComponent<flashlightMechanic>();
+        weaponController = player.GetComponent<WeaponController>();
     }
 
     public void StartCutscene()
@@ -28,6 +33,9 @@ public class MudMarshCutscene : MonoBehaviour
         hud.SetActive(false);
         cutsceneObj.SetActive(true);
         playerMovement.enabled = false;
+        flashlightmechanic.enabled = false;
+        flashlightLight.SetActive(false);
+        weaponController.enabled = false;
         playerVisual.SetActive(false);
         mainCamera.SetActive(false);
         caveCollapseCamera.SetActive(true);

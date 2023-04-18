@@ -160,7 +160,7 @@ public class shrimpManScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player" && !invisibilityMechanic.isSafe)
+        if (other.gameObject.tag == "Player" && !invisibilityMechanic.isInvisible)
         {
             audioSource.PlayOneShot(shrimpManStinger);
             shrimpAgent.speed = 0;

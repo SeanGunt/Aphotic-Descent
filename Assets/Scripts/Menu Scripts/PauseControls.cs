@@ -11,7 +11,7 @@ public class PauseControls : MonoBehaviour
 {
     public GameObject PauseMenu, pauseButton;
     private PlayerInput playerInput;
-    [SerializeField] private GameObject gameUI, objectiveText, basicTextObj;
+    [SerializeField] private GameObject gameUI, objectiveText, basicTextObj, fadeToBlackImage;
     GameObject Player;
     public bool paused, otherMenuActive;
     public Volume volume;
@@ -46,6 +46,7 @@ public class PauseControls : MonoBehaviour
         {
             depthOfField.active = true;
         }
+        fadeToBlackImage.SetActive(false);
         BGMManager.instance.Pause();
         basicTextObj.SetActive(false);
         PauseMenu.SetActive(true);
@@ -67,6 +68,7 @@ public class PauseControls : MonoBehaviour
         {
             depthOfField.active = false;
         }
+        fadeToBlackImage.SetActive(true);
         BGMManager.instance.EndPause();
         EventSystem.current.SetSelectedGameObject(null);
         gameUI.SetActive(true);

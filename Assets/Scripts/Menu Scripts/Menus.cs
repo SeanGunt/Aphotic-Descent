@@ -14,7 +14,8 @@ public class Menus : MonoBehaviour
     public GameObject RebindingMenu;
     private PlayerInput playerInput;
     public Volume volume;
-    [SerializeField] private GameObject gameUI, settingsFirstButton, settingsClosedButton, objectiveTextObj, rebindingFirstButton, rebindingClosedButton, overlay1, overlay2, overlay3, overlay4, overlay5, overlay6;
+    [SerializeField] private GameObject gameUI, settingsFirstButton, settingsClosedButton, objectiveTextObj, rebindingFirstButton, 
+    rebindingClosedButton, overlay1, overlay2, overlay3, overlay4, overlay5, overlay6, fadeToBlackImage;
     
 
     private void Awake()
@@ -48,6 +49,7 @@ public class Menus : MonoBehaviour
         {
             depthOfField.active = false;
         }
+        fadeToBlackImage.SetActive(true);
         BGMManager.instance.EndPause();
         PauseMenu.SetActive(false);
         gameUI.SetActive(true);

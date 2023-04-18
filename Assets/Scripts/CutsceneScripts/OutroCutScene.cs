@@ -10,12 +10,15 @@ public class OutroCutScene : MonoBehaviour
     private VideoPlayer videoPlayer;
     [SerializeField]private ASyncLoader sceneLoader;
     double videoLength = 62f;
+    double lengthTillSkip;
     bool hasStarted;
 
     private void Awake()
     {
         videoPlayer = GetComponent<VideoPlayer>();
         videoLength = videoPlayer.length;
+        lengthTillSkip = videoLength - 3f;
+        
     }
 
     private void Update()
@@ -28,7 +31,7 @@ public class OutroCutScene : MonoBehaviour
             sceneLoader.LoadLevelBtn("VerticalSlice");
         }
 
-        if((Keyboard.current.anyKey.isPressed || Mouse.current.leftButton.isPressed || Mouse.current.rightButton.isPressed) && videoLength < 58f)
+        if((Keyboard.current.anyKey.isPressed || Mouse.current.leftButton.isPressed || Mouse.current.rightButton.isPressed) && videoLength < lengthTillSkip)
         {
             Time.timeScale = 1f;
             //SceneManager.LoadScene("VerticalSlice");

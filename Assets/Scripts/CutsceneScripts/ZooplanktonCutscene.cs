@@ -9,6 +9,9 @@ public class ZooplanktonCutscene : MonoBehaviour
     private GameObject player;
     [SerializeField] private GameObject playerVisual;
     [SerializeField] private InvisSuitActivation invisSuitActivation;
+    private flashlightMechanic flashlightmechanic;
+    private WeaponController weaponController;
+    [SerializeField] private GameObject flashlightLight;
     private InvisibilityMechanic invisibilityMechanic;
     [SerializeField] private GameObject mainCamera;
     [SerializeField] private GameObject zooplanktonCamera;
@@ -21,6 +24,8 @@ public class ZooplanktonCutscene : MonoBehaviour
     {
         renderersToDisable = GetComponentsInChildren<SkinnedMeshRenderer>();
         player = GameObject.FindGameObjectWithTag("Player");
+        flashlightmechanic = player.GetComponent<flashlightMechanic>();
+        weaponController = player.GetComponent<WeaponController>(); 
         invisibilityMechanic = player.GetComponent<InvisibilityMechanic>();
         playerMovement = player.GetComponent<PlayerMovement>();
     }
@@ -41,6 +46,9 @@ public class ZooplanktonCutscene : MonoBehaviour
         zooplanktonCamera.SetActive(false);
         hud.SetActive(true);
         mainCamera.SetActive(true);
+        flashlightmechanic.enabled = true;
+        flashlightLight.SetActive(true);
+        weaponController.enabled = true;
         foreach(SkinnedMeshRenderer rendererToDisable in renderersToDisable)
         {
             rendererToDisable.enabled = false;

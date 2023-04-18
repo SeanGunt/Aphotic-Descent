@@ -11,6 +11,9 @@ public class FFCutscene : MonoBehaviour
     [SerializeField] private GameObject freakFishCutsene;
     [SerializeField] private GameObject mainCamera;
     [SerializeField] private GameObject hud;
+    private flashlightMechanic flashlightmechanic;
+    private WeaponController weaponController;
+    [SerializeField] private GameObject flashlightLight;
     private PlayerMovement playerMovement;
     private ffScr freakFishScript;
     private void Awake()
@@ -18,12 +21,17 @@ public class FFCutscene : MonoBehaviour
         instance = this;
         player = GameObject.FindGameObjectWithTag("Player");
         playerMovement = player.GetComponent<PlayerMovement>();
+        flashlightmechanic = player.GetComponent<flashlightMechanic>();
+        weaponController = player.GetComponent<WeaponController>();
         freakFishScript = freakFish.GetComponent<ffScr>();
     }
 
     public void StartCutscene()
     {
         playerVisual.SetActive(false);
+        flashlightmechanic.enabled = false;
+        flashlightLight.SetActive(false);
+        weaponController.enabled = false;
         playerMovement.enabled = false;
         freakFishScript.enabled = false;
         hud.SetActive(false);
@@ -34,6 +42,9 @@ public class FFCutscene : MonoBehaviour
     public void EndCutscene()
     {
         playerVisual.SetActive(true);
+        flashlightmechanic.enabled = true;
+        flashlightLight.SetActive(true);
+        weaponController.enabled = true;
         playerMovement.enabled = true;
         freakFishScript.enabled = true;
         mainCamera.SetActive(true);

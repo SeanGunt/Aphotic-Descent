@@ -9,6 +9,9 @@ public class BathysphereCutscene : MonoBehaviour
     [SerializeField] private Camera bathysphereCam;
     private AudioListener bathysphereListener;
     [SerializeField] PlayerMovement playerMovement;
+    private flashlightMechanic flashlightmechanic;
+    private WeaponController weaponController;
+    private GameObject player;
     [SerializeField] private GameObject mainCamera;
     [SerializeField] private Image fadeToBlackImage;
     private MeshRenderer[] bathysphereRenderers;
@@ -18,6 +21,9 @@ public class BathysphereCutscene : MonoBehaviour
 
     private void Awake()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+        flashlightmechanic = player.GetComponent<flashlightMechanic>();
+        weaponController = player.GetComponent<WeaponController>();
         bathysphereRenderers = GetComponentsInChildren<MeshRenderer>();
         audioSource = GetComponent<AudioSource>();
         audioSource.PlayOneShot(bathosphereAudio);
@@ -57,6 +63,8 @@ public class BathysphereCutscene : MonoBehaviour
 
         playerMovement.inCutscene = false;
         GameDataHolder.bathysphereCutscenePlayed = true;
+        flashlightmechanic.enabled = true;
+        weaponController.enabled = true;
         bathysphereCutscene.SetActive(false);
     }
 }

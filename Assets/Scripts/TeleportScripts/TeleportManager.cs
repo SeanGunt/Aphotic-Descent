@@ -11,6 +11,8 @@ public class TeleportManager : MonoBehaviour
     private UItext uItext;
     [SerializeField] private Vector3 teleportPosition;
     private PlayerMovement playerMovement;
+    private flashlightMechanic flashlightmechanic;
+    private WeaponController weaponController;
     private GameObject mainCamera;
     [SerializeField] private Image fadeToBlackImage;
     [SerializeField] private int teleportNumber;
@@ -21,6 +23,8 @@ public class TeleportManager : MonoBehaviour
         activated = false;
         player = GameObject.FindGameObjectWithTag("Player");
         fogCube = GameObject.FindGameObjectWithTag("FogCube");
+        flashlightmechanic = player.GetComponent<flashlightMechanic>();
+        weaponController = player.GetComponent<WeaponController>();
         playerMovement = player.GetComponent<PlayerMovement>();
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         uItext = this.GetComponent<UItext>();
@@ -116,6 +120,8 @@ public class TeleportManager : MonoBehaviour
         GameDataHolder.inLab = false;
         GameDataHolder.inEelCave = false;
         playerMovement.inCutscene = true;
+        flashlightmechanic.enabled = false;
+        weaponController.enabled = false;
         mainCamera.SetActive(false);
         BGMManager.instance.StopMusic();
     }

@@ -11,17 +11,23 @@ public class SMLCutscene : MonoBehaviour
     [SerializeField] private GameObject hud;
     [SerializeField] private AudioClip shrimpShot, glassShatter, scareSound;
     [SerializeField] private AudioSource audioSource;
+    private flashlightMechanic flashlightmechanic;
+    private WeaponController weaponController;
     private PlayerMovement playerMovement;
 
     private void Awake()
     {
         instance = this;
         player = GameObject.FindGameObjectWithTag("Player");
+        flashlightmechanic = player.GetComponent<flashlightMechanic>();
+        weaponController = player.GetComponent<WeaponController>();     
         playerMovement = player.GetComponent<PlayerMovement>();
     }
 
     public void StartCutscene()
     {
+        flashlightmechanic.enabled = false;
+        weaponController.enabled = false;
         playerMovement.enabled = false;
         hud.SetActive(false);
         mainCamera.SetActive(false);
@@ -31,6 +37,8 @@ public class SMLCutscene : MonoBehaviour
     public void EndCutscene()
     {
         playerMovement.enabled = true;
+        flashlightmechanic.enabled = true;
+        weaponController.enabled = true;    
         mainCamera.SetActive(true);
         hud.SetActive(true);
         sManLabCutscene.SetActive(false);
