@@ -7,7 +7,7 @@ public class Zooplankton : MonoBehaviour, IDataPersistence
 {   [SerializeField] private AudioClip pickupSound;
     [SerializeField] private GameObject basicTextObj;
     private Text basicText;
-    private string zooplanktonCollectedText = "Zooplankton Collected! Added to Inventory";
+    private string zooplanktonCollectedText = "Zooplankton Collected! Stamina Regeneration Slightly Increased! Added to Inventory";
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private string id;
     [SerializeField] private bool collected;

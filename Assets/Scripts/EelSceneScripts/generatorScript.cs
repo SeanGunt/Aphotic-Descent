@@ -42,6 +42,7 @@ public class generatorScript : MonoBehaviour
             if(genHealth <= 0)
             {
                 audioSource.PlayOneShot(explosionSound);
+                ScreenShakeManager.instance.StartCameraShake(1f, 3f);
                 StartCoroutine("StopGenSounds");
                 electricity.SetActive(false);
                 Debug.Log("generator broke");

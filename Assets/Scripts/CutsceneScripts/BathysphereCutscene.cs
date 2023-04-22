@@ -14,6 +14,7 @@ public class BathysphereCutscene : MonoBehaviour
     private GameObject player;
     [SerializeField] private GameObject mainCamera;
     [SerializeField] private Image fadeToBlackImage;
+    [SerializeField] private GameObject dumbyPlayer;
     private MeshRenderer[] bathysphereRenderers;
     [SerializeField] private SkinnedMeshRenderer mantaRenderer;
     [SerializeField] private AudioClip bathosphereAudio;
@@ -45,6 +46,7 @@ public class BathysphereCutscene : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         bathysphereCam.enabled = false;
+        dumbyPlayer.SetActive(false);
         bathysphereListener = bathysphereCutscene.GetComponentInChildren<AudioListener>();
         bathysphereListener.enabled = false;
         foreach(MeshRenderer bathysphereRenderer in bathysphereRenderers)
