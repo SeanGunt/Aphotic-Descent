@@ -31,7 +31,7 @@ public class FlashlightTutorial : MonoBehaviour
         else if(other.gameObject.tag == "Player" && GameDataHolder.flashlightHasBeenPickedUp)
         {
             flashlightTextObj.SetActive(true);
-            flashlightText.text = "F to use flashlight, R to enable the blacklight while the flashlight is on";
+            flashlightText.text = "F to enable/disable flashlight, Hold R to enable the blacklight while the flashlight is on";
         }
     }
 

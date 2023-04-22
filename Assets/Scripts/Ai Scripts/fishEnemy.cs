@@ -10,7 +10,6 @@ public class fishEnemy : MonoBehaviour
     public float patrolSpeed = 2.0F;
     public float chaseSpeed2 = 12.5f;
     public float patrolSpeed2 = .8f;
-    private bool canBeBlacklighted;
     [SerializeField]private GameObject playerDiver, player, playerHead, mainCam, jumpscareCam, deathObject, deathCube, barnacleHolder, deadEel;
     [SerializeField]private GameObject[] barnacles;
     [SerializeField]private float currentScale, maxScale, trackingCooldown, stunTime;
@@ -334,7 +333,6 @@ public class fishEnemy : MonoBehaviour
             col = barnacle.GetComponent<MeshCollider>();
             col.enabled = true;
         }
-        canBeBlacklighted = true;
         BGMManager.instance.SwitchBGMFade(13);
         animator.SetBool("isBack", false);
         phase = 2;
