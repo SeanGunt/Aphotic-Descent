@@ -15,6 +15,12 @@ public class SonarPulse : MonoBehaviour
 
     private List<Collider> collidersHit;
 
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+        pulseTransform.localScale = new Vector3(1, 1);
+    }
+    
     private void Awake()
     {
         rangeMax = 11.5f;
