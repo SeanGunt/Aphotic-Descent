@@ -15,6 +15,9 @@ public class blacklightKnockback : MonoBehaviour
     private float stopTime;
     private float resetTime;
     private bool stopped = false;
+    [SerializeField] Animator anglerAnimator;
+    [SerializeField] private AudioSource anglerHurtSource;
+    [SerializeField] private AudioClip anglerHurt;
 
     enum State
     {
@@ -44,8 +47,10 @@ public class blacklightKnockback : MonoBehaviour
             //rb.AddForce(cam.transform.forward * knockbackForce, ForceMode.Impulse);
             state = State.beingKnockedBack;
             StartCoroutine("ResetKnockBack", 0.5f);
+            anglerAnimator.SetBool("knockedBack", true);
+            anglerHurtSource.PlayOneShot(anglerHurt);
 
-            if(anglerFishAttached && !stopped)
+            if (anglerFishAttached && !stopped)
             {
                 stopped = true;
                 angScr.anglerAgent.speed = 0;
@@ -58,6 +63,7 @@ public class blacklightKnockback : MonoBehaviour
     private void Normal()
     {
         rb.isKinematic = true;
+        anglerAnimator.SetBool("knockedBack", false);
     }
 
     private void BeingKnockedBack()

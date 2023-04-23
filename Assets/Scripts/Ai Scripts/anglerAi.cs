@@ -17,6 +17,9 @@ public class anglerAi : MonoBehaviour
     [SerializeField] private float attackCountDown;
     [SerializeField] private float aoeDamageAmount; //how much will the player's health be subtracted by?
     [SerializeField] private GameObject lightObjectPoint;
+    [SerializeField] Animator anglerAnimator;
+    [SerializeField] private AudioClip anglerAoeSound;
+    [SerializeField] private AudioSource anglerAudio;
     public float anglerAttackRange;
     private float resetCountDown;
     public NavMeshAgent anglerAgent;
@@ -32,7 +35,7 @@ public class anglerAi : MonoBehaviour
     public float investTimer;
     private float resetInvestTimer;
     private bool aoeAttackActivated = false;
-    private Animation animaTor;
+    //private Animation animaTor;
     [HideInInspector] public float anglerSpeed;
     [HideInInspector] public PlayerHealthController pHelCon;
     [HideInInspector] public bool isStunned = false;
@@ -59,7 +62,7 @@ public class anglerAi : MonoBehaviour
         eFovScr1 = GetComponent<enemyFieldOfView>();
         eFovScr2 = GameObject.Find("angLureTrigger").GetComponent<enemyFieldOfView>();
 
-        animaTor = this.GetComponent<Animation>();
+        //animaTor = this.GetComponent<Animation>();
         
         anglerSpeed = anglerAgent.speed;
         resetAnglerRange = anglerRange;
@@ -160,8 +163,9 @@ public class anglerAi : MonoBehaviour
             {
                 unchosen = false;
                 anglerAgent.destination = player.transform.position;
+                anglerAnimator.SetBool("doingAOE", false);
 
-                if(distBtwn <= anglerAttackRange)
+                if (distBtwn <= anglerAttackRange)
                 {
                     aoeAttackActivated = true;
                     attackPlayer();
@@ -210,6 +214,8 @@ public class anglerAi : MonoBehaviour
         if(aoeAttackActivated && (isStunned == false))
         {
             lightObjectPoint.SetActive(true);
+            anglerAnimator.SetBool("doingAOE", true);
+            anglerAudio.PlayOneShot(anglerAoeSound);
             attackCountDown -= Time.deltaTime;
             if(attackCountDown <= 0)
             {
