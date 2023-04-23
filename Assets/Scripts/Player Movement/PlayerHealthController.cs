@@ -10,7 +10,7 @@ public class PlayerHealthController : MonoBehaviour
     [SerializeField]private Image redSplatterImage = null;
     [SerializeField]private bool isInvincible, startCooldown, canRegen;
     public bool isBleeding, gameOver;
-    [SerializeField]private GameObject gameOverMenu;
+    [SerializeField]private GameObject gameOverMenu, sonarItself, disruptedSonar;
     public AudioSource audioSource;
     public AudioClip hitSound;
 
@@ -80,10 +80,25 @@ public class PlayerHealthController : MonoBehaviour
             int randomHitSound = Random.Range(0,2);
             audioSource.PlayOneShot(hitSound);
             canRegen = false;
+            DisruptSonar();
             UpdateHealth();
             healCooldown = maxHealCooldown;
             startCooldown = true;
         }
+    }
+
+    private void DisruptSonar()
+    {
+        CancelInvoke("RestoreSonar");
+        sonarItself.gameObject.SetActive(false);
+        disruptedSonar.gameObject.SetActive(true);
+        Invoke("RestoreSonar", 4f);
+    }
+
+    private void RestoreSonar()
+    {
+        sonarItself.gameObject.SetActive(true);
+        disruptedSonar.gameObject.SetActive(false);
     }
 
     public void ChangeHealth(float amount)
