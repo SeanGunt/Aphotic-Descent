@@ -64,7 +64,6 @@ public class TeleportManager : MonoBehaviour
     {
         if(!activated)
         {
-            uItext.enabled = false;
             StartCoroutine(MarshFade(1f));
             activated = true;
         }

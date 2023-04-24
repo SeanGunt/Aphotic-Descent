@@ -8,6 +8,7 @@ public class DisableBlueprint : MonoBehaviour
     private GameObject player;
     private PlayerInput playerInput;
     private PauseControls pauseControls;
+    [SerializeField] private AudioSource audioSource;
    private void Awake()
    {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -24,6 +25,7 @@ public class DisableBlueprint : MonoBehaviour
             {
                 pauseControls.paused = false;
                 Time.timeScale = 1f;
+                audioSource.Stop();
                 this.gameObject.SetActive(false);
             }
         }
