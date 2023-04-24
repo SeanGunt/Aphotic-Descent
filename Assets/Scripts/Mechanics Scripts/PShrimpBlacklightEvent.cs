@@ -10,6 +10,7 @@ public class PShrimpBlacklightEvent : MonoBehaviour
     [SerializeField] private Material lilGuyMaterial;
     [SerializeField] private Light glowLight;
     [SerializeField] private MeshRenderer lilGuyRenderer;
+    [SerializeField] private TeleportManager teleportManager;
     private MeshRenderer lampRenderer;
     private AudioSource audioSource;
     [SerializeField] private AudioClip lampBreaking;
@@ -46,5 +47,9 @@ public class PShrimpBlacklightEvent : MonoBehaviour
         pistolShrimpAI.SetSelectedTarget(player.transform);
         pistolShrimpAI.SwitchTarget(0,1);
         lampRenderer.enabled = false;
+        if (GameDataHolder.biolampsAlive <= 0)
+        {
+            teleportManager.MarshTeleport();
+        }
     }
 }

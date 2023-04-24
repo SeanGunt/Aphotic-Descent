@@ -15,6 +15,7 @@ public class DisableLore : MonoBehaviour
     private Volume volume;
     private GameObject volumeObj;
     [SerializeField] private GameObject basicTextObj;
+    [SerializeField] private AudioSource audioSource;
     [SerializeField] private string enylopediaText;
     private Text addedLoreToEncyclopediaText;
 
@@ -40,6 +41,7 @@ public class DisableLore : MonoBehaviour
                     depthOfField.active = false;
                 }
                 LogPickup.logPickedUp = false;
+                audioSource.Stop();
                 Time.timeScale = 1f;
                 pauseControls.paused = false;
                 addedLoreToEncyclopediaText.text = enylopediaText;
