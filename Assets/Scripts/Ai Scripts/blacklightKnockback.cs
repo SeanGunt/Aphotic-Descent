@@ -48,7 +48,6 @@ public class blacklightKnockback : MonoBehaviour
             state = State.beingKnockedBack;
             StartCoroutine("ResetKnockBack", 0.5f);
             anglerAnimator.SetBool("knockedBack", true);
-            anglerHurtSource.PlayOneShot(anglerHurt);
 
             if (anglerFishAttached && !stopped)
             {

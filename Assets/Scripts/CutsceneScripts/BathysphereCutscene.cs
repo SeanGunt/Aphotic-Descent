@@ -28,6 +28,12 @@ public class BathysphereCutscene : MonoBehaviour
         bathysphereRenderers = GetComponentsInChildren<MeshRenderer>();
         audioSource = GetComponent<AudioSource>();
         audioSource.PlayOneShot(bathosphereAudio);
+        StartBathosphere();
+    }
+
+    public void StartBathosphere()
+    {
+        StartCoroutine(StartCutscene(2f));
     }
 
     public void EndBathysphere()
@@ -35,9 +41,16 @@ public class BathysphereCutscene : MonoBehaviour
         StartCoroutine(FadeToBlack(2f));
     }
     
+    private IEnumerator StartCutscene(float t)
+    {
+        while(fadeToBlackImage.color.a >= 0.0f)
+        {
+            fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, fadeToBlackImage.color.a - Time.deltaTime / t);
+            yield return null;
+        }
+    }
     private IEnumerator FadeToBlack(float t)
     {
-        fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, 0.3f);
         while (fadeToBlackImage.color.a < 1f)
         {
             fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, fadeToBlackImage.color.a + Time.deltaTime / t);

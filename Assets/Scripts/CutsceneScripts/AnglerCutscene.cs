@@ -7,8 +7,10 @@ public class AnglerCutscene : MonoBehaviour
     [SerializeField] private Animator anglerCutscene;
     [SerializeField] private AudioClip anglerRoar;
     [SerializeField] private AudioSource audioSource;
+    private BoxCollider boxCollider;
     private void Start()
     {
+        boxCollider = this.GetComponent<BoxCollider>();
         anglerCutscene = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         anglerCutscene.SetBool("activatedAngler", false);
@@ -20,7 +22,13 @@ public class AnglerCutscene : MonoBehaviour
         {
             anglerCutscene.SetBool("activatedAngler", true);
             audioSource.PlayOneShot(anglerRoar);
-            Destroy(this.gameObject, 6.5f);
+            boxCollider.enabled = false;
+            Invoke("SetInactive", 6.5f);
         }
+    }
+
+    private void SetInactive()
+    {
+        this.gameObject.SetActive(false);
     }
 }

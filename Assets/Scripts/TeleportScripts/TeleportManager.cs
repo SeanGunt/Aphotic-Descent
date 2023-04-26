@@ -173,11 +173,6 @@ public class TeleportManager : MonoBehaviour
         player.transform.localPosition = teleportPosition;
         yield return new WaitForSeconds(0.3f);
         CheckLocation();
-        while(fadeToBlackImage.color.a >= 0.0f)
-        {
-            fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, fadeToBlackImage.color.a - Time.deltaTime / t);
-            yield return null;
-        }
     }
 
     public IEnumerator FFFade(float t)

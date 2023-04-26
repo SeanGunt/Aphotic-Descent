@@ -30,7 +30,6 @@ public class PauseControls : MonoBehaviour
             if (playerInput.actions["Pause"].triggered && !paused && !LogPickup.logPickedUp && !Puzzle4UI.computerActivated)
             {
                 pauseAnim.SetBool("pauseArm", true);
-                Invoke("PauseTheGame", .75f);
             }
             else if ((playerInput.actions["Pause"].triggered) && paused && !LogPickup.logPickedUp && !Puzzle4UI.computerActivated)
             {
@@ -39,7 +38,7 @@ public class PauseControls : MonoBehaviour
         }
     }
 
-    private void PauseTheGame()
+    public void PauseTheGame()
     {
         DepthOfField depthOfField;
         if (volume.profile.TryGet<DepthOfField>(out depthOfField))

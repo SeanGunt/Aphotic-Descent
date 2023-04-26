@@ -17,7 +17,7 @@ public class trenchInvisPuzzle : MonoBehaviour
         puzzleComplete = false;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.GetComponent<InvisibilityMechanic>() != false && !puzzleComplete) 
         {
