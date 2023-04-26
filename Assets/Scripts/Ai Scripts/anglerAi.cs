@@ -36,6 +36,7 @@ public class anglerAi : MonoBehaviour
     //private Animation animaTor;
     [HideInInspector] public float anglerSpeed;
     [HideInInspector] public PlayerHealthController pHelCon;
+    [HideInInspector] public InvisibilityMechanic invisCheck;
     [HideInInspector] public bool isStunned = false;
     blacklightKnockback blKb;
     enemyFieldOfView eFovScr1, eFovScr2; //the other is on the diver trigger
@@ -55,6 +56,7 @@ public class anglerAi : MonoBehaviour
 
         player = GameObject.FindGameObjectWithTag("Player");
         pHelCon = player.GetComponent<PlayerHealthController>();
+        invisCheck = player.GetComponent<InvisibilityMechanic>();
         blKb = GetComponentInChildren<blacklightKnockback>();
         eFovScr1 = GetComponent<enemyFieldOfView>();
         eFovScr2 = GameObject.Find("angLureTrigger").GetComponent<enemyFieldOfView>();
@@ -208,7 +210,7 @@ public class anglerAi : MonoBehaviour
 
     void attackPlayer()
     {
-        if(aoeAttackActivated && (isStunned == false))
+        if(aoeAttackActivated && (isStunned == false) && !invisCheck.isInvisible)
         {
             lightObjectPoint.SetActive(true);
             anglerAnimator.SetBool("doingAOE", true);
