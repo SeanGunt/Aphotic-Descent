@@ -102,7 +102,7 @@ public class ObjectiveUpdateHolder : MonoBehaviour
 
     public void EleventhObjective()
     {
-        objectiveText.text = "Find Your Way Out Of The Marsh";
+        objectiveText.text = "Repel The Creature";
         GameDataHolder.objectiveId = 11;
         GameDataHolder.marshObjectiveTriggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
@@ -110,8 +110,16 @@ public class ObjectiveUpdateHolder : MonoBehaviour
 
     public void TwelfthObjective()
     {
-        objectiveText.text = "Find A Way To Fix The Submarine";
+        objectiveText.text = "Find Your Way Out of The Marsh";
         GameDataHolder.objectiveId = 12;
+        GameDataHolder.marshObjective2Triggered = true;
+        StartCoroutine(FadeText(7f, objectiveText));
+    }
+
+    public void ThirteenthObjective()
+    {
+        objectiveText.text = "Find A Way To Fix The Submarine";
+        GameDataHolder.objectiveId = 13;
         GameDataHolder.trenchObjectiveTriggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
     }

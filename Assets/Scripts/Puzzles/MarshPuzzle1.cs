@@ -6,9 +6,10 @@ using UnityEngine.UI;
 public class MarshPuzzle1 : MonoBehaviour
 {
     public int ZPFreed;
-    [SerializeField] private GameObject hud;
+    [SerializeField] private GameObject hud, mainCamera, playerVisual, blockade;
     [SerializeField] private Camera puzzleCam;
     private MarshPuzzle1 scriptFunctionality;
+    [SerializeField]private ObjectiveUpdateHolder objectiveTextTrigger;
     [SerializeField]private Image fadeToBlackImage;
     private Animator animator;
     private bool cutsceneStarted;
@@ -40,6 +41,8 @@ public class MarshPuzzle1 : MonoBehaviour
         }
         hud.gameObject.SetActive(false);
         MarshTransition.instance.StartCutscene();
+        mainCamera.gameObject.SetActive(false);
+        puzzleCam.enabled = true;
         animator.enabled = true;
         while(fadeToBlackImage.color.a >= 0.0f)
         {
@@ -53,7 +56,10 @@ public class MarshPuzzle1 : MonoBehaviour
             yield return null;
         }
         hud.gameObject.SetActive(true);
+        mainCamera.gameObject.SetActive(true);
         puzzleCam.enabled = false;
+        playerVisual.gameObject.SetActive(true);
+        blockade.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.1f);
         while(fadeToBlackImage.color.a >= 0.0f)
         {
@@ -61,6 +67,7 @@ public class MarshPuzzle1 : MonoBehaviour
             yield return null;
         }
         MarshTransition.instance.EndCutscene();
+        objectiveTextTrigger.TwelfthObjective();
         scriptFunctionality.enabled = false;
     }
 }
