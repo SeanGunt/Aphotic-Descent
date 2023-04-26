@@ -18,8 +18,6 @@ public class anglerAi : MonoBehaviour
     [SerializeField] private float aoeDamageAmount; //how much will the player's health be subtracted by?
     [SerializeField] private GameObject lightObjectPoint;
     [SerializeField] Animator anglerAnimator;
-    [SerializeField] private AudioClip anglerAoeSound;
-    [SerializeField] private AudioSource anglerAudio;
     public float anglerAttackRange;
     private float resetCountDown;
     public NavMeshAgent anglerAgent;
@@ -53,7 +51,6 @@ public class anglerAi : MonoBehaviour
     {
         state = State.anglerPatrolling;
         anglerAgent = this.GetComponent<NavMeshAgent>();
-
         anglerAgent.destination = patrolPoints[currentPoint].position;
 
         player = GameObject.FindGameObjectWithTag("Player");
@@ -215,7 +212,6 @@ public class anglerAi : MonoBehaviour
         {
             lightObjectPoint.SetActive(true);
             anglerAnimator.SetBool("doingAOE", true);
-            anglerAudio.PlayOneShot(anglerAoeSound);
             attackCountDown -= Time.deltaTime;
             if(attackCountDown <= 0)
             {
