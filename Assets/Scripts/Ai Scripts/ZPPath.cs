@@ -7,9 +7,8 @@ public class ZPPath : MonoBehaviour
     [SerializeField] private GameObject ZPlankton, destinationPoint;
     private float speed;
     private Vector3 actualPosition;
-    private bool isMoving;
+    private bool isMoving, valueSet;
     private float distance;
-    //private bool isBlacklighted;
     [SerializeField] private MarshPuzzle1 marshVariable;
     
     void Awake()
@@ -27,15 +26,16 @@ public class ZPPath : MonoBehaviour
             RotateTowards(destinationPoint.transform.position);
         }
 
-        if (distance < 0.5f)
+        if (distance < 0.5f && !valueSet)
         {
             isMoving = false;
+            marshVariable.ZPFreed++;
+            valueSet = true;
         }
     }
 
     public void FreeTheShrimp()
     {
-        marshVariable.ZPFreed++;
         isMoving = true;
     }
 
