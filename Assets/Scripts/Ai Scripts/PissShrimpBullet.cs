@@ -19,10 +19,15 @@ public class PissShrimpBullet : MonoBehaviour
                 playerHealthController.ChangeHealth(-10f);
                 playerHealthController.TakeDamage();
             }
-            else if (playerHealthController.isNearDeath)
+            else if (playerHealthController.isNearDeath && GameDataHolder.inMudMarsh)
             {
                 playerHealthController.DieToThePShrimpInDaMarsh();
                 PistolShrimpInMarsh.killedPlayer = true;
+            }
+            else if (GameDataHolder.inPsShrimpCave)
+            {
+                playerHealthController.ChangeHealth(-10f);
+                playerHealthController.TakeDamage();
             }
             canEnter = false;
         }

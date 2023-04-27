@@ -9,6 +9,7 @@ public class AnglerEncounter : MonoBehaviour
     [SerializeField]private ClearUIText clearUIText;
     [SerializeField]private AudioSource audioSource;
     [SerializeField]private AudioClip pickupSound;
+    private bool musicChanged;
     
     public void IncreaseSubParts()
     {
@@ -28,6 +29,15 @@ public class AnglerEncounter : MonoBehaviour
             Invoke("EndEncounterCheck", 3.15f);
         }
         
+    }
+
+    private void Update()
+    {
+        if (GameDataHolder.subParts >= 1 && !musicChanged)
+        {
+            BGMManager.instance.SwitchBGMFade(16);
+            musicChanged = true;
+        }
     }
 
     private void EndEncounterCheck()
