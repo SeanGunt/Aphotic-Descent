@@ -22,6 +22,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
     public static bool pistolShrimpObjectiveTriggered;
     public static bool biolampsObjectivetriggered;
     public static bool marshObjectiveTriggered;
+    public static bool marshObjective2Triggered;
     public static bool trenchObjectiveTriggered;
     public static bool inSub;
     public static bool inLab;
@@ -68,6 +69,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         pistolShrimpObjectiveTriggered = data.pistolShrimpObjectiveTriggered;
         biolampsObjectivetriggered = data.biolampsObjectivetriggered;
         marshObjectiveTriggered = data.marshObjectiveTriggered;
+        marshObjective2Triggered = data.marshObjective2Triggered;
         trenchObjectiveTriggered = data.trenchObjectiveTriggered;
 
         inAnglerTrench = data.inAnglerTrench;
@@ -120,6 +122,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         data.pistolShrimpObjectiveTriggered = pistolShrimpObjectiveTriggered;
         data.biolampsObjectivetriggered = biolampsObjectivetriggered;
         data.marshObjectiveTriggered = marshObjectiveTriggered;
+        data.marshObjective2Triggered = marshObjective2Triggered;
         data.trenchObjectiveTriggered = trenchObjectiveTriggered;
 
         data.inAnglerTrench = inAnglerTrench;

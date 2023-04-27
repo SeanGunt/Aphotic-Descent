@@ -40,6 +40,7 @@ public class GameData
     public bool eelObjective2Triggered;
     public bool biolampsObjectivetriggered;
     public bool marshObjectiveTriggered;
+    public bool marshObjective2Triggered;
     public bool trenchObjectiveTriggered;
     public bool freakfishFound;
     public bool zooplanktonFound;
@@ -74,6 +75,7 @@ public class GameData
         pistolShrimpObjectiveTriggered = false;
         biolampsObjectivetriggered = false;
         marshObjectiveTriggered = false;
+        marshObjective2Triggered = false;
         trenchObjectiveTriggered = false;
         inAnglerTrench = false;
         inMudMarsh = false;

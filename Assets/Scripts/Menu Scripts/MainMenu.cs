@@ -9,9 +9,10 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] GameObject mainMenu, optionsMenu, howToMenu, creditsMenu, rebindingMenu;
 
-    [SerializeField] GameObject optionsFirstButton, optionsClosedButton, howToFirstButton, howToClosedButton, creditsFirstButton, creditsClosedButton, rebindingFirstButton, rebindingClosedButton;
+    [SerializeField] GameObject optionsFirstButton, optionsClosedButton, howToFirstButton, howToClosedButton, creditsFirstButton, creditsClosedButton, rebindingFirstButton, rebindingClosedButton, currentImg, newImg;
     private PlayerInputActions playerInputActions;
     private InputAction escape;
+    private bool otherControlsActive;
 
     public void Awake()
     {
@@ -19,6 +20,7 @@ public class MainMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 1f;
         playerInputActions = new PlayerInputActions();
+        otherControlsActive = false;
     }
 
     private void OnEnable()
@@ -83,6 +85,22 @@ public class MainMenu : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(howToFirstButton);
     }
 
+    public void SwitchHowToImg()
+    {
+        if (!otherControlsActive)
+        {
+            currentImg.gameObject.SetActive(false);
+            newImg.gameObject.SetActive(true);
+            otherControlsActive = true;
+        }
+        else
+        {
+            currentImg.gameObject.SetActive(true);
+            newImg.gameObject.SetActive(false);
+            otherControlsActive = false;
+        }
+    }
+
     public void CloseHowTo()
     {
         howToMenu.SetActive(false);
@@ -117,6 +135,11 @@ public class MainMenu : MonoBehaviour
 
         //sets a new selected button
         EventSystem.current.SetSelectedGameObject(creditsClosedButton);
+    }
+
+    public void OpenCreditsScene()
+    {
+        SceneManager.LoadScene("CreditsMM");
     }
 
     public void OpenRebinding()

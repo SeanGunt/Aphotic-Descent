@@ -9,10 +9,16 @@ public class PlayerHealthController : MonoBehaviour
     [SerializeField]public float playerHealth, maxHealth;
     [SerializeField]private Image redSplatterImage = null;
     [SerializeField]private bool isInvincible, startCooldown, canRegen;
-    public bool isBleeding, gameOver;
+    public bool isBleeding, gameOver, isNearDeath;
     [SerializeField]private GameObject gameOverMenu, sonarItself, disruptedSonar;
     public AudioSource audioSource;
     public AudioClip hitSound;
+    [SerializeField]private Animator cameraAnimator;
+    [SerializeField]private AudioSource pSAudioSource;
+    [SerializeField]private GameObject mainCam, pShrimpJumpscareCam;
+    [SerializeField]private GameObject playerDiver;
+    [SerializeField]private GameObject hud;
+    [SerializeField]private AudioClip stingerMusic;
 
     void Start()
     {
@@ -58,6 +64,14 @@ public class PlayerHealthController : MonoBehaviour
             playerHealth = 0;
             gameOver = true;
         }
+        if (playerHealth <= 10)
+        {
+            isNearDeath = true;
+        }
+        else
+        {
+            isNearDeath = false;
+        }
         if (gameOver)
         {
             gameOverMenu.SetActive(true);
@@ -85,6 +99,18 @@ public class PlayerHealthController : MonoBehaviour
             healCooldown = maxHealCooldown;
             startCooldown = true;
         }
+    }
+
+    public void DieToThePShrimpInDaMarsh()
+    {
+        pSAudioSource.PlayOneShot(stingerMusic);
+        canRegen = false;
+        BreathingManager.instance.StopBreathe();
+        playerDiver.SetActive(false);
+        hud.SetActive(false);
+        mainCam.SetActive(false);
+        pShrimpJumpscareCam.SetActive(true);
+        cameraAnimator.SetTrigger("jumpscare");
     }
 
     private void DisruptSonar()
