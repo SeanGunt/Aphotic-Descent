@@ -25,18 +25,18 @@ public class EndCutscene : MonoBehaviour
         if (videoLength < 0)
         {
             Time.timeScale = 1f;
-            SceneManager.LoadScene("WinScreen");
+            SceneManager.LoadScene("EndCredits");
         }
 
         if((Keyboard.current.anyKey.isPressed || Mouse.current.leftButton.isPressed || Mouse.current.rightButton.isPressed) && videoLength < lengthTillSkip)
         {
             Time.timeScale = 1f;
-            SceneManager.LoadScene("WinScreen");
+            SceneManager.LoadScene("EndCredits");
         }
         else if (Gamepad.current != null && (Gamepad.current.aButton.isPressed || Gamepad.current.startButton.isPressed))
         {
             Time.timeScale = 1f;
-            SceneManager.LoadScene("WinScreen");
+            SceneManager.LoadScene("EndCredits");
         }
     }
 }

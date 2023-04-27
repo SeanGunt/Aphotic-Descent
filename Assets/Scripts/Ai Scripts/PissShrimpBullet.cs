@@ -14,8 +14,16 @@ public class PissShrimpBullet : MonoBehaviour
         if (other.gameObject.tag == "Player" && canEnter)
         {
             PlayerHealthController playerHealthController = other.gameObject.GetComponent<PlayerHealthController>();
-            playerHealthController.ChangeHealth(-10f);
-            playerHealthController.TakeDamage();
+            if (!playerHealthController.isNearDeath)
+            {
+                playerHealthController.ChangeHealth(-10f);
+                playerHealthController.TakeDamage();
+            }
+            else if (playerHealthController.isNearDeath)
+            {
+                playerHealthController.DieToThePShrimpInDaMarsh();
+                PistolShrimpInMarsh.killedPlayer = true;
+            }
             canEnter = false;
         }
     }

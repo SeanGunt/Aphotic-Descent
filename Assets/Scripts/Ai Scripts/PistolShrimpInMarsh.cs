@@ -6,6 +6,7 @@ using UnityEngine.Animations.Rigging;
 public class PistolShrimpInMarsh : MonoBehaviour
 {
     [HideInInspector] public bool startedEncounter;
+    public static bool killedPlayer;
     private RaycastHit hit;
     [SerializeField] private MultiAimConstraint multiAimConstraint;
     [SerializeField] private GameObject shootingPos, bullet;
@@ -71,7 +72,7 @@ public class PistolShrimpInMarsh : MonoBehaviour
     {
         Vector3 forwardVector =  gunBoneTransform.rotation * Vector3.up;
         rayCastIsHitting = Physics.Raycast(shootingPos.transform.position, forwardVector, out hit, 300f, ~ignoreLayer);
-        if(rayCastIsHitting && !invisibilityMechanic.isInvisible)
+        if(rayCastIsHitting && !invisibilityMechanic.isInvisible && !killedPlayer)
         {
             lineRenderer.useWorldSpace = true;
             lineRenderer.SetPosition(0, shootingPos.transform.position);
