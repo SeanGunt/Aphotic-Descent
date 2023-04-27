@@ -382,12 +382,10 @@ public class fishEnemy : MonoBehaviour
             barnacleCount = barnacles.Length;
             boltScr.isOn = true;
             boltOn = true;
-            boltScr.ResetBoltHealth();
             stunTime = 15;
             playerHid = true;
             eelCollider.enabled = true;
             animator.SetBool("isStunned", false);
-            BGMManager.instance.SwitchBGMFade(13);
             BreathingManager.instance.SwitchBreathRate(0);
             state = State.patrolling;
         }

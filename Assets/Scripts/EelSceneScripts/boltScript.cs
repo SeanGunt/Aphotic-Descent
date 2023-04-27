@@ -34,16 +34,10 @@ public class boltScript : MonoBehaviour
             {
                 audioSource.PlayOneShot(explosionSound);
                 electricity.SetActive(false);
-                audioSource.Stop();
                 GameDataHolder.eelIsDead = true;
                 GameDataHolder.eelFound = true;
                 isOn = false;
             }
         }
-    }
-
-    public void ResetBoltHealth()
-    {
-        boltHealth = 1;
     }
 }
