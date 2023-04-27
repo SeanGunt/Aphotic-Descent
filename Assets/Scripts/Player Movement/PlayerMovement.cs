@@ -123,7 +123,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     }
 
     staminaDelay -= Time.deltaTime;
-    if(Keyboard.current.backslashKey.isPressed)
+    /*if(Keyboard.current.backslashKey.isPressed)
     {
       playerInput.SwitchCurrentActionMap("FreeFlyCamControls");
       freeFlyCamera.SetActive(true);
@@ -131,7 +131,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       thePlayer.enabled = false;
       playerSettings.enabled = false;
       UICanvas.SetActive(false);
-    }
+    }*/
   }
 
   private void FixedUpdate()

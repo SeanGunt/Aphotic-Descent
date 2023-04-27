@@ -35,6 +35,10 @@ public class PistolShrimpInMarsh : MonoBehaviour
 
     private void Update()
     {
+        if (killedPlayer)
+        {
+            audioSource.Pause();
+        }
         switch(state)
         {
             case State.cantSeePlayer:

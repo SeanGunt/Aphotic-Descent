@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Animations.Rigging;
 
 public class anglerAi : MonoBehaviour
 {
@@ -18,6 +19,12 @@ public class anglerAi : MonoBehaviour
     [SerializeField] private float aoeDamageAmount; //how much will the player's health be subtracted by?
     [SerializeField] private GameObject lightObjectPoint;
     [SerializeField] Animator anglerAnimator;
+    [SerializeField] Animator lureDiverAnimator;
+    [SerializeField] private GameObject jumpscareCamera;
+    [SerializeField] private GameObject hud;
+    [SerializeField] private GameObject playerCam;
+    [SerializeField] private GameObject playerDiver;
+    [SerializeField] private RigBuilder lureRig, anglerRig;
     public float anglerAttackRange;
     private float resetCountDown;
     public NavMeshAgent anglerAgent;
@@ -45,7 +52,7 @@ public class anglerAi : MonoBehaviour
     public State state;
     public enum State
     {
-        anglerPatrolling, anglerDead, anglerAttacking, anglerInvestigate
+        anglerPatrolling, anglerDead, anglerAttacking, anglerInvestigate, idle, jumpScare
     }
 
     void Awake()
@@ -114,6 +121,11 @@ public class anglerAi : MonoBehaviour
             break;
             case State.anglerInvestigate:
                 investigate();
+            break;
+            case State.idle:
+            break;
+            case State.jumpScare:
+                JumpScare();
             break;
         }
     }
@@ -208,6 +220,22 @@ public class anglerAi : MonoBehaviour
         }
     }
 
+    private void JumpScare()
+    {
+        isStunned = true;
+        lureRig.enabled = false;
+        anglerRig.enabled = false;
+        anglerAgent.isStopped = true;
+        anglerAnimator.SetBool("isJumpscaring", true);
+        lureDiverAnimator.SetBool("isJumpscaring", true);
+        jumpscareCamera.SetActive(true);
+        playerCam.SetActive(false);
+        hud.SetActive(false);
+        playerDiver.SetActive(false);
+        BreathingManager.instance.StopBreathe();
+        state = State.idle;
+    }
+
     void attackPlayer()
     {
         if(aoeAttackActivated && (isStunned == false) && !invisCheck.isInvisible)
@@ -220,6 +248,10 @@ public class anglerAi : MonoBehaviour
                 pHelCon.ChangeHealth((aoeDamageAmount)*-1.0f);
                 pHelCon.TakeDamage();
                 attackCountDown = resetCountDown;
+                if (pHelCon.playerHealth <= 2.5f)
+                {
+                    state = State.jumpScare;
+                }
             }
         }
         else
