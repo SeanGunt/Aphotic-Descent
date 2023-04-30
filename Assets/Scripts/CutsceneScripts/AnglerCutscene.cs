@@ -29,6 +29,7 @@ public class AnglerCutscene : MonoBehaviour
 
     private void SetInactive()
     {
+        GameDataHolder.anglerFound = true;
         this.gameObject.SetActive(false);
     }
 }

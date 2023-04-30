@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Steamworks;
 
 public class AnglerEncounter : MonoBehaviour
 {
@@ -46,6 +47,8 @@ public class AnglerEncounter : MonoBehaviour
         {
             actualText.text = "But there's no sub to fix. There's no way out of this.";
             clearUIText.Invoke("ClearUI", 5f);
+            SteamUserStats.SetAchievement("Game_Completed");
+            SteamUserStats.StoreStats();
             Invoke("EndEncounter", 5.15f);
             Debug.Log("EncounterEndReached");
         }
