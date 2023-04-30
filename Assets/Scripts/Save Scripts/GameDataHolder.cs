@@ -41,6 +41,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
     public static bool anglerFound;
     public static int objectiveId;
     public static int numOfZooplanktonCollected;
+    public static int numOfLogsCollected;
     public static int biolampsAlive;
     public static bool bathysphereCutscenePlayed;
     public static bool hintCamPlayed;
@@ -87,6 +88,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         zooplanktonCutscenePlayed = data.zooplanktonCutscenePlayed;
 
         numOfZooplanktonCollected = data.numOfZooplanktonCollected;
+        numOfLogsCollected = data.numOfLogsCollected;
 
         biolampsAlive = data.biolampsAlive;
 
@@ -140,6 +142,7 @@ public class GameDataHolder : MonoBehaviour, IDataPersistence
         data.zooplanktonCutscenePlayed = zooplanktonCutscenePlayed;
 
         data.numOfZooplanktonCollected = numOfZooplanktonCollected;
+        data.numOfLogsCollected = numOfLogsCollected;
 
         data.biolampsAlive = biolampsAlive;
 

@@ -27,6 +27,7 @@ public class LogPickup : MonoBehaviour
         {
             depthOfField.active = true;
         }
+        GameDataHolder.numOfLogsCollected += 1;
         pauseControls.paused = true;
         logPickedUp = true;
         objectiveText.SetActive(false);

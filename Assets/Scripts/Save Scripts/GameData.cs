@@ -13,6 +13,7 @@ public class GameData
     public int objectiveId;
     public int biolampsAlive;
     public int numOfZooplanktonCollected;
+    public int numOfLogsCollected;
     public bool knifeHasBeenPickedUp;
     public bool hasUpgradedSuit;
     public bool flashlightHasBeenPickedUp;
@@ -98,6 +99,7 @@ public class GameData
         boxes = 4;
         objectiveId = 0;
         numOfZooplanktonCollected = 0;
+        numOfLogsCollected = 0;
         biolampsAlive = 3;
         subParts = 0;
         lilGuygsCollected = new SerializableDictionary<string, bool>();

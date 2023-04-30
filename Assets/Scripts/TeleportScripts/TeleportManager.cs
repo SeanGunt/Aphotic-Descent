@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Steamworks;
 
 public class TeleportManager : MonoBehaviour
 {
@@ -123,6 +124,7 @@ public class TeleportManager : MonoBehaviour
         weaponController.enabled = false;
         mainCamera.SetActive(false);
         BGMManager.instance.StopMusic();
+        SetSteamAchievement("Submarine_Escaped");
     }
 
     private void TeleportToRidge()
@@ -137,6 +139,7 @@ public class TeleportManager : MonoBehaviour
         GameDataHolder.inLab = true;
         GameDataHolder.inKelpMaze = false;
         BGMManager.instance.SwitchBGMFade(6);
+        SetSteamAchievement("KelpMaze_Escaped");
     }
 
     private void TeleportToEelCave()
@@ -144,6 +147,7 @@ public class TeleportManager : MonoBehaviour
         GameDataHolder.inEelCave = true;
         GameDataHolder.inKelpMaze = false;
         BGMManager.instance.SwitchBGM(6);
+        SetSteamAchievement("Lab_Escaped");
     }
 
     private void TeleportToMudMarsh()
@@ -152,6 +156,7 @@ public class TeleportManager : MonoBehaviour
         GameDataHolder.inMudMarsh = true;
         GameDataHolder.pistolshrimpFound = true;
         BGMManager.instance.SwitchBGMFade(7);
+        SetSteamAchievement("Cage_Escaped");
     }
 
     private void TeleportToTrench()
@@ -160,6 +165,20 @@ public class TeleportManager : MonoBehaviour
         GameDataHolder.inAnglerTrench = true;
         GameDataHolder.shrimpmanFound = true;
         BGMManager.instance.SwitchBGMFade(9);
+        SetSteamAchievement("Marsh_Escaped");
+    }
+
+    private void SetSteamAchievement(string nameOfAchievement)
+    {
+        if (!SteamManager.Initialized)
+        {
+            return;
+        }
+        else
+        {
+            SteamUserStats.SetAchievement(nameOfAchievement);
+            SteamUserStats.StoreStats();
+        }
     }
 
     public IEnumerator Fade(float t)
