@@ -9,6 +9,7 @@ public class EatTheShrimp : MonoBehaviour
     public GameObject[] pathPoints;
     [HideInInspector] public bool isMoving;
     public float speed;
+    [SerializeField] private GameObject shrimpToBeEaten;
     NavMeshAgent hermitAgent;
 
     RigBuilder hermitRig;
@@ -42,5 +43,10 @@ public class EatTheShrimp : MonoBehaviour
     {
         hermitRig.enabled = !hermitRig.enabled;
         isMoving = true;
+    }
+
+    public void ShrimpEaten()
+    {
+        shrimpToBeEaten.SetActive(false);
     }
 }
