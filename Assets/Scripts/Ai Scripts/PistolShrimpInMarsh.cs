@@ -15,6 +15,8 @@ public class PistolShrimpInMarsh : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private float timeToAttackPlayer;
+    [SerializeField] private Animator pistolAnimator;
+    [HideInInspector] public PlayerHealthController pHelCon;
     private InvisibilityMechanic invisibilityMechanic;
     private float attackPlayerTimer;
     private bool shotPlayed, rayCastIsHitting;
@@ -22,7 +24,7 @@ public class PistolShrimpInMarsh : MonoBehaviour
     private State state;
     private enum State
     {
-        canSeePlayer, cantSeePlayer
+        canSeePlayer, cantSeePlayer, pistolJumpscaring
     }
 
     private void Awake()
@@ -31,6 +33,8 @@ public class PistolShrimpInMarsh : MonoBehaviour
         attackPlayerTimer = timeToAttackPlayer;
         player = GameObject.FindGameObjectWithTag("Player");
         invisibilityMechanic = player.GetComponent<InvisibilityMechanic>();
+        pistolAnimator = GetComponent<Animator>();
+        pistolAnimator.SetBool("PistolJumpscarePlay", false);
     }
 
     private void Update()
@@ -47,6 +51,9 @@ public class PistolShrimpInMarsh : MonoBehaviour
             case State.canSeePlayer:
                 HandleShooting();
                 CanSeePlayer();
+            break;
+            case State.pistolJumpscaring:
+                PistolJumpscare();
             break;
         }
     }
@@ -97,6 +104,10 @@ public class PistolShrimpInMarsh : MonoBehaviour
                     Instantiate(bullet, hit.point, Quaternion.identity);
                     shotPlayed = false;
                     attackPlayerTimer = timeToAttackPlayer;
+                    //if (pHelCon.playerHealth <= 2.5f)
+                    //{
+                        //state = State.pistolJumpscaring;
+                    //}
                 }
                 
             }
@@ -127,6 +138,12 @@ public class PistolShrimpInMarsh : MonoBehaviour
         WeightedTransformArray a = multiAimConstraint.data.sourceObjects;
         a.SetWeight(index, weight);
         multiAimConstraint.data.sourceObjects = a;
+    }
+
+    private void PistolJumpscare()
+    {
+        pistolAnimator.SetBool("PistolJumpscarePlay", true);
+        Debug.Log("I should be scaring you!");
     }
     
 }
