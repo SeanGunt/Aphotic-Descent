@@ -165,13 +165,4 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
         Debug.Log("Quit");
     }
-
-    void Update()
-    {
-        if (escape.triggered)
-        {
-            Application.Quit();
-            Debug.Log("Quit");
-        }
-    }
 }
