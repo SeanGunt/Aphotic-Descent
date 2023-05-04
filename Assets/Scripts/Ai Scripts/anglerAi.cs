@@ -24,6 +24,8 @@ public class anglerAi : MonoBehaviour
     [SerializeField] private GameObject hud;
     [SerializeField] private GameObject playerCam;
     [SerializeField] private GameObject playerDiver;
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip anglerStinger;
     [SerializeField] private RigBuilder lureRig, anglerRig;
     public float anglerAttackRange;
     private float resetCountDown;
@@ -60,6 +62,7 @@ public class anglerAi : MonoBehaviour
         state = State.anglerPatrolling;
         anglerAgent = this.GetComponent<NavMeshAgent>();
         anglerAgent.destination = patrolPoints[currentPoint].position;
+        audioSource = this.GetComponent<AudioSource>();
 
         player = GameObject.FindGameObjectWithTag("Player");
         pHelCon = player.GetComponent<PlayerHealthController>();
@@ -80,7 +83,6 @@ public class anglerAi : MonoBehaviour
         blKb.knockbackForce = kbBlacklightForce;
         resetForce = kbBlacklightForce;
         eFovScr1.playerRef = player;
-        eFovScr2.playerRef = player;
         eFovScr1.radius = anglerRange;
     }
 
@@ -145,7 +147,7 @@ public class anglerAi : MonoBehaviour
                 unchosen = false;
             }
 
-            if(eFovScr1.canSeePlayer || eFovScr2.canSeePlayer)
+            if(eFovScr1.canSeePlayer)
             {
                 unchosen = false;
                 state = State.anglerAttacking;
@@ -170,7 +172,7 @@ public class anglerAi : MonoBehaviour
     {
         if(isAlive)
         {
-            if(eFovScr1.canSeePlayer || eFovScr2.canSeePlayer)
+            if(eFovScr1.canSeePlayer)
             {
                 unchosen = false;
                 anglerAgent.destination = player.transform.position;
@@ -233,6 +235,7 @@ public class anglerAi : MonoBehaviour
         hud.SetActive(false);
         playerDiver.SetActive(false);
         BreathingManager.instance.StopBreathe();
+        audioSource.PlayOneShot(anglerStinger);
         state = State.idle;
     }
 
