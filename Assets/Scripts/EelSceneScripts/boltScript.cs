@@ -8,12 +8,18 @@ public class boltScript : MonoBehaviour
     [SerializeField] private int boltHealth;
     [SerializeField] private GameObject electricity;
     private AudioSource audioSource;
+    private SkinnedMeshRenderer skinnedMeshRenderer;
     [SerializeField] private AudioClip[] hitSounds;
     [SerializeField] private AudioClip explosionSound;
+    private Material[] originalMaterials;
+    [SerializeField] private Material[] hitMaterials;
 
     private void Awake()
     {
+        skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
         audioSource = GetComponent<AudioSource>();
+        originalMaterials = skinnedMeshRenderer.sharedMaterials;
+
         if(GameDataHolder.eelIsDead)
         {
             electricity.SetActive(false);
@@ -29,6 +35,8 @@ public class boltScript : MonoBehaviour
             int randomNoise = Random.Range(0,3);
             audioSource.PlayOneShot(hitSounds[randomNoise]);
             boltHealth -= 1;
+            skinnedMeshRenderer.sharedMaterials = hitMaterials;
+            StartCoroutine(ChangeBackToOriginalMaterials());
 
             if(boltHealth <= 0)
             {
@@ -39,5 +47,11 @@ public class boltScript : MonoBehaviour
                 isOn = false;
             }
         }
+    }
+
+    private IEnumerator ChangeBackToOriginalMaterials()
+    {
+        yield return new WaitForSeconds(0.1f);
+        skinnedMeshRenderer.sharedMaterials = originalMaterials;
     }
 }

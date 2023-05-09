@@ -111,7 +111,6 @@ public class PlayerHealthController : MonoBehaviour
         hud.SetActive(false);
         mainCam.SetActive(false);
         pShrimpJumpscareCam.SetActive(true);
-        //cameraAnimator.SetTrigger("jumpscare");
         pistolAnimator.SetBool("PistolJumpscarePlay", true);
         Debug.Log("I should be scaring you!");
     }

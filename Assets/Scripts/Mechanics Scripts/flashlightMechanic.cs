@@ -178,7 +178,7 @@ public class flashlightMechanic : MonoBehaviour
         {
             layerToUse = layer;
         }
-        if(Physics.SphereCast(mainCam.transform.position, 0.85f, mainCam.transform.forward, out hit, range, layerToUse) || Physics.Raycast(mainCam.transform.position, mainCam.transform.forward, out hit, range, layerToUse))
+        if(Physics.SphereCast(mainCam.transform.position, 1f, mainCam.transform.forward, out hit, range, layerToUse) || Physics.Raycast(mainCam.transform.position, mainCam.transform.forward, out hit, range, layerToUse))
         { 
             if (hit.collider.GetComponent<BlacklightEvent>() != false)
             {

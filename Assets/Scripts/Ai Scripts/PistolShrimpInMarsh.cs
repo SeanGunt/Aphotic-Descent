@@ -30,6 +30,7 @@ public class PistolShrimpInMarsh : MonoBehaviour
     private void Awake()
     {
         state = State.cantSeePlayer;
+        killedPlayer = false;
         attackPlayerTimer = timeToAttackPlayer;
         player = GameObject.FindGameObjectWithTag("Player");
         invisibilityMechanic = player.GetComponent<InvisibilityMechanic>();
@@ -70,7 +71,7 @@ public class PistolShrimpInMarsh : MonoBehaviour
 
     private void CanSeePlayer()
     {
-        if (!invisibilityMechanic.isSafe)
+        if (!invisibilityMechanic.isInvisible)
         {
             lineRenderer.enabled = true;
             Vector3 direction = player.transform.position - this.transform.position;
@@ -104,10 +105,6 @@ public class PistolShrimpInMarsh : MonoBehaviour
                     Instantiate(bullet, hit.point, Quaternion.identity);
                     shotPlayed = false;
                     attackPlayerTimer = timeToAttackPlayer;
-                    //if (pHelCon.playerHealth <= 2.5f)
-                    //{
-                        //state = State.pistolJumpscaring;
-                    //}
                 }
                 
             }
@@ -143,7 +140,6 @@ public class PistolShrimpInMarsh : MonoBehaviour
     private void PistolJumpscare()
     {
         pistolAnimator.SetBool("PistolJumpscarePlay", true);
-        Debug.Log("I should be scaring you!");
     }
     
 }
