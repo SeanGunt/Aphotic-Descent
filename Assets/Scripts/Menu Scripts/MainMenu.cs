@@ -11,7 +11,7 @@ public class MainMenu : MonoBehaviour
 
     [SerializeField] GameObject optionsFirstButton, optionsClosedButton, howToFirstButton, howToClosedButton, creditsFirstButton, creditsClosedButton, rebindingFirstButton, rebindingClosedButton, currentImg, newImg;
     private PlayerInputActions playerInputActions;
-    private InputAction escape;
+
     private bool otherControlsActive;
 
     public void Awake()
@@ -21,17 +21,6 @@ public class MainMenu : MonoBehaviour
         Time.timeScale = 1f;
         playerInputActions = new PlayerInputActions();
         otherControlsActive = false;
-    }
-
-    private void OnEnable()
-    {
-        escape = playerInputActions.PlayerControls.Quit;
-        escape.Enable();
-    }
-
-    private void OnDisable()
-    {
-        escape.Disable();
     }
 
     public void NewGame()

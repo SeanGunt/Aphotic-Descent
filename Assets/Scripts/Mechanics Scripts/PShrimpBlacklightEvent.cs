@@ -47,6 +47,7 @@ public class PShrimpBlacklightEvent : MonoBehaviour
         pistolShrimpAI.SetSelectedTarget(player.transform);
         pistolShrimpAI.SwitchTarget(0,1);
         lampRenderer.enabled = false;
+        canBeBlacklighted = false;
         if (GameDataHolder.biolampsAlive <= 0)
         {
             teleportManager.MarshTeleport();

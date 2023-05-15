@@ -19,30 +19,10 @@ public class GameOverMenu : MonoBehaviour
         Cursor.visible = true;
         playerInputActions = new PlayerInputActions();
     }
-
-    private void OnEnable()
-    {
-        escape = playerInputActions.PlayerControls.Quit;
-        escape.Enable();
-    }
-
-    private void OnDisable()
-    {
-        escape.Disable();
-    }
     
     void Start()
     {
         OpenGameOver();
-    }
-
-    void Update()
-    {
-        if (escape.triggered)
-        {
-            Application.Quit();
-            Debug.Log("Quit");
-        }
     }
 
     public void OpenGameOver()

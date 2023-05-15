@@ -26,7 +26,7 @@ public class ZPPath : MonoBehaviour
             RotateTowards(destinationPoint.transform.position);
         }
 
-        if (distance < 0.5f && !valueSet)
+        if (distance < 0.5f && !valueSet && isMoving)
         {
             isMoving = false;
             marshVariable.ZPFreed++;
