@@ -329,8 +329,8 @@ public class fishEnemy : MonoBehaviour
     {
         foreach(GameObject barnacle in barnacles)
         {
-            MeshCollider col;
-            col = barnacle.GetComponent<MeshCollider>();
+            BoxCollider col;
+            col = barnacle.GetComponent<BoxCollider>();
             col.enabled = true;
         }
         BGMManager.instance.SwitchBGMFade(13);
