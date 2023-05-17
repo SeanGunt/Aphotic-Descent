@@ -30,11 +30,11 @@ public class PauseObjectiveManager : MonoBehaviour
 
         if (GameDataHolder.objectiveId == 5)
         {
-            pauseObjectiveText.text = "Neutralize The Eel";
+            pauseObjectiveText.text = "Break His Four Generators";
         }
         if(GameDataHolder.objectiveId == 6)
         {
-            pauseObjectiveText.text = "End Its Suffering";
+            pauseObjectiveText.text = "Break His Power Backup";
         }
         if(GameDataHolder.objectiveId == 7)
         {
@@ -50,11 +50,11 @@ public class PauseObjectiveManager : MonoBehaviour
         }
         if(GameDataHolder.objectiveId == 10)
         {
-            pauseObjectiveText.text = "Find A Way To Destroy The Biolamps";
+            pauseObjectiveText.text = "Cut The Biolamps Down";
         }
         if(GameDataHolder.objectiveId == 11)
         {
-            pauseObjectiveText.text = "Repel The Creature";
+            pauseObjectiveText.text = "Find The Zooplankton Sacks";
         }
         if(GameDataHolder.objectiveId == 12)
         {
@@ -62,7 +62,7 @@ public class PauseObjectiveManager : MonoBehaviour
         }
         if(GameDataHolder.objectiveId == 13)
         {
-            pauseObjectiveText.text = "Find A Way To Fix The Submarine";
+            pauseObjectiveText.text = "Find All Three Submarine Parts";
         }
     }
 }

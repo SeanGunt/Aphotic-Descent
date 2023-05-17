@@ -52,7 +52,7 @@ public class ObjectiveUpdateHolder : MonoBehaviour
 
     public void FifthObjective()
     {
-        objectiveText.text = "Neutralize The Eel";
+        objectiveText.text = "Break His Four Generators";
         GameDataHolder.objectiveId = 5;
         GameDataHolder.eelObjectiveTriggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
@@ -60,7 +60,7 @@ public class ObjectiveUpdateHolder : MonoBehaviour
 
     public void SixthObjective()
     {
-        objectiveText.text = "End Its Suffering";
+        objectiveText.text = "Break His Power Backup";
         GameDataHolder.objectiveId = 6;
         GameDataHolder.eelObjective2Triggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
@@ -94,7 +94,7 @@ public class ObjectiveUpdateHolder : MonoBehaviour
 
     public void TenthObjective()
     {
-        objectiveText.text = "Find A Way To Destroy The Biolamps";
+        objectiveText.text = "Cut The Biolamps Down";
         GameDataHolder.objectiveId = 10;
         GameDataHolder.biolampsObjectivetriggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
@@ -102,7 +102,7 @@ public class ObjectiveUpdateHolder : MonoBehaviour
 
     public void EleventhObjective()
     {
-        objectiveText.text = "Repel The Creature";
+        objectiveText.text = "Find The Zooplankton Sacks";
         GameDataHolder.objectiveId = 11;
         GameDataHolder.marshObjectiveTriggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
@@ -110,7 +110,7 @@ public class ObjectiveUpdateHolder : MonoBehaviour
 
     public void TwelfthObjective()
     {
-        objectiveText.text = "Find Your Way Out of The Marsh";
+        objectiveText.text = "Find Your Way Through The Marsh";
         GameDataHolder.objectiveId = 12;
         GameDataHolder.marshObjective2Triggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
@@ -118,7 +118,7 @@ public class ObjectiveUpdateHolder : MonoBehaviour
 
     public void ThirteenthObjective()
     {
-        objectiveText.text = "Find A Way To Fix The Submarine";
+        objectiveText.text = "Find All Three Submarine Parts";
         GameDataHolder.objectiveId = 13;
         GameDataHolder.trenchObjectiveTriggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
