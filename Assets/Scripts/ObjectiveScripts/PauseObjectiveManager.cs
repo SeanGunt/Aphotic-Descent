@@ -58,7 +58,7 @@ public class PauseObjectiveManager : MonoBehaviour
         }
         if(GameDataHolder.objectiveId == 12)
         {
-            pauseObjectiveText.text = "Find Your Way Out Of The Marsh";
+            pauseObjectiveText.text = "Find Your Way Through The Marsh";
         }
         if(GameDataHolder.objectiveId == 13)
         {

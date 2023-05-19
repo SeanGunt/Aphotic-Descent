@@ -45,7 +45,7 @@ public class AnglerEncounter : MonoBehaviour
     {
         if (GameDataHolder.subParts == 3)
         {
-            actualText.text = "But there's no sub to fix. There's no way out of this.";
+            actualText.text = "But the sub is irreparable. There's no way out of this.";
             clearUIText.Invoke("ClearUI", 5f);
             SteamUserStats.SetAchievement("Game_Completed");
             SteamUserStats.StoreStats();

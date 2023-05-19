@@ -8,6 +8,7 @@ public class MarshTransition : MonoBehaviour
     private GameObject player;
     [SerializeField] private GameObject playerVisual, shrimpMan1, shrimpMan2, flashlightLight, marshCamScene;
     [SerializeField] private flashlightMechanic flashlightController;
+    [SerializeField] private AudioListener marshCamAudioListener;
     [SerializeField] private WeaponController weaponController;
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private PauseControls pauseControls;
@@ -33,6 +34,7 @@ public class MarshTransition : MonoBehaviour
     public void EndCutscene()
     {
         //mainCamera.SetActive(true);
+        marshCamAudioListener.enabled = false;
         marshCamScene.SetActive(false);
         //playerVisual.SetActive(true);
         flashlightController.enabled = true;
