@@ -52,7 +52,7 @@ public class ObjectiveUpdateHolder : MonoBehaviour
 
     public void FifthObjective()
     {
-        objectiveText.text = "Break His Four Generators";
+        objectiveText.text = "Neutralize The Eel";
         GameDataHolder.objectiveId = 5;
         GameDataHolder.eelObjectiveTriggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
@@ -60,7 +60,7 @@ public class ObjectiveUpdateHolder : MonoBehaviour
 
     public void SixthObjective()
     {
-        objectiveText.text = "Break His Power Backup";
+        objectiveText.text = "End Its Suffering";
         GameDataHolder.objectiveId = 6;
         GameDataHolder.eelObjective2Triggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
@@ -102,7 +102,7 @@ public class ObjectiveUpdateHolder : MonoBehaviour
 
     public void EleventhObjective()
     {
-        objectiveText.text = "Find The Zooplankton Sacks";
+        objectiveText.text = "Repel The Creature"; //this one can be up for debate
         GameDataHolder.objectiveId = 11;
         GameDataHolder.marshObjectiveTriggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
@@ -118,7 +118,7 @@ public class ObjectiveUpdateHolder : MonoBehaviour
 
     public void ThirteenthObjective()
     {
-        objectiveText.text = "Find All Three Submarine Parts";
+        objectiveText.text = "Find Your Submarine";
         GameDataHolder.objectiveId = 13;
         GameDataHolder.trenchObjectiveTriggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
