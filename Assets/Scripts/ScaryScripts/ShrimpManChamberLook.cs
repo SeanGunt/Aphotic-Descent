@@ -14,6 +14,11 @@ public class ShrimpManChamberLook : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     private bool soundHasPlayed;
 
+    private bool staringContest = false;
+
+    [SerializeField] private AudioClip[] smSounds;
+
+
 
     private void Start()
     {
@@ -28,10 +33,18 @@ public class ShrimpManChamberLook : MonoBehaviour
             SetWeight(0, 1);
             BoxCollider bc = GetComponent<BoxCollider>();
             ShrimpManChamberAnimator.SetBool("ManLook", true);
+            staringContest = true;
             if (!soundHasPlayed)
             {
                 audioSource.PlayOneShot(scaryStinger);
                 soundHasPlayed = true;
+            }
+            if (staringContest)
+            {
+                //int randomNoise = Random.Range(0, 2);
+                //audioSource.PlayOneShot(smSounds[randomNoise]);
+                PlayShrimpSounds();
+                Debug.Log("STARE!");
             }
             Debug.Log("I see you...");
         }
@@ -44,12 +57,20 @@ public class ShrimpManChamberLook : MonoBehaviour
         }
     }
 
+    private void PlayShrimpSounds()
+    {
+        int randomNoise = Random.Range(0, 2);
+        audioSource.PlayOneShot(smSounds[randomNoise]);
+        Debug.Log("hhHHHHhhhhh..uhhhHH");
+    }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             ShrimpManChamberAnimator.SetBool("ManLook", false);
             SetWeight(0, 0);
+            staringContest = false;
             Debug.Log("Goodbye Diver");
         }
         else if (other.gameObject.layer == 10)

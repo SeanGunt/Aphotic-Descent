@@ -9,7 +9,7 @@ public class SMLCutscene : MonoBehaviour
     [SerializeField] private GameObject sManLabCutscene;
     [SerializeField] private GameObject mainCamera;
     [SerializeField] private GameObject hud;
-    [SerializeField] private AudioClip shrimpShot, glassShatter, scareSound;
+    [SerializeField] private AudioClip shrimpShot, glassShatter; //scareSound;
     [SerializeField] private AudioSource audioSource;
     private flashlightMechanic flashlightmechanic;
     private WeaponController weaponController;
@@ -55,9 +55,9 @@ public class SMLCutscene : MonoBehaviour
             case 2:
                 audioSource.PlayOneShot(glassShatter);
                 break;
-            case 3:
+            /*case 3:
                 audioSource.PlayOneShot(scareSound);
-                break;
+                break;*/
 
         }
     }

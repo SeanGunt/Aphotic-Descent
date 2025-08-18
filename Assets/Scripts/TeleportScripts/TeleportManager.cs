@@ -244,18 +244,18 @@ public class TeleportManager : MonoBehaviour
             fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, fadeToBlackImage.color.a - Time.deltaTime / t);
             yield return null;
         }
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(3f);
         SMLCutscene.instance.PlaySound(1);
         while(fadeToBlackImage.color.a < 1.0f)
         {
             fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, fadeToBlackImage.color.a + Time.deltaTime / t);
             yield return null;
         }
-        yield return new WaitForSeconds(2.3f);
+        yield return new WaitForSeconds(.5f);
         SMLCutscene.instance.PlaySound(2);
-        yield return new WaitForSeconds(0.2f);
-        SMLCutscene.instance.PlaySound(3);
-        yield return new WaitForSeconds(1.1f);
+        yield return new WaitForSeconds(1.5f);
+        /*SMLCutscene.instance.PlaySound(3);
+        yield return new WaitForSeconds(1.1f);*/
         SMLCutscene.instance.EndCutscene();
         player.transform.localPosition = teleportPosition;
         yield return new WaitForSeconds(0.3f);

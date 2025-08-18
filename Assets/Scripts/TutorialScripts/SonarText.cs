@@ -8,18 +8,18 @@ public class SonarText : MonoBehaviour
     [SerializeField] private TextMeshProUGUI sonarText;
     [SerializeField] private GameObject sonarTextObj;
 
-    private void Update()
+    /*private void Update()
     {
-        if (GameDataHolder.secondDoorOpened)
+        if (GameDataHolder.inKelpMaze)
         {
-            sonarTextObj.SetActive(false);
+            sonarTextObj.SetActive(true);
         }
     }
 
     private void Awake()
     {
         sonarTextObj.SetActive(false);
-    }
+    }*/
 
     private void OnTriggerStay(Collider other)
     {

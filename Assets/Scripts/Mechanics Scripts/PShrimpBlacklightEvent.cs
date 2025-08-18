@@ -9,7 +9,7 @@ public class PShrimpBlacklightEvent : MonoBehaviour
     [SerializeField] private float weight;
     [SerializeField] private Material lilGuyMaterial;
     [SerializeField] private Light glowLight;
-    [SerializeField] private MeshRenderer lilGuyRenderer;
+    [SerializeField] private SkinnedMeshRenderer lilGuyRenderer;
     [SerializeField] private TeleportManager teleportManager;
     private MeshRenderer lampRenderer;
     private AudioSource audioSource;

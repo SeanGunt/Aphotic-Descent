@@ -26,7 +26,7 @@ public class Tutorial : MonoBehaviour
             boxText.text = "Left Mouse To Swing Knife";
         }
 
-        if (GameDataHolder.boxes <= 0)
+        if (GameDataHolder.boxes <= 2)
         {
             DestroyBoxText();
         }

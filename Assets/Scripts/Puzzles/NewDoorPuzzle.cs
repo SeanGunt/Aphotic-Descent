@@ -5,14 +5,15 @@ using UnityEngine;
 public class NewDoorPuzzle : MonoBehaviour
 {
     public bool isOn = true;
-    [SerializeField] private int genHealth;
+    [SerializeField] private int doorHealth;
     [SerializeField] private GameObject electricity;
     private MeshRenderer meshRenderer;
     private Material[] originalMats;
     [SerializeField] private Material[] hitMaterials;
-    //private AudioSource audioSource;
-    //[SerializeField] private AudioClip[] hitSounds;
-    //[SerializeField] private AudioClip explosionSound;
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip[] hitSounds;
+    [SerializeField] private AudioClip doorBuzz;
+    [SerializeField] private AudioClip unlockSound;
     
     private DoorScript2 doorController;
     private UItext textController;
@@ -23,7 +24,7 @@ public class NewDoorPuzzle : MonoBehaviour
     {
         meshRenderer = GetComponent<MeshRenderer>();
         originalMats = meshRenderer.sharedMaterials;
-        //audioSource = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
 
     }
 
@@ -36,7 +37,7 @@ public class NewDoorPuzzle : MonoBehaviour
 
     private void Update()
     {
-        if (genHealth == 0)
+        if (doorHealth == 0)
         {
             doorController.canOpen = true;
             doorController.close = true;
@@ -46,22 +47,22 @@ public class NewDoorPuzzle : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Knife" && isOn == true && (genHealth > 0))
+        if(other.gameObject.tag == "Knife" && isOn == true && (doorHealth > 0))
         {
-            //int randomNoise = Random.Range(0,3);
-            //audioSource.PlayOneShot(hitSounds[randomNoise]);
-            Debug.Log("generatorHit");
-            genHealth -= 1;
+            int randomNoise = Random.Range(0,2);
+            audioSource.PlayOneShot(hitSounds[randomNoise]);
+            Debug.Log("doorHit");
+            doorHealth -= 1;
             meshRenderer.sharedMaterials = hitMaterials;
             Invoke("SetOrigMaterial", 0.10f);
 
-            if(genHealth <= 0)
+            if(doorHealth <= 0)
             {
-                //audioSource.PlayOneShot(explosionSound);
-                ScreenShakeManager.instance.StartCameraShake(.5f, 1.5f);
+                audioSource.PlayOneShot(unlockSound);
+                //ScreenShakeManager.instance.StartCameraShake(.5f, 1.5f);
                 //StartCoroutine("StopGenSounds");
                 electricity.SetActive(false);
-                Debug.Log("generator broke");
+                Debug.Log("door unjam");
                 isOn = false;
             }
         }

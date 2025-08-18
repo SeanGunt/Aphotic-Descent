@@ -22,7 +22,7 @@ public class Puzzle3Manager : MonoBehaviour
         doorController.close = true;
         doorController.canOpen = true;
         audioSource.PlayOneShot(doorCanOpenSound);
-        textController.Text = "The backup switch worked. Door can open.";
+        textController.Text = "This door has been unlocked by the backup switch.";
         buttonTextController.Text = "Storage room open.";
     }
 }

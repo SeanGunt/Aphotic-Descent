@@ -9,7 +9,7 @@ public class FFCutsceneTriggers : MonoBehaviour
 
     public void PlaySnarl()
     {
-        ffAudioSource.PlayOneShot(ffDie);
+        ffAudioSource.PlayOneShot(ffSnarl);
     }
 
     public void PlayGunshot()
@@ -19,6 +19,6 @@ public class FFCutsceneTriggers : MonoBehaviour
 
     public void PlayDie()
     {
-        ffAudioSource.PlayOneShot(ffSnarl);
+        ffAudioSource.PlayOneShot(ffDie);
     }
 }

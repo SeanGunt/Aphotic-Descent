@@ -94,7 +94,7 @@ public class ObjectiveUpdateHolder : MonoBehaviour
 
     public void TenthObjective()
     {
-        objectiveText.text = "Cut The Biolamps Down";
+        objectiveText.text = "Set The Zooplankton Free";
         GameDataHolder.objectiveId = 10;
         GameDataHolder.biolampsObjectivetriggered = true;
         StartCoroutine(FadeText(7f, objectiveText));

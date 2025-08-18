@@ -50,7 +50,7 @@ public class PauseObjectiveManager : MonoBehaviour
         }
         if(GameDataHolder.objectiveId == 10)
         {
-            pauseObjectiveText.text = "Cut The Biolamps Down";
+            pauseObjectiveText.text = "Set The Zooplankton Free";
         }
         if(GameDataHolder.objectiveId == 11)
         {

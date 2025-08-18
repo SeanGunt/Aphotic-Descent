@@ -8,30 +8,32 @@ public class FlashlightTutorial : MonoBehaviour
     [SerializeField] private TextMeshProUGUI flashlightText;
     [SerializeField] private GameObject flashlightTextObj;
 
-    private void Update()
-    {
-        if (GameDataHolder.secondDoorOpened)
-        {
-            flashlightTextObj.SetActive(false);
-        }
-    }
+    
 
     private void Awake()
     {
         flashlightTextObj.SetActive(false);
     }
     
+    /*private void Update()
+    {
+        if (GameDataHolder.secondDoorOpened)
+        {
+            flashlightTextObj.SetActive(true);
+        }
+    }*/
+    
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "Player" && !GameDataHolder.flashlightHasBeenPickedUp)
         {
             flashlightTextObj.SetActive(true);
-            flashlightText.text = "I probably should pick up the flashlight...";
+            flashlightText.text = "";
         }
-        else if(other.gameObject.tag == "Player" && GameDataHolder.flashlightHasBeenPickedUp)
+        else if (other.gameObject.tag == "Player" && GameDataHolder.flashlightHasBeenPickedUp)
         {
             flashlightTextObj.SetActive(true);
-            flashlightText.text = "F to enable/disable flashlight, Hold R to enable the blacklight while the flashlight is on";
+            flashlightText.text = "F to enable and disable the flashlight";
         }
     }
 

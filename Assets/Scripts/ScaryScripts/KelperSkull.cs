@@ -6,8 +6,8 @@ public class KelperSkull : MonoBehaviour
 {
     [SerializeField] private GameObject KeplerSkullObj;
     [SerializeField] private Animator KeplerSkull;
-    //[SerializeField] private AudioClip scaryStinger;
-    //[SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip scaryStinger;
+    [SerializeField] private AudioSource audioSource;
 
     void Start()
     {
@@ -27,7 +27,7 @@ public class KelperSkull : MonoBehaviour
             Debug.Log("passing thru");
             KeplerSkull.SetBool("playerIsNear", true);
             Debug.Log("play anim");
-            //audioSource.PlayOneShot(scaryStinger);
+            audioSource.PlayOneShot(scaryStinger);
         }
     }
 }
