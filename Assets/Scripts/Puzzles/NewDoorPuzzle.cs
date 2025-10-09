@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class NewDoorPuzzle : MonoBehaviour
@@ -14,7 +15,7 @@ public class NewDoorPuzzle : MonoBehaviour
     [SerializeField] private AudioClip[] hitSounds;
     [SerializeField] private AudioClip doorBuzz;
     [SerializeField] private AudioClip unlockSound;
-    
+
     private DoorScript2 doorController;
     private UItext textController;
 
@@ -47,20 +48,20 @@ public class NewDoorPuzzle : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Knife" && isOn == true && (doorHealth > 0))
+        if (other.gameObject.tag == "Knife" && isOn == true && (doorHealth > 0))
         {
-            int randomNoise = Random.Range(0,2);
+            int randomNoise = Random.Range(0, 2);
             audioSource.PlayOneShot(hitSounds[randomNoise]);
             Debug.Log("doorHit");
             doorHealth -= 1;
             meshRenderer.sharedMaterials = hitMaterials;
             Invoke("SetOrigMaterial", 0.10f);
 
-            if(doorHealth <= 0)
+            if (doorHealth <= 0)
             {
-                audioSource.PlayOneShot(unlockSound);
+                //audioSource.PlayOneShot(unlockSound);
                 //ScreenShakeManager.instance.StartCameraShake(.5f, 1.5f);
-                //StartCoroutine("StopGenSounds");
+                StartCoroutine(UnlockDoorSFX());
                 electricity.SetActive(false);
                 Debug.Log("door unjam");
                 isOn = false;
@@ -72,4 +73,22 @@ public class NewDoorPuzzle : MonoBehaviour
     {
         meshRenderer.sharedMaterials = originalMats;
     }
-}
+
+    IEnumerator UnlockDoorSFX()
+    {
+        yield return new WaitForSeconds(.7f);
+        audioSource.PlayOneShot(unlockSound);
+    }
+
+    /*public GameObject interactionTriggerObj;
+            public void SetPuzzleActive()
+            {
+                InteractorTrigger interactor = interactionTriggerObj.GetComponent<InteractorTrigger>();
+
+                if (doorHealth <= 0)
+                {
+                    interactor.enabled = true;
+                    Debug.Log("Interactor set active");
+                }
+            }*/
+    }
