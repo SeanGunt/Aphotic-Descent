@@ -13,7 +13,7 @@ public class AreaTeleporter : MonoBehaviour
     }
     private void Update()
     {
-        if(Keyboard.current.digit1Key.isPressed)
+        if(Keyboard.current.digit5Key.isPressed)
         {
             Teleport(0);
             GameDataHolder.inSub = false;
@@ -25,7 +25,7 @@ public class AreaTeleporter : MonoBehaviour
             GameDataHolder.inAnglerTrench = false;
         }
 
-        if(Keyboard.current.digit2Key.isPressed)
+        if(Keyboard.current.digit6Key.isPressed)
         {
             Teleport(1);
             GameDataHolder.inSub = false;
@@ -37,7 +37,7 @@ public class AreaTeleporter : MonoBehaviour
             GameDataHolder.inAnglerTrench = false;
         }
 
-        if(Keyboard.current.digit3Key.isPressed)
+        if(Keyboard.current.digit7Key.isPressed)
         {
             Teleport(2);
             GameDataHolder.inSub = false;
@@ -49,7 +49,7 @@ public class AreaTeleporter : MonoBehaviour
             GameDataHolder.inAnglerTrench = false;
         }
 
-        if(Keyboard.current.digit4Key.isPressed)
+        if(Keyboard.current.digit8Key.isPressed)
         {
             Teleport(3);
             GameDataHolder.inSub = false;
@@ -61,7 +61,7 @@ public class AreaTeleporter : MonoBehaviour
             GameDataHolder.inAnglerTrench = false;
         }
 
-        if(Keyboard.current.digit5Key.isPressed)
+        if(Keyboard.current.digit9Key.isPressed)
         {
             Teleport(4);
             GameDataHolder.inSub = false;
@@ -73,7 +73,7 @@ public class AreaTeleporter : MonoBehaviour
             GameDataHolder.inAnglerTrench = false;
         }
 
-        if(Keyboard.current.digit6Key.isPressed)
+        if(Keyboard.current.digit0Key.isPressed)
         {
             Teleport(5);
             GameDataHolder.inSub = false;

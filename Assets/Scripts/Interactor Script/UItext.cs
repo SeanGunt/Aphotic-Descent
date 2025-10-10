@@ -15,8 +15,8 @@ public class UItext : MonoBehaviour {
 	[Space(10)]
 	public string Text = "E to interact";
 	public GUIStyle guiStyle;
-	public int fontSize;
-	public Rect BoxSize = new Rect( 0, 0, 200, 100);
+	public int fontSize = 25; //original is 18
+	public Rect BoxSize = new Rect(0, 0, 200, 100);
 
 	[Space(10)]
 	public GUISkin customSkin;
@@ -79,7 +79,7 @@ public class UItext : MonoBehaviour {
 			// Make a group on the center of the screen
 			GUI.BeginGroup (new Rect ((Screen.width - BoxSize.width) / 2, (Screen.height - BoxSize.height) / 2, BoxSize.width, BoxSize.height));
 			// All rectangles are now adjusted to the group. (0,0) is the topleft corner of the group.
-			guiStyle.fontSize = fontSize;
+			guiStyle.fontSize = 25;
 			GUI.Label(BoxSize, Text, guiStyle);
 
 			// End the group we started above. This is very important to remember!
