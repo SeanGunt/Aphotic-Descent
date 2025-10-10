@@ -6,14 +6,14 @@ using UnityEngine;
 public class NewDoorPuzzle : MonoBehaviour
 {
     public bool isOn = true;
-    [SerializeField] private int doorHealth;
+    [SerializeField] public int doorHealth;
     [SerializeField] private GameObject electricity;
     private MeshRenderer meshRenderer;
     private Material[] originalMats;
     [SerializeField] private Material[] hitMaterials;
     private AudioSource audioSource;
     [SerializeField] private AudioClip[] hitSounds;
-    [SerializeField] private AudioClip doorBuzz;
+    //[SerializeField] private AudioClip doorBuzz;
     [SerializeField] private AudioClip unlockSound;
 
     private DoorScript2 doorController;
@@ -26,6 +26,7 @@ public class NewDoorPuzzle : MonoBehaviour
         meshRenderer = GetComponent<MeshRenderer>();
         originalMats = meshRenderer.sharedMaterials;
         audioSource = GetComponent<AudioSource>();
+
 
     }
 
