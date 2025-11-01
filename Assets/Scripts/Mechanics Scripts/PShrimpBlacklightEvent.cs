@@ -17,6 +17,11 @@ public class PShrimpBlacklightEvent : MonoBehaviour
     [HideInInspector] public bool markedForDeletion, canBeBlacklighted;
     private GameObject player;
 
+    //[SerializeField] private AudioSource targetSource;
+    //[SerializeField] private AudioClip clickingSFX;
+
+    //[SerializeField] private AudioClip[] clickSounds;
+
     private void Awake()
     {
         audioSource = this.GetComponent<AudioSource>();
@@ -25,18 +30,29 @@ public class PShrimpBlacklightEvent : MonoBehaviour
     }
     public void MarkForDeletion()
     {
-        if(pistolShrimpAI.inPhase2 && canBeBlacklighted)
+        if (pistolShrimpAI.inPhase2 && canBeBlacklighted)
         {
             markedForDeletion = true;
+            //PistolShrimpClick();
+            //int randomNoise = Random.Range(0, 2);
+            //audioSource.PlayOneShot(clickSounds[randomNoise]);
+            //targetSource.PlayOneShot(clickingSFX);
             pistolShrimpAI.SetSelectedTarget(this.transform);
             pistolShrimpAI.SwitchTarget(index, weight);
             pistolShrimpAI.FindClosestPosition();
+
         }
         else
         {
             return;
         }
     }
+    
+    /*public void PistolShrimpClick()
+    {
+        int randomNoise = Random.Range(0, 2);
+        audioSource.PlayOneShot(clickSounds[randomNoise]);
+    }*/
 
     public void Delete()
     {
@@ -45,7 +61,7 @@ public class PShrimpBlacklightEvent : MonoBehaviour
         lilGuyRenderer.material = lilGuyMaterial;
         glowLight.color = new Color(0.6641f, 1f, 0.9769f, 1f);
         pistolShrimpAI.SetSelectedTarget(player.transform);
-        pistolShrimpAI.SwitchTarget(0,1);
+        pistolShrimpAI.SwitchTarget(0, 1);
         lampRenderer.enabled = false;
         canBeBlacklighted = false;
         if (GameDataHolder.biolampsAlive <= 0)
@@ -53,4 +69,7 @@ public class PShrimpBlacklightEvent : MonoBehaviour
             teleportManager.MarshTeleport();
         }
     }
+    
+    
+    
 }

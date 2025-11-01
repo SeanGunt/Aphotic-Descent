@@ -23,6 +23,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
   [HideInInspector] public bool isGrounded, hasUpgradedSuit, headbobActive, isAscendKeyHeld, isDescendKeyHeld, inPissCage;
   [SerializeField] private bool isSwimming, canSwim, isTired, canUseHeadbob, isMoving, uiUpgraded;
   [SerializeField] public Image staminaBar, tiredBar, upgradedUI, upgradedSonarCover;
+  [SerializeField] public Image leftHud, rightHud; //HUD CHANGES HOLDER
+  [SerializeField] public Sprite baseLeftHud, baseRightHud, upgradedLeftHud, upgradedRightHud; //HUD CHANGES IMAGE
   [SerializeField] private Camera playerCamera;
   [SerializeField] private Animator animator;
   [HideInInspector] public bool inWater, inCutscene;
@@ -153,15 +155,20 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     if(GameDataHolder.hasUpgradedSuit == true && !uiUpgraded)
       {
         hasUpgradedSuit = true;
-        upgradedUI.enabled = true;
+        //upgradedUI.enabled = true;
         upgradedSonarCover.enabled = true;
         uiUpgraded = true;
+        leftHud.sprite = upgradedLeftHud;
+        rightHud.sprite = upgradedRightHud;
+        
       }
       else if (GameDataHolder.hasUpgradedSuit == false && !uiUpgraded)
       {
         hasUpgradedSuit = false;
-        upgradedUI.enabled = false;
+        //upgradedUI.enabled = false;
         upgradedSonarCover.enabled = false;
+        leftHud.sprite = baseLeftHud;
+        rightHud.sprite = baseRightHud;    
       }
   }
 

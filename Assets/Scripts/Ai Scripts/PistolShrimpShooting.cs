@@ -80,6 +80,7 @@ public class PistolShrimpShooting : MonoBehaviour
                     shotPlayed = false;
                     pShrimpBlacklightEvent.Delete();
                     destroyTimer = timeToDestroy;
+                    ScreenShakeManager.instance.StartCameraShake(.5f, 1.5f);
                 }
                 
             }
@@ -129,7 +130,7 @@ public class PistolShrimpShooting : MonoBehaviour
         {
             attackPlayerTimer -= Time.deltaTime;
 
-            if(attackPlayerTimer <= 0)
+            if (attackPlayerTimer <= 0)
             {
                 Instantiate(bullet, hit.point, Quaternion.identity);
                 shotPlayed = false;
@@ -137,4 +138,5 @@ public class PistolShrimpShooting : MonoBehaviour
             }
         }
     }
+    
 }
