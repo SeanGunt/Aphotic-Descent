@@ -8,7 +8,9 @@ public class NewBaitPuzzle : MonoBehaviour
     [SerializeField] private GameObject ropeToCheck;
     [SerializeField] private BoxCollider[] boxColliders;
 
-    private bool hasDestroyed = false;
+    //private bool hasDestroyed = false;
+
+    public bool puzzleCheck = false;
 
 
 
@@ -21,6 +23,8 @@ public class NewBaitPuzzle : MonoBehaviour
     {
         if (!ropeToCheck.activeInHierarchy)
         {
+            puzzleCheck = true;
+
             foreach (BoxCollider col in boxColliders)
             {
                 col.enabled = false;
@@ -29,7 +33,7 @@ public class NewBaitPuzzle : MonoBehaviour
             
             Destroy(this.gameObject, 2f);
 
-            hasDestroyed = true;
+            //hasDestroyed = true;
         }
 
         
