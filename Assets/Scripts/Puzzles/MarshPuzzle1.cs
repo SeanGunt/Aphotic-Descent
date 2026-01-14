@@ -16,6 +16,8 @@ public class MarshPuzzle1 : MonoBehaviour
     [SerializeField]private ObjectiveUpdateHolder objectiveTextTrigger;
     [SerializeField]private Image fadeToBlackImage;
     private Animator animator;
+
+    [SerializeField] private Animator rockAnim, allZP;
     private bool cutsceneStarted, movingToNextPosition, atFinalDestination;
 
     private void Awake()
@@ -26,6 +28,9 @@ public class MarshPuzzle1 : MonoBehaviour
         animator = this.GetComponent<Animator>();
         animator.enabled = false;
         atFinalDestination = true;
+
+        rockAnim.enabled = false;
+        allZP.enabled = false;
     }
     
     private void Update()
@@ -54,6 +59,10 @@ public class MarshPuzzle1 : MonoBehaviour
         mainCamera.gameObject.SetActive(false);
         puzzleCam.enabled = true;
         animator.enabled = true;
+        
+        rockAnim.enabled = true;
+        allZP.enabled = true;
+        
         while(fadeToBlackImage.color.a >= 0.0f)
         {
             fadeToBlackImage.color = new Color(fadeToBlackImage.color.r, fadeToBlackImage.color.g, fadeToBlackImage.color.b, fadeToBlackImage.color.a - Time.deltaTime / t);
