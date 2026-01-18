@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class fishEnemy : MonoBehaviour
 {
@@ -137,7 +138,7 @@ public class fishEnemy : MonoBehaviour
             case State.killedPlayer:
                 break;
             case State.transitioning:
-                GrowBarnacles();
+                //GrowBarnacles();
                 break;
             case State.stunned:
                 StunnedEel();
@@ -314,7 +315,7 @@ public class fishEnemy : MonoBehaviour
         animator.SetBool("isReviving", true);
         animator.SetBool("isDying", false);
         Invoke("Transitioning", 3);
-        barnacleHolder.SetActive(true);
+        //barnacleHolder.SetActive(true);
     }
 
     void Transitioning()
@@ -405,7 +406,7 @@ public class fishEnemy : MonoBehaviour
 
     void Idle()
     {
-        
+        Invoke("ResumePatrol", 7.5f);
     }
 
     private void HandleTailWiggleSpeed()
@@ -429,13 +430,13 @@ public class fishEnemy : MonoBehaviour
 
     public void StunTheEel()
     {
-        barnacleCount--;
+        barnacleCount= 0;
 
         if(barnacleCount <= 0)
         {
             animator.SetBool("isStunned", true);
             isGrowing = true;
-            Invoke("GrowBarnacles",maxStunTime);
+            //Invoke("GrowBarnacles",maxStunTime);
             CancelInvoke("StartAttacking");
             state = State.stunned;
         }
@@ -445,22 +446,44 @@ public class fishEnemy : MonoBehaviour
         }
     }
 
+    private void ResumePatrol()
+    {
+        state = State.patrolling;
+        this.GetComponent<CapsuleCollider>().enabled = true;
+		eFOV.enabled = true;
+        playerHid = true;
+	}
+
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Player")
         {
-            audioSource.PlayOneShot(eelStinger);
-            state = State.killedPlayer;
-            BreathingManager.instance.StopBreathe();
-            audioSource.PlayOneShot(eelSounds[0]);
-            chaseSpeed = 0;
-            patrolSpeed = 0;
-            playerDiver.SetActive(false);
-            mainCam.SetActive(false);
-            jumpscareCam.SetActive(true);
-            animator.SetTrigger("Jumpscare");
-            barnacleHolder.SetActive(false);
-            boltSpark.SetActive(false);
+			pHC.ChangeHealth(-8.5f);
+			pHC.TakeDamage();
+			pHC.isBleeding = true;
+            if (pHC.playerHealth <= 0)
+            {
+				pHC.playerHealth = pHC.maxHealth;
+				audioSource.PlayOneShot(eelStinger);
+				state = State.killedPlayer;
+				BreathingManager.instance.StopBreathe();
+				audioSource.PlayOneShot(eelSounds[0]);
+				chaseSpeed = 0;
+				patrolSpeed = 0;
+				playerDiver.SetActive(false);
+				mainCam.SetActive(false);
+				jumpscareCam.SetActive(true);
+				animator.SetTrigger("Jumpscare");
+				barnacleHolder.SetActive(false);
+				boltSpark.SetActive(false);
+			}
+            else
+            {
+                state = State.idle;
+				CapsuleCollider eelCollider = this.GetComponent<CapsuleCollider>();
+				eelCollider.enabled = false;
+				eFOV.enabled = false;
+			}
         }
     }
 }

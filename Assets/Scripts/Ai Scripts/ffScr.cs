@@ -30,7 +30,7 @@ public class ffScr : MonoBehaviour
     private State state;
     public enum State
     {
-        attacking, patrolling, wasAttacking, idle
+        attacking, patrolling, wasAttacking, idle, postAttack
     }
 
     
@@ -80,16 +80,19 @@ public class ffScr : MonoBehaviour
             default:
             case State.patrolling:
                     patrolling();
-            break;
+                break;
             case State.attacking:
                     attacking();
-            break;
+                break;
             case State.wasAttacking:
                     wasAttacking();
-            break;
+                break;
             case State.idle:
                     idle();
-            break;
+                break;
+            case State.postAttack:
+                finishedAttacking();
+                break;
         }
 
         if(pHC.isBleeding)
@@ -157,18 +160,38 @@ public class ffScr : MonoBehaviour
         currentlyAttacking = false;
     }
 
+    void finishedAttacking()
+    {
+        Invoke("wasAttacking", 8.5f);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
-            audioSource.PlayOneShot(stingerMusic);
-            BreathingManager.instance.StopBreathe();
-            theAgent.speed = 0;
-            FreakFishGrowling.hitPlayer = true;
-            playerDiver.SetActive(false);
-            mainCam.SetActive(false);
-            jumpscareCam.SetActive(true);
-            animator.SetTrigger("jumpscare");
+			pHC.ChangeHealth(-8.5f);
+			pHC.TakeDamage();
+			pHC.isBleeding = true;
+			if (pHC.playerHealth <= 0)
+            {
+                pHC.playerHealth = pHC.maxHealth;
+				audioSource.PlayOneShot(stingerMusic);
+				BreathingManager.instance.StopBreathe();
+				theAgent.speed = 0;
+				FreakFishGrowling.hitPlayer = true;
+				playerDiver.SetActive(false);
+				mainCam.SetActive(false);
+				jumpscareCam.SetActive(true);
+				animator.SetTrigger("jumpscare");
+			}
+            else
+            {
+                state = State.postAttack;
+				theAgent.speed = 0;
+				FreakFishGrowling.hitPlayer = true;
+			}
+				
+            
         }
 
         if (other.gameObject.tag == "Knife")
