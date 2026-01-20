@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -18,6 +19,7 @@ public class ffScr : MonoBehaviour
     Vector3 destination;
     private float playerDistance;
     private bool unchosen = true;
+    private bool isCoolingDown = false;
     PlayerHealthController pHC;
     [HideInInspector] public bool currentlyAttacking = false;
     [SerializeField] public Animator animator;
@@ -126,7 +128,7 @@ public class ffScr : MonoBehaviour
 
         theAgent.destination = destination;
 
-        if(playerDistance < rangeUsed*rangeUsed)
+        if(playerDistance < rangeUsed*rangeUsed )
         {
             BGMManager.instance.SwitchBGMFade(1);
             BreathingManager.instance.SwitchBreathRate(2);
@@ -138,6 +140,39 @@ public class ffScr : MonoBehaviour
     {
         currentlyAttacking = false;
         state = State.patrolling;
+    }
+
+    void restedFromAttack()
+    {
+        if (isCoolingDown)
+        {
+			isCoolingDown = false;
+			theAgent.speed = agentSpeed;
+			this.gameObject.GetComponent<Collider>().enabled = true;
+			if (playerDistance < rangeUsed * rangeUsed)
+			{
+				//BreathingManager.instance.SwitchBreathRate(2);
+				state = State.attacking;
+                Debug.Log("Resume attack");
+			}
+            else
+            {
+				currentlyAttacking = false;
+				baseAttackTime = 2.0f;
+				BGMManager.instance.SwitchBGMFade(0);
+				BreathingManager.instance.SwitchBreathRate(0);
+				//state = State.wasAttacking;
+				Debug.Log("Return to patrol");
+			}
+		}
+    }
+
+    public void OverrideCooldown()
+    {
+        isCoolingDown = false;
+        this.gameObject.GetComponent<Collider>().enabled = true;
+        CancelInvoke();
+        state = State.attacking;
     }
 
     void attacking() //transition from patrol to attack, then attack
@@ -162,7 +197,8 @@ public class ffScr : MonoBehaviour
 
     void finishedAttacking()
     {
-        Invoke("wasAttacking", 8.5f);
+        Invoke("restedFromAttack", 3.5f);
+        currentlyAttacking = false;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -172,8 +208,12 @@ public class ffScr : MonoBehaviour
 			pHC.ChangeHealth(-8.5f);
 			pHC.TakeDamage();
 			pHC.isBleeding = true;
-			if (pHC.playerHealth <= 0)
+			theAgent.speed = 0;
+			this.gameObject.GetComponent<Collider>().enabled = false;
+			if (pHC.playerHealth <= 0 && playerDiver.activeInHierarchy)
             {
+                //isCoolingDown = true;
+                this.gameObject.GetComponentInChildren<Collider>().enabled = false;
                 pHC.playerHealth = pHC.maxHealth;
 				audioSource.PlayOneShot(stingerMusic);
 				BreathingManager.instance.StopBreathe();
@@ -186,8 +226,11 @@ public class ffScr : MonoBehaviour
 			}
             else
             {
+                isCoolingDown = true;
                 state = State.postAttack;
 				theAgent.speed = 0;
+                baseAttackTime = 0;
+				//theAgent.destination = destination;
 				FreakFishGrowling.hitPlayer = true;
 			}
 				

@@ -60,7 +60,8 @@ public class EnemyKnockback : MonoBehaviour
                 stopped = true;
                 freakFishScript.theAgent.speed = 0;
                 freakFishScript.animator.SetBool("isStunned", true);
-                Debug.Log("ff was hit");
+				freakFishScript.OverrideCooldown();
+				Debug.Log("ff was hit");
             }
 
             if(anglerFishAttached && !stopped)
