@@ -102,7 +102,7 @@ public class ObjectiveUpdateHolder : MonoBehaviour
 
     public void EleventhObjective()
     {
-        objectiveText.text = "Repel The Creature"; //this one can be up for debate
+        objectiveText.text = "Evade The Creature"; //this one can be up for debate
         GameDataHolder.objectiveId = 11;
         GameDataHolder.marshObjectiveTriggered = true;
         StartCoroutine(FadeText(7f, objectiveText));

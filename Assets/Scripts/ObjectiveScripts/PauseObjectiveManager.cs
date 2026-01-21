@@ -54,7 +54,7 @@ public class PauseObjectiveManager : MonoBehaviour
         }
         if(GameDataHolder.objectiveId == 11)
         {
-            pauseObjectiveText.text = "Repel The Creature";
+            pauseObjectiveText.text = "Evade The Creature";
         }
         if(GameDataHolder.objectiveId == 12)
         {
