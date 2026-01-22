@@ -21,7 +21,7 @@ public class shrimpManScript : MonoBehaviour
     [SerializeField]private Transform underMudPosition;
     private float playerDistance;
     private bool unchosen = true;
-    private bool canGoUnderMud, transitioning, patrolling, goingDown, goingUp;
+    [HideInInspector] public bool canGoUnderMud, transitioning, patrolling, goingDown, goingUp;
     PlayerHealthController pHC;
     private InvisibilityMechanic invisibilityMechanic;
     [HideInInspector] public bool currentlyAttacking = false;
