@@ -1,26 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] GameObject mainMenu, optionsMenu, howToMenu, creditsMenu, rebindingMenu;
 
     [SerializeField] GameObject optionsFirstButton, optionsClosedButton, howToFirstButton, howToClosedButton, creditsFirstButton, creditsClosedButton, rebindingFirstButton, rebindingClosedButton, currentImg, newImg;
+    [SerializeField] Button continueButton;
     private PlayerInputActions playerInputActions;
 
     private bool otherControlsActive;
 
     public void Awake()
     {
+        //Debug.Log(Application.persistentDataPath);
+        string fileToCheck = Path.Combine(Application.persistentDataPath, "Save");
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 1f;
         playerInputActions = new PlayerInputActions();
         otherControlsActive = false;
+        if (File.Exists(fileToCheck))
+        {
+            Debug.Log("Save file exists");
+            continueButton.interactable = true;
+        }
+        else
+        {
+            Debug.Log("File does not exist");
+            continueButton.interactable = false;
+            //continueButton.
+            //continueButton.colors.normalColor.a = .5f ;
+            //this is where the continue button would get greyed out.
+        }
     }
 
     public void NewGame()
