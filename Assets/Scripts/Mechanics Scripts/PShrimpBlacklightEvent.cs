@@ -17,11 +17,6 @@ public class PShrimpBlacklightEvent : MonoBehaviour
     [HideInInspector] public bool markedForDeletion, canBeBlacklighted;
     private GameObject player;
 
-    //[SerializeField] private AudioSource targetSource;
-    //[SerializeField] private AudioClip clickingSFX;
-
-    //[SerializeField] private AudioClip[] clickSounds;
-
     private void Awake()
     {
         audioSource = this.GetComponent<AudioSource>();
@@ -33,10 +28,7 @@ public class PShrimpBlacklightEvent : MonoBehaviour
         if (pistolShrimpAI.inPhase2 && canBeBlacklighted)
         {
             markedForDeletion = true;
-            //PistolShrimpClick();
-            //int randomNoise = Random.Range(0, 2);
-            //audioSource.PlayOneShot(clickSounds[randomNoise]);
-            //targetSource.PlayOneShot(clickingSFX);
+            
             pistolShrimpAI.SetSelectedTarget(this.transform);
             pistolShrimpAI.SwitchTarget(index, weight);
             pistolShrimpAI.FindClosestPosition();
@@ -47,12 +39,6 @@ public class PShrimpBlacklightEvent : MonoBehaviour
             return;
         }
     }
-    
-    /*public void PistolShrimpClick()
-    {
-        int randomNoise = Random.Range(0, 2);
-        audioSource.PlayOneShot(clickSounds[randomNoise]);
-    }*/
 
     public void Delete()
     {
