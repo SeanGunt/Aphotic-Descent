@@ -15,9 +15,9 @@ public class ShrimpManSFX : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (shrimpManAI != null && shrimpManAI.goingDown)
+        if (shrimpManAI != null && shrimpManAI.goingDown || shrimpManAI.goingUp)
         {
-            int randomNoise = Random.Range(0, 2);
+            int randomNoise = Random.Range(0, 3);
             audioSource.PlayOneShot(diveSFX[randomNoise]);
             Debug.Log("splishy splash");
         }
