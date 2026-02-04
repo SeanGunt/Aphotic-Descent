@@ -24,7 +24,13 @@ public class MainMenu : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 1f;
-        playerInputActions = new PlayerInputActions();
+		//this might set the game to windowed 1920 x 1080 by default.
+		if (Screen.fullScreenMode != FullScreenMode.Windowed)
+        {
+			Screen.fullScreenMode = FullScreenMode.Windowed;
+			Screen.SetResolution(1920, 1080, false);
+		}
+		playerInputActions = new PlayerInputActions();
         otherControlsActive = false;
         if (File.Exists(fileToCheck))
         {

@@ -22,6 +22,7 @@ public class DataPersistenceManager : MonoBehaviour
 
         this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
         this.dataPersistenceObjects = FindAllDataPersistenceObjects();
+        
         if (SceneManager.GetActiveScene().buildIndex != 3)
               {
                 DataPersistenceManager.instance.LoadGame();
