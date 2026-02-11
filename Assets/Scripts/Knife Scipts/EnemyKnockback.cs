@@ -13,6 +13,7 @@ public class EnemyKnockback : MonoBehaviour
     anglerAi angScr;
     private bool freakFishAttached = false;
     private bool anglerFishAttached = false;
+    private bool eelAttached = false;
     private float stopTime;
     private float resetTime;
     private bool stopped = false;
@@ -46,6 +47,13 @@ public class EnemyKnockback : MonoBehaviour
            // stopTime = angScr.anglerStunTime;
             resetTime = stopTime;
         }
+
+        if(this.gameObject.name == "eelDummyName")
+        {
+            eelAttached = true;
+            //
+            //resetTime = stopTime
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -70,6 +78,13 @@ public class EnemyKnockback : MonoBehaviour
                 angScr.anglerAgent.speed = 0;
                 
                 Debug.Log("angler was hit");
+            }
+
+            if (eelAttached && !stopped)
+            {
+                //template stuff for eel being stopped
+                stopped = true;
+                //eelscr.agent.speed = 0;
             }
         }
     }

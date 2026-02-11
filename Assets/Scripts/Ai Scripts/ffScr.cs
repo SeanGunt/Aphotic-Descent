@@ -32,7 +32,7 @@ public class ffScr : MonoBehaviour
     private State state;
     public enum State
     {
-        attacking, patrolling, wasAttacking, idle, postAttack
+        attacking, patrolling, wasAttacking, idle
     }
 
     
@@ -91,9 +91,6 @@ public class ffScr : MonoBehaviour
                 break;
             case State.idle:
                     idle();
-                break;
-            case State.postAttack:
-                finishedAttacking();
                 break;
         }
 
@@ -195,12 +192,6 @@ public class ffScr : MonoBehaviour
         currentlyAttacking = false;
     }
 
-    void finishedAttacking()
-    {
-        Invoke("restedFromAttack", 3.5f);
-        currentlyAttacking = false;
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
@@ -208,13 +199,14 @@ public class ffScr : MonoBehaviour
 			pHC.ChangeHealth(-8.5f);
 			pHC.TakeDamage();
 			pHC.isBleeding = true;
-			theAgent.speed = 0;
+			//theAgent.speed = 0;
 			this.gameObject.GetComponent<Collider>().enabled = false;
 			if (pHC.playerHealth <= 0 && playerDiver.activeInHierarchy)
             {
                 //isCoolingDown = true;
                 this.gameObject.GetComponentInChildren<Collider>().enabled = false;
                 pHC.playerHealth = pHC.maxHealth;
+                CancelInvoke();
 				audioSource.PlayOneShot(stingerMusic);
 				BreathingManager.instance.StopBreathe();
 				theAgent.speed = 0;
@@ -222,14 +214,16 @@ public class ffScr : MonoBehaviour
 				playerDiver.SetActive(false);
 				mainCam.SetActive(false);
 				jumpscareCam.SetActive(true);
+                currentlyAttacking = false;
 				animator.SetTrigger("jumpscare");
 			}
             else
             {
                 isCoolingDown = true;
-                state = State.postAttack;
 				theAgent.speed = 0;
                 baseAttackTime = 0;
+				Invoke("restedFromAttack", 3.5f);
+                currentlyAttacking = false;
 				//theAgent.destination = destination;
 				FreakFishGrowling.hitPlayer = true;
 			}
