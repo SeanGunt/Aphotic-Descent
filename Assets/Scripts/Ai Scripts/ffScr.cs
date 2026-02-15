@@ -185,7 +185,12 @@ public class ffScr : MonoBehaviour
             BreathingManager.instance.SwitchBreathRate(0);
             state = State.wasAttacking;
         }
-    }
+
+		if (playerDistance < (rangeUsed * rangeUsed)/5)
+		{
+            animator.SetTrigger("isNearby");
+		}
+	}
 
     void idle()
     {
@@ -222,6 +227,7 @@ public class ffScr : MonoBehaviour
                 isCoolingDown = true;
 				theAgent.speed = 0;
                 baseAttackTime = 0;
+                animator.SetTrigger("isChomping");
 				Invoke("restedFromAttack", 3.5f);
                 currentlyAttacking = false;
 				//theAgent.destination = destination;
