@@ -11,6 +11,7 @@ public class EnemyKnockback : MonoBehaviour
 
     ffScr freakFishScript;
     anglerAi angScr;
+    fishEnemy eelScr;
     private bool freakFishAttached = false;
     private bool anglerFishAttached = false;
     private bool eelAttached = false;
@@ -40,17 +41,21 @@ public class EnemyKnockback : MonoBehaviour
             resetTime = stopTime;
         }
         
-        if(this.gameObject.name == "angLureTrigger")
-        {
-            anglerFishAttached = true;
-            angScr = GetComponentInParent<anglerAi>();
-           // stopTime = angScr.anglerStunTime;
-            resetTime = stopTime;
-        }
+        //deprecated functionality
+        //if(this.gameObject.name == "angLureTrigger")
+        //{
+        //    anglerFishAttached = true;
+        //    angScr = GetComponentInParent<anglerAi>();
+        //   // stopTime = angScr.anglerStunTime;
+        //    resetTime = stopTime;
+        //}
 
-        if(this.gameObject.name == "eelDummyName")
+        if(this.gameObject.name == "FrankyFace")
         {
             eelAttached = true;
+            eelScr = GetComponentInParent<fishEnemy>();
+            stopTime = eelScr.StunTime;
+            resetTime = stopTime;
             //
             //resetTime = stopTime
         }
@@ -59,13 +64,13 @@ public class EnemyKnockback : MonoBehaviour
     {
         if (other.gameObject.tag == "Knife")
         {
-            rb.AddForce(cam.transform.forward * knockbackForce, ForceMode.Impulse);
-            state = State.beingKnockedBack;
-            StartCoroutine("ResetKnockBack", 0.5f);
-
-            if(freakFishAttached && !stopped)
+			rb.AddForce(cam.transform.forward * knockbackForce, ForceMode.Impulse);
+			state = State.beingKnockedBack;
+			StartCoroutine("ResetKnockBack", 0.5f);
+			if (freakFishAttached && !stopped)
             {
-                stopped = true;
+				
+				stopped = true;
                 freakFishScript.theAgent.speed = 0;
                 freakFishScript.animator.SetBool("isStunned", true);
 				freakFishScript.OverrideCooldown();
@@ -74,7 +79,7 @@ public class EnemyKnockback : MonoBehaviour
 
             if(anglerFishAttached && !stopped)
             {
-                stopped = true;
+				stopped = true;
                 angScr.anglerAgent.speed = 0;
                 
                 Debug.Log("angler was hit");
@@ -84,6 +89,9 @@ public class EnemyKnockback : MonoBehaviour
             {
                 //template stuff for eel being stopped
                 stopped = true;
+                eelScr.StunTheEel();
+                //eelScr.FrankyAnimator.SetBool("isStunned", true);
+                //eelScr.OverrideCooldown();
                 //eelscr.agent.speed = 0;
             }
         }
@@ -91,12 +99,12 @@ public class EnemyKnockback : MonoBehaviour
 
     private void Normal()
     {
-        rb.isKinematic = true;
+            rb.isKinematic = true;
     }
 
     private void BeingKnockedBack()
     {
-        rb.isKinematic = false;
+            rb.isKinematic = false;
     }
 
     IEnumerator ResetKnockBack(float knockbackDuration)
