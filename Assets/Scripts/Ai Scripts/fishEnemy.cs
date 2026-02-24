@@ -36,7 +36,8 @@ public class fishEnemy : MonoBehaviour
     private bool isCoolingDown;
     private int eelHealth = 4;
     [SerializeField]private int barnacleCount;
-    [SerializeField] private int phase;
+    //[SerializeField] private int phase;
+    private bool eelPanicking = false;
     private bool eelDead = false;
     private AudioSource audioSource;
     [SerializeField] private AudioClip[] eelSounds;
@@ -69,14 +70,15 @@ public class fishEnemy : MonoBehaviour
         beginningTime = Time.time;
         eFOV = this.GetComponent<enemyFieldOfView>();
         animator = GetComponentInChildren<Animator>();
-        phase = 1;
+        //phase = 1;
         currentScale = 1;
         maxScale = 6;
+        eelPanicking = false;
         positionInPoints = 0;
         maxTrackingCooldown = trackingCooldown;
         maxStunTime = stunTime;
-        barnacleCount = 6;
-        isGrowing = false;
+        //barnacleCount = 6;
+        //isGrowing = false;
         if(player != null)
         {
             pHC = player.GetComponent<PlayerHealthController>();
@@ -121,25 +123,11 @@ public class fishEnemy : MonoBehaviour
             default:
             case State.patrolling:
                 Patrolling();
-                if (phase == 1)
-                {
-                    Phase1();
-                }
-                else
-                {
-                    Phase2();
-                }
+                Phase1();
                 break;
             case State.attacking:
                 Attacking();
-                if (phase == 1)
-                {
-                    Phase1();
-                }
-                else
-                {
-                    Phase2();
-                }
+                Phase1();
                 break;
             case State.killedPlayer:
                 break;
@@ -148,19 +136,8 @@ public class fishEnemy : MonoBehaviour
                 break;
             case State.stunned:
                 StunnedEel();
-                if (phase == 1)
-                {
-                    Phase1();
-                }
-                else
-                {
-                    Phase2();
-                }
+                Phase1();
                 //Phase2();
-                break;
-            case State.lockingOn:
-                LockingOn();
-                Phase2();
                 break;
             case State.idle:
                 Idle();
@@ -204,25 +181,19 @@ public class fishEnemy : MonoBehaviour
             movingToNextPosition = false;
         }
 
-        if (eFOV.canSeePlayer && !iM.isSafe && !playerHid && phase == 1)
+        if (eFOV.canSeePlayer && !iM.isSafe && !playerHid)
         {
-            BGMManager.instance.SwitchBGM(4);
+            if (eelHealth > 1)
+            {
+				BGMManager.instance.SwitchBGM(4);
+			}
             BreathingManager.instance.SwitchBreathRate(2);
             audioSource.PlayOneShot(eelSounds[3]);
             state = State.attacking;
         }
-
-        if (eFOV.canSeePlayer && !iM.isSafe && !playerHid && phase == 2)
-        {
-            //BGMManager.instance.SwitchBGM(4);
-            BreathingManager.instance.SwitchBreathRate(2);
-            audioSource.PlayOneShot(eelSounds[3]);
-            Invoke("StartAttacking", 5);
-            state = State.lockingOn;
-        }
         
         trackingCooldown = Mathf.Clamp(trackingCooldown, 0, maxTrackingCooldown);
-        if (playerHid)
+        if (playerHid && !isCoolingDown)
         {
             trackingCooldown -= Time.deltaTime;
             if (trackingCooldown <= 0)
@@ -241,28 +212,12 @@ public class fishEnemy : MonoBehaviour
         {
             BreathingManager.instance.SwitchBreathRate(0);
             state = State.patrolling;
-            if (phase != 2)
+            if (!eelPanicking)
             {
                 BGMManager.instance.SwitchBGM(3);
             }
             playerHid = true;
         }
-    }
-
-    private void LockingOn()
-    {
-        if (!eFOV.canSeePlayer || iM.isSafe)
-        {
-            BreathingManager.instance.SwitchBreathRate(0);
-            if (phase != 2)
-            {
-                BGMManager.instance.SwitchBGM(4);
-            }
-            playerHid = true;
-            CancelInvoke("StartAttacking");
-            state = State.patrolling;
-        }
-        RotateTowards(playerHead.transform.position);
     }
 
     private void Dead()
@@ -312,55 +267,25 @@ public class fishEnemy : MonoBehaviour
             eelHealth = eelHealth -1;
             g4On = false;
         }
+
+        if ((eelHealth == 1 && eelDead == false && eelPanicking == false))
+        {
+            eelPanicking = true;
+			BGMManager.instance.SwitchBGMFade(13);
+			objectiveUpdater.SixthObjective();
+			chaseSpeed = chaseSpeed2;
+			patrolSpeed = patrolSpeed2;
+		}
         
         if((eelHealth == 0) && (!g1On && !g2On && !g3On && !g4On) && (eelDead == false))
         {
-            Invoke("TransitionPhase2", 3);
             BGMManager.instance.SwitchBGMFade(12);
-            animator.SetBool("isDying", true);
+            animator.SetBool("isDead", true);
+            deathObject.SetActive(true);
             eFOV.enabled = false;
-            state = State.transitioning;
+            state = State.dead;
             audioSource.PlayOneShot(eelSounds[4]);
         }
-    }
-
-    void TransitionPhase2()
-    {   
-        animator.SetBool("isReviving", true);
-        animator.SetBool("isDying", false);
-        Invoke("Transitioning", 3);
-        //barnacleHolder.SetActive(true);
-    }
-
-    void Transitioning()
-    {
-        animator.SetBool("isBack", true);
-        animator.SetBool("isReviving", false);
-        Invoke("Transitioned", 3);
-        isGrowing = true;
-    }
-
-    void Transitioned()
-    {
-        foreach(GameObject barnacle in barnacles)
-        {
-            BoxCollider col;
-            col = barnacle.GetComponent<BoxCollider>();
-            col.enabled = true;
-        }
-        BGMManager.instance.SwitchBGMFade(13);
-        animator.SetBool("isBack", false);
-        phase = 2;
-        objectiveUpdater.SixthObjective();
-        eelHealth = 1;
-        boltOn = true;
-        boltScr.isOn = true;
-        boltSpark.SetActive(true);
-        chaseSpeed = chaseSpeed2;
-        patrolSpeed = patrolSpeed2;
-        playerHid = true;
-        eFOV.enabled = true;
-        state = State.patrolling;
     }
 
     void Phase2()
@@ -390,21 +315,16 @@ public class fishEnemy : MonoBehaviour
         eelCollider.enabled = false;
         if(stunTime <= 0 && eelHealth > 0)
         {
-            //foreach(GameObject barnacle in barnacles)
-            //{
-            //    barnacle.SetActive(true);
-            //}
-            //barnacleCount = barnacles.Length;
-            if (phase == 2)
-            {
-				boltScr.isOn = true;
-				boltOn = true;
-			}
-            
             stunTime = 15;
             playerHid = true;
             eelCollider.enabled = true;
+            eFOV.enabled = true;
             animator.SetBool("isStunned", false);
+            if (!eelPanicking)
+            {
+                BGMManager.instance.SwitchBGM(3);
+
+			}
             BreathingManager.instance.SwitchBreathRate(0);
             state = State.patrolling;
         }
@@ -415,11 +335,6 @@ public class fishEnemy : MonoBehaviour
             eFOV.enabled = false;
             animator.SetBool("isDead", true);
         }
-    }
-
-    void StartAttacking()
-    {
-        state = State.attacking;
     }
 
     void Idle()
@@ -434,36 +349,14 @@ public class fishEnemy : MonoBehaviour
         animator.SetFloat("speed", velocity * 8);
     }
 
-    //private void GrowBarnacles()
-    //{
-    //    foreach (GameObject barnacle in barnacles)
-    //    {
-    //        if(currentScale < maxScale && isGrowing)
-    //        {
-    //            currentScale += Time.deltaTime;
-    //            barnacle.transform.localScale = new Vector3(2, currentScale * 2, 2);
-    //        }
-    //    }
-    //}
-
     public void StunTheEel()
     {
-        barnacleCount= 0;
-
-        if(barnacleCount <= 0)
-        {
-            animator.SetBool("isStunned", true);
-            isGrowing = true;
-            OverrideCooldown();
-            //Invoke("GrowBarnacles",maxStunTime);
-            CancelInvoke("StartAttacking");
-            state = State.stunned;
-        }
-        else
-        {
-            return;
-        }
-    }
+		animator.SetBool("isStunned", true);
+		//isGrowing = true;
+		OverrideCooldown();
+		//CancelInvoke("StartAttacking");
+		state = State.stunned;
+	}
 
     private void ResumePatrol()
     {
@@ -473,15 +366,27 @@ public class fishEnemy : MonoBehaviour
 			state = State.patrolling;
 			this.GetComponent<CapsuleCollider>().enabled = true;
 			eFOV.enabled = true;
-			playerHid = true;
+			//playerHid = true;
 		}   
 	}
+
+    private void ResumeDetection()
+    {
+        if (isCoolingDown)
+        {
+            isCoolingDown = false;
+            this.GetComponent<CapsuleCollider>().enabled = true;
+            eFOV.enabled = true;
+            //playerHid = true;
+        }
+    }
 
 	public void OverrideCooldown()
 	{
 		isCoolingDown = false;
 		//cc.enabled = true;
-		CancelInvoke("ResumePatrol");
+		CancelInvoke("ResumeDetection");
+
 
 		//state = State.attacking;
 	}
@@ -490,7 +395,7 @@ public class fishEnemy : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
-			pHC.ChangeHealth(-8.5f);
+			pHC.ChangeHealth(-11.5f);
 			pHC.TakeDamage();
 			pHC.isBleeding = true;
             if (pHC.playerHealth <= 0)
@@ -512,10 +417,13 @@ public class fishEnemy : MonoBehaviour
             else
             {
                 isCoolingDown = true;
-                state = State.idle;
+                //state = State.idle;
+                playerHid = true;
 				cc.enabled = false;
+                eFOV.canSeePlayer = false;
 				eFOV.enabled = false;
-				Invoke("ResumePatrol", 7.5f);
+                //state = State.patrolling;
+				Invoke("ResumeDetection", 1.5f);
 			}
         }
     }
