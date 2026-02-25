@@ -395,36 +395,48 @@ public class fishEnemy : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
-			pHC.ChangeHealth(-11.5f);
-			pHC.TakeDamage();
-			pHC.isBleeding = true;
-            if (pHC.playerHealth <= 0)
-            {
-				pHC.playerHealth = pHC.maxHealth;
-				audioSource.PlayOneShot(eelStinger);
-				state = State.killedPlayer;
-				BreathingManager.instance.StopBreathe();
-				audioSource.PlayOneShot(eelSounds[0]);
-				chaseSpeed = 0;
-				patrolSpeed = 0;
-				playerDiver.SetActive(false);
-				mainCam.SetActive(false);
-				jumpscareCam.SetActive(true);
-				animator.SetTrigger("Jumpscare");
-				barnacleHolder.SetActive(false);
-				boltSpark.SetActive(false);
-			}
-            else
-            {
-                isCoolingDown = true;
-                //state = State.idle;
-                playerHid = true;
-				cc.enabled = false;
-                eFOV.canSeePlayer = false;
-				eFOV.enabled = false;
-                //state = State.patrolling;
-				Invoke("ResumeDetection", 1.5f);
-			}
-        }
-    }
+            audioSource.PlayOneShot(eelStinger);
+            state = State.killedPlayer;
+            BreathingManager.instance.StopBreathe();
+            audioSource.PlayOneShot(eelSounds[0]);
+            chaseSpeed = 0;
+            patrolSpeed = 0;
+			playerDiver.SetActive(false);
+			mainCam.SetActive(false);
+			jumpscareCam.SetActive(true);
+			animator.SetTrigger("Jumpscare");
+
+
+			//pHC.ChangeHealth(-11.5f);
+			//pHC.TakeDamage();
+			//pHC.isBleeding = true;
+			//         if (pHC.playerHealth <= 0)
+			//         {
+			//	pHC.playerHealth = pHC.maxHealth;
+			//	audioSource.PlayOneShot(eelStinger);
+			//	state = State.killedPlayer;
+			//	BreathingManager.instance.StopBreathe();
+			//	audioSource.PlayOneShot(eelSounds[0]);
+			//	chaseSpeed = 0;
+			//	patrolSpeed = 0;
+			//	playerDiver.SetActive(false);
+			//	mainCam.SetActive(false);
+			//	jumpscareCam.SetActive(true);
+			//	animator.SetTrigger("Jumpscare");
+			//	barnacleHolder.SetActive(false);
+			//	boltSpark.SetActive(false);
+			//}
+			//         else
+			//         {
+			//             isCoolingDown = true;
+			//             //state = State.idle;
+			//             playerHid = true;
+			//	cc.enabled = false;
+			//             eFOV.canSeePlayer = false;
+			//	eFOV.enabled = false;
+			//             //state = State.patrolling;
+			//	Invoke("ResumeDetection", 1.5f);
+			//}
+		}
+	}
 }
