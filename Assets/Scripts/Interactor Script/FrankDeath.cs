@@ -13,4 +13,17 @@ public class FrankDeath : MonoBehaviour
             SceneManager.LoadScene("EelCutScene");
         }
     }
+
+    private void OnEnable()
+    {
+        //delay added here to make sure game saves properly before it auto transitions to the next scene.
+        Invoke("GoToEelScene",2.5f);
+       
+    }
+
+    private void GoToEelScene()
+    {
+		DataPersistenceManager.instance.SaveGame();
+		SceneManager.LoadScene("EelCutScene");
+	}
 }

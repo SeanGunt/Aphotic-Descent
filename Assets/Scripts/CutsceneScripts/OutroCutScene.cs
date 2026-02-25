@@ -17,7 +17,7 @@ public class OutroCutScene : MonoBehaviour
     {
         videoPlayer = GetComponent<VideoPlayer>();
         videoLength = videoPlayer.length;
-        lengthTillSkip = videoLength - 3f;
+        lengthTillSkip = videoLength - 3.5f;
         
     }
 
@@ -37,7 +37,7 @@ public class OutroCutScene : MonoBehaviour
             //SceneManager.LoadScene("VerticalSlice");
             sceneLoader.LoadLevelBtn("VerticalSlice");
         }
-        else if (Gamepad.current != null && (Gamepad.current.aButton.isPressed || Gamepad.current.startButton.isPressed))
+        else if (Gamepad.current != null && (Gamepad.current.aButton.isPressed || Gamepad.current.startButton.isPressed) && videoLength < lengthTillSkip)
         {
             Time.timeScale = 1f;
             //SceneManager.LoadScene("VerticalSlice");

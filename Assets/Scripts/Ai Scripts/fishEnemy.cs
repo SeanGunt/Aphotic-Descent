@@ -225,8 +225,10 @@ public class fishEnemy : MonoBehaviour
         cc.enabled = false;
         eFOV.enabled = false;
         eelDead = true;
-        GameDataHolder.eelIsDead = true;
-        animator.SetBool("isDead", true);
+        //GameDataHolder.eelIsDead = true;
+		GameDataHolder.eelIsDead = true;
+		GameDataHolder.eelFound = true;
+		animator.SetBool("isDead", true);
         chaseSpeed = 0;
         patrolSpeed = 0;
     }
