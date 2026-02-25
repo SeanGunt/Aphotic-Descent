@@ -34,7 +34,7 @@ public class PauseObjectiveManager : MonoBehaviour
         }
         if(GameDataHolder.objectiveId == 6)
         {
-            pauseObjectiveText.text = "End Its Suffering";
+            pauseObjectiveText.text = "The Eel Has Lost Control";
         }
         if(GameDataHolder.objectiveId == 7)
         {

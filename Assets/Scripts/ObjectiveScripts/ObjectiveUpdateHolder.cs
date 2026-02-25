@@ -60,7 +60,7 @@ public class ObjectiveUpdateHolder : MonoBehaviour
 
     public void SixthObjective()
     {
-        objectiveText.text = "End Its Suffering";
+        objectiveText.text = "The Eel Has Lost Control";
         GameDataHolder.objectiveId = 6;
         GameDataHolder.eelObjective2Triggered = true;
         StartCoroutine(FadeText(7f, objectiveText));
