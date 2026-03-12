@@ -32,95 +32,99 @@ public class PistolShrimpShooting : MonoBehaviour
     }
     private void Update()
     {
-        if(pistolShrimpAi.inPhase1 && pistolShrimpAi.isMoving)
+        if (playerHealthController != null)
         {
-            canUseLaser = true;
-        }
-
-        if(pistolShrimpAi.inPhase2 && pistolShrimpAi.isMoving)
-        {
-            canUseLaser = false;
-            lineRenderer.enabled = false;
-        }
-        else if(pistolShrimpAi.inPhase2 && !pistolShrimpAi.isMoving)
-        {
-            canUseLaser = true;
-        }
-
-        if(MudMarshCutscene.instance.inMarshCutscene)
-        {
-            lineRenderer.enabled = false;
-            canUseLaser = false;
-        }
-
-        Vector3 forwardVector = gunBoneTransform.rotation * Vector3.up;
-        if(Physics.Raycast(this.transform.position, forwardVector, out hit, 300f, ~ignoreLayers) && canUseLaser)
-        {
-            lineRenderer.enabled = true;
-            lineRenderer.useWorldSpace = true;
-            lineRenderer.SetPosition(0, this.transform.position);
-            lineRenderer.SetPosition(1, hit.point);
-
-            if(hit.collider.GetComponent<PShrimpBlacklightEvent>() != null)
+            if (pistolShrimpAi.inPhase1 && pistolShrimpAi.isMoving)
             {
-                pShrimpBlacklightEvent = hit.collider.GetComponent<PShrimpBlacklightEvent>();
-                blacklightObjectBeingDestroyed = true;
-                if(blacklightObjectBeingDestroyed && pShrimpBlacklightEvent.markedForDeletion)
+                canUseLaser = true;
+            }
+
+            if (pistolShrimpAi.inPhase2 && pistolShrimpAi.isMoving)
+            {
+                canUseLaser = false;
+                lineRenderer.enabled = false;
+            }
+            else if (pistolShrimpAi.inPhase2 && !pistolShrimpAi.isMoving)
+            {
+                canUseLaser = true;
+            }
+
+            if (MudMarshCutscene.instance.inMarshCutscene)
+            {
+                lineRenderer.enabled = false;
+                canUseLaser = false;
+            }
+
+            Vector3 forwardVector = gunBoneTransform.rotation * Vector3.up;
+            if (Physics.Raycast(this.transform.position, forwardVector, out hit, 300f, ~ignoreLayers) && canUseLaser)
+            {
+                lineRenderer.enabled = true;
+                lineRenderer.useWorldSpace = true;
+                lineRenderer.SetPosition(0, this.transform.position);
+                lineRenderer.SetPosition(1, hit.point);
+
+                if (hit.collider.GetComponent<PShrimpBlacklightEvent>() != null)
                 {
-                    Debug.Log(shotPlayed);
-                    destroyTimer -= Time.deltaTime;
-                    if(!shotPlayed)
+                    pShrimpBlacklightEvent = hit.collider.GetComponent<PShrimpBlacklightEvent>();
+                    blacklightObjectBeingDestroyed = true;
+                    if (blacklightObjectBeingDestroyed && pShrimpBlacklightEvent.markedForDeletion)
+                    {
+                        Debug.Log(shotPlayed);
+                        destroyTimer -= Time.deltaTime;
+                        if (!shotPlayed)
+                        {
+                            audioSource.Play();
+                            shotPlayed = true;
+                        }
+                    }
+                    if (destroyTimer <= 0)
+                    {
+                        shotPlayed = false;
+                        pShrimpBlacklightEvent.Delete();
+                        destroyTimer = timeToDestroy;
+                        ScreenShakeManager.instance.StartCameraShake(.5f, 1.5f);
+                    }
+
+                }
+                else
+                {
+                    blacklightObjectBeingDestroyed = false;
+                }
+
+                if (hit.collider.GetComponent<PlayerHealthController>() != null)
+                {
+                    if (!shotPlayed)
                     {
                         audioSource.Play();
                         shotPlayed = true;
                     }
+                    playerBeingAttacked = true;
                 }
-                if (destroyTimer <= 0)
+                else
                 {
-                    shotPlayed = false;
-                    pShrimpBlacklightEvent.Delete();
-                    destroyTimer = timeToDestroy;
-                    ScreenShakeManager.instance.StartCameraShake(.5f, 1.5f);
+                    if (!blacklightObjectBeingDestroyed)
+                    {
+                        audioSource.Stop();
+                        shotPlayed = false;
+                        playerBeingAttacked = false;
+                        attackPlayerTimer = timeToAttackPlayer;
+                    }
                 }
-                
+            }
+
+
+
+            if (canUseLaser)
+            {
+                HandleAttackingPlayer();
             }
             else
             {
-                blacklightObjectBeingDestroyed = false;
+                audioSource.Stop();
+                shotPlayed = false;
+                playerBeingAttacked = false;
+                attackPlayerTimer = timeToAttackPlayer;
             }
-
-            if(hit.collider.GetComponent<PlayerHealthController>() != null)
-            {
-                if (!shotPlayed)
-                {
-                    audioSource.Play();
-                    shotPlayed = true;
-                }
-                playerBeingAttacked = true;
-            }
-            else 
-            {
-                if(!blacklightObjectBeingDestroyed)
-                {
-                    audioSource.Stop();
-                    shotPlayed = false;
-                    playerBeingAttacked = false;
-                    attackPlayerTimer = timeToAttackPlayer;
-                }
-            }
-        }
-
-
-        if (canUseLaser)
-        {
-            HandleAttackingPlayer();
-        }
-        else
-        {
-            audioSource.Stop();
-            shotPlayed = false;
-            playerBeingAttacked = false;
-            attackPlayerTimer = timeToAttackPlayer;
         }
     }
 
