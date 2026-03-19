@@ -286,7 +286,7 @@ public class fishEnemy : MonoBehaviour
             deathObject.SetActive(true);
             eFOV.enabled = false;
             state = State.dead;
-            audioSource.PlayOneShot(eelSounds[4]);
+            //audioSource.PlayOneShot(eelSounds[4]);
         }
     }
 

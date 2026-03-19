@@ -27,6 +27,7 @@ public class ffScr : MonoBehaviour
     [SerializeField] private GameObject playerDiver;
     private AudioSource audioSource;
     [SerializeField] private AudioClip[] hurtSounds;
+    [SerializeField] private AudioClip eatSounds;
     [SerializeField] private AudioClip stingerMusic;
 
     private State state;
@@ -232,6 +233,9 @@ public class ffScr : MonoBehaviour
                 currentlyAttacking = false;
 				//theAgent.destination = destination;
 				FreakFishGrowling.hitPlayer = true;
+
+                //int randomNoise = Random.Range(0,1);
+                audioSource.PlayOneShot(eatSounds);
 			}
 				
             
