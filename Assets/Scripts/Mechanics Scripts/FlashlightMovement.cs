@@ -21,13 +21,14 @@ public class FlashlightMovement : MonoBehaviour, IDataPersistence
     // Start is called before the first frame update
     void Start()
     {
-        vectOffset = transform.position - goFollow.transform.position;
+        //vectOffset = transform.position - goFollow.transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = goFollow.transform.position + vectOffset;
+        //transform.position = goFollow.transform.position + vectOffset;
+        transform.position = goFollow.transform.position;
         transform.rotation = Quaternion.Slerp(transform.rotation, goFollow.transform.rotation, speed * Time.deltaTime);
     }
 }
