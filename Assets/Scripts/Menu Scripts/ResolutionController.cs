@@ -13,16 +13,18 @@ public class ResolutionController : MonoBehaviour
         switch (_resolutionDropdown.value)
         {
             case 0:
-                Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
-                Screen.SetResolution(1920, 1080, false);
+				Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
+                
                 break;
             case 1:
-                Screen.fullScreenMode = FullScreenMode.Windowed;
-                Screen.SetResolution(1920, 1080, false);
+				Screen.SetResolution(1920, 1080, FullScreenMode.Windowed);
+				//Screen.fullScreenMode = FullScreenMode.Windowed;
+                
                 break;
             case 2:
-                Screen.fullScreenMode = FullScreenMode.Windowed;
-                Screen.SetResolution(1280, 720, false);
+				Screen.SetResolution(1280, 720, FullScreenMode.Windowed);
+				//Screen.fullScreenMode = FullScreenMode.Windowed;
+                
 
                 break;
             default:
