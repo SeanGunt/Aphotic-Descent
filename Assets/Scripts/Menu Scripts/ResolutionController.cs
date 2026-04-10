@@ -22,10 +22,16 @@ public class ResolutionController : MonoBehaviour
                 
                 break;
             case 2:
-				Screen.SetResolution(1280, 720, FullScreenMode.Windowed);
+				Screen.SetResolution(1600, 900, FullScreenMode.Windowed);
 				//Screen.fullScreenMode = FullScreenMode.Windowed;
                 
 
+                break;
+            case 3:
+                Screen.SetResolution(1366, 768, FullScreenMode.Windowed);
+                break;
+            case 4:
+                Screen.SetResolution(1280, 720, FullScreenMode.Windowed);
                 break;
             default:
                 break;
