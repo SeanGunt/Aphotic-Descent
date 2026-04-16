@@ -353,6 +353,7 @@ public class fishEnemy : MonoBehaviour
 
     public void StunTheEel()
     {
+        audioSource.PlayOneShot(eelSounds[5]);
 		animator.SetBool("isStunned", true);
 		//isGrowing = true;
 		OverrideCooldown();
