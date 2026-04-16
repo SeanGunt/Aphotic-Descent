@@ -43,7 +43,7 @@ public class ResolutionController : MonoBehaviour
             float trueWidth = res.width;
             float trueHeight = res.height;
 			float aRatio = trueWidth / trueHeight;
-			Debug.Log($"{trueWidth / trueHeight}");
+			//Debug.Log($"{trueWidth / trueHeight}");
             if (!resolutionStringList.Contains(newRes) && aRatio > 1.7f)
             {
                 resolutionStringList.Add(newRes);
@@ -52,7 +52,27 @@ public class ResolutionController : MonoBehaviour
         }
 
         _resolutionDropdown.AddOptions(resolutionStringList);
-    }
+        
+		if (PlayerPrefs.HasKey("borderless"))
+		{
+			_borderlessToggle.isOn = PlayerPrefs.GetInt("borderless") == 1;
+		}
+
+		else
+		{
+			PlayerPrefs.SetInt("borderless", _borderlessToggle.isOn ? 1 : 0);
+		}
+		
+        if (PlayerPrefs.HasKey("ResolutionIndex"))
+		{
+			_resolutionDropdown.value = (PlayerPrefs.GetInt("ResolutionIndex"));
+		}
+		else
+		{
+			_resolutionDropdown.value = 0;
+			PlayerPrefs.SetInt("ResolutionIndex", _resolutionDropdown.value);
+		}
+	}
 
 	private void Update()
 	{
@@ -89,6 +109,16 @@ public class ResolutionController : MonoBehaviour
 		}
 
 		_resolutionDropdown.AddOptions(resolutionStringList);
+
+		if (PlayerPrefs.HasKey("ResolutionIndex"))
+		{
+			_resolutionDropdown.value = (PlayerPrefs.GetInt("ResolutionIndex"));
+		}
+		else
+		{
+			_resolutionDropdown.value = 0;
+			PlayerPrefs.SetInt("ResolutionIndex", _resolutionDropdown.value);
+		}
 	}
 
 	//says what it does

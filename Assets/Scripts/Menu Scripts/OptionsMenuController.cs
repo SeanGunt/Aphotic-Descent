@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class OptionsMenuController : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class OptionsMenuController : MonoBehaviour
     public Toggle screenShakeToggle;
     public Toggle headBobToggle;
     public Toggle flashingLightsToggle;
+    public Toggle borderlessToggle;
+    [SerializeField] private TMP_Dropdown resolutionDropdown;
+
 
     // Start is called before the first frame update
     void Start()
@@ -65,6 +69,29 @@ public class OptionsMenuController : MonoBehaviour
         Debug.Log("Set sensitivity to " + val);
 
     }
+
+    public void SetResolutionIndex()
+    {
+        if (!initialized) return;
+        if (!Application.isPlaying) return;
+
+        PlayerPrefs.SetInt("ResolutionIndex", resolutionDropdown.value);
+        Debug.Log("Set resolution index to " + resolutionDropdown.value);
+    }
+
+    public void SetBorderless()
+    {
+        bool condition = borderlessToggle.isOn;
+        int val = 1;
+        if (condition == true) val = 1;
+        else if (condition == false) val = 0;
+        if (!initialized) return;
+        if (!Application.isPlaying) return;
+
+        PlayerPrefs.SetInt("borderless", val);
+        PlayerPrefs.Save();
+        Debug.Log("Set borderless to " + val);
+	}
 
     public void SetScreenShake()
     {

@@ -486,6 +486,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1160093389}
+        m_TargetAssemblyTypeName: OptionsMenuController, Assembly-CSharp
+        m_MethodName: SetBorderless
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!224 &83423479
 RectTransform:
@@ -8380,6 +8392,8 @@ MonoBehaviour:
   screenShakeToggle: {fileID: 1685412727}
   headBobToggle: {fileID: 803892344}
   flashingLightsToggle: {fileID: 132054901}
+  borderlessToggle: {fileID: 83423478}
+  resolutionDropdown: {fileID: 1978202813}
 --- !u!1 &1164458313
 GameObject:
   m_ObjectHideFlags: 0
@@ -12982,6 +12996,18 @@ MonoBehaviour:
       - m_Target: {fileID: 372696032}
         m_TargetAssemblyTypeName: ResolutionController, Assembly-CSharp
         m_MethodName: ChangeResolution
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1160093389}
+        m_TargetAssemblyTypeName: OptionsMenuController, Assembly-CSharp
+        m_MethodName: SetResolutionIndex
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
