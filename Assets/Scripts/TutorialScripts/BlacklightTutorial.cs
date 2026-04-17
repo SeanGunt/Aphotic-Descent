@@ -31,7 +31,7 @@ public class BlacklightTutorial : MonoBehaviour
         else if(other.gameObject.tag == "Player" && GameDataHolder.flashlightHasBeenPickedUp)
         {
             flashlightTextObj.SetActive(true);
-            flashlightText.text = "Hold R to enable the blacklight while the flashlight is on. Shine the blacklight on highlighted objects.";
+            flashlightText.text = "Hold R to enable the blacklight while the flashlight is on. Shine the blacklight on purple objects.";
         }
     }
 
