@@ -147,6 +147,7 @@ public class ffScr : MonoBehaviour
 			isCoolingDown = false;
 			theAgent.speed = agentSpeed;
 			this.gameObject.GetComponent<Collider>().enabled = true;
+            animator.SetBool("isBiting", false);
 			if (playerDistance < rangeUsed * rangeUsed)
 			{
 				//BreathingManager.instance.SwitchBreathRate(2);
@@ -221,6 +222,9 @@ public class ffScr : MonoBehaviour
 				mainCam.SetActive(false);
 				jumpscareCam.SetActive(true);
                 currentlyAttacking = false;
+                //used to freeze freak fish
+                this.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
+                //animator.SetBool("isBiting", false);
 				animator.SetTrigger("jumpscare");
 			}
             else
@@ -228,7 +232,7 @@ public class ffScr : MonoBehaviour
                 isCoolingDown = true;
 				theAgent.speed = 0;
                 baseAttackTime = 0;
-                animator.SetTrigger("isChomping");
+                animator.SetBool("isBiting", true);
 				Invoke("restedFromAttack", 3.5f);
                 currentlyAttacking = false;
 				//theAgent.destination = destination;
