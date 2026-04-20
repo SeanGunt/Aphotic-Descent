@@ -25,7 +25,7 @@ public class OptionsMenuController : MonoBehaviour
         }
         else
         {
-            mouseSensitivitySlider.value = 0.5f;
+            mouseSensitivitySlider.value = 2.5f;
             PlayerPrefs.SetFloat("Sensitivity", mouseSensitivitySlider.value);
         }
 
