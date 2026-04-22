@@ -12,6 +12,8 @@ public class NewBaitPuzzle : MonoBehaviour
 
     public bool puzzleCheck = false;
 
+    [SerializeField] private ShrimpPath? shrimpPathModifier;
+
 
 
     void Start()
@@ -30,7 +32,10 @@ public class NewBaitPuzzle : MonoBehaviour
                 col.enabled = false;
 
             }
-            
+            if(shrimpPathModifier != null)
+            {
+				shrimpPathModifier.CanBeBlacklit();
+			}
             Destroy(this.gameObject, 2f);
 
             //hasDestroyed = true;

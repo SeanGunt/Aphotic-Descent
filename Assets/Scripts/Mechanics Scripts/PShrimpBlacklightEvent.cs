@@ -11,10 +11,13 @@ public class PShrimpBlacklightEvent : MonoBehaviour
     [SerializeField] private Light glowLight;
     [SerializeField] private SkinnedMeshRenderer lilGuyRenderer;
     [SerializeField] private TeleportManager teleportManager;
+    [SerializeField] private BasicTextAdjuster basicTextHolder;
     private MeshRenderer lampRenderer;
     private AudioSource audioSource;
     [SerializeField] private AudioClip lampBreaking;
     [HideInInspector] public bool markedForDeletion, canBeBlacklighted;
+    [SerializeField] private GameObject blacklightParticle;
+    //private BlacklightEvent eventRef;
     private GameObject player;
 
     private void Awake()
@@ -22,7 +25,9 @@ public class PShrimpBlacklightEvent : MonoBehaviour
         audioSource = this.GetComponent<AudioSource>();
         lampRenderer = GetComponent<MeshRenderer>();
         player = GameObject.FindGameObjectWithTag("Player");
+        canBeBlacklighted = false;
     }
+
     public void MarkForDeletion()
     {
         if (pistolShrimpAI.inPhase2 && canBeBlacklighted)
@@ -32,6 +37,10 @@ public class PShrimpBlacklightEvent : MonoBehaviour
             pistolShrimpAI.SetSelectedTarget(this.transform);
             pistolShrimpAI.SwitchTarget(index, weight);
             pistolShrimpAI.FindClosestPosition();
+            audioSource.Play();
+            basicTextHolder.gameObject.SetActive(true);
+            basicTextHolder.ChangeBasicText("It seems to have changed targets... for now");
+            blacklightParticle.SetActive(false);
 
         }
         else

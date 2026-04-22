@@ -10,6 +10,7 @@ public class BiolampBox : MonoBehaviour
         if (other.gameObject.tag == "Destroyer")
         {
             pShrimpBlacklightEvent.canBeBlacklighted = true;
+            //pShrimpBlacklightEvent.EnableBlacklight();
             Destroy(this.gameObject);
         }
     }

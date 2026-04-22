@@ -11,6 +11,7 @@ public class ShrimpPath : MonoBehaviour
     private Vector3 actualPosition;
     private int x;
     private bool isMoving;
+    private bool canBeBlacklit;
     private bool isBlacklighted;
     private float distance;
     private float timeBlacklighted = 0.5f;
@@ -18,6 +19,16 @@ public class ShrimpPath : MonoBehaviour
     void start()
     {
         x = 1;
+    }
+
+	private void Awake()
+	{
+        canBeBlacklit = false;
+	}
+
+	public void CanBeBlacklit()
+    {
+        canBeBlacklit = true;
     }
     
     void Update()
@@ -51,8 +62,11 @@ public class ShrimpPath : MonoBehaviour
     }
     public void MoveShrimp()
     {
-        isMoving = true;
-        isBlacklighted = true;
+        if (canBeBlacklit)
+        {
+			isMoving = true;
+			isBlacklighted = true;
+		} 
     }
     private void OnTriggerEnter(Collider other)
     {
