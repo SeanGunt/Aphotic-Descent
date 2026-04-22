@@ -288,8 +288,9 @@ public class TeleportManager : MonoBehaviour
             yield return null;
         }
         player.transform.position = teleportPosition;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(.25f);
         CheckLocation();
+        yield return new WaitForSeconds(1.75f);
         MudMarshCutscene.instance.EndCutscene();
         while(fadeToBlackImage.color.a >= 0.0f)
         {
