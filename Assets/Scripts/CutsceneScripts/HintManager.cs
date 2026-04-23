@@ -19,13 +19,13 @@ public class HintManager : MonoBehaviour
             cameraHintCutscene.SetActive(true);
             playerMovement.enabled = false;
             hud.SetActive(false);
-            Invoke("EndCutscene", 3.01f);
+            Invoke("EndCutscene", 6f);
         }
     }
 
     private void EndCutscene()
     {
-        StartCoroutine(FadeToBlack(2f));
+        StartCoroutine(FadeToBlack(3f));
     }
 
     private IEnumerator FadeToBlack(float t)

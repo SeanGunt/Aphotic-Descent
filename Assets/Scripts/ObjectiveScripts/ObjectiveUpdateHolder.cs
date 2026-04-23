@@ -81,7 +81,7 @@ public class ObjectiveUpdateHolder : MonoBehaviour
         objectiveText.text = "Descend Deeper Into The Cave";
         GameDataHolder.objectiveId = 8;
         GameDataHolder.hermitCaveObjectiveTriggered = true;
-        StartCoroutine(FadeText(7f, objectiveText));
+        StartCoroutine(FadeText(10.5f, objectiveText));
     }
 
     public void NinthObjective()
