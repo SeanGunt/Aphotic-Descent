@@ -8,6 +8,13 @@ public class psEnemyAI : MonoBehaviour
     [SerializeField] public Transform[] perchedPositions;
     [SerializeField] private MultiAimConstraint multiAimConstraint;
     private GameObject player;
+
+    [SerializeField] private Animator psAnimator;
+    private int playJumpscare = 0;
+    public static bool killedPlayer;
+    [SerializeField] private AudioSource audioSource;
+
+    [SerializeField] public Rig legRig;
     private int currentPoint;
     [SerializeField] private GameObject[] blackLightTargets;
     private Transform selectedTarget;
@@ -19,7 +26,7 @@ public class psEnemyAI : MonoBehaviour
     [HideInInspector] public State state;
     public enum State
     {
-        moving, isPerching, perched, loop, idle
+        moving, isPerching, perched, loop, idle, jumpscare
     }
 
     private void Awake()
@@ -30,10 +37,21 @@ public class psEnemyAI : MonoBehaviour
         state = State.idle;
         inPhase1 = true;
         inPhase2 = false;
+
+        psAnimator = GetComponent<Animator>();
+        psAnimator.SetInteger("playJumpscare", playJumpscare);
+        killedPlayer = false;
+
+        legRig.weight = 1f;
     }
 
     private void Update()
     {
+        if (killedPlayer)
+        {
+            audioSource.Pause();
+        }
+
         switch(state)
         {
             case State.idle:
@@ -50,6 +68,9 @@ public class psEnemyAI : MonoBehaviour
             case State.perched:
                 Perched();
             break;
+            case State.jumpscare:
+                GetKilledIdiot();
+                break;
         }
     }
 
@@ -75,6 +96,8 @@ public class psEnemyAI : MonoBehaviour
                 destinationSet = false;
             }
         }
+
+        legRig.weight = 1f;
     }
 
     private void IsPerching()
@@ -104,6 +127,8 @@ public class psEnemyAI : MonoBehaviour
         Vector3 direction = selectedTarget.transform.position - this.transform.position;
         Vector3 rotation = Quaternion.LookRotation(direction).eulerAngles;
         this.transform.eulerAngles = new Vector3(this.transform.eulerAngles.x, rotation.y, this.transform.eulerAngles.z);
+
+        //legRig.weight = 0.5f;
     }
 
     private void Loop()
@@ -150,5 +175,12 @@ public class psEnemyAI : MonoBehaviour
         WeightedTransformArray a = multiAimConstraint.data.sourceObjects;
         a.SetWeight(index, weight);
         multiAimConstraint.data.sourceObjects = a;
+    }
+
+    private void GetKilledIdiot()
+    {
+        playJumpscare = 1;
+        //psAnimator.SetInteger("playJumpscare", playJumpscare);
+
     }
 }

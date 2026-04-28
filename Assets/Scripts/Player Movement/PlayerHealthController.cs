@@ -14,12 +14,12 @@ public class PlayerHealthController : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip hitSound;
     [SerializeField]private Animator cameraAnimator;
-    [SerializeField]private AudioSource pSAudioSource;
-    [SerializeField]private GameObject mainCam, pShrimpJumpscareCam;
+    [SerializeField]private AudioSource pSAudioSource, caveShrimpAudioSource;
+    [SerializeField]private GameObject mainCam, pShrimpJumpscareCam, psCaveCam;
     [SerializeField]private GameObject playerDiver;
     [SerializeField]private GameObject hud;
     [SerializeField]private AudioClip stingerMusic;
-    [SerializeField] private Animator pistolAnimator;
+    [SerializeField] private Animator pistolAnimator, psAnimator;
 
     void Start()
     {
@@ -113,6 +113,19 @@ public class PlayerHealthController : MonoBehaviour
         pShrimpJumpscareCam.SetActive(true);
         pistolAnimator.SetBool("PistolJumpscarePlay", true);
         Debug.Log("I should be scaring you!");
+    }
+
+    public void DieInCave()
+    {
+        caveShrimpAudioSource.PlayOneShot(stingerMusic);
+        canRegen = false;
+        BreathingManager.instance.StopBreathe();
+        playerDiver.SetActive(false);
+        hud.SetActive(false);
+        mainCam.SetActive(false);
+        psCaveCam.SetActive(true);
+        psAnimator.SetInteger("playJumpscare", 1);
+        Debug.Log("Got you!");
     }
 
     private void DisruptSonar()

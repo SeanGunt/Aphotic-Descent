@@ -26,8 +26,10 @@ public class PissShrimpBullet : MonoBehaviour
             }
             else if (GameDataHolder.inPsShrimpCave)
             {
-                playerHealthController.ChangeHealth(-10f);
-                playerHealthController.TakeDamage();
+                //playerHealthController.ChangeHealth(-10f);
+                playerHealthController.DieInCave();
+                //playerHealthController.TakeDamage();
+                psEnemyAI.killedPlayer = true;
             }
             canEnter = false;
         }
