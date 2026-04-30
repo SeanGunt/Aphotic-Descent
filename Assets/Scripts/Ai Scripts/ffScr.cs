@@ -204,8 +204,7 @@ public class ffScr : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
 			pHC.ChangeHealth(-8.5f);
-			pHC.TakeDamage();
-			pHC.isBleeding = true;
+			
 			//theAgent.speed = 0;
 			this.gameObject.GetComponent<Collider>().enabled = false;
 			if (pHC.playerHealth <= 0 && playerDiver.activeInHierarchy)
@@ -224,12 +223,15 @@ public class ffScr : MonoBehaviour
                 currentlyAttacking = false;
                 //used to freeze freak fish
                 this.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
+                agentSpeed = 0;
                 //animator.SetBool("isBiting", false);
 				animator.SetTrigger("jumpscare");
 			}
             else
             {
-                isCoolingDown = true;
+				pHC.TakeDamage();
+				pHC.isBleeding = true;
+				isCoolingDown = true;
 				theAgent.speed = 0;
                 baseAttackTime = 0;
                 animator.SetBool("isBiting", true);

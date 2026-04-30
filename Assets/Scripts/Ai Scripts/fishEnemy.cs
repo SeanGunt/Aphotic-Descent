@@ -290,24 +290,24 @@ public class fishEnemy : MonoBehaviour
         }
     }
 
-    void Phase2()
-    {
-        if(state == State.stunned)
-        {
-            if(boltScr.isOn == false && boltOn)
-            {
-                Debug.Log("bolt temporarily disabled");
-                eelHealth = eelHealth -1;
-                boltOn = false;
-            }
-        }
-        if((eelHealth == 0) && (!boltOn) && (eelDead == true))
-        {
-            animator.SetBool("isDead", true);
-            eFOV.enabled = false;
-            state = State.dead;
-        }
-    }
+    //void Phase2()
+    //{
+    //    if(state == State.stunned)
+    //    {
+    //        if(boltScr.isOn == false && boltOn)
+    //        {
+    //            Debug.Log("bolt temporarily disabled");
+    //            eelHealth = eelHealth -1;
+    //            boltOn = false;
+    //        }
+    //    }
+    //    if((eelHealth == 0) && (!boltOn) && (eelDead == true))
+    //    {
+    //        animator.SetBool("isDead", true);
+    //        eFOV.enabled = false;
+    //        state = State.dead;
+    //    }
+    //}
 
     void StunnedEel()
     {

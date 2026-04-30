@@ -135,7 +135,25 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
       playerSettings.enabled = false;
       UICanvas.SetActive(false);
     }
-  }
+		if (GameDataHolder.hasUpgradedSuit == true && !uiUpgraded)
+		{
+			hasUpgradedSuit = true;
+			//upgradedUI.enabled = true;
+			upgradedSonarCover.enabled = true;
+			uiUpgraded = true;
+			leftHud.sprite = upgradedLeftHud;
+			rightHud.sprite = upgradedRightHud;
+
+		}
+		else if (GameDataHolder.hasUpgradedSuit == false && !uiUpgraded)
+		{
+			hasUpgradedSuit = false;
+			//upgradedUI.enabled = false;
+			upgradedSonarCover.enabled = false;
+			leftHud.sprite = baseLeftHud;
+			rightHud.sprite = baseRightHud;
+		}
+	}
 
   private void FixedUpdate()
   {
