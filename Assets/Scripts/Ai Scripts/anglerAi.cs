@@ -227,7 +227,7 @@ public class anglerAi : MonoBehaviour
         isStunned = true;
         lureRig.enabled = false;
         anglerRig.enabled = false;
-        anglerAgent.isStopped = true;
+		anglerAgent.isStopped = true;
         anglerAnimator.SetBool("isJumpscaring", true);
         lureDiverAnimator.SetBool("isJumpscaring", true);
         jumpscareCamera.SetActive(true);
@@ -249,11 +249,15 @@ public class anglerAi : MonoBehaviour
             if(attackCountDown <= 0)
             {
                 pHelCon.ChangeHealth((aoeDamageAmount)*-1.0f);
-                pHelCon.TakeDamage();
+                //pHelCon.TakeDamage();
                 attackCountDown = resetCountDown;
-                if (pHelCon.playerHealth <= 2.5f)
+                if (pHelCon.playerHealth <= 0f)
                 {
-                    state = State.jumpScare;
+					pHelCon.playerHealth = pHelCon.maxHealth;
+					state = State.jumpScare;
+                }
+                else{
+                    pHelCon.TakeDamage();
                 }
             }
         }

@@ -16,8 +16,9 @@ public class anglerTriggerScr : MonoBehaviour
         if(other.gameObject.tag == "Player")
         {
             //Debug.Log("from angler trigger: KILL PLAYER");
-            angScr.pHelCon.ChangeHealth(-15.0f);
-            angScr.pHelCon.TakeDamage();
+            //angScr.pHelCon.ChangeHealth(-15.0f);
+            //angScr.pHelCon.TakeDamage();
+            angScr.state = anglerAi.State.jumpScare;
         }
     }
 }
