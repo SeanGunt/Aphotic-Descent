@@ -44,7 +44,7 @@ public class ResolutionController : MonoBehaviour
             float trueHeight = res.height;
 			float aRatio = trueWidth / trueHeight;
 			//Debug.Log($"{trueWidth / trueHeight}");
-            if (!resolutionStringList.Contains(newRes) && aRatio > 1.7f)
+            if (!resolutionStringList.Contains(newRes) && aRatio > 1.7f && aRatio < 1.8f)
             {
                 resolutionStringList.Add(newRes);
                 _selectedResolutionsList.Add(res);
