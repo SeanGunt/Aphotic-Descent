@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class EndCredits : MonoBehaviour
 {
@@ -20,6 +21,17 @@ public class EndCredits : MonoBehaviour
         if (videoLength < 0)
         {
             LoadWinScreen();
+        }
+
+        if (Keyboard.current.anyKey.wasPressedThisFrame)
+        {
+            LoadWinScreen();
+        }
+
+        if (Gamepad.current != null)
+        {
+            if (Gamepad.current.buttonSouth.wasPressedThisFrame)
+                LoadWinScreen();
         }
     }
 
