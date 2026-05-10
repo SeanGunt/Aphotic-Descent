@@ -26,7 +26,7 @@ public class SonarText : MonoBehaviour
         if (other.gameObject.layer == 11)
         {
             sonarTextObj.SetActive(true);
-            sonarText.text = "Your sonar will ping key objects. Look out for yellow and blue pings, but be wary of red ones.";
+            sonarText.text = "Your sonar will ping key objects. Look out for yellow and blue pings, but be wary of red ones";
         }
     }
 
